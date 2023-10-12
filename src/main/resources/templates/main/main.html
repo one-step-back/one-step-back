@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,117 +12,8 @@
 <body>
     <a href="#main-content" class="sr-only" id="top">주요 내용으로 건너뛰기</a>
     <!--헤더-->
-    <header class="header slide-left pool-header" role="banner">
-        <nav class="navbar navbar-expand-lg primary-nav">
-            <div class="container pool">
-                <div class="d-flex align-items-center">
-                    <a class="one-step-logo" href="main.html">
-                        <span class="text-hide logo-img-dark">OneStep</span>
-                    </a>
-                    <div class="navbar-brand d-none d-md-flex index-navbar-brand ">
-                        <div class="nav-item">
-                            <a class="nav-link text-alpha-black-47 active" href="main.html">홈</a>
-                        </div>
-                        <div class="nav-item">
-                            <a class="nav-link text-alpha-black-47" href="./Namho/my-artist/my-artist.html">마이 아티스트</a>
-                        </div>
-                        <div class="nav-item">
-                            <a class="nav-link text-alpha-black-47" href="./Namho/mylibrary/mylibrary.html">보관함</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-nav">
-                    <a class="btn btn-icon navbar-toggler" id="search-toggler" href="#" aria-expanded="false">
-                        <i class="fas fa-search fa-lg"></i>
-                    </a>
-                    <a id="login-btn-click" class="btn btn-secondary" href="">
-                        로그인
-                    </a>
-                    <a id="sign-up-btn-click" class="btn btn-primary" href="">
-                        회원가입
-                    </a>
-                    <button class="btn btn-icon user-menu-toggle" id="user-menu-toggle" type="button"
-                            aria-controls="user-menu" aria-expanded="false" aria-label="내비게이션 보기/감추기">
-                        <div class="user-avatar-sm mr-0"></div>
-                    </button>
-                </div>
-                <div class="navbar-collapse justify-content-lg-end logged-user" id="search-collapse">
-                    <form class="search-form form-inline" id="search" role="search" action="/search">
-                        <div class="inner">
-                            <label for="integrated-search" class="sr-only">통합 검색</label>
-                            <span class="search-icon">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            <input id="integrated-search" class="form-control form-control-sm" type="search"
-                                   name="keyword" value="" placeholder="검색어를 입력해주세요." maxlength="50">
-                            <button type="button" class="btn btn-icon btn-clear ">
-                                <i class="fal fa-times btn-clear-circle"></i>
-                            </button>
-                        </div>
-                        <a class="btn search-closer d-lg-none" id="search-closer" href="#">닫기</a>
-                    </form>
-                </div>
-            </div>
-        </nav>
-        <!--    <nav class="navbar secondary-nav pool-home" role="navigation">-->
-        <!--        <div class="container">-->
-        <!--            <ul class="nav nav-inline justify-content-start" id="main-nav">-->
-        <!--                <li class="nav-item"><a class="nav-link text-alpha-black-47  active" href="">추천</a></li>-->
-        <!--                <li class="nav-item"><a class="nav-link text-alpha-black-47 " href="">커뮤니티</a></li>-->
-        <!--                <li class="nav-item"><a class="nav-link text-alpha-black-47 " href="">컬렉션</a></li>-->
-        <!--                <li class="nav-item"><a class="nav-link text-alpha-black-47 " href="">이벤트</a></li>-->
-        <!--                <li class="nav-item nav-link text-alpha-black-47 position-relative">-->
-        <!--                    <a class="nav-link" href="">오리지널</a>-->
-        <!--                </li>-->
-        <!--            </ul>-->
-        <!--        </div>-->
-        <!--    </nav>-->
-
-        <!--프로필 모달-->
-        <nav class="auto-height" id="user-menu" tabindex="-1" role="navigation">
-            <div class="dropdown user-wrapper">
-                <a class="btn btn-change-profile" href="#" aria-haspopup="true" aria-expanded="false" title="프로필 전환">
-                    <div class="profile-avatar my-menu-profile-avatar avatar-24">
-                        <img class="profile-img" src="./Images/userProfilePic.png" alt="">
-                    </div>
-                    <div class="media-body">
-                        <div class="text-truncate user-name">손성민</div>
-                    </div>
-                    <i class="fas fa-angle-down fa-lg user-profile-arrow-down"></i>
-                </a>
-                <div class="dropdown-menu" id="profile-list" x-placement="top-start"
-                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-4px, 4px, 0px);">
-                    <h6 class="dropdown-header">마이페이지</h6>
-                    <a class="dropdown-item" href="Namho/my-page/my-page.html">
-                        <div class="profile-avatar avatar-24">
-                            <img class="profile-img"
-                                 src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/06/23/38/9a787b703f93777569e803b91eba1ace.jpeg?w=64&amp;h=64&amp;q=65"
-                                 alt="">
-                        </div>
-                        <span class="text-truncate">손성민</span>
-                    </a>
-                    <!--            <a class="dropdown-item" href="">-->
-                    <!--                <div class="avatar-24">-->
-                    <!--                    <span class="profile-img">-->
-                    <!--                        <i class="fas fa-user-plus"></i>-->
-                    <!--                    </span>-->
-                    <!--                </div>-->
-                    <!--                새 프로필 만들기-->
-                    <!--            </a>-->
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="Namho/my-page/profile/profile.html">프로필 수정</a>
-                </div>
-            </div>
-
-            <a class="dropdown-item" href="">홈</a>
-            <a class="dropdown-item" href="Namho/community/community.html">게시판</a>
-            <a class="dropdown-item" href="Namho/crowd-funding/crowd-funding.html">크라우드 펀딩</a>
-            <a class="dropdown-item" href="Namho/my-page/my-page.html">설정</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="Jiseong3030/question.html">도움 센터</a>
-            <a id="dropdown-item-logout" class="dropdown-item" href="">로그아웃</a>
-        </nav>
-    </header>
+    <header th:replace="~{main/header :: header}"></header>
+    <!--메인 페이지-->
     <main class="main-content slide-left pool" id="pool-main-content" role="main">
         <div id="pool-main-home" class="pool-home-container ">
             <!--슬라이드 배너-->
@@ -713,52 +604,7 @@
         </div>
     </main>
     <!--푸터-->
-    <footer class="footer slide-left" role="contentinfo">
-        <div class="container">
-            <ul class="list-inline">
-                <li class="list-inline-item">
-                    <a href="https://www.postype.com/about">서비스 소개</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="https://www.postype.com/tos">이용약관</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="https://www.postype.com/privacy"><b>개인정보처리방침</b></a>
-                </li>
-                <li class="list-inline-item">
-                    <a target="_blank" href="https://postype.career.greetinghr.com/home">채용</a>
-                </li>
-                <li class="list-inline-item">
-                    <a target="_blank" href="https://help.postype.com/hc/ko">도움 센터</a>
-                </li>
-                <li class="list-inline-item">
-                    <a target="_blank" href="https://postyperight.zendesk.com/hc/ko">권리침해신고센터</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="https://www.postype.com/partners">포스타입 파트너스</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="https://blog.postype.com">공식 채널</a>
-                </li>
-                <li class="list-inline-item divider">
-                    <a href="http://about.postype.com">회사 소개・문의</a>
-                </li>
-                <li class="list-inline-item divider-none">
-                    <a href="http://about.postype.com/brand-resources">브랜드 리소스</a>
-                </li>
-                <li class="list-inline-item copyright">© Postype, Inc.</li>
-            </ul>
-            <address>
-                <span>주식회사 포스타입</span>
-                <span>사업자등록번호: 786-86-00336</span>
-                <span>통신판매업신고번호: 2018-서울강남-02900</span>
-                <span>대표자명: 신규섭</span>
-                <span>주소: 서울시 강남구 테헤란로4길 5, 6층</span>
-                <span>연락처: 02-6956-0827, 팩스: 02-6442-0128</span>
-            </address>
-            <span class="guide">포스타입은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 포스타입은 콘텐츠, 거래정보 및 거래에 대하여 책임을 지지 않습니다.</span>
-        </div>
-    </footer>
+    <footer th:replace="~{main/footer :: footer}"></footer>
     <div class="backdrop fade" style="display: none"></div>
 </body>
 </html>
