@@ -56,7 +56,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 @media all and (min-width: 768px){
     .container {
-    max-width: 720px;
+        max-width: 720px;
     }
 }
 @media all and (min-width: 992px) {
@@ -576,7 +576,6 @@ dl, ol, ul {
     background-color: rgba(0,0,0,.1);
 }
 
-/* main */
 .main-content {
     position: relative;
     z-index: 10;
@@ -716,6 +715,10 @@ dl, ol, ul {
 }
 
 .pool-home-slide .bottom-contents-section .contents-wrapper .contents {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
     font-weight: 400;
     font-size: 16px;
     line-height: 130%;
@@ -1267,6 +1270,10 @@ img {
 }
 
 .goods-list .component-goods .goods-item-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
     font-weight: 600;
     font-size: 15px;
     line-height: 130%;
@@ -1767,7 +1774,7 @@ address {
     animation: fade-show .25s ease-in;
 }
 
-    @media all {
+@media all {
     @media all and (min-width: 412px) {
         .main-content {
             min-height: calc(100vh - 210px);
@@ -2010,7 +2017,7 @@ address {
         }
 
         .footer {
-            padding: 24px 0 25px;
+            padding: 8px 0px;
             font-size: 13px;
         }
 
