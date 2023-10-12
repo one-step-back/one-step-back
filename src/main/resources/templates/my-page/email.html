@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이메일 변경</title>
+    <link rel="stylesheet" href="../../../root.css">
+    <link rel="stylesheet" href="../my-page.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="page-wrap">
+    <header style="height: 60px; width: 100%; position:fixed;"></header>
+    <div class="sub-header-wrap">
+        <div class="web-grid sub-header-container">
+            <ul class="sub-header-navs">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">계정</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">프로필</a>
+                </li>
+                <h1 class="setting-font">
+                    <a href="#">설정</a>
+                </h1>
+            </ul>
+        </div>
+        <div class="fixed-info-container"></div>
+    </div>
+    <main class="mt60">
+        <div class="main-container">
+            <div class="section">
+                <div class="form-group">
+                    <h4 class="section-title large">이메일 주소 변경</h4>
+                    <div class="alert alert-secondary my-4 font-sm">
+                        <ul class="">
+                            <li>이메일 주소 변경 후 <span class="text-primary">이메일 인증을 완료</span>해야 새 이메일 주소로 로그인할 수 있습니다.</li>
+                            <li>
+                                이메일 주소를 변경하면 계정 보안을 위해 모든 기기와 브라우저에서 <span class="text-primary">자동 로그인이 해제</span>됩니다.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h6 class="form-label">현재 이메일 주소</h6>
+                    <div>test-email1234@gmail.com</div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">새 이메일 주소
+                        <sup class="fas fa-asterisk fa-xs text-primary"></sup>
+                    </label>
+                    <input id="email" name="email" type="email" class="form-control" placeholder="이메일 주소">
+                    <small class="form-text">새 이메일 주소를 올바르게 입력한 후 ‘변경내용 저장’ 버튼을 눌러 인증 메일을 전송하세요. 인증 메일의 링크를 클릭하면 이메일 인증이
+                        완료됩니다.</small>
+                </div>
+                <button class="summit-btn">변경 내용 저장 (인증 메일 보내기)
+                </button>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <div class="modal show">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h5 id="warning-modal-label" class="modal-title">알림</h5>
+                <button type="button" class="btn btn-icon btn-close" data-dismiss="modal" aria-label="닫기">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-alert-message">테스트 메시지.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-btn" data-dismiss="modal" id="modal-alert-confirm">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../../static/js/my-page/email.js"></script>
+</html>

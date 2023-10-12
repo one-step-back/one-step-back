@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원스텝 | 마이페이지</title>
+    <link rel="stylesheet" href="../../root.css">
+    <link rel="stylesheet" href="../../static/css/my-page/my-page.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="page-wrap">
+    <header style="height: 60px; width: 100%; position:fixed;"></header>
+    <div class="sub-header-wrap">
+        <div class="web-grid sub-header-container">
+            <ul class="sub-header-navs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">계정</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">프로필</a>
+                </li>
+                <h1 class="setting-font">
+                    <a href="#">설정</a>
+                </h1>
+            </ul>
+        </div>
+        <div class="fixed-info-container"></div>
+    </div>
+    <main class="mt60">
+        <div class="main-container">
+            <div class="section">
+                <h3 class="section-title large">계정 설정</h3>
+            </div>
+            <div class="section">
+                <div class="form-group">
+                    <h4 class="section-title">로그인 정보</h4>
+                </div>
+                <div class="form-group row">
+                    <label class="form-group-label">이메일</label>
+                    <div class="form-group-content">
+                        <div class="mb1rem">
+                            <span>test-email1234@gmail.com</span>
+                            <span>등록된 이메일이 없습니다.</span>
+                        </div>
+                        <a href="#" class="a-tag-btn">이메일 주소 변경</a>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-group-label">비밀번호</label>
+                    <div class="form-group-content">
+                        <a href="#" class="a-tag-btn">비밀번호 변경</a>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <hr class="main-divider">
+                <div class="section form-footer">
+                    <button class="summit-btn">변경 내용 저장</button>
+                    <a class="to-delete" href="https://www.postype.com/account/delete">탈퇴하기</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <div class="modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h5 id="warning-modal-label" class="modal-title">알림</h5>
+                <button type="button" class="btn btn-icon btn-close" data-dismiss="modal" aria-label="닫기">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-alert-message">테스트 메시지.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-btn" data-dismiss="modal" id="modal-alert-confirm">확인</button>
+            </div>
+        </div>
+    </div>
+    <footer></footer>
+</div>
+</body>
+<script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../../static/js/my-page/my-page.js"></script>
+</html>

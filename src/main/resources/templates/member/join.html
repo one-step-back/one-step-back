@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원스텝 | 회원가입</title>
+    <link rel="stylesheet" href="../../static/css/member/join.css">
+    <link rel="stylesheet" href="all.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../root.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+        onload="this.rel='stylesheet'">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+</head>
+
+<body>
+    <main class="main-content" id="main-content" role="main">
+        <section class="dialog">
+            <div class="dialog-content">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="sign-up-email" role="tabpanel">
+                        <!-- form자리 부분임 -->
+                        <div>
+                            <h1 class="mb-4">이메일로 회원가입</h1>
+                            <div class="form-group">
+                                <label for="email" class="form-label-sm">이메일 주소</label>
+                                <input id="email" type="email" name="email" class="form-control" placeholder="이메일 주소" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="form-label-sm">비밀번호</label>
+                                <input id="password" type="password" name="password" class="form-control" placeholder="비밀번호" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname" class="form-label-sm">닉네임</label>
+                                <input id="nickname" type="nickname" name="nickname" class="form-control" placeholder="닉네임" autofocus>
+                            </div>
+                            <div class="form-group py-1 m-0">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="agreement-1" name="serv-agree" value="1">
+                                    <label class="custom-control-label" for="agreement-1">서비스 약관에 동의합니다.</label>
+                                    <a class="text-underlined" href="https://www.postype.com/tos" target="_blank">내용보기</a>
+                                </div>
+                            </div>
+                            <div class="form-group py-1">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="agreement-2" name="priv-agree" value="2" onclick="toggleCheckbox(this)">
+                                    <label class="custom-control-label" for="agreement-2">개인정보 수집 및 이용에 동의합니다.</label>
+                                    <a class="text-underlined" href="https://www.postype.com/tos" target="_blank">내용보기</a>
+                                </div>
+                            </div>
+                            <div class="btn-wrapper">
+                                <button class="join-button">회원가입</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="join-email.js"></script>
+
+</html>

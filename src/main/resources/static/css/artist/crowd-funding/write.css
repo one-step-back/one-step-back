@@ -1,0 +1,335 @@
+.blog-grid {
+    max-width: 1032px;
+    width: 100%;
+    padding: 0;
+    margin: 0 auto;
+}
+
+/* 크라우드 펀딩 */
+.crowd-funding-wrap {
+    margin-top: 60px;
+}
+
+.crowd-funding-head {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 32px;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    padding-bottom: 8px;
+}
+
+.crowd-funding-container {
+    margin: 12px auto;
+    max-width: 1000px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.crowd-funding-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 8px;
+    position: relative;
+}
+
+.crowd-funding-content:not(first-child) {
+    margin-top: 10px;
+}
+
+.article-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    word-break: break-all;
+}
+
+.post {
+    display: flex;
+    flex-direction: row;
+}
+
+.post-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.title-divider {
+    width: 0;
+    height: 100%;
+    margin: 0 8px;
+    border: 0;
+    border-left: 1px solid rgba(0, 0, 0, .15);
+}
+
+.post-data-title {
+    margin: 0 0 7px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 135%;
+    color: #000;
+    display: flex;
+    align-items: center;
+}
+
+.post-request-user {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: start;
+    margin-bottom: 5px;
+}
+
+.user-avatar-container {
+    display: block;
+    position: relative;
+    margin-right: 8px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    background-color: #fff;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.user-avatar-container::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, .05);
+}
+
+.user-avatar-container img {
+    width: 32px;
+    height: 32px;
+}
+
+.artist-nickname {
+    font-size: 14px;
+    margin: 0;
+}
+
+.post-data-content {
+    font-size: 14px;
+    color: rgba(0, 0, 0, .47);
+    margin: 0;
+}
+
+.btn-wrap {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    right: 12px;
+}
+
+.accept-btn {
+    border: 0;
+    line-height: 1.5rem;
+    color: #fff;
+    background-color: #3478ff;
+    cursor: pointer;
+    padding: 11px 19px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.refuse-btn {
+    margin-left: 0.5rem;
+    line-height: 1.5rem;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, .47);
+    cursor: pointer;
+    padding: 11px 19px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.summit-input-wrap {
+    display: none;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f8f8f8;
+    margin-top: 24px;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.funding-font {
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.funding-money-input {
+    width: 218px;
+    height: 41px;
+    margin-right: 3px;
+    padding-right: 10px;
+    border: 1px solid #ccc;
+    font-size: 32px;
+    line-height: 41px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.tx-won {
+    display: inline-block;
+    font-weight: 700;
+}
+
+
+.accept-btn-wrap {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    right: 12px;
+}
+
+.summit-btn {
+    border: 0;
+    line-height: 1.5rem;
+    color: #fff;
+    background-color: #3478ff;
+    cursor: pointer;
+    padding: 11px 19px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.accept-cancel-btn {
+    margin-left: 0.5rem;
+    line-height: 1.5rem;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, .47);
+    cursor: pointer;
+    padding: 11px 19px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+/* 요청부문 ================================================================== */
+.request-btn-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.request-btn {
+    border: 0;
+    line-height: 1.5rem;
+    color: #fff;
+    background-color: #3478ff;
+    cursor: pointer;
+    padding: 5px 19px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.request-form-wrap {
+    background-color: #f8f8f8;
+    display: none;
+}
+
+.request-form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px;
+}
+
+.form-content {
+    min-height: 280px;
+    word-wrap: break-word;
+    border: none;
+    resize: none;
+    padding: 16px 10px;
+    margin: 0 40px;
+}
+
+.cancel-btn {
+    margin-left: 0.5rem;
+    line-height: 1.5rem;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, .47);
+    cursor: pointer;
+    padding: 5px 19px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+#relative {
+    position: relative;
+}
+
+#slidedownBtn {
+    position: absolute;
+    right: 0;
+}
+
+/* 모바일 =================================================================================== */
+@media (max-width: 1000px) {
+    header {
+        height: 56px;
+    }
+
+    .crowd-funding-wrap {
+        padding: 10px;
+    }
+    
+    .btn-wrap {
+        position: relative;
+        right: 0;
+    }
+    
+    .accept-btn-wrap {
+        position: relative;
+        order: 1;
+        right: 0;
+        margin-top: 10px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .request-wrap .crowd-funding-head {
+        flex-direction: column;
+    }
+
+    #slidedownBtn{
+        position: relative;
+    }
+
+    .form-content {
+        margin: 0;
+        padding: 16px 8px;
+    }
+}

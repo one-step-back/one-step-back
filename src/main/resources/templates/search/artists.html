@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원스텝 | 통합검색창</title>
+    <link rel="stylesheet" href="../../../root.css">
+    <link rel="stylesheet" href="../../static/css/search/artists.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="page-wrap">
+    <header style="height: 60px; width: 100%"></header>
+    <div class="sub-header-wrap">
+        <div class="web-grid sub-header-container">
+            <ul class="sub-header-navs">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">게시글</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">영상</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">아티스트</a>
+                </li>
+            </ul>
+        </div>
+        <div class="fixed-info-container"></div>
+    </div>
+    <main class="mt48">
+        <div class="web-grid">
+            <div class="main-head-wrap">
+                <div class="main-head-container">
+                    <div class="head-dropdown" style="position: relative;">
+                        <div class="head-dropdown-status">
+                            <div class="orderby-status">포스트 수</div>
+                            <div class="orderby-status-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                    <path
+                                            d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="head-dropdown-menu">
+                            <a href="" class="dropdown-menu-a active">포스트 수</a>
+                            <a href="" class="dropdown-menu-a">구독자 수</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-result-count-con">
+                검색 결과&nbsp;
+                <div id="result-count">54</div>
+                개
+            </div>
+            <div class="artists-wrap">
+                <article class="artists-article">
+                    <div class="blog-card">
+                        <div class="blog-head">
+                            <a href="#" class="blog-profil-img">
+                                <img class="blog-img"
+                                     src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/blog_blank.png">
+                            </a>
+                            <a href="#" class="blog-title">
+                                <h4 class="blog-title-name">테스트 블로그</h4>
+                                <div class="blog-subscription-count">
+                                    <span>0</span>
+                                    명이 구독중
+                                </div>
+                            </a>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </div>
+                        <div class="blog-body">
+                            <div class="blog-text">테스트 소개글</div>
+                            <div class="blog-tag-container">
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트1
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트2
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트3
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트4
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트5
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-bottom">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="artists-article">
+                    <div class="blog-card">
+                        <div class="blog-head">
+                            <a href="#" class="blog-profil-img">
+                                <img class="blog-img"
+                                     src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/blog_blank.png">
+                            </a>
+                            <a href="#" class="blog-title">
+                                <h4 class="blog-title-name">테스트 블로그</h4>
+                                <div class="blog-subscription-count">
+                                    <span>0</span>
+                                    명이 구독중
+                                </div>
+                            </a>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </div>
+                        <div class="blog-body">
+                            <div class="blog-text">테스트 소개글</div>
+                            <div class="blog-tag-container">
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트1
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트2
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트3
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트4
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트5
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-bottom">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="artists-article">
+                    <div class="blog-card">
+                        <div class="blog-head">
+                            <a href="#" class="blog-profil-img">
+                                <img class="blog-img"
+                                     src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/blog_blank.png">
+                            </a>
+                            <a href="#" class="blog-title">
+                                <h4 class="blog-title-name">테스트 블로그</h4>
+                                <div class="blog-subscription-count">
+                                    <span>0</span>
+                                    명이 구독중
+                                </div>
+                            </a>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </div>
+                        <div class="blog-body">
+                            <div class="blog-text">테스트 소개글</div>
+                            <div class="blog-tag-container">
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트1
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트2
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트3
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트4
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트5
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-bottom">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="artists-article">
+                    <div class="blog-card">
+                        <div class="blog-head">
+                            <a href="#" class="blog-profil-img">
+                                <img class="blog-img"
+                                     src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/blog_blank.png">
+                            </a>
+                            <a href="#" class="blog-title">
+                                <h4 class="blog-title-name">테스트 블로그</h4>
+                                <div class="blog-subscription-count">
+                                    <span>0</span>
+                                    명이 구독중
+                                </div>
+                            </a>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </div>
+                        <div class="blog-body">
+                            <div class="blog-text">테스트 소개글</div>
+                            <div class="blog-tag-container">
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트1
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트2
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트3
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트4
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트5
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-bottom">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="artists-article">
+                    <div class="blog-card">
+                        <div class="blog-head">
+                            <a href="#" class="blog-profil-img">
+                                <img class="blog-img"
+                                     src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/blog_blank.png">
+                            </a>
+                            <a href="#" class="blog-title">
+                                <h4 class="blog-title-name">테스트 블로그</h4>
+                                <div class="blog-subscription-count">
+                                    <span>0</span>
+                                    명이 구독중
+                                </div>
+                            </a>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </div>
+                        <div class="blog-body">
+                            <div class="blog-text">테스트 소개글</div>
+                            <div class="blog-tag-container">
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트1
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트2
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트3
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트4
+                                </a>
+                                <a href="" class="blog-tag">
+                                    <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                    테스트5
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-bottom">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="no-article-container">
+            <p style="margin: 0 auto;">검색결과가 없습니다.</p>
+        </div>
+    </main>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../../static/js/search/artists.js"></script>
+</html>

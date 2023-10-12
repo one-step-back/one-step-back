@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>원스텝 | 크라우드 펀딩 관리</title>
+    <link rel="stylesheet" href="../rootjoon.css">
+    <link rel="stylesheet" href="../../static/css/manage/funding.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body class="h-full overflow-x-hidden">
+<div class="__next">
+    <div class="flex flex-col h-screen">
+        <nav class="sticky top-0 left-0 surface_primary_inverse z-20 w-full h-[56px] px-[16px] shrink-0
+      flex items-center justify-between lg:px-[32px] lg:h-[58px]">
+            <div class="flex items-center">
+<!--                <a href="/">-->
+                    <!--                        <svg viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg" class="lg:hidden w-[31px] content_primary_inverse">-->
+                    <!--                            <path d="M21.96 15.796h9.232A15.592 15.592 0 0 0 .059 14.55c-.011.116-.019.234-.027.351v.105c-.013.21-.022.423-.022.637v.154h9.957c0-2.987-2.228-5.412-4.978-5.412a4.755 4.755 0 0 0-3.41 1.473c1.051-1.346 2.63-2.203 4.395-2.203 3.165 0 5.725 2.75 5.725 6.142h7.562v-.154c0-5.7-4.31-10.321-9.629-10.321a9.085 9.085 0 0 0-4.62 1.266 10.976 10.976 0 0 1 16.949 9.21v-.003Z"></path>-->
+
+                    <svg viewBox="0 0 115 16" xmlns="http://www.w3.org/2000/svg" class="hidden lg:block w-[96px] content_primary_inverse">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M98.073 1.695a1.695 1.695 0 1 1 1.695 1.695 1.687 1.687 0 0 1-1.695-1.695Zm2.967 2.863v11.23h-2.539V4.556l2.539.002Zm-7.842 11.23h2.544V.102h-2.544v5.725h-.042a4.791 4.791 0 0 0-3.517-1.483c-2.925 0-5.214 2.332-5.214 5.828 0 3.496 2.29 5.827 5.214 5.827a4.79 4.79 0 0 0 3.517-1.483h.042v1.272Zm-3.054-2.162c-1.737 0-3.093-1.4-3.093-3.454 0-2.056 1.355-3.455 3.093-3.455 1.739 0 3.094 1.4 3.094 3.455s-1.356 3.454-3.094 3.454Zm-45.282 2.373c-3.709 0-6.167-1.867-6.336-4.978h2.925c.317 1.906 1.653 2.584 3.327 2.584 1.843 0 2.986-.847 2.986-1.927 0-1.376-1.604-1.75-3.542-2.202l-.462-.108C41.28 8.774 38.78 7.8 38.78 4.81c0-2.204 1.887-4.492 5.531-4.492 3.221 0 5.68 1.908 6.04 4.768h-2.884c-.296-1.292-1.207-2.374-3.094-2.374-1.674 0-2.839.827-2.839 1.93 0 1.49 1.468 1.83 3.482 2.298l.587.138c2.331.551 4.916 1.42 4.916 4.344 0 2.86-2.31 4.576-5.658 4.576Zm11.59-9.155v5.02c0 1.526.933 1.759 1.675 1.759.405.003.805-.091 1.166-.275v2.288c-.46.18-.948.272-1.441.276-2.14 0-3.942-1.06-3.942-4.108v-4.96h-2.328V4.556h2.33V1.32h2.543v3.236h2.843v2.288h-2.845Zm14.814 5.532h-2.739c-.516 1.113-1.329 1.377-2.516 1.377-1.441 0-2.712-.954-2.903-2.755h8.304c0-4.539-2.648-6.654-5.615-6.654-3.052 0-5.446 2.332-5.446 5.828 0 3.496 2.4 5.827 5.636 5.827 2.268 0 4.532-1.048 5.279-3.623Zm-2.67-3.328h-5.51c.277-1.415 1.42-2.437 2.756-2.437 1.335 0 2.479 1.018 2.754 2.437Zm14.135 6.74h-2.5a17.563 17.563 0 0 1-.063-1.442h-.044C79.107 15.597 77.837 16 76.564 16c-2.246 0-3.877-1.334-3.877-3.496 0-1.674 1.08-3.263 4.068-3.391 1.357-.064 3.327-.085 3.327-.085v-.571c0-1.378-1.144-2.035-2.331-2.035-1.188 0-2.097.657-2.24 1.695h-2.634c.125-2.395 2.098-3.772 4.895-3.772 2.819 0 4.854 1.76 4.854 4.408v3.39c0 2.035.02 2.946.105 3.645Zm-5.234-4.832c-1.59.085-2.183.678-2.183 1.505 0 .953.763 1.44 1.844 1.44 1.59 0 2.924-.975 2.924-2.628v-.423s-1.419.043-2.585.106Zm31.193-6.57c-3.242 0-5.742 2.522-5.742 5.807 0 3.289 2.498 5.805 5.741 5.805 3.243 0 5.744-2.521 5.744-5.805 0-3.285-2.501-5.808-5.743-5.808Zm.004 2.373c1.777 0 3.112 1.42 3.112 3.434 0 2.012-1.336 3.432-3.112 3.432s-3.111-1.419-3.111-3.432c0-2.014 1.334-3.434 3.111-3.434Z"></path>
+                        <path d="M21.96 15.796h9.232A15.592 15.592 0 0 0 .059 14.55c-.011.116-.019.234-.027.351v.105c-.013.21-.022.423-.022.637v.154h9.957c0-2.987-2.228-5.412-4.978-5.412a4.755 4.755 0 0 0-3.41 1.473c1.051-1.346 2.63-2.203 4.395-2.203 3.165 0 5.725 2.75 5.725 6.142h7.562v-.154c0-5.7-4.31-10.321-9.629-10.321a9.085 9.085 0 0 0-4.62 1.266 10.976 10.976 0 0 1 16.949 9.21v-.003Z"></path>
+                    </svg>
+<!--                </a>-->
+                <div class="mx-[10px] font_body_regular_md content_primary_inverse">|</div>
+                <div class="font_body_regular_lg content_primary_inverse flex items-center">
+                    <span>Manager Page</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-end">
+                <!--                <div class="relative">-->
+                <!--                    <button class="relative w-[32px] h-[32px] rounded-full surface_primary_active">-->
+                <!--                            <span class="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">-->
+                <!--                                <img alt="프로필 이미지" sizes="100vw" srcset="" decoding="async" data-nimg="fill" class="rounded-full" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: cover; object-position: center center;">-->
+                <!--                            </span>-->
+                <!--                    </button>-->
+                <!--                </div>-->
+
+                <!-- Custom -->
+                <div class="header-icons-division">
+                    <ul>
+
+                        <li class="header-icon">
+                            <button class="icons-btn user-profile">
+                                <div class="header-avatar">
+                                    <div class="no-avatar">
+                                        <svg data-v-bd9f2bcc="" data-v-16c10fa5="" width="16" height="16"
+                                             viewBox="0 0 16 16" fill="black" xmlns="http://www.w3.org/2000/svg"
+                                             style="fill: rgb(207, 212, 215);">
+                                            <circle data-v-bd9f2bcc="" cx="8" cy="4.5" r="2.5"></circle>
+                                            <path data-v-bd9f2bcc=""
+                                                  d="M4.11325 10.0801C4.97961 8.78058 6.43814 8 8 8C9.56186 8 11.0204 8.78058 11.8868 10.0801L12.0826 10.3739C13.1159 11.9239 12.0048 14 10.142 14H5.85801C3.99518 14 2.88408 11.9239 3.91739 10.3739L4.11325 10.0801Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="header-user-info-popover-wrap">
+                                <div class="header-user-info-popover-container">
+                                    <a href="#">
+                                        <div class="header-user-info-container">
+                                            <div class="header-detailed-user-avatar">
+                                                <div class="no-avatar">
+                                                    <svg width="24" height="24" viewBox="0 0 36 36" fill="black"
+                                                         xmlns="http://www.w3.org/2000/svg" style="fill:#CFD4D7;"
+                                                         data-v-bd9f2bcc="" data-v-16c10fa5="">
+                                                        <circle cx="18" cy="11" r="6" data-v-bd9f2bcc="">
+                                                        </circle>
+                                                        <path
+                                                                d="M8.89065 23.704C10.986 20.7531 14.3809 19 18 19C21.6191 19 25.014 20.7531 27.1094 23.704L27.3942 24.1052C29.7451 27.416 27.3779 32 23.3174 32H12.6826C8.6221 32 6.25494 27.416 8.60575 24.1052L8.89065 23.704Z"
+                                                                data-v-bd9f2bcc="">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="header-detailed-user-con">
+                                                <div class="header-detailed-user-id">임준영</div>
+                                                <div class="header-detailed-user-more">BrianJoon0711@gmail.com</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="header-popover-devider">
+                                    <a href="#">
+                                        <div class="header-popover-content">
+                                            <div class="header-popover-content-font">Home</div>
+                                        </div>
+                                    </a>
+                                    <a href="#">
+                                        <div class="header-popover-content">
+                                            <div class="header-popover-content-font">Manager Page</div>
+                                        </div>
+                                    </a>
+                                    <a href="#">
+                                        <div class="header-popover-content">
+                                            <div class="header-popover-content-font">Server</div>
+                                        </div>
+                                    </a>
+                                    <hr class="header-popover-devider">
+                                    <a href="#">
+                                        <div class="header-popover-content">
+                                            <div class="header-popover-logout-font">로그아웃</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- -->
+                </div>
+        </nav>
+        <!--Main Start-->
+        <main>
+            <div class="flex h-full overflow-hidden">
+                <nav class="surface_secondary border border_primary basis-[260px] relative">
+                    <div class="pt-[40px] pb-[28px] mx-[32px] border-b border_disabled">
+                        <div class="flex flex-col items-center">
+                            <div class="mb-[12px]">
+                                <button class="relative w-full h-full rounded-full flex items-center justify-center" type="button" style="width: 68px; height: 68px;">
+                <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
+                    <img alt="프로필 이미지" sizes="100vw" srcset="/static" decoding="async" data-nimg="fill" class="rounded-full" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: cover; object-position: center center;">
+                </span>
+                                    <span class="absolute top-0 left-0 w-full h-full border border_black_opacity rounded-full">
+                </span>
+                                </button>
+                            </div>
+
+                            <h2 class="content_primary mb-[12px] font_title_bold_md text-center">임준영</h2>
+                            <a class="_blank" href="/static">
+                                <button type="button" class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled">
+                                    <div class="flex items-center justify-center">
+                                        <div>내 페이지</div>
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="16px" width="16px" class="ml-[4px] shrink-0">
+                                            <path d="M11 7a1 1 0 0 0-1-1H4v14h14v-6a1 1 0 1 0-2 0v4H6V8h4a1 1 0 0 0 1-1Z"></path>
+                                            <path d="M19.01 3.829H20v6.656a1 1 0 1 1-2 0V7.244l-5.293 5.293a1 1 0 0 1-1.414-1.415l5.293-5.292h-3.243a1 1 0 1 1 0-2H19.01Z"></path>
+                                        </svg>
+                                    </div>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <ui class="px-[24px] py-[32px]">
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="flex items-center grow test" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <!--                    <path d="M15.078 3.137H8.6a5.6 5.6 0 0 0-5.6 5.6v6.8a5.6 5.6 0 0 0 5.6 5.6h6.8a5.6 5.6 0 0 0 5.6-5.6V8.944l-1.6 1.6v4.993a4 4 0 0 1-4 4H8.6a4 4 0 0 1-4-4v-6.8a4 4 0 0 1 4-4h4.878l1.6-1.6Z"></path>-->
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 5.3A1.3 1.3 0 0 1 3.3 4h14.4a1.3 1.3 0 1 1 0 2.6H3.3A1.3 1.3 0 0 1 2 5.3Zm0 5.6a1.3 1.3 0 0 1 1.3-1.3h10.573a6.53 6.53 0 0 0-2.588 2.6H3.3A1.3 1.3 0 0 1 2 10.9Zm8.5 4.3H3.3a1.3 1.3 0 1 0 0 2.6h7.698a6.48 6.48 0 0 1-.497-2.6ZM13.944 12.347a.665.665 0 0 1 .306-.74l.832-.49a.665.665 0 0 1 .796.092l.459.437c.168.16.399.231.63.23a.892.892 0 0 0 .626-.24l.452-.445a.665.665 0 0 1 .794-.105l.84.476a.665.665 0 0 1 .319.735l-.15.616a.896.896 0 0 0 .117.66c.117.2.298.36.521.423l.611.169c.286.079.485.338.488.635l.008.965a.665.665 0 0 1-.477.644l-.608.179a.892.892 0 0 0-.514.43.898.898 0 0 0-.105.663l.16.614a.665.665 0 0 1-.307.74l-.832.49a.665.665 0 0 1-.796-.092l-.459-.437a.898.898 0 0 0-.63-.23.892.892 0 0 0-.627.24l-.452.445a.665.665 0 0 1-.794.105l-.84-.476a.665.665 0 0 1-.318-.734l.149-.618a.894.894 0 0 0-.116-.66.894.894 0 0 0-.52-.421l-.613-.17a.665.665 0 0 1-.488-.635l-.008-.965a.665.665 0 0 1 .477-.643l.609-.18a.892.892 0 0 0 .513-.43.898.898 0 0 0 .106-.663l-.16-.614Zm3.115 4.279a1.283 1.283 0 1 0 0-2.567 1.283 1.283 0 0 0 0 2.567Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        게시글 관리
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path d="M8.5 11.7h2a6.057 6.057 0 0 1 1.769.265 6.51 6.51 0 0 0-.888 1.335H8.5a4.4 4.4 0 0 0-4.4 4.4v1c0 .22.18.4.4.4h6.881c.295.59.677 1.129 1.129 1.6H4.5a2 2 0 0 1-2-2v-1a6 6 0 0 1 6-6Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 10.2a3.502 3.502 0 0 1 0-7 3.5 3.5 0 1 1 0 7Zm1.9-3.5a1.9 1.9 0 1 1-3.8 0 1.9 1.9 0 0 1 3.8 0ZM13.945 13.147a.665.665 0 0 1 .306-.74l.833-.49a.665.665 0 0 1 .795.092l.46.437c.167.16.398.231.63.23a.892.892 0 0 0 .626-.24l.451-.445a.665.665 0 0 1 .794-.105l.84.476a.665.665 0 0 1 .32.735l-.15.616a.895.895 0 0 0 .116.66c.118.2.298.36.522.423l.61.168c.287.08.486.339.488.636l.008.965a.665.665 0 0 1-.477.644l-.608.179a.892.892 0 0 0-.513.43.898.898 0 0 0-.105.663l.159.614a.665.665 0 0 1-.307.74l-.832.49a.665.665 0 0 1-.795-.092l-.46-.437a.898.898 0 0 0-.63-.23.893.893 0 0 0-.626.24l-.452.445a.665.665 0 0 1-.794.105l-.84-.476a.665.665 0 0 1-.319-.735l.15-.617a.894.894 0 0 0-.117-.66.894.894 0 0 0-.52-.421l-.612-.17a.665.665 0 0 1-.488-.635l-.008-.965a.665.665 0 0 1 .477-.644l.608-.179a.892.892 0 0 0 .514-.43.898.898 0 0 0 .105-.663l-.159-.614Zm3.115 4.278a1.283 1.283 0 1 0 0-2.566 1.283 1.283 0 0 0 0 2.566Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        회원 관리
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path d="M12.2 12.5a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5ZM12.2 16.4c2.21 0 4-.672 4-1.5s-1.79-1.5-4-1.5-4 .672-4 1.5 1.79 1.5 4 1.5Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.4 4.4H8.8a4.4 4.4 0 0 0-4.4 4.4v6.6a4.4 4.4 0 0 0 4.4 4.4h6.6a4.4 4.4 0 0 0 4.4-4.4V8.8a4.4 4.4 0 0 0-4.4-4.4ZM8.8 2.8a6 6 0 0 0-6 6v6.6a6 6 0 0 0 6 6h6.6a6 6 0 0 0 6-6V8.8a6 6 0 0 0-6-6H8.8Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        예술가 관리
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow active" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path fill-rule="evenodd"  clip-rule="evenodd" d="M15.3 4.3H8.7a4.4 4.4 0 0 0-4.4 4.4v6.6a4.4 4.4 0 0 0 4.4 4.4h6.6a4.4 4.4 0 0 0 4.4-4.4V8.7a4.4 4.4 0 0 0-4.4-4.4ZM8.7 2.7a6 6 0 0 0-6 6v6.6a6 6 0 0 0 6 6h6.6a6 6 0 0 0 6-6V8.7a6 6 0 0 0-6-6H8.7Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.874 14.516c.129.434.543.734 1.014.734.474 0 .89-.303 1.016-.74l.724-2.501h.66l.724 2.501c.126.437.542.74 1.015.74.472 0 .886-.3 1.015-.734l.743-2.507h.6c.34 0 .615-.264.615-.59a.603.603 0 0 0-.615-.589h-.252l.274-.925c.135-.454-.221-.905-.714-.905a.737.737 0 0 0-.72.539l-.338 1.291h-1.409l-.3-1.113A.992.992 0 0 0 11.96 9a.99.99 0 0 0-.967.721l-.295 1.11H9.283l-.339-1.293A.738.738 0 0 0 8.224 9c-.494 0-.85.451-.715.906l.274.924h-.168a.603.603 0 0 0-.615.59c0 .325.276.589.615.589h.516l.743 2.507Zm.718-2.507h.793l-.368 1.388h-.06l-.365-1.388Zm4.32 1.365-.368-1.365h.783l-.356 1.365h-.06Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        크라우드 펀딩 관리
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path d="M15.078 3.137H8.6a5.6 5.6 0 0 0-5.6 5.6v6.8a5.6 5.6 0 0 0 5.6 5.6h6.8a5.6 5.6 0 0 0 5.6-5.6V8.944l-1.6 1.6v4.993a4 4 0 0 1-4 4H8.6a4 4 0 0 1-4-4v-6.8a4 4 0 0 1 4-4h4.878l1.6-1.6Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="m20.692 7.116.534-.534a2.567 2.567 0 1 0-3.63-3.63L9.41 11.138l-1.103 3.74a.8.8 0 0 0 .994.993l3.74-1.103 6.52-6.52.005.004 1.13-1.132-.004-.004Zm-2.262 0-6.233 6.233-1.94.572.572-1.94 6.233-6.233 1.368 1.368Zm1.131-1.132-1.367-1.367.533-.534a.967.967 0 0 1 1.368 1.368l-.534.533Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        영상 제재 및 관리
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path d="M5.5 7.8a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM7 17.7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM10 5.4a1 1 0 0 0 0 2h10a1 1 0 1 0 0-2H10ZM9 12a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H10a1 1 0 0 1-1-1ZM10 16.6a1 1 0 1 0 0 2h10a1 1 0 1 0 0-2H10Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        문의 요청
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.123 13.575a1.8 1.8 0 1 0 .113-3.599 1.8 1.8 0 0 0-.113 3.599Zm-.05 1.599a3.4 3.4 0 1 0 .213-6.797 3.4 3.4 0 0 0-.213 6.797Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.916 5.077a.543.543 0 0 0-.245.606l.332 1.236c.186.694.03 1.387-.274 1.935-.305.552-.81 1.048-1.497 1.257l-1.225.372a.543.543 0 0 0-.385.529l.034 1.95a.543.543 0 0 0 .402.514l1.24.331c.692.186 1.213.664 1.537 1.203.324.54.501 1.225.339 1.924l-.29 1.249a.543.543 0 0 0 .265.597l1.705.946c.212.117.476.08.647-.091l.905-.906c.508-.508 1.182-.72 1.813-.73.627-.01 1.312.177 1.837.668l.934.874a.543.543 0 0 0 .65.069l1.672-1.004a.543.543 0 0 0 .245-.606l-.332-1.236c-.187-.694-.03-1.387.273-1.935.306-.552.81-1.047 1.497-1.256l1.224-.373a.543.543 0 0 0 .385-.528l-.033-1.95a.543.543 0 0 0-.403-.515l-1.236-.33c-.694-.186-1.216-.664-1.54-1.204-.324-.54-.501-1.226-.339-1.925l.29-1.247a.543.543 0 0 0-.266-.597l-1.705-.946a.543.543 0 0 0-.647.09l-.904.906c-.508.508-1.182.72-1.813.73-.626.01-1.311-.177-1.836-.668l-.935-.874a.543.543 0 0 0-.65-.069L6.916 5.077Zm-1.79 1.02c-.249-.923.146-1.9.966-2.392l1.671-1.003a2.143 2.143 0 0 1 2.567.272l.934.874c.159.148.41.242.719.237.306-.005.551-.106.706-.261l.904-.906a2.143 2.143 0 0 1 2.556-.36l1.704.946a2.143 2.143 0 0 1 1.048 2.359l-.29 1.247c-.049.213-.005.476.153.74.158.262.37.425.58.481l1.237.33a2.143 2.143 0 0 1 1.59 2.034l.033 1.95a2.143 2.143 0 0 1-1.519 2.086l-1.224.372c-.21.064-.414.232-.563.5-.15.27-.184.537-.128.746l.332 1.236c.248.924-.146 1.9-.967 2.393l-1.671 1.003a2.143 2.143 0 0 1-2.566-.271l-.935-.874c-.158-.149-.41-.243-.719-.238-.306.005-.551.107-.706.262l-.905.906a2.143 2.143 0 0 1-2.555.359l-1.705-.946a2.143 2.143 0 0 1-1.048-2.358l.29-1.25c.05-.212.006-.475-.151-.737-.158-.263-.37-.425-.58-.48l-1.239-.332a2.143 2.143 0 0 1-1.589-2.033l-.033-1.95A2.143 2.143 0 0 1 3.54 8.953l1.225-.373c.21-.064.415-.232.563-.5.15-.27.185-.537.128-.746l-.331-1.236Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        ERROR 200
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.123 13.575a1.8 1.8 0 1 0 .113-3.599 1.8 1.8 0 0 0-.113 3.599Zm-.05 1.599a3.4 3.4 0 1 0 .213-6.797 3.4 3.4 0 0 0-.213 6.797Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.916 5.077a.543.543 0 0 0-.245.606l.332 1.236c.186.694.03 1.387-.274 1.935-.305.552-.81 1.048-1.497 1.257l-1.225.372a.543.543 0 0 0-.385.529l.034 1.95a.543.543 0 0 0 .402.514l1.24.331c.692.186 1.213.664 1.537 1.203.324.54.501 1.225.339 1.924l-.29 1.249a.543.543 0 0 0 .265.597l1.705.946c.212.117.476.08.647-.091l.905-.906c.508-.508 1.182-.72 1.813-.73.627-.01 1.312.177 1.837.668l.934.874a.543.543 0 0 0 .65.069l1.672-1.004a.543.543 0 0 0 .245-.606l-.332-1.236c-.187-.694-.03-1.387.273-1.935.306-.552.81-1.047 1.497-1.256l1.224-.373a.543.543 0 0 0 .385-.528l-.033-1.95a.543.543 0 0 0-.403-.515l-1.236-.33c-.694-.186-1.216-.664-1.54-1.204-.324-.54-.501-1.226-.339-1.925l.29-1.247a.543.543 0 0 0-.266-.597l-1.705-.946a.543.543 0 0 0-.647.09l-.904.906c-.508.508-1.182.72-1.813.73-.626.01-1.311-.177-1.836-.668l-.935-.874a.543.543 0 0 0-.65-.069L6.916 5.077Zm-1.79 1.02c-.249-.923.146-1.9.966-2.392l1.671-1.003a2.143 2.143 0 0 1 2.567.272l.934.874c.159.148.41.242.719.237.306-.005.551-.106.706-.261l.904-.906a2.143 2.143 0 0 1 2.556-.36l1.704.946a2.143 2.143 0 0 1 1.048 2.359l-.29 1.247c-.049.213-.005.476.153.74.158.262.37.425.58.481l1.237.33a2.143 2.143 0 0 1 1.59 2.034l.033 1.95a2.143 2.143 0 0 1-1.519 2.086l-1.224.372c-.21.064-.414.232-.563.5-.15.27-.184.537-.128.746l.332 1.236c.248.924-.146 1.9-.967 2.393l-1.671 1.003a2.143 2.143 0 0 1-2.566-.271l-.935-.874c-.158-.149-.41-.243-.719-.238-.306.005-.551.107-.706.262l-.905.906a2.143 2.143 0 0 1-2.555.359l-1.705-.946a2.143 2.143 0 0 1-1.048-2.358l.29-1.25c.05-.212.006-.475-.151-.737-.158-.263-.37-.425-.58-.48l-1.239-.332a2.143 2.143 0 0 1-1.589-2.033l-.033-1.95A2.143 2.143 0 0 1 3.54 8.953l1.225-.373c.21-.064.415-.232.563-.5.15-.27.185-.537.128-.746l-.331-1.236Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        ERROR 404
+                    </span>
+                            </a>
+                        </li>
+                        <li class="h-[40px] mb-[8px] px-[12px] rounded-[8px] flex items-center false hover:surface_accent_light">
+                            <a class="test flex items-center grow" href="/static">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[24px] w-[24px] mr-[10px] content_secondary">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.123 13.575a1.8 1.8 0 1 0 .113-3.599 1.8 1.8 0 0 0-.113 3.599Zm-.05 1.599a3.4 3.4 0 1 0 .213-6.797 3.4 3.4 0 0 0-.213 6.797Z"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.916 5.077a.543.543 0 0 0-.245.606l.332 1.236c.186.694.03 1.387-.274 1.935-.305.552-.81 1.048-1.497 1.257l-1.225.372a.543.543 0 0 0-.385.529l.034 1.95a.543.543 0 0 0 .402.514l1.24.331c.692.186 1.213.664 1.537 1.203.324.54.501 1.225.339 1.924l-.29 1.249a.543.543 0 0 0 .265.597l1.705.946c.212.117.476.08.647-.091l.905-.906c.508-.508 1.182-.72 1.813-.73.627-.01 1.312.177 1.837.668l.934.874a.543.543 0 0 0 .65.069l1.672-1.004a.543.543 0 0 0 .245-.606l-.332-1.236c-.187-.694-.03-1.387.273-1.935.306-.552.81-1.047 1.497-1.256l1.224-.373a.543.543 0 0 0 .385-.528l-.033-1.95a.543.543 0 0 0-.403-.515l-1.236-.33c-.694-.186-1.216-.664-1.54-1.204-.324-.54-.501-1.226-.339-1.925l.29-1.247a.543.543 0 0 0-.266-.597l-1.705-.946a.543.543 0 0 0-.647.09l-.904.906c-.508.508-1.182.72-1.813.73-.626.01-1.311-.177-1.836-.668l-.935-.874a.543.543 0 0 0-.65-.069L6.916 5.077Zm-1.79 1.02c-.249-.923.146-1.9.966-2.392l1.671-1.003a2.143 2.143 0 0 1 2.567.272l.934.874c.159.148.41.242.719.237.306-.005.551-.106.706-.261l.904-.906a2.143 2.143 0 0 1 2.556-.36l1.704.946a2.143 2.143 0 0 1 1.048 2.359l-.29 1.247c-.049.213-.005.476.153.74.158.262.37.425.58.481l1.237.33a2.143 2.143 0 0 1 1.59 2.034l.033 1.95a2.143 2.143 0 0 1-1.519 2.086l-1.224.372c-.21.064-.414.232-.563.5-.15.27-.184.537-.128.746l.332 1.236c.248.924-.146 1.9-.967 2.393l-1.671 1.003a2.143 2.143 0 0 1-2.566-.271l-.935-.874c-.158-.149-.41-.243-.719-.238-.306.005-.551.107-.706.262l-.905.906a2.143 2.143 0 0 1-2.555.359l-1.705-.946a2.143 2.143 0 0 1-1.048-2.358l.29-1.25c.05-.212.006-.475-.151-.737-.158-.263-.37-.425-.58-.48l-1.239-.332a2.143 2.143 0 0 1-1.589-2.033l-.033-1.95A2.143 2.143 0 0 1 3.54 8.953l1.225-.373c.21-.064.415-.232.563-.5.15-.27.185-.537.128-.746l-.331-1.236Z"></path>
+                                </svg>
+                                <span class="block font_label_bold_xl content_secondary">
+                        ERROR 505
+                    </span>
+                            </a>
+                        </li>
+
+                    </ui>
+                </nav>
+                <!-- 좌측 Side Bad End    -->
+
+                <!--    Main Start-->
+                <div class="basis-0 grow shrink-0 overflow-x-auto">
+                    <div class="grid grid-cols-12 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto pb-[64px]">
+                        <div class="col-span-full">
+                            <div class="sticky top-0 z-10 surface_primary">
+                                <header class="pt-[40px] flex justify-between items-center">
+                                    <h1 class="font_headline_bold_lg content_primary">
+                                        크라우드 펀딩 관리
+                                    </h1>
+                                    <div class="w-[240px]">
+                                        <label class="w-full px-[20px] py-[10px] h-[40px] border border_black_opacity focus-within:border-2 focus-within:border_accent focus-within:px-[19px] rounded-[20px] flex items-center justify-between">
+                                            <input type="search" class="outline-none content_secondary font_body_regular_md content-none w-full" placeholder="펀딩 검색" value>
+                                            <button type="button" class="test8 ml-[10px]">
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] content_primary">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.83 16.561a7.8 7.8 0 1 1 1.233-1.312l3.465 3.465a.9.9 0 1 1-1.272 1.273L15.83 16.56Zm1.13-5.961a6.16 6.16 0 1 1-12.32 0 6.16 6.16 0 0 1 12.32 0Z"></path>
+                                                </svg>
+                                            </button>
+                                        </label>
+                                    </div>
+                                </header>
+                                <!--회원관리, 회원 검색 END-->
+                                <div class="mt-[32px] flex justify-between items-center">
+                                    <div>
+                                        <span class="font_button_bold_md content_primary">정산 내역</span>
+                                    </div>
+
+                                    <div class="flex gap-x-[12px]">
+
+                                        <div class="header-icon">
+                                          <div class="relative">
+                                            <button type="button" class="surface_primary border px-[16px] h-[32px] py-[8px] border_black_opacity rounded-[16px] flex items-center max-w-[164px] outline-none">
+                                            <span class="content_secondary font_label_medium_lg text-ellipsis overflow-hidden whitespace-nowrap">
+                                            펀딩 전체</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0 ml-[4px] w-[10px] h-[10px]">
+                                                    <path fill-rule="evenodd"  clip-rule="evenodd" d="M3.27 8.42a1.076 1.076 0 0 1 1.587-.13L12 14.832l7.143-6.544a1.076 1.076 0 0 1 1.586.13 1.26 1.26 0 0 1-.122 1.696L12 18l-8.607-7.885A1.26 1.26 0 0 1 3.27 8.42Z"></path>
+                                                </svg>
+                                            </button>
+
+                                              <!--    hober start      -->
+                                              <div id="hobercate"  class="header-user-info-popover-wrap">
+                                                  <div class="header-user-info-popover-container">
+
+                                                      <hr class="header-popover-devider">
+                                                      <a href="#">
+                                                          <div class="header-popover-content">
+                                                              <div class="header-popover-content-font">펀딩 전체</div>
+                                                          </div>
+                                                      </a>
+                                                      <a href="#">
+                                                          <div class="header-popover-content">
+                                                              <div class="header-popover-content-font">펀딩 미설정</div>
+                                                          </div>
+                                                      </a>
+                                                      <!--                                    <a href="#">-->
+                                                      <!--                                        <div class="header-popover-content">-->
+                                                      <!--                                            <div class="header-popover-content-font">Server</div>-->
+                                                      <!--                                        </div>-->
+                                                      <!--                                    </a>-->
+                                                      <hr class="header-popover-devider">
+
+                                                  </div>
+                                              </div>
+                                              <!--    hober end                          -->
+
+
+                                        </div>
+                                        </div>
+
+                                        <div class="header-icon">
+                                        <div class="relative">
+                                            <button type="button" class="surface_primary border px-[16px] h-[32px] py-[8px] border_black_opacity rounded-[16px] flex items-center max-w-[164px] outline-none">
+                                            <span class="content_secondary font_label_medium_lg text-ellipsis overflow-hidden whitespace-nowrap">
+                                         상태 전체</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0 ml-[4px] w-[10px] h-[10px]">
+                                                    <path fill-rule="evenodd"  clip-rule="evenodd" d="M3.27 8.42a1.076 1.076 0 0 1 1.587-.13L12 14.832l7.143-6.544a1.076 1.076 0 0 1 1.586.13 1.26 1.26 0 0 1-.122 1.696L12 18l-8.607-7.885A1.26 1.26 0 0 1 3.27 8.42Z"></path>
+                                                </svg>
+                                            </button>
+
+                                            <!--    hober start      -->
+                                            <div  class="header-user-info-popover-wrap">
+                                                <div class="header-user-info-popover-container">
+
+                                                    <hr class="header-popover-devider">
+                                                    <a href="#">
+                                                        <div class="header-popover-content">
+                                                            <div class="header-popover-content-font">상태 전체</div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#">
+                                                        <div class="header-popover-content">
+                                                            <div class="header-popover-content-font">진행 중 펀딩</div>
+                                                        </div>
+                                                    </a>
+                                                     <a href="#">
+                                                         <div class="header-popover-content">
+                                                             <div class="header-popover-content-font">종료 펀딩</div>
+                                                         </div>
+                                                     </a>
+                                                    <hr class="header-popover-devider">
+
+                                                </div>
+                                            </div>
+                                            <!--    hober end                          -->
+
+
+                                        </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="mt-[20px] border-y border_primary px-[8px] py-[9px] flex items-center gap-x-[24px]">
+
+                                    <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-start" style="width: 74px;">이름</div>
+
+                                    <button type="button" class="test8">
+                                        <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-end" style="width: 80px;">
+                                            <span class="mr-[8px]">월</span>
+                                            <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[6px] h-[10px]">
+                                                <path d="m3 0 3 4H0l3-4ZM3 10 0 6h6l-3 4Z" fill="#B9B9BB"></path>
+                                            </svg>
+                                        </div>
+                                    </button>
+
+                                    <button type="button" class="test8">
+                                        <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-end" style="width: 100px;">
+                                            <span class="mr-[8px]">정산 금액</span>
+                                            <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[6px] h-[10px]">
+                                                <path d="m3 0 3 4H0l3-4ZM3 10 0 6h6l-3 4Z" fill="#B9B9BB"></path>
+                                            </svg>
+                                        </div>
+                                    </button>
+
+                                    <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-end" style="width: 100px;">서비스 수수료  </div>
+
+                                    <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-center" style="width: 100px;">결제 수수료  </div>
+
+                                    <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-end" style="width: 90px;">정산일(예정일)  </div>
+
+                                    <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-center" style="width: 70px;">상태</div>
+
+                                    <div class="shrink-0 flex items-center font_label_medium_md content_primary justify-center" style="width: 70px;">명세서</div>
+                                </div>
+
+                                <div class="mt-[120px] flex flex-col items-center justify-center">
+                                    <svg width="53" height="57" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                                       <path d="M52.5 55.419c0-17.204-1.303-34.59-1.303-51.854 0-5.75-44.41-2.818-49.529-2.818-2.5 3.243-.688 55.632 2.607 55.8 8.269.42 48.225 1.15 48.225-1.128Z" fill="#E6E2FF"></path>
+                                       <path fill-rule="evenodd" clip-rule="evenodd" d="M24.419 9a.8.8 0 0 0-1.6 0c0 .714-.123 1.782-.325 2.376a42.49 42.49 0 0 0-.652 2.12c-1.202.008-2.405.023-3.608.053a43.822 43.822 0 0 1-.721-1.813c-.311-.83-1.546-.91-1.879.005l-.702 1.933c-1.073.057-2.146.13-3.221.226-.507-1.55-1.012-3.062-1.4-3.989a.8.8 0 0 0-1.476.618c.335.8.776 2.105 1.245 3.534-.562.062-1.125.132-1.688.208a.8.8 0 0 0 .216 1.586c.66-.09 1.32-.17 1.98-.24.516 1.581 1.03 3.138 1.42 4.09l.001.003.014.045.014.049.042.14c.044.146.107.346.18.528.037.09.083.194.14.293.045.08.143.24.31.365a.869.869 0 0 0 1.019.03c.256-.172.357-.432.395-.539.407-1.141 1.237-3.433 1.95-5.4.378-.015.756-.03 1.135-.042a29.133 29.133 0 0 0 2.737 4.717c.057.082.133.176.23.259.095.08.257.191.482.225.56.085.855-.343.925-.46.088-.146.14-.31.165-.391l.037-.12c.013-.045.023-.078.038-.12.434-1.24.78-2.507 1.116-3.746l.03-.107.093-.345c.84-.003 1.683-.003 2.53-.003h.235a.8.8 0 0 0 0-1.6h-.282c-.679 0-1.358 0-2.036.002a37.39 37.39 0 0 1 .5-1.598c.28-.824.41-2.085.41-2.892ZM21.4 15.1c-.816.006-1.63.017-2.442.033.477.97 1.002 1.902 1.614 2.843.298-.93.558-1.881.821-2.852l.007-.025Zm-7.062.21c-.707.042-1.412.092-2.119.152a94.358 94.358 0 0 0 1 2.94c.338-.937.737-2.038 1.119-3.092Zm6.917 3.669-.002-.002.002.002Zm-7.47.989.001.002.004.007-.005-.01ZM28.777 29.93c-6.086-.104-12.15-.209-18.256-.044a.8.8 0 0 1-.043-1.6c6.13-.165 12.27-.06 18.39.046 3.807.065 7.606.13 11.391.13a13.773 13.773 0 0 1 .511.012c.162.005.303.008.437.004.272-.009.446-.046.57-.108a.8.8 0 1 1 .715 1.431c-.425.213-.868.265-1.236.276a8.85 8.85 0 0 1-.621-.007c-.135-.004-.256-.008-.376-.008-3.847 0-7.669-.066-11.482-.131ZM9.7 37.992a.8.8 0 0 1 .808-.792c3.905.04 7.842.173 11.767.307 2.992.102 5.978.203 8.938.263 2.96.059 5.976.122 8.965.406.492.046 1.105.11 1.68.302a.8.8 0 1 1-.507 1.518c-.38-.127-.823-.18-1.324-.228-2.92-.276-5.877-.34-8.846-.399-3.02-.06-6.015-.162-9.004-.264-3.893-.133-7.775-.265-11.685-.305a.8.8 0 0 1-.792-.808ZM10.2 46a.8.8 0 0 1 .8-.8h15a.8.8 0 0 1 0 1.6H11a.8.8 0 0 1-.8-.8Z" fill="#333334"></path>
+
+                                    </svg>
+                                    <p class="mt-[23px] font_body_regular_lg content_quaternary">펀딩 내역이 없습니다.</p>
+                                </div>
+
+                                <!--    페이지 이동  Button  -->
+                                <div class="col-span-full mx-auto mt-[40px] mb-[104px] flex justify-center">
+                                    <ul class="flex test7>">
+                                        <li>
+                                            <button type="button" class="w-[32px] h-[32px] flex items-center justify-center content_primary border rounded-full border_primary opacity-30" disabled style="border: 1px solid #ccc;">
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[16px] w-[16px]">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.58 3.27c.504.405.563 1.115.13 1.587L9.168 12l6.543 7.143a1.076 1.076 0 0 1-.13 1.586 1.26 1.26 0 0 1-1.695-.122L6 12l7.885-8.607a1.26 1.26 0 0 1 1.695-.122Z"></path>
+                                                </svg>
+                                            </button>
+                                        </li>
+
+                                        <li class="ml-[16px]">
+                                            <button type="button" class="w-[32px] h-[32px] rounded-full flex items-center justify-center content_primary surface_tertiary" style="border: 0px;">
+                                                <span class="content_primary font_label_bold_lg">1</span>
+                                            </button>
+                                        </li>
+
+                                        <li class="ml-[16px]">
+                                            <button type="button" class="w-[32px] h-[32px] flex items-center justify-center content_primary border rounded-full border_primary opacity-30" disabled style="border: 1px solid #ccc;">
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-[16px] w-[16px]">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.42 20.73a1.076 1.076 0 0 1-.13-1.587L14.832 12 8.289 4.857a1.076 1.076 0 0 1 .13-1.586 1.26 1.26 0 0 1 1.696.122L18 12l-7.885 8.607a1.26 1.26 0 0 1-1.695.122Z"></path>
+                                                </svg>
+                                            </button>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <!--   페이지 이동 Button End -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+</div>
+</body>
+
+</html>

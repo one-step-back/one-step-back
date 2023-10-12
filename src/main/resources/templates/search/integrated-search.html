@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원스텝 | 통합검색창</title>
+    <link rel="stylesheet" href="../../root.css">
+    <link rel="stylesheet" href="../../static/css/search/integrated-search.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="page-wrap">
+    <header style="height: 60px; width: 100%"></header>
+    <div class="sub-header-wrap">
+        <div class="web-grid sub-header-container">
+            <ul class="sub-header-navs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">게시글</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">영상</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">아티스트</a>
+                </li>
+            </ul>
+        </div>
+        <div class="fixed-info-container"></div>
+    </div>
+    <main class="mt48">
+        <div class="web-grid">
+            <div class="main-head-wrap">
+                <div class="main-head-container">
+                    <div class="head-dropdown" style="position: relative;">
+                        <div class="head-dropdown-status">
+                            <div class="orderby-status">최신순</div>
+                            <div class="orderby-status-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                    <path
+                                            d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="head-dropdown-menu">
+                            <a href="" class="dropdown-menu-a active">최신순</a>
+                            <a href="" class="dropdown-menu-a">조회수순</a>
+                            <a href="" class="dropdown-menu-a">좋아요순</a>
+                        </div>
+                    </div>
+                    <div class="head-filter">
+                        <button class="head-filter-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                                <path
+                                        d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z"/>
+                            </svg>
+                            필터
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content-container">
+                <div class="main-result-container">
+                    <div class="main-result-count-con">
+                        검색 결과&nbsp;
+                        <div id="result-count">54</div>
+                        개
+                    </div>
+                    <div class="result-article-wrap">
+                        <article class="article-container">
+                            <div class="post-category-container">
+                                <h5 class="post-category">카테고리</h5>
+                                <hr class="post-category-devider">
+                                <h5 class="post-category">음악</h5>
+                            </div>
+                            <div class="post">
+                                <div class="post-data">
+                                    <a href="#">
+                                        <h3 class="post-data-title">제목 테스트</h3>
+                                        <p class="post-data-content">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                            elit.
+                                            Quisque varius, ante et posuere bibendum, felis massa scelerisque enim, quis
+                                            imperdiet massa justo non lacus. Mauris posuere auctor lorem, vitae
+                                            pellentesque
+                                            dolor vehicula at. Aenean malesuada posuere erat, at condimentum nunc
+                                            aliquet ut.
+                                            Quisque euismod tristique turpis, nec aliquam urna laoreet a. Quisque
+                                            venenatis,
+                                            orci quis imperdiet vehicula, urna lacus commodo neque, vitae hendrerit
+                                            magna quam
+                                            ac odio. Integer convallis tristique varius. In sit amet neque tempor neque
+                                            auctor
+                                            maximus vel vitae lacus. Nunc sit amet viverra velit. Proin elit ex,
+                                            vestibulum et
+                                            turpis vel, consectetur hendrerit felis. Etiam rutrum tincidunt rutrum.
+                                            Phasellus
+                                            feugiat egestas varius. Lorem ipsum dolor sit amet, consectetur adipiscing
+                                            elit.
+                                            Phasellus aliquam magna augue, a gravida orci lacinia vulputate.
+                                        </p>
+                                        <div class="post-tags-container">
+                                            <a href="" class="post-tag">
+                                                <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                                          stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"/>
+                                                </svg>
+                                                테스트1
+                                            </a>
+                                            <a href="" class="post-tag">
+                                                <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                                          stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"/>
+                                                </svg>
+                                                테스트2
+                                            </a>
+                                            <a href="" class="post-tag">
+                                                <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                                          stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"/>
+                                                </svg>
+                                                테스트3
+                                            </a>
+                                            <a href="" class="post-tag">
+                                                <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                                          stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"/>
+                                                </svg>
+                                                테스트4
+                                            </a>
+                                            <a href="" class="post-tag">
+                                                <svg fill="none" height="12" viewBox="0 0 24 24" width="12"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="#4A5568"
+                                                          stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"/>
+                                                </svg>
+                                                테스트5
+                                            </a>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="post-thumbnail">
+                                    <a href="">
+                                        <img src="https://d3mcojo3jv0dbr.cloudfront.net/2022/12/09/17/59/437c724c608192b766f53e7b9f619753.png?w=144&amp;h=108&amp;q=65"
+                                             alt="2023 무드 차트">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="post-info">
+                                <a href="#" class="user-avatar-container">
+                                    <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                         class="no-avatar">
+                                </a>
+                                <div class="post-info-body">
+                                    <div class="post-nickname">
+                                        <a href="#">테스트 유저</a>
+                                    </div>
+                                    <div class="post-counters-container">
+                                        <span class="meta-item" title="조회수">
+                                            <i class="eye-pic" aria-label="조회수"></i>
+                                            <span class="stats-count">354</span>
+                                        </span>
+                                        <span class="meta-item" title="좋아요">
+                                            <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                                 version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                                 class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path
+                                                        d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                            </svg>
+                                            <span class="stats-count">128</span>
+                                        </span>
+                                        <time class="meta-item">2023.03.27</time>
+                                    </div>
+                                </div>
+                                <div class="post-action">
+                                    <div class="post-bookmark">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                             class="bookmark-icon disable-icon"
+                                             viewBox="0 0 384 512">
+                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                    d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                             class="bookmark-icon active"
+                                             viewBox="0 0 384 512">
+                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                    d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                        </svg>
+                                    </div>
+                                    <button class="post-dropdown">
+                                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="20px"
+                                             height="20px" style=" fill:rgba(0,0,0,.47)">
+                                            <path
+                                                    d="M 6 14 C 4.894531 14 4 14.894531 4 16 C 4 17.105469 4.894531 18 6 18 C 7.105469 18 8 17.105469 8 16 C 8 14.894531 7.105469 14 6 14 Z M 16 14 C 14.894531 14 14 14.894531 14 16 C 14 17.105469 14.894531 18 16 18 C 17.105469 18 18 17.105469 18 16 C 18 14.894531 17.105469 14 16 14 Z M 26 14 C 24.894531 14 24 14.894531 24 16 C 24 17.105469 24.894531 18 26 18 C 27.105469 18 28 17.105469 28 16 C 28 14.894531 27.105469 14 26 14 Z"/>
+                                        </svg>
+                                        <ul class="action-dropdown-container">
+                                            <li class="dropdown-action">
+                                                <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                                     class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                            d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                                </svg>
+                                                공유하기
+                                            </li>
+                                            <li class="dropdown-action">
+                                                <svg data-v-bd9f2bcc="" data-v-1fc573bf="" width="20" height="20"
+                                                     viewBox="0 0 16 16" fill="black" xmlns="http://www.w3.org/2000/svg"
+                                                     class="dropdown-action-icon" data-v-45a3e27e="">
+                                                    <path data-v-bd9f2bcc="" fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M12 6.5V11H4V6.5C4 4.29086 5.79086 2.5 8 2.5C10.2091 2.5 12 4.29086 12 6.5ZM3 11.2676V6.5C3 3.73858 5.23858 1.5 8 1.5C10.7614 1.5 13 3.73858 13 6.5V11.2676C13.5978 11.6134 14 12.2597 14 13V14C14 14.5523 13.5523 15 13 15H3C2.44772 15 2 14.5523 2 14V13C2 12.2597 2.4022 11.6134 3 11.2676ZM4 12C3.44772 12 3 12.4477 3 13L3 14H13V13C13 12.4477 12.5523 12 12 12H4Z">
+                                                    </path>
+                                                </svg>
+                                                이 게시글 신고하기
+                                            </li>
+                                        </ul>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="main-sidebar-container">
+                    <div class="sidebar-artists-title">숨겨진 다양한 아티스트들을 만나보세요.</div>
+                    <div class="sidebar-artist-wrap">
+                        <article class="artist-container">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                                <div class="artist-category">음악&nbsp;|&nbsp;피아노</div>
+                            </div>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </article>
+                        <article class="artist-container">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                                <div class="artist-category">음악&nbsp;|&nbsp;피아노</div>
+                            </div>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </article>
+                        <article class="artist-container">
+                            <a href="#" class="user-avatar-container">
+                                <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                     class="no-avatar">
+                            </a>
+                            <div class="artist-body">
+                                <a href="#">
+                                    <h3 class="artist-nickname">테스트 유저</h3>
+                                </a>
+                                <div class="artist-category">음악&nbsp;|&nbsp;피아노</div>
+                            </div>
+                            <button class="artist-subscription-btn">
+                              <span class="artist-subscription-span">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                        viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                                   </svg>
+                                 구독
+                              </span>
+                                <span class="active-text">구독중</span>
+                            </button>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="no-article-container">
+                <p style="margin: 0 auto;">검색결과가 없습니다.</p>
+            </div>
+        </div>
+        <div class="modal">
+            <div class="modal-margin">
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-header-title">필터</div>
+                        <button class="modal-close-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                 viewBox="0 0 384 512">
+                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-body-container">
+                            <p class="mobo-title">제외 키워드</p>
+                            <p class="mobo-subtitle">띄어 쓰기로 여러 개의 키워드를 구분할 수 있어요.</p>
+                            <input type="text" class="mobo-input">
+                        </div>
+                        <hr class="modal-body-divider">
+                        <div class="modal-body-container">
+                            <p class="mobo-title">검색 대상</p>
+                            <p class="mobo-subtitle">중복으로 선택할 수 있어요.</p>
+                            <div class="mobo-checkboxes">
+                                <div class="mobo-checkbox-container active">
+                                    <label>제목</label>
+                                </div>
+                                <div class="mobo-checkbox-container active">
+                                    <label>부제목</label>
+                                </div>
+                                <div class="mobo-checkbox-container">
+                                    <label>본문</label>
+                                </div>
+                                <div class="mobo-checkbox-container active">
+                                    <label>태그</label>
+                                </div>
+                                <div class="mobo-checkbox-container active">
+                                    <label>닉네임</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="mofo-reset-btn">초기화</button>
+                        <button class="mofo-filter-apply-btn">필터 적용</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../../static/js/search/integrated-search.js"></script>
+
+</html>

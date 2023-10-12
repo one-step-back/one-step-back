@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원스텝 | 내 보관함 / 영상</title>
+    <link rel="stylesheet" href="../../static/css/my-library/videos.css">
+    <link rel="stylesheet" href="../../../root.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+<div style="height: 100vh">
+    <header style="height: 60px; width: 100%"></header>
+    <div class="sub-header-wrap">
+        <div class="web-grid sub-header-container">
+            <ul class="sub-header-navs">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">게시글</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">영상</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <main class="mt60">
+        <div class="web-grid">
+            <div class="main-search-container">
+                <div class="main-search-bar">
+                    <span class="search-bar-icon">
+                        <svg data-v-bd9f2bcc="" data-v-02656bf6="" width="20" height="20" viewBox="0 0 24 24"
+                             fill="black" xmlns="http://www.w3.org/2000/svg" role="button" tabindex="1" size="medium"
+                             class="icon-search" style="fill: rgb(148, 155, 160);">
+                            <path data-v-bd9f2bcc="" fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M11 16C14.3137 16 17 13.3137 17 10C17 6.68629 14.3137 4 11 4C7.68629 4 5 6.68629 5 10C5 13.3137 7.68629 16 11 16ZM11 18C15.4183 18 19 14.4183 19 10C19 5.58172 15.4183 2 11 2C6.58172 2 3 5.58172 3 10C3 14.4183 6.58172 18 11 18Z">
+                            </path>
+                            <path data-v-bd9f2bcc="" fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M15.2929 15.2929C15.6834 14.9024 16.3166 14.9024 16.7071 15.2929L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.2929 16.7071C14.9024 16.3166 14.9024 15.6834 15.2929 15.2929Z">
+                            </path>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-bar-input" placeholder="키워드를 입력해주세요">
+                    <button class="search-bar-input-erase-btn">
+                        <svg data-v-bd9f2bcc="" data-v-02656bf6="" width="16" height="16" viewBox="0 0 16 16"
+                             fill="black" xmlns="http://www.w3.org/2000/svg" size="medium" role="button" tabindex="2"
+                             class="erase-all" style="fill: rgb(207, 212, 215);">
+                            <path data-v-bd9f2bcc="" fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8ZM5.39645 5.39645C5.59171 5.20118 5.90829 5.20118 6.10355 5.39645L8 7.29289L9.89645 5.39645C10.0917 5.20118 10.4083 5.20118 10.6036 5.39645C10.7988 5.59171 10.7988 5.90829 10.6036 6.10355L8.70711 8L10.6036 9.89645C10.7988 10.0917 10.7988 10.4083 10.6036 10.6036C10.4083 10.7988 10.0917 10.7988 9.89645 10.6036L8 8.70711L6.10355 10.6036C5.90829 10.7988 5.59171 10.7988 5.39645 10.6036C5.20118 10.4083 5.20118 10.0917 5.39645 9.89645L7.29289 8L5.39645 6.10355C5.20118 5.90829 5.20118 5.59171 5.39645 5.39645Z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="videos-wrap">
+                <article class="video-article">
+                    <div class="video-thumbnail-container">
+                        <a href="#">
+                            <img
+                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/21/03/34/a5269b15507075496632717578.png?w=640&amp;h=384&amp;q=65">
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <a href="#" class="user-avatar-container">
+                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                 class="no-avatar">
+                        </a>
+                        <div class="video-info-body">
+                            <h3 class="video-title">동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트
+                                제목</h3>
+                            <div class="video-nickname">
+                                <a href="#">테스트 유저</a>
+                            </div>
+                            <div class="video-counters-container">
+                                    <span class="meta-item" title="조회수">
+                                        <i class="eye-pic" aria-label="조회수" style="top: 3px;"></i>
+                                        <span class="stats-count">354</span>
+                                    </span>
+                                <span class="meta-item" title="좋아요">
+                                        <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                             version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                             class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path
+                                                    d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                        </svg>
+                                        <span class="stats-count">128</span>
+                                    </span>
+                                <time class="meta-item">2023.03.27</time>
+                            </div>
+                            <button class="video-action-btn">
+                                <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"
+                                     focusable="false"
+                                     style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                                    <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                    </path>
+                                </svg>
+                                <ul class="action-dropdown-container">
+                                    <li class="dropdown-action">
+                                        <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                    d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                        </svg>
+                                        공유하기
+                                    </li>
+                                    <li class="dropdown-action">
+                                        <svg viewBox="0 0 256 256" height="20px" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <rect fill="none" height="256" width="256"/>
+                                            <path
+                                                    d="M139.3,128l66.4-66.3a8.1,8.1,0,0,0-11.4-11.4L128,116.7,61.7,50.3A8.1,8.1,0,0,0,50.3,61.7L116.7,128,50.3,194.3a8.1,8.1,0,0,0,0,11.4,8.2,8.2,0,0,0,11.4,0L128,139.3l66.3,66.4a8.2,8.2,0,0,0,11.4,0,8.1,8.1,0,0,0,0-11.4Z"/>
+                                        </svg>
+                                        보관함에서 제거하기
+                                    </li>
+                                </ul>
+                            </button>
+                            <button class="video-bookmark-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                     class="bookmark-icon disable-icon"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="bookmark-icon active"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                <article class="video-article">
+                    <div class="video-thumbnail-container">
+                        <a href="#">
+                            <img
+                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/21/03/34/a5269b15507075496632717578.png?w=640&amp;h=384&amp;q=65">
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <a href="#" class="user-avatar-container">
+                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                 class="no-avatar">
+                        </a>
+                        <div class="video-info-body">
+                            <h3 class="video-title">동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트
+                                제목</h3>
+                            <div class="video-nickname">
+                                <a href="#">테스트 유저</a>
+                            </div>
+                            <div class="video-counters-container">
+                                    <span class="meta-item" title="조회수">
+                                        <i class="eye-pic" aria-label="조회수" style="top: 3px;"></i>
+                                        <span class="stats-count">354</span>
+                                    </span>
+                                <span class="meta-item" title="좋아요">
+                                        <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                             version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                             class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path
+                                                    d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                        </svg>
+                                        <span class="stats-count">128</span>
+                                    </span>
+                                <time class="meta-item">2023.03.27</time>
+                            </div>
+                            <button class="video-action-btn">
+                                <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"
+                                     focusable="false"
+                                     style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                                    <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                    </path>
+                                </svg>
+                                <ul class="action-dropdown-container">
+                                    <li class="dropdown-action">
+                                        <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                    d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                        </svg>
+                                        공유하기
+                                    </li>
+                                    <li class="dropdown-action">
+                                        <svg viewBox="0 0 256 256" height="20px" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <rect fill="none" height="256" width="256"/>
+                                            <path
+                                                    d="M139.3,128l66.4-66.3a8.1,8.1,0,0,0-11.4-11.4L128,116.7,61.7,50.3A8.1,8.1,0,0,0,50.3,61.7L116.7,128,50.3,194.3a8.1,8.1,0,0,0,0,11.4,8.2,8.2,0,0,0,11.4,0L128,139.3l66.3,66.4a8.2,8.2,0,0,0,11.4,0,8.1,8.1,0,0,0,0-11.4Z"/>
+                                        </svg>
+                                        보관함에서 제거하기
+                                    </li>
+                                </ul>
+                            </button>
+                            <button class="video-bookmark-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                     class="bookmark-icon disable-icon"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="bookmark-icon active"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                <article class="video-article">
+                    <div class="video-thumbnail-container">
+                        <a href="#">
+                            <img
+                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/21/03/34/a5269b15507075496632717578.png?w=640&amp;h=384&amp;q=65">
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <a href="#" class="user-avatar-container">
+                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                 class="no-avatar">
+                        </a>
+                        <div class="video-info-body">
+                            <h3 class="video-title">동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트
+                                제목</h3>
+                            <div class="video-nickname">
+                                <a href="#">테스트 유저</a>
+                            </div>
+                            <div class="video-counters-container">
+                                    <span class="meta-item" title="조회수">
+                                        <i class="eye-pic" aria-label="조회수" style="top: 3px;"></i>
+                                        <span class="stats-count">354</span>
+                                    </span>
+                                <span class="meta-item" title="좋아요">
+                                        <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                             version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                             class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path
+                                                    d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                        </svg>
+                                        <span class="stats-count">128</span>
+                                    </span>
+                                <time class="meta-item">2023.03.27</time>
+                            </div>
+                            <button class="video-action-btn">
+                                <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"
+                                     focusable="false"
+                                     style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                                    <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                    </path>
+                                </svg>
+                                <ul class="action-dropdown-container">
+                                    <li class="dropdown-action">
+                                        <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                    d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                        </svg>
+                                        공유하기
+                                    </li>
+                                    <li class="dropdown-action">
+                                        <svg viewBox="0 0 256 256" height="20px" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <rect fill="none" height="256" width="256"/>
+                                            <path
+                                                    d="M139.3,128l66.4-66.3a8.1,8.1,0,0,0-11.4-11.4L128,116.7,61.7,50.3A8.1,8.1,0,0,0,50.3,61.7L116.7,128,50.3,194.3a8.1,8.1,0,0,0,0,11.4,8.2,8.2,0,0,0,11.4,0L128,139.3l66.3,66.4a8.2,8.2,0,0,0,11.4,0,8.1,8.1,0,0,0,0-11.4Z"/>
+                                        </svg>
+                                        보관함에서 제거하기
+                                    </li>
+                                </ul>
+                            </button>
+                            <button class="video-bookmark-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                     class="bookmark-icon disable-icon"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="bookmark-icon active"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                <article class="video-article">
+                    <div class="video-thumbnail-container">
+                        <a href="#">
+                            <img
+                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/21/03/34/a5269b15507075496632717578.png?w=640&amp;h=384&amp;q=65">
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <a href="#" class="user-avatar-container">
+                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                 class="no-avatar">
+                        </a>
+                        <div class="video-info-body">
+                            <h3 class="video-title">동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트
+                                제목</h3>
+                            <div class="video-nickname">
+                                <a href="#">테스트 유저</a>
+                            </div>
+                            <div class="video-counters-container">
+                                    <span class="meta-item" title="조회수">
+                                        <i class="eye-pic" aria-label="조회수" style="top: 3px;"></i>
+                                        <span class="stats-count">354</span>
+                                    </span>
+                                <span class="meta-item" title="좋아요">
+                                        <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                             version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                             class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path
+                                                    d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                        </svg>
+                                        <span class="stats-count">128</span>
+                                    </span>
+                                <time class="meta-item">2023.03.27</time>
+                            </div>
+                            <button class="video-action-btn">
+                                <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"
+                                     focusable="false"
+                                     style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                                    <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                    </path>
+                                </svg>
+                                <ul class="action-dropdown-container">
+                                    <li class="dropdown-action">
+                                        <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                    d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                        </svg>
+                                        공유하기
+                                    </li>
+                                    <li class="dropdown-action">
+                                        <svg viewBox="0 0 256 256" height="20px" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <rect fill="none" height="256" width="256"/>
+                                            <path
+                                                    d="M139.3,128l66.4-66.3a8.1,8.1,0,0,0-11.4-11.4L128,116.7,61.7,50.3A8.1,8.1,0,0,0,50.3,61.7L116.7,128,50.3,194.3a8.1,8.1,0,0,0,0,11.4,8.2,8.2,0,0,0,11.4,0L128,139.3l66.3,66.4a8.2,8.2,0,0,0,11.4,0,8.1,8.1,0,0,0,0-11.4Z"/>
+                                        </svg>
+                                        보관함에서 제거하기
+                                    </li>
+                                </ul>
+                            </button>
+                            <button class="video-bookmark-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                     class="bookmark-icon disable-icon"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="bookmark-icon active"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                <article class="video-article">
+                    <div class="video-thumbnail-container">
+                        <a href="#">
+                            <img
+                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/21/03/34/a5269b15507075496632717578.png?w=640&amp;h=384&amp;q=65">
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <a href="#" class="user-avatar-container">
+                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                 class="no-avatar">
+                        </a>
+                        <div class="video-info-body">
+                            <h3 class="video-title">동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트
+                                제목</h3>
+                            <div class="video-nickname">
+                                <a href="#">테스트 유저</a>
+                            </div>
+                            <div class="video-counters-container">
+                                    <span class="meta-item" title="조회수">
+                                        <i class="eye-pic" aria-label="조회수" style="top: 3px;"></i>
+                                        <span class="stats-count">354</span>
+                                    </span>
+                                <span class="meta-item" title="좋아요">
+                                        <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                             version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                             class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path
+                                                    d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                        </svg>
+                                        <span class="stats-count">128</span>
+                                    </span>
+                                <time class="meta-item">2023.03.27</time>
+                            </div>
+                            <button class="video-action-btn">
+                                <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"
+                                     focusable="false"
+                                     style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                                    <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                    </path>
+                                </svg>
+                                <ul class="action-dropdown-container">
+                                    <li class="dropdown-action">
+                                        <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                    d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                        </svg>
+                                        공유하기
+                                    </li>
+                                    <li class="dropdown-action">
+                                        <svg viewBox="0 0 256 256" height="20px" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <rect fill="none" height="256" width="256"/>
+                                            <path
+                                                    d="M139.3,128l66.4-66.3a8.1,8.1,0,0,0-11.4-11.4L128,116.7,61.7,50.3A8.1,8.1,0,0,0,50.3,61.7L116.7,128,50.3,194.3a8.1,8.1,0,0,0,0,11.4,8.2,8.2,0,0,0,11.4,0L128,139.3l66.3,66.4a8.2,8.2,0,0,0,11.4,0,8.1,8.1,0,0,0,0-11.4Z"/>
+                                        </svg>
+                                        보관함에서 제거하기
+                                    </li>
+                                </ul>
+                            </button>
+                            <button class="video-bookmark-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                     class="bookmark-icon disable-icon"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="bookmark-icon active"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                <article class="video-article">
+                    <div class="video-thumbnail-container">
+                        <a href="#">
+                            <img
+                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/21/03/34/a5269b15507075496632717578.png?w=640&amp;h=384&amp;q=65">
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <a href="#" class="user-avatar-container">
+                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                 class="no-avatar">
+                        </a>
+                        <div class="video-info-body">
+                            <h3 class="video-title">동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트 제목 동영상 테스트
+                                제목</h3>
+                            <div class="video-nickname">
+                                <a href="#">테스트 유저</a>
+                            </div>
+                            <div class="video-counters-container">
+                                    <span class="meta-item" title="조회수">
+                                        <i class="eye-pic" aria-label="조회수" style="top: 3px;"></i>
+                                        <span class="stats-count">354</span>
+                                    </span>
+                                <span class="meta-item" title="좋아요">
+                                        <svg height="15px" id="Layer_1" style="enable-background:new 0 0 512 512;"
+                                             version="1.1" viewBox="0 0 512 512" width="15px" xml:space="preserve"
+                                             class="heart-pic" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path
+                                                    d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/>
+                                        </svg>
+                                        <span class="stats-count">128</span>
+                                    </span>
+                                <time class="meta-item">2023.03.27</time>
+                            </div>
+                            <button class="video-action-btn">
+                                <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"
+                                     focusable="false"
+                                     style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                                    <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                    </path>
+                                </svg>
+                                <ul class="action-dropdown-container">
+                                    <li class="dropdown-action">
+                                        <svg height="20px" viewBox="0 0 512 512" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                    d="M384,336a63.78,63.78,0,0,0-46.12,19.7l-148-83.27a63.85,63.85,0,0,0,0-32.86l148-83.27a63.8,63.8,0,1,0-15.73-27.87l-148,83.27a64,64,0,1,0,0,88.6l148,83.27A64,64,0,1,0,384,336Z"/>
+                                        </svg>
+                                        공유하기
+                                    </li>
+                                    <li class="dropdown-action">
+                                        <svg viewBox="0 0 256 256" height="20px" width="20px"
+                                             class="dropdown-action-icon" xmlns="http://www.w3.org/2000/svg">
+                                            <rect fill="none" height="256" width="256"/>
+                                            <path
+                                                    d="M139.3,128l66.4-66.3a8.1,8.1,0,0,0-11.4-11.4L128,116.7,61.7,50.3A8.1,8.1,0,0,0,50.3,61.7L116.7,128,50.3,194.3a8.1,8.1,0,0,0,0,11.4,8.2,8.2,0,0,0,11.4,0L128,139.3l66.3,66.4a8.2,8.2,0,0,0,11.4,0,8.1,8.1,0,0,0,0-11.4Z"/>
+                                        </svg>
+                                        보관함에서 제거하기
+                                    </li>
+                                </ul>
+                            </button>
+                            <button class="video-bookmark-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                     class="bookmark-icon disable-icon"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="bookmark-icon active"
+                                     viewBox="0 0 384 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                            d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="no-article-container">
+            <p style="margin: 0 auto;">보관함 내 게시글이 없습니다.</p>
+        </div>
+    </main>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../../static/js/my-library/videos.js"></script>
+
+</html>
