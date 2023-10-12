@@ -645,6 +645,18 @@ button, input, optgroup, select, textarea {
     font-family: inherit;
 }
 
+#embed-url {
+    height: 40px;
+    line-height: 26px;
+    padding: 5px 12px;
+    color: inherit;
+    border-color: #ccc;
+    border-radius: 4px;
+    position: fixed;
+    right: 10vw;
+    width: 30vw;
+}
+
 input[type=checkbox], input[type=radio] {
     box-sizing: border-box;
     padding: 0;
