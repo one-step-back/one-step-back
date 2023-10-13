@@ -12,14 +12,14 @@ public interface MemberMapper {
     //    회원가입 - 이메일
     public void insert(MemberVO memberVO);
 
+    //    이메일로 계정 조회
+    public Optional<MemberVO> selectByEmail(String memberEmail);
+
     //    카카오 계정 추가 - 로그인
     public void insertKakao(MemberVO memberVO);
 
-    //    계정정보 조회
+    //    ID로 계정 조회
     public MemberVO selectById(Long id);
-
-    //    카카오 계정 이메일로 조회 - 로그인
-    public Optional<MemberVO> selectByEmail(String memberEmail);
 
     //    유저 복귀(MEMBER_STATUS = 'ACTIVE')
     public void updateToActive(Long id);

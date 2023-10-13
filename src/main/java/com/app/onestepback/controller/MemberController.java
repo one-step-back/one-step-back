@@ -1,6 +1,7 @@
 package com.app.onestepback.controller;
 
 import com.app.onestepback.domain.MemberVO;
+import com.app.onestepback.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @RequestMapping("/member/*")
 public class MemberController {
+    private final MemberService memberService;
 
     // 로그인 페이지로 이동
     @GetMapping("login")
@@ -31,9 +33,11 @@ public class MemberController {
     @GetMapping("join")
     public void goToJoinForm(MemberVO memberVO){;}
 
+    // 회원가입
     @PostMapping("join")
-    public RedirectView join(MemberVO memberVO, HttpSession session){
-
+    public RedirectView join(MemberVO memberVO){
+        memberService.join(memberVO);
+        return new RedirectView("/member/login");
     }
 
     // 로그아웃
