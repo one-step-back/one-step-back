@@ -13,5 +13,7 @@ public interface MemberService {
     //    이메일로 계정 조회
     public Optional<MemberVO> findAccount(String memberEmail);
 
+    //    이메일로 로그인
+    public Optional<MemberVO> loginByEmail(String memberEmail, String memberPassword);
 
 }

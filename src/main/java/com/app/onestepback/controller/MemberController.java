@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +30,16 @@ public class MemberController {
     // 이메일 로그인 페이지로 이동
     @GetMapping("login-email")
     public void goToLoginEmailForm(MemberVO memberVO){;}
+    @PostMapping("login-email")
+    public RedirectView login(String memberEmail, String memberPassword, HttpSession session, RedirectAttributes redirectAttributes){
+        final Optional<MemberVO> foundMember = memberService.loginByEmail(memberEmail, memberPassword);
+        if(foundMember.isPresent()){
+            session.setAttribute("member", foundMember.get());
+            return new RedirectView("/");
+        }
+        redirectAttributes.addFlashAttribute("login", "fail");
+        return new RedirectView("/member/login");
+    }
 
     // 회원가입 페이지로 이동
     @GetMapping("join")
