@@ -10,39 +10,43 @@
     <script src="/js/main/main.js"></script>
 </head>
 <body>
-    <header th:fragment="header" class="header slide-left pool-header" role="banner">
+<header th:fragment="header" class="header slide-left pool-header" role="banner">
     <nav class="navbar navbar-expand-lg primary-nav">
         <div class="container pool">
             <div class="d-flex align-items-center">
-                <a class="one-step-logo" href="main.html">
-                    <span class="text-hide logo-img-dark">OneStep</span>
+                <a class="one-step-logo" href="/">
+                    <img style="width: 120px" src="/images/header-logo.png">
                 </a>
                 <div class="navbar-brand d-none d-md-flex index-navbar-brand ">
                     <div class="nav-item">
-                        <a class="nav-link text-alpha-black-47 active" href="main.html">홈</a>
+                        <a class="nav-link text-alpha-black-47" href="/"
+                           th:classappend="${currentPage == 'home'} ? 'active' : ''">홈</a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link text-alpha-black-47" href="./Namho/my-artist/my-artist.html">마이 아티스트</a>
+                        <a class="nav-link text-alpha-black-47" href=""
+                           th:classappend="${currentPage == 'home'} ? 'active' : ''">마이 아티스트</a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link text-alpha-black-47" href="./Namho/mylibrary/mylibrary.html">보관함</a>
+                        <a class="nav-link text-alpha-black-47" href=""
+                           th:classappend="${currentPage == 'home'} ? 'active' : ''">보관함</a>
                     </div>
                 </div>
             </div>
             <div class="m-nav">
-                <a class="btn btn-icon navbar-toggler" id="search-toggler" href="#" aria-expanded="false">
-                    <i class="fas fa-search fa-lg"></i>
-                </a>
-                <a id="login-btn-click" class="btn btn-secondary" href="">
-                    로그인
-                </a>
-                <a id="sign-up-btn-click" class="btn btn-primary" href="">
-                    회원가입
-                </a>
-                <button class="btn btn-icon user-menu-toggle" id="user-menu-toggle" type="button"
-                        aria-controls="user-menu" aria-expanded="false" aria-label="내비게이션 보기/감추기">
-                    <div class="user-avatar-sm mr-0"></div>
-                </button>
+                <th:block th:if="${session.member == null}">
+                    <a id="login-btn-click" class="btn btn-secondary" href="">
+                        로그인
+                    </a>
+                    <a id="sign-up-btn-click" class="btn btn-primary" href="">
+                        회원가입
+                    </a>
+                </th:block>
+                <th:block th:unless="${session.member == null}">
+                    <button class="btn btn-icon user-menu-toggle" id="user-menu-toggle" type="button"
+                            aria-controls="user-menu" aria-expanded="false" aria-label="내비게이션 보기/감추기">
+                        <div class="user-avatar-sm mr-0"></div>
+                    </button>
+                </th:block>
             </div>
             <div class="navbar-collapse justify-content-lg-end logged-user" id="search-collapse">
                 <form class="search-form form-inline" id="search" role="search" action="/search">
