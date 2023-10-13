@@ -15,6 +15,9 @@ public interface MemberMapper {
     //    이메일로 계정 조회
     public Optional<MemberVO> selectByEmail(String memberEmail);
 
+    //    이메일 로그인
+    public Optional<MemberVO> selectByEmailAndPassword(String memberEmail, String memberPassword);
+
     //    카카오 계정 추가 - 로그인
     public void insertKakao(MemberVO memberVO);
 

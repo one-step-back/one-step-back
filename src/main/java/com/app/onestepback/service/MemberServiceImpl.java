@@ -28,6 +28,11 @@ public class MemberServiceImpl implements MemberService{
         return memberDAO.findByEmail(memberEmail);
     }
 
+    //    이메일로 로그인
+    @Override
+    public Optional<MemberVO> loginByEmail(String memberEmail, String memberPassword) {
+        return memberDAO.loginByEmail(memberEmail, memberPassword);
+    }
 
 
 }

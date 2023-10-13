@@ -22,4 +22,9 @@ public class MemberDAO {
         return memberMapper.selectByEmail(memberEmail);
     }
 
+    //    이메일로 로그인
+    public Optional<MemberVO> loginByEmail(String memberEmail, String memberPassword) {
+        return memberMapper.selectByEmailAndPassword(memberEmail, memberPassword);
+    }
+
 }
