@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,8 +22,19 @@ public class MemberController {
         ;
     }
 
-    @GetMapping("join")
-    public void goToJoinForm(){;}
+    // 이메일 로그인 페이지로 이동
+    @GetMapping("login-email")
+    public void goToLoginEmailForm(MemberVO memberVO){;}
 
+    // 회원가입 페이지로 이동
+    @GetMapping("join")
+    public void goToJoinForm(MemberVO memberVO){;}
+
+    // 로그아웃
+    @GetMapping("logout")
+    public RedirectView logout(HttpSession session) {
+        session.invalidate();
+        return new RedirectView("/member/login");
+    }
 
 }
