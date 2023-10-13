@@ -3,7 +3,7 @@ $(function (){
         $(".h-user-menu-popover").toggleClass("active");
     })
 
-    $("button.h-nav-item").click(function (){
+    $(".h-nav-item.bell").click(function (){
         $(".h-notification-popover-container").toggleClass("active");
     })
 })

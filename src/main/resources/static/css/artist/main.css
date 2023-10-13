@@ -342,6 +342,7 @@ button, input, optgroup, select, textarea {
 
 .user-profile .profile-img {
     border-radius: 50%!important;
+    background-color: #E4E4E4;
 }
 
 .media-body {
