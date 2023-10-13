@@ -6,17 +6,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
 public class MemberServiceImpl implements MemberService{
-
     private final MemberDAO memberDAO;
 
     //    회원가입 - 이메일
     @Override
     public void join(MemberVO memberVO) {
-        memberDAO.enroll(memberVO);
+        if (findAccount(memberVO.getMemberEmail()).isEmpty()) {
+            memberDAO.enroll(memberVO);
+        }
     }
+
+    //    이메일로 계정 조회
+    @Override
+    public Optional<MemberVO> findAccount(String memberEmail) {
+        return memberDAO.findByEmail(memberEmail);
+    }
+
+
 
 }
