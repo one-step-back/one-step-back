@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class ArtistPostReply {
+public class ArtistPostReplyVO {
     private Long id;
     private Long artistPostId;
     private Long memberId;
