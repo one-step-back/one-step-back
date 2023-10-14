@@ -34,5 +34,10 @@ public class MemberServiceImpl implements MemberService{
         return memberDAO.loginByEmail(memberEmail, memberPassword);
     }
 
+    @Override
+    public MemberVO bringMemberInfo(Long id) {
+        return memberDAO.getSelectId(id);
+    }
+
 
 }

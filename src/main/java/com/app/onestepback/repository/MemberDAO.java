@@ -27,4 +27,9 @@ public class MemberDAO {
         return memberMapper.selectByEmailAndPassword(memberEmail, memberPassword);
     }
 
+//    아이디로 계정 조회
+    public MemberVO getSelectId(Long id){
+        return memberMapper.selectById(id);
+    }
+
 }

@@ -16,4 +16,7 @@ public interface MemberService {
     //    이메일로 로그인
     public Optional<MemberVO> loginByEmail(String memberEmail, String memberPassword);
 
+    public MemberVO bringMemberInfo(Long id);
+
+
 }
