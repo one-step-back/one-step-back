@@ -11,8 +11,8 @@ public class MemberVO {
     private String memberPassword;
     private String memberNickname;
     private String memberKakaoProfileUrl;
-    private String memberImgName;
-    private String memberImgPath;
+    private String memberProfileName;
+    private String memberProfilePath;
     private Long memberPaymentTotal; //디폴트 = 0
     private String memberCreateTime;
     private String memberUpdateTime;

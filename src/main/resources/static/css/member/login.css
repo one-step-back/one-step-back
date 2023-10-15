@@ -252,13 +252,13 @@ a:not([href]):not([tabindex]) {
     border-color: #ccc;
     font-size: 15px;
     border-radius: 4px;
-    padding: 11px 20px;
+    padding: 12px 12px;
     font-weight: 600;
     margin-top: 12px;
 }
 
 .icon-wrapper{
-    margin-right: 1rem!important;
+    margin-right: 5.6rem!important;
     font-size: 20px;
     text-align: center;
     border-radius: 4px;
@@ -284,6 +284,8 @@ a:not([href]):not([tabindex]) {
 
 .media-body{
     flex: 1;
+    font-size: 16px;
+    color: darkslategray;
 }
 
 .brand-icon-email{
