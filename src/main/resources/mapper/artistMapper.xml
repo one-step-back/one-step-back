@@ -9,6 +9,7 @@
            M.MEMBER_IMG_PATH,
            M.MEMBER_STATUS,
            A.ARTIST_BLOG_NAME,
+           A.ARTIST_DESCRIPTION,
            A.BLOG_IMG_NAME,
            A.BLOG_IMG_PATH
     FROM TBL_MEMBER M

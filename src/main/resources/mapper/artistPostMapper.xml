@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.mapper.ArtistPostMapper">
+    <select id="selectCountOfPost" resultType="int">
+        SELECT COUNT(MEMBER_ID)
+        FROM TBL_ARTIST_POST
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="select3Posts" resultType="artistPostDTO">
+        SELECT *
+        FROM (SELECT P.ID,
+                     P.MEMBER_ID,
+                     P.POST_TITLE,
+                     P.POST_SUBTITLE,
+                     P.POST_CONTENT,
+                     P.POST_VIEW_COUNT,
+                     P.POST_IMG_NAME,
+                     P.POST_IMG_PATH,
+                     P.POST_WRITE_TIME,
+                     M.MEMBER_NICKNAME,
+                     M.MEMBER_KAKAO_PROFILE_URL,
+                     M.MEMBER_IMG_NAME,
+                     M.MEMBER_IMG_PATH,
+                     (
+                        SELECT COUNT(L.ARTIST_POST_ID)
+                        FROM TBL_LIKE_ARTIST_POST L
+                        WHERE L.ARTIST_POST_ID = P.ID
+                     ) AS LIKE_COUNT
+              FROM TBL_ARTIST_POST P
+                       JOIN TBL_MEMBER M ON P.MEMBER_ID = M.ID
+              WHERE P.MEMBER_ID = #{memberId}
+              ORDER BY P.POST_WRITE_TIME DESC)
+        WHERE ROWNUM &lt;= 3
+    </select>
+</mapper>

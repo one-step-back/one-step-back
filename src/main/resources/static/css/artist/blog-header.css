@@ -20,22 +20,19 @@ header {
 }
 
 #h-logo {
-    padding: 5px;
     display: block;
     position: relative;
     width: 40px;
     min-width: 40px;
     height: 40px;
+    overflow: hidden;
+    border-radius: 5px;
 }
 
-#h-logo:before {
-    background: url("https://d33pksfia2a94m.cloudfront.net/assets/img/postype/logo_black.svg") no-repeat center;
-    background-size: contain;
-    content: "";
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
+#h-logo img{
+    width: 40px;
+    height: 40px;
+
 }
 
 .h-actions-container {

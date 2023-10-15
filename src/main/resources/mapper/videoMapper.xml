@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.mapper.VideoMapper">
+    <select id="selectCountOfVideo" resultType="int">
+        SELECT COUNT(MEMBER_ID)
+        FROM TBL_VIDEO
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="select3Videos" resultType="videoDTO">
+        SELECT *
+        FROM (SELECT V.ID,
+                     V.MEMBER_ID,
+                     V.VIDEO_TITLE,
+                     V.VIDEO_CONTENT,
+                     V.VIDEO_LINK,
+                     V.VIDEO_VIEW_COUNT,
+                     V.VIDEO_WRITE_TIME,
+                     M.MEMBER_NICKNAME,
+                     M.MEMBER_KAKAO_PROFILE_URL,
+                     M.MEMBER_IMG_NAME,
+                     M.MEMBER_IMG_PATH,
+                     (
+                         SELECT COUNT(L.VIDEO_ID)
+                         FROM TBL_LIKE_VIDEO L
+                         WHERE L.VIDEO_ID = V.ID
+                     ) AS LIKE_COUNT,
+                     (
+                         SELECT COUNT(R.VIDEO_ID)
+                         FROM TBL_VIDEO_REPLY R
+                         WHERE R.VIDEO_ID = V.ID
+                     ) AS REPLY_COUNT
+              FROM TBL_VIDEO V
+                       JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
+              WHERE V.MEMBER_ID = #{memberId}
+              ORDER BY V.VIDEO_WRITE_TIME DESC)
+        WHERE ROWNUM &lt;= 3
+    </select>
+</mapper>
