@@ -19,6 +19,7 @@ public class ArtistDTO {
     private String memberUpdateTime;
 
     private String artistBlogName;
+    private String artistDescription;
     private String blogImgName;
     private String blogImgPath;
     private String artistCreateTime;

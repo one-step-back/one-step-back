@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>원스텝 - 아티스트 페이지</title>
+    <link rel="icon" href="/images/icon.svg">
     <link rel="stylesheet" href="/css/main/root.css">
     <link rel="stylesheet" href="/css/artist/blog-header.css">
     <link rel="stylesheet" href="/css/artist/main.css">
-    <script src="/js/artist/main.js"></script>
     <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -36,7 +36,8 @@
                             <span class="active-text">구독중</span>
                         </button>
                     </div>
-                    <span class="channel-meta">구독자 <span class="count">4,568</span>명 · 포스트 <span class="count">14</span>개</span>
+                    <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
+                            class="count" id="postCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
                             <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.id})}"></a>
@@ -78,7 +79,7 @@
                     <div class="sticky-top">
                         <section class="ch-home-author-bio">
                             <div class="ch-section-header">
-                                <h4>크리에이터 소개</h4>
+                                <h4>아티스트</h4>
                             </div>
                             <div class="section-body">
                                 <div class="author-bio">
@@ -89,17 +90,13 @@
                                                  src="/images/none-avatar.svg">
                                         </a>
                                         <div class="media-body profile-title-box">
-                                <span class="profile-title">
-                                    <a href=" https://www.postype.com/profile/@8q8la4" rel="author"></a>
-                                </span>
+                                            <span class="profile-title">
+                                                <a th:text="${artist.memberNickname}"
+                                                   href=" https://www.postype.com/profile/@8q8la4" rel="author"></a>
+                                            </span>
                                         </div>
                                     </div>
-                                    <p class="text-alpha-black-60 mb-0">linkon.id/utwp_</p>
-                                    <a class="author-message btn-send-message" data-user-profile-id="4643808"
-                                       data-message-user-id="" href="#" data-toggle="modal" data-target="#conversation">
-                                        <i class="far fa-sm fa-envelope mr-2"></i>
-                                        메시지 쓰기
-                                    </a>
+                                    <p th:text="${artist.artistDescription}" class="text-alpha-black-60 mb-0"></p>
                                 </div>
                             </div>
                         </section>
@@ -119,568 +116,7 @@
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
-                        <div class="article-list post-list channel-home-post-list">
-                            <div class="component-post list">
-                                <div>
-                                    <div class="series">
-                                        <h5 class="text-truncate text-alpha-black-54"><a
-                                                href="https://u-t-wp.postype.com/series/925516/강좌">강좌</a></h5>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-data">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <h3 class="ellipsis-2 text-color-black"></h3>
-                                                <div class="ellipsis-2 text-alpha-black-47">
-                                                    <h4>기초부터 심화까지, 나만의 스타일을 찾아주는 드로잉 워크북</h4>
-                                                    <div class="divider"></div>
-                                                    <p>안녕하세요, 우천시워터파크입니다. (〃´-`〃)♡ 오랜만에 인사 드리네요. 건강한 여름 보내셨나요? 저는 여름동안
-                                                        디지털 드로잉 워크북을 제작하여, 여러분께 기쁜 마음으로 소개드리고자 찾아뵈었어요 🎉 제 드로잉 워크북은 이런
-                                                        분들께 추천드려요! 👉 데포르메로 매력적이고 맛깔나게 캐릭터를 그리는 방법이 궁금하신 분 👉 알기 쉬운 이론부터
-                                                        실습북까지 탄탄한 강...</p>
-                                                </div>
-                                            </a>
-                                            <div class="post-tags">
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클래스"
-                                                   class="general-tag">클래스</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=드로잉"
-                                                   class="general-tag">드로잉</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=미디어"
-                                                   class="general-tag">미디어</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클립스튜디오"
-                                                   class="general-tag">클립스튜디오</a>
-                                            </div>
-                                        </div>
-                                        <div class="post-data-thumbnail">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                     alt="우천시워터파크 드로잉 워크북 출시">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="post-info">
-                                        <a class="user-profile-avatar avatar-32"
-                                           href="https://www.postype.com/profile/@8q8la4">
-                                            <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/04/19/22/36/455ce559e81e88acc801b0e025f0107a.png?w=64&amp;h=64&amp;q=65"
-                                                 alt="우천시워터파크">
-                                        </a>
-                                        <div class="post-info-body">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">우천시워터파크</a>
-                                            </div>
-                                            <div class="post-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">523</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">23</span>
-                                                </span>
-                                                <time class="meta-item">1일 전</time>
-                                            </div>
-                                        </div>
-                                        <div class="post-action">
-                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
-                                                <i class="far fa-bookmark default-text"></i>
-                                                <i class="fas fa-bookmark active-text"></i>
-                                            </a>
-                                            <div class="dropdown">
-                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
-                                                        title="더보기">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                    <li>
-                                                        <a class="btn-open-add-collection-modal"
-                                                           href="javascript:void(0);" data-post-id="15313057">
-                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                 alt="" class="ic-add-collection">
-                                                            컬렉션에 추가하기 </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-share" href="#"
-                                                           data-share-url="https://posty.pe/fj428q"
-                                                           data-blog-title="우천시워터파크"
-                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                            <span class="order-2">공유하기</span>
-                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-report-post" href="#"
-                                                           data-toggle="modal" data-target="#report-modal"
-                                                           data-post-id="15313057">
-                                                            <span class="order-2">신고하기</span>
-                                                            <i class="far fa-flag"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-block-blog" href="#"
-                                                           data-blog-id="1287845">
-                                                            <span class="order-2">이 채널 보지 않기</span>
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-post-divider"></div>
-                            <div class="component-post list">
-                                <div>
-                                    <div class="series">
-                                        <h5 class="text-truncate text-alpha-black-54"><a
-                                                href="https://u-t-wp.postype.com/series/925516/강좌">강좌</a></h5>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-data">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <h3 class="ellipsis-2 text-color-black">우천시워터파크 드로잉 워크북 출시</h3>
-                                                <div class="ellipsis-2 text-alpha-black-47">
-                                                    <h4>기초부터 심화까지, 나만의 스타일을 찾아주는 드로잉 워크북</h4>
-                                                    <div class="divider"></div>
-                                                    <p>안녕하세요, 우천시워터파크입니다. (〃´-`〃)♡ 오랜만에 인사 드리네요. 건강한 여름 보내셨나요? 저는 여름동안
-                                                        디지털 드로잉 워크북을 제작하여, 여러분께 기쁜 마음으로 소개드리고자 찾아뵈었어요 🎉 제 드로잉 워크북은 이런
-                                                        분들께 추천드려요! 👉 데포르메로 매력적이고 맛깔나게 캐릭터를 그리는 방법이 궁금하신 분 👉 알기 쉬운 이론부터
-                                                        실습북까지 탄탄한 강...</p>
-                                                </div>
-                                            </a>
-                                            <div class="post-tags">
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클래스"
-                                                   class="general-tag">클래스</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=드로잉"
-                                                   class="general-tag">드로잉</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=미디어"
-                                                   class="general-tag">미디어</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클립스튜디오"
-                                                   class="general-tag">클립스튜디오</a>
-                                            </div>
-                                        </div>
-                                        <div class="post-data-thumbnail">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                     alt="우천시워터파크 드로잉 워크북 출시">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="post-info">
-                                        <a class="user-profile-avatar avatar-32"
-                                           href="https://www.postype.com/profile/@8q8la4">
-                                            <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/04/19/22/36/455ce559e81e88acc801b0e025f0107a.png?w=64&amp;h=64&amp;q=65"
-                                                 alt="우천시워터파크">
-                                        </a>
-                                        <div class="post-info-body">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">우천시워터파크</a>
-                                            </div>
-                                            <div class="post-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">523</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">23</span>
-                                                </span>
-                                                <time class="meta-item">1일 전</time>
-                                            </div>
-                                        </div>
-                                        <div class="post-action">
-                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
-                                                <i class="far fa-bookmark default-text"></i>
-                                                <i class="fas fa-bookmark active-text"></i>
-                                            </a>
-                                            <div class="dropdown">
-                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
-                                                        title="더보기">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                    <li>
-                                                        <a class="btn-open-add-collection-modal"
-                                                           href="javascript:void(0);" data-post-id="15313057">
-                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                 alt="" class="ic-add-collection">
-                                                            컬렉션에 추가하기 </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-share" href="#"
-                                                           data-share-url="https://posty.pe/fj428q"
-                                                           data-blog-title="우천시워터파크"
-                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                            <span class="order-2">공유하기</span>
-                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-report-post" href="#"
-                                                           data-toggle="modal" data-target="#report-modal"
-                                                           data-post-id="15313057">
-                                                            <span class="order-2">신고하기</span>
-                                                            <i class="far fa-flag"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-block-blog" href="#"
-                                                           data-blog-id="1287845">
-                                                            <span class="order-2">이 채널 보지 않기</span>
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-post-divider"></div>
-                            <div class="component-post list">
-                                <div>
-                                    <div class="series">
-                                        <h5 class="text-truncate text-alpha-black-54"><a
-                                                href="https://u-t-wp.postype.com/series/925516/강좌">강좌</a></h5>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-data">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <h3 class="ellipsis-2 text-color-black">우천시워터파크 드로잉 워크북 출시</h3>
-                                                <div class="ellipsis-2 text-alpha-black-47">
-                                                    <h4>기초부터 심화까지, 나만의 스타일을 찾아주는 드로잉 워크북</h4>
-                                                    <div class="divider"></div>
-                                                    <p>안녕하세요, 우천시워터파크입니다. (〃´-`〃)♡ 오랜만에 인사 드리네요. 건강한 여름 보내셨나요? 저는 여름동안
-                                                        디지털 드로잉 워크북을 제작하여, 여러분께 기쁜 마음으로 소개드리고자 찾아뵈었어요 🎉 제 드로잉 워크북은 이런
-                                                        분들께 추천드려요! 👉 데포르메로 매력적이고 맛깔나게 캐릭터를 그리는 방법이 궁금하신 분 👉 알기 쉬운 이론부터
-                                                        실습북까지 탄탄한 강...</p>
-                                                </div>
-                                            </a>
-                                            <div class="post-tags">
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클래스"
-                                                   class="general-tag">클래스</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=드로잉"
-                                                   class="general-tag">드로잉</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=미디어"
-                                                   class="general-tag">미디어</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클립스튜디오"
-                                                   class="general-tag">클립스튜디오</a>
-                                            </div>
-                                        </div>
-                                        <div class="post-data-thumbnail">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                     alt="우천시워터파크 드로잉 워크북 출시">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="post-info">
-                                        <a class="user-profile-avatar avatar-32"
-                                           href="https://www.postype.com/profile/@8q8la4">
-                                            <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/04/19/22/36/455ce559e81e88acc801b0e025f0107a.png?w=64&amp;h=64&amp;q=65"
-                                                 alt="우천시워터파크">
-                                        </a>
-                                        <div class="post-info-body">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">우천시워터파크</a>
-                                            </div>
-                                            <div class="post-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">523</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">23</span>
-                                                </span>
-                                                <time class="meta-item">1일 전</time>
-                                            </div>
-                                        </div>
-                                        <div class="post-action">
-                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
-                                                <i class="far fa-bookmark default-text"></i>
-                                                <i class="fas fa-bookmark active-text"></i>
-                                            </a>
-                                            <div class="dropdown">
-                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
-                                                        title="더보기">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                    <li>
-                                                        <a class="btn-open-add-collection-modal"
-                                                           href="javascript:void(0);" data-post-id="15313057">
-                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                 alt="" class="ic-add-collection">
-                                                            컬렉션에 추가하기 </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-share" href="#"
-                                                           data-share-url="https://posty.pe/fj428q"
-                                                           data-blog-title="우천시워터파크"
-                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                            <span class="order-2">공유하기</span>
-                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-report-post" href="#"
-                                                           data-toggle="modal" data-target="#report-modal"
-                                                           data-post-id="15313057">
-                                                            <span class="order-2">신고하기</span>
-                                                            <i class="far fa-flag"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-block-blog" href="#"
-                                                           data-blog-id="1287845">
-                                                            <span class="order-2">이 채널 보지 않기</span>
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-post-divider"></div>
-                            <div class="component-post list">
-                                <div>
-                                    <div class="series">
-                                        <h5 class="text-truncate text-alpha-black-54"><a
-                                                href="https://u-t-wp.postype.com/series/925516/강좌">강좌</a></h5>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-data">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <h3 class="ellipsis-2 text-color-black">우천시워터파크 드로잉 워크북 출시</h3>
-                                                <div class="ellipsis-2 text-alpha-black-47">
-                                                    <h4>기초부터 심화까지, 나만의 스타일을 찾아주는 드로잉 워크북</h4>
-                                                    <div class="divider"></div>
-                                                    <p>안녕하세요, 우천시워터파크입니다. (〃´-`〃)♡ 오랜만에 인사 드리네요. 건강한 여름 보내셨나요? 저는 여름동안
-                                                        디지털 드로잉 워크북을 제작하여, 여러분께 기쁜 마음으로 소개드리고자 찾아뵈었어요 🎉 제 드로잉 워크북은 이런
-                                                        분들께 추천드려요! 👉 데포르메로 매력적이고 맛깔나게 캐릭터를 그리는 방법이 궁금하신 분 👉 알기 쉬운 이론부터
-                                                        실습북까지 탄탄한 강...</p>
-                                                </div>
-                                            </a>
-                                            <div class="post-tags">
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클래스"
-                                                   class="general-tag">클래스</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=드로잉"
-                                                   class="general-tag">드로잉</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=미디어"
-                                                   class="general-tag">미디어</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클립스튜디오"
-                                                   class="general-tag">클립스튜디오</a>
-                                            </div>
-                                        </div>
-                                        <div class="post-data-thumbnail">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                     alt="우천시워터파크 드로잉 워크북 출시">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="post-info">
-                                        <a class="user-profile-avatar avatar-32"
-                                           href="https://www.postype.com/profile/@8q8la4">
-                                            <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/04/19/22/36/455ce559e81e88acc801b0e025f0107a.png?w=64&amp;h=64&amp;q=65"
-                                                 alt="우천시워터파크">
-                                        </a>
-                                        <div class="post-info-body">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">우천시워터파크</a>
-                                            </div>
-                                            <div class="post-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">523</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">23</span>
-                                                </span>
-                                                <time class="meta-item">1일 전</time>
-                                            </div>
-                                        </div>
-                                        <div class="post-action">
-                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
-                                                <i class="far fa-bookmark default-text"></i>
-                                                <i class="fas fa-bookmark active-text"></i>
-                                            </a>
-                                            <div class="dropdown">
-                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
-                                                        title="더보기">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                    <li>
-                                                        <a class="btn-open-add-collection-modal"
-                                                           href="javascript:void(0);" data-post-id="15313057">
-                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                 alt="" class="ic-add-collection">
-                                                            컬렉션에 추가하기 </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-share" href="#"
-                                                           data-share-url="https://posty.pe/fj428q"
-                                                           data-blog-title="우천시워터파크"
-                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                            <span class="order-2">공유하기</span>
-                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-report-post" href="#"
-                                                           data-toggle="modal" data-target="#report-modal"
-                                                           data-post-id="15313057">
-                                                            <span class="order-2">신고하기</span>
-                                                            <i class="far fa-flag"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-block-blog" href="#"
-                                                           data-blog-id="1287845">
-                                                            <span class="order-2">이 채널 보지 않기</span>
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-post-divider"></div>
-                            <div class="component-post list">
-                                <div>
-                                    <div class="series">
-                                        <h5 class="text-truncate text-alpha-black-54"><a
-                                                href="https://u-t-wp.postype.com/series/925516/강좌">강좌</a></h5>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-data">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <h3 class="ellipsis-2 text-color-black">우천시워터파크 드로잉 워크북 출시</h3>
-                                                <div class="ellipsis-2 text-alpha-black-47">
-                                                    <h4>기초부터 심화까지, 나만의 스타일을 찾아주는 드로잉 워크북</h4>
-                                                    <div class="divider"></div>
-                                                    <p>안녕하세요, 우천시워터파크입니다. (〃´-`〃)♡ 오랜만에 인사 드리네요. 건강한 여름 보내셨나요? 저는 여름동안
-                                                        디지털 드로잉 워크북을 제작하여, 여러분께 기쁜 마음으로 소개드리고자 찾아뵈었어요 🎉 제 드로잉 워크북은 이런
-                                                        분들께 추천드려요! 👉 데포르메로 매력적이고 맛깔나게 캐릭터를 그리는 방법이 궁금하신 분 👉 알기 쉬운 이론부터
-                                                        실습북까지 탄탄한 강...</p>
-                                                </div>
-                                            </a>
-                                            <div class="post-tags">
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클래스"
-                                                   class="general-tag">클래스</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=드로잉"
-                                                   class="general-tag">드로잉</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=미디어"
-                                                   class="general-tag">미디어</a>
-                                                <a href="https://www.postype.com/search?options_tags=1&amp;keyword=클립스튜디오"
-                                                   class="general-tag">클립스튜디오</a>
-                                            </div>
-                                        </div>
-                                        <div class="post-data-thumbnail">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                     alt="우천시워터파크 드로잉 워크북 출시">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="post-info">
-                                        <a class="user-profile-avatar avatar-32"
-                                           href="https://www.postype.com/profile/@8q8la4">
-                                            <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/04/19/22/36/455ce559e81e88acc801b0e025f0107a.png?w=64&amp;h=64&amp;q=65"
-                                                 alt="우천시워터파크">
-                                        </a>
-                                        <div class="post-info-body">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">우천시워터파크</a>
-                                            </div>
-                                            <div class="post-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">523</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">23</span>
-                                                </span>
-                                                <time class="meta-item">1일 전</time>
-                                            </div>
-                                        </div>
-                                        <div class="post-action">
-                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
-                                                <i class="far fa-bookmark default-text"></i>
-                                                <i class="fas fa-bookmark active-text"></i>
-                                            </a>
-                                            <div class="dropdown">
-                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
-                                                        title="더보기">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                    <li>
-                                                        <a class="btn-open-add-collection-modal"
-                                                           href="javascript:void(0);" data-post-id="15313057">
-                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                 alt="" class="ic-add-collection">
-                                                            컬렉션에 추가하기 </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-share" href="#"
-                                                           data-share-url="https://posty.pe/fj428q"
-                                                           data-blog-title="우천시워터파크"
-                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                            <span class="order-2">공유하기</span>
-                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-report-post" href="#"
-                                                           data-toggle="modal" data-target="#report-modal"
-                                                           data-post-id="15313057">
-                                                            <span class="order-2">신고하기</span>
-                                                            <i class="far fa-flag"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-block-blog" href="#"
-                                                           data-blog-id="1287845">
-                                                            <span class="order-2">이 채널 보지 않기</span>
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-post-divider"></div>
-                        </div>
+                        <div id="posts-container" class="article-list post-list channel-home-post-list"></div>
                         <div class="ch-section-footer">
                             <a href="/posts" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
@@ -695,58 +131,7 @@
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
-                        <div class="article-list series-list channel-home-series-list">
-                            <div class="component-series list">
-                                <div class="series-data-thumbnail">
-                                    <a href="https://u-t-wp.postype.com/series/925516/강좌">
-                                        <img src="https://d3mcojo3jv0dbr.cloudfront.net/2022/03/21/23/13/cf3b6c1183264479423761602.png?w=180&amp;h=240&amp;q=65"
-                                             alt="강좌">
-                                    </a>
-                                </div>
-                                <div class="series">
-                                    <div class="series-inner">
-                                        <h3 class="text-truncate"><a href="https://u-t-wp.postype.com/series/925516/강좌">강좌</a>
-                                        </h3>
-                                        <div class="series-meta-wrapper">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a class="text-color-black"
-                                                   href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">우천시워터파크</a>
-                                            </div>
-                                            <div class="series-meta text-alpha-black-47">
-                    <span class="meta-item">
-                                                    <span class="meta-status">연재</span>
-                                                <span class="meta-status"><span
-                                                        class="series-meta-slash">/</span> 14화</span>
-                    </span>
-                                                <span class="meta-item" title="조회수"><i class="ic ic-eye"
-                                                                                       aria-label="조회수"></i> <span
-                                                        class="stats-count">19만</span> </span>
-                                                <span class="meta-item" title="좋아요"><i class="far fa-heart"
-                                                                                       aria-label="좋아요"></i> <span
-                                                        class="stats-count">8.3천</span> </span>
-                                                <span class="meta-item" title="댓글"><i class="far fa-comment-dots"
-                                                                                      aria-label="좋아요"></i> <span
-                                                        class="stats-count">23</span> </span>
-                                            </div>
-                                        </div>
-                                        <p class="ellipsis-2"><a href="https://u-t-wp.postype.com/series/925516/강좌">드로잉
-                                            지식과 강좌를 업로드 합니다. 클래스 : https://fanding.kr/user/utwaterpark</a></p>
-                                    </div>
-                                    <div class="series-tags">
-                                        <a href="https://www.postype.com/search/series?options_tags=1&amp;keyword=클래스"
-                                           class="general-tag">클래스</a>
-                                        <a href="https://www.postype.com/search/series?options_tags=1&amp;keyword=드로잉"
-                                           class="general-tag">드로잉</a>
-                                        <a href="https://www.postype.com/search/series?options_tags=1&amp;keyword=미디어"
-                                           class="general-tag">미디어</a>
-                                        <a href="https://www.postype.com/search/series?options_tags=1&amp;keyword=클립스튜디오"
-                                           class="general-tag">클립스튜디오</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-series-divider"></div>
-                        </div>
+                        <div id="videos-container" class="article-list series-list channel-home-series-list"></div>
                         <div class="ch-section-footer">
                             <a href="/series" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
@@ -758,72 +143,6 @@
         </div>
     </main>
 </div>
-<!--<form class="modal show" id="create-post-form" tabindex="-1" action="https://zzang9sisterzzanga.postype.com/" style="display: block;">-->
-<!--    <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header pb-0">-->
-<!--                <h5 class="modal-title">새 포스트 쓰기</h5>-->
-<!--                <button type="button" class="btn btn-icon btn-close" data-dismiss="modal" aria-label="닫기">-->
-<!--                    <i class="fas fa-times"></i>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <div>-->
-<!--                    <ul class="choose-editor">-->
-<!--                        <a class="btn-create-normal-post" data-blog-id="1607714" href="https://www.postype.com/edit?type=normal" aria-label="새 포스트 쓰기" title="새 포스트 쓰기">-->
-<!--                            <div class="d-flex">-->
-<!--                                <div class="btn"><div class="post-basic-icon"></div></div>-->
-<!--                                <div>-->
-<!--                                    <h4>기본<span> 포스트</span></h4>-->
-<!--                                    <p>자유로운 창작이 가능한 기본 포스트</p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                        <a class="btn-create-cartoon-post" data-blog-id="1607714" href="https://www.postype.com/edit?type=cartoon" aria-label="새 카툰 포스트 쓰기" title="새 카툰 포스트 쓰기">-->
-<!--                            <div class="d-flex">-->
-<!--                                <div class="btn"><div class="post-cartoon-icon"></div></div>-->
-<!--                                <div>-->
-<!--                                    <h4>카툰<span> 포스트</span> <span class="badge badge-sm badge-primary">beta</span></h4>-->
-<!--                                    <p>한 컷씩 넘겨보는 카툰 포스트</p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                        <a disabled="" class="btn-create-video" data-blog-id="1607714" href="https://www.postype.com/edit?type=video" aria-label="새 비디오 포스트 쓰기" title="새 비디오 포스트 쓰기">-->
-<!--                            <div class="d-flex">-->
-<!--                                <div class="btn">-->
-<!--                                    <i class="fas fa-video ml-1"></i>-->
-<!--                                </div>-->
-<!--                                <div>-->
-<!--                                    <h4>동영상<span> 포스트</span> <span class="badge badge-sm badge-primary">beta</span></h4>-->
-<!--                                    <p>직접 만든 영상을 올리는 동영상 포스트</p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                        <a class="btn-create-goods disabled" data-blog-id="1607714" href="#" aria-label="새 상품 등록하기" title="새 상품 등록하기" aria-disabled="true">-->
-<!--                            <div class="d-flex">-->
-<!--                                <div class="btn"><div class="post-goods-icon"></div></div>-->
-<!--                                <div>-->
-<!--                                    <h4>스토어<span> 상품</span> <span class="badge badge-sm badge-primary">beta</span></h4>-->
-<!--                                    <p>소장본, 굿즈 등 실물 상품을 판매하는 스토어</p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--                <div class="drafts-wrapper">-->
-<!--                    <a class="align-items-center drafts-blog-title" href="https://studio.postype.com/zzang9sisterzzanga/posts/drafts">-->
-<!--                        <h4 class="h6 d-inline mb-0">임시저장글</h4>-->
-<!--                        <i class="fas fa-angle-right"></i>-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--                <div class="content">-->
-<!--                    <div class="draft-list"><div style="padding:20px;color:#aaa;" class="text-center" id="no-drafts">포스트가 없습니다.</div></div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</form>-->
-<!--<div class="modal-backdrop show"></div>-->
 </body>
 <script th:inline="javascript">
     const artist = /*[[${artist}]]*/ null;
@@ -832,5 +151,310 @@
 </script>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    // Ajax 공부겸 fetch 기능 작성함
+
+    // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
+    function getCounts(artistId) {
+        $.ajax({
+            type: "GET",
+            url: "/artist/get-counts?id=" + artistId,
+            success: function (data) {
+                console.log(data[0])
+                console.log(data[1])
+                $("#subscriberCount").text(data[0]);
+                $("#postCount").text(data[1]);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+
+    }
+
+    // 포스트 로드 쿼리
+    function loadPosts(artistId) {
+        $.ajax({
+            type: "GET",
+            url: "/artist/get-3posts?id=" + artistId,
+            success: function (data) {
+                let postsContainer = $("#posts-container");
+                postsContainer.empty(); // 이전 포스트를 모두 지웁니다.
+
+                data.forEach(function (post) {
+                    console.log(post);
+
+                    let postHtml = `
+                            <div class="component-post list">
+                                <div>
+                                    <div class="post">
+                                        <div class="post-data">
+                                            <a href="/artist/post/detail?id=${post.id}">
+                                                <h3 class="ellipsis-2 text-color-black"></h3>
+                                                <div class="ellipsis-2 text-alpha-black-47">
+                                                    <h3 class="ellipsis-2 text-color-black">${post.postTitle}</h3>
+                                                    <h4>${post.postSubtitle}</h4>
+                                                    <div class="divider"></div>
+                                                    <p class="post-content">${post.postContent}</p>
+                                                </div>
+                                            </a>
+                                            ${post.tag1 !== null ? `
+                                            <div class="post-tags">
+                                                ${post.tag1 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag1}</a>
+                                                ` : ''}
+                                                ${post.tag2 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag2}</a>
+                                                ` : ''}
+                                                ${post.tag3 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag3}</a>
+                                                ` : ''}
+                                                ${post.tag4 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag4}</a>
+                                                ` : ''}
+                                                ${post.tag5 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag5}</a>
+                                                ` : ''}
+                                            </div>
+                                            ` : ''}
+                                        </div>
+                                        ${post.postImgName !== null ? `
+                                        <div class="post-data-thumbnail">
+                                            <a href="https://u-t-wp.postype.com/post/15313057">
+                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
+                                                     alt="우천시워터파크 드로잉 워크북 출시">
+                                            </a>
+                                        </div>
+                                        ` : ''}
+                                    </div>
+                                    <div class="post-info">
+                                        <a class="user-profile-avatar avatar-32"
+                                           href="https://www.postype.com/profile/@8q8la4">
+                                            <img src="/images/none-avatar.svg">
+                                        </a>
+                                        <div class="post-info-body">
+                                            <div class="user-profile-nickname text-truncate">
+                                                <a href="https://www.postype.com/profile/@8q8la4"
+                                                   rel="author">${post.memberNickname}</a>
+                                            </div>
+                                            <div class="post-meta text-alpha-black-47">
+                                                <span class="meta-item" title="조회수">
+                                                    <i class="ic ic-eye" aria-label="조회수"></i>
+                                                    <span class="stats-count">${post.postViewCount}</span>
+                                                </span>
+                                                <span class="meta-item" title="좋아요">
+                                                    <i class="far fa-heart" aria-label="좋아요"></i>
+                                                    <span class="stats-count">${post.likeCount}</span>
+                                                </span>
+                                                <time class="meta-item">${getTimeGap(post.postWriteTime)}</time>
+                                            </div>
+                                        </div>
+                                        <div class="post-action">
+                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
+                                                <i class="far fa-bookmark default-text"></i>
+                                                <i class="fas fa-bookmark active-text"></i>
+                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
+                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
+                                                        title="더보기">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
+                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
+                                                    <li>
+                                                        <a class="btn-open-add-collection-modal"
+                                                           href="javascript:void(0);" data-post-id="15313057">
+                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
+                                                                 alt="" class="ic-add-collection">
+                                                            컬렉션에 추가하기 </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item btn-share" href="#"
+                                                           data-share-url="https://posty.pe/fj428q"
+                                                           data-blog-title="우천시워터파크"
+                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
+                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
+                                                            <span class="order-2">공유하기</span>
+                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item btn-report-post" href="#"
+                                                           data-toggle="modal" data-target="#report-modal"
+                                                           data-post-id="15313057">
+                                                            <span class="order-2">신고하기</span>
+                                                            <i class="far fa-flag"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item btn-block-blog" href="#"
+                                                           data-blog-id="1287845">
+                                                            <span class="order-2">이 채널 보지 않기</span>
+                                                            <i class="fas fa-ban"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-post-divider"></div>`;
+                    postsContainer.append(postHtml);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // 비디오 로드 쿼리
+    function loadVideos(artistId) {
+        $.ajax({
+            type: "GET",
+            url: "/artist/get-3videos?id=" + artistId,
+            success: function (data) {
+                let videosContainer = $("#videos-container");
+                videosContainer.empty(); // 이전 포스트를 모두 지웁니다.
+
+                data.forEach(function (video) {
+                    console.log(video);
+                    let youtubeLink = `${video.videoLink}`;
+                    let thumbnailUrl = getYouTubeThumbnailUrl(youtubeLink);
+
+                    let videoHtml = `<div class="component-series list">
+                                <div class="series-data-thumbnail">
+                                    <a href="#">
+                                        <img src="${thumbnailUrl}">
+                                    </a>
+                                </div>
+                                <div class="series">
+                                    <div class="series-inner">
+                                        <h3 class="text-truncate"><a href="https://u-t-wp.postype.com/series/925516/강좌">${video.videoTitle}</a>
+                                        </h3>
+                                        <div class="series-meta-wrapper">
+                                            <div class="user-profile-nickname text-truncate">
+                                                <a class="text-color-black"
+                                                   href="https://www.postype.com/profile/@8q8la4"
+                                                   rel="author">${video.memberNickname}</a>
+                                            </div>
+                                            <div class="series-meta text-alpha-black-47">
+                                                <span class="meta-item" title="조회수">
+                                                    <i class="ic ic-eye" aria-label="조회수"></i>
+                                                    <span class="stats-count">${video.videoViewCount}</span>
+                                                </span>
+                                                <span class="meta-item" title="좋아요">
+                                                    <i class="far fa-heart" aria-label="좋아요"></i>
+                                                    <span class="stats-count">${video.likeCount}</span>
+                                                </span>
+                                                <span class="meta-item" title="댓글">
+                                                    <i class="far fa-comment-dots"></i>
+                                                    <span class="stats-count">${video.replyCount}</span>
+                                                </span>
+                                                <time class="meta-item">${getTimeGap(video.videoWriteTime)}</time>
+                                            </div>
+                                        </div>
+                                        <p class="ellipsis-2">
+                                            <a href="https://u-t-wp.postype.com/series/925516/강좌">${video.videoContent}</a>
+                                        </p>
+                                    </div>
+                                    ${video.tag1 !== null ? `
+                                    <div class="series-tags">
+                                        ${video.tag1 !== null ? `
+                                            <a href="#"
+                                               class="general-tag">#${video.tag1}</a>
+                                            ` : ''}
+                                            ${video.tag2 !== null ? `
+                                            <a href="#"
+                                               class="general-tag">#${video.tag2}</a>
+                                            ` : ''}
+                                            ${video.tag3 !== null ? `
+                                            <a href="#"
+                                               class="general-tag">#${video.tag3}</a>
+                                            ` : ''}
+                                            ${video.tag4 !== null ? `
+                                            <a href="#"
+                                               class="general-tag">#${video.tag4}</a>
+                                            ` : ''}
+                                            ${video.tag5 !== null ? `
+                                            <a href="#"
+                                               class="general-tag">#${video.tag5}</a>
+                                        ` : ''}
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <div class="component-series-divider"></div>`;
+                    videosContainer.append(videoHtml);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // 유튜브 링크를 통해 썸네일을 가져오는 함수
+    function getYouTubeThumbnailUrl(youtubeLink) {
+        // YouTube 비디오 ID 추출
+        let videoId = youtubeLink.match(/v=([^&]+)/);
+        if (videoId) {
+            return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
+        }
+        return null; // 유효한 YouTube 비디오 ID가 없는 경우
+    }
+
+    // 시간차이 계산 함수
+    function getTimeGap(datetime) {
+        const today = new Date();
+        const date = new Date(datetime);
+        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+
+        if (gap < 1) {
+            return "방금 전";
+        }
+
+        if (gap < 60) {
+            return `${gap}분 전`;
+        }
+
+        gap = Math.floor(gap / 60);
+
+        if (gap < 24) {
+            return `${gap}시간 전`;
+        }
+
+        gap = Math.floor(gap / 24);
+
+        if (gap < 32) {
+            return `${gap}일 전`;
+        }
+
+        gap = Math.floor(gap / 31);
+
+        if (gap < 13) {
+            return `${gap}개월 전`;
+        }
+
+        gap = Math.floor(gap / 12);
+
+        return `${gap}년 전`;
+    }
+
+    // 페이지 로드시 비동기 불러옴
+    $(document).ready(function () {
+        getCounts([[${artist.id}]]);
+        loadPosts([[${artist.id}]]);
+        loadVideos([[${artist.id}]]);
+    })
+</script>
 <script src="/js/artist/blog-header.js"></script>
+<script src="/js/artist/main.js"></script>
 </html>

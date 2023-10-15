@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class ArtistPostTagVO {
-    private Long artistPostId;
-    private String postTagName;
+public class SubscriptionVO {
+    private Long artistId;
+    private Long memberId;
 }
