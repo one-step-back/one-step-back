@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.onestepback.mapper.MemberMapper">
+    <insert id="insert">
+        INSERT INTO TBL_MEMBER (ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NICKNAME, MEMBER_CREATE_TIME)
+        VALUES (SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPassword}, #{memberNickname}, CURRENT_TIMESTAMP)
+    </insert>
 
+    <select id="selectById" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_IMG_NAME, MEMBER_IMG_PATH, MEMBER_PAYMENT_TOTAL, MEMBER_CREATE_TIME, MEMBER_UPDATE_TIME, MEMBER_INTRODUCTION, MEMBER_STATUS
+        FROM TBL_MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectByEmail" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_IMG_NAME, MEMBER_IMG_PATH, MEMBER_PAYMENT_TOTAL, MEMBER_CREATE_TIME, MEMBER_UPDATE_TIME, MEMBER_INTRODUCTION, MEMBER_STATUS
+        FROM TBL_MEMBER
+        WHERE MEMBER_EMAIL = #{memberEmail}
+    </select>
+
+    <select id="selectByEmailAndPassword" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_IMG_NAME, MEMBER_IMG_PATH, MEMBER_PAYMENT_TOTAL, MEMBER_CREATE_TIME, MEMBER_UPDATE_TIME, MEMBER_INTRODUCTION, MEMBER_STATUS
+        FROM TBL_MEMBER
+        WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_PASSWORD = #{memberPassword}
+    </select>
+
+    <update id="updateToActive">
+        UPDATE TBL_MEMBER
+        SET MEMBER_STATUS = 'ACTIVE', MEMBER_UPDATE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateToDelete">
+        UPDATE TBL_MEMBER
+        SET MEMBER_STATUS = 'DISABLE', MEMBER_UPDATE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
+
+<!--    <delete id="delete">-->
+<!--    </delete>-->
 </mapper>

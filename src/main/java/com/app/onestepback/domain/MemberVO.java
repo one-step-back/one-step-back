@@ -9,12 +9,13 @@ public class MemberVO {
     private Long id;
     private String memberEmail;
     private String memberPassword;
-    private String memberStatus; //디폴트 = "ACTIVE"
     private String memberNickname;
     private String memberKakaoProfileUrl;
     private String memberImgName;
     private String memberImgPath;
-    private Long memberAmountMoney; //디폴트 = 0
+    private Long memberPaymentTotal; //디폴트 = 0
     private String memberCreateTime;
     private String memberUpdateTime;
+    private String memberIntroduction;
+    private String memberStatus; //디폴트 = "ACTIVE"
 }
