@@ -12,8 +12,8 @@ public class ArtistDTO {
     private String memberStatus; //디폴트 = "ACTIVE"
     private String memberNickname;
     private String memberKakaoProfileUrl;
-    private String memberImgName;
-    private String memberImgPath;
+    private String memberProfileName;
+    private String memberProfilePath;
     private Long memberAmountMoney; //디폴트 = 0
     private String memberCreateTime;
     private String memberUpdateTime;

@@ -20,8 +20,8 @@
                      P.POST_WRITE_TIME,
                      M.MEMBER_NICKNAME,
                      M.MEMBER_KAKAO_PROFILE_URL,
-                     M.MEMBER_IMG_NAME,
-                     M.MEMBER_IMG_PATH,
+                     M.MEMBER_PROFILE_NAME,
+                     M.MEMBER_PROFILE_PATH,
                      (
                         SELECT COUNT(L.ARTIST_POST_ID)
                         FROM TBL_LIKE_ARTIST_POST L
