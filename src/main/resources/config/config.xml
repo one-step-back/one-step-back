@@ -22,7 +22,6 @@
         <typeAlias type="com.app.onestepback.domain.LikeVideoVO" alias="likeVideoVO"/>
         <typeAlias type="com.app.onestepback.domain.MemberVO" alias="memberVO"/>
         <typeAlias type="com.app.onestepback.domain.VideoReplyVO" alias="videoReplyVO"/>
-        <typeAlias type="com.app.onestepback.domain.VideoTagVO" alias="videoTagVO"/>
         <typeAlias type="com.app.onestepback.domain.VideoVO" alias="videoVO"/>
         <typeAlias type="com.app.onestepback.domain.ArtistDTO" alias="artistDTO"/>
         <typeAlias type="com.app.onestepback.domain.ArtistPostDTO" alias="artistPostDTO"/>
