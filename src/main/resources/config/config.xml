@@ -2,27 +2,25 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias type="com.app.onestepback.domain.ArtistPostFileVO" alias="artistPostFileVO"/>
-        <typeAlias type="com.app.onestepback.domain.ArtistPostReplyVO" alias="artistPostReplyVO"/>
-        <typeAlias type="com.app.onestepback.domain.ArtistPostTagVO" alias="artistPostTagVO"/>
         <typeAlias type="com.app.onestepback.domain.ArtistPostVO" alias="artistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.ArtistVO" alias="artistVO"/>
-        <typeAlias type="com.app.onestepback.domain.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>
+        <typeAlias type="com.app.onestepback.domain.BookmarkedPostVO" alias="bookmarkedPostVO"/>
         <typeAlias type="com.app.onestepback.domain.BookmarkedVideoVO" alias="bookmarkedVideoVO"/>
-        <typeAlias type="com.app.onestepback.domain.CommunityPostFileVO" alias="communityPostFileVO"/>
-        <typeAlias type="com.app.onestepback.domain.CommunityPostReplyVO" alias="communityPostReplyVO"/>
-        <typeAlias type="com.app.onestepback.domain.CommunityPostTagVO" alias="communityPostTagVO"/>
         <typeAlias type="com.app.onestepback.domain.CommunityPostVO" alias="communityPostVO"/>
         <typeAlias type="com.app.onestepback.domain.CrowdFundingVO" alias="crowdFundingVO"/>
         <typeAlias type="com.app.onestepback.domain.FundingPaymentVO" alias="fundingPaymentVO"/>
         <typeAlias type="com.app.onestepback.domain.FundingRequestVO" alias="fundingRequestVO"/>
-        <typeAlias type="com.app.onestepback.domain.LikeArtistPostVO" alias="likeArtistPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.LikeCommunityPostVO" alias="likeCommunityPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.LikeVideoVO" alias="likeVideoVO"/>
+        <typeAlias type="com.app.onestepback.domain.InquiryVO" alias="inquiryVO"/>
         <typeAlias type="com.app.onestepback.domain.MemberVO" alias="memberVO"/>
-        <typeAlias type="com.app.onestepback.domain.VideoReplyVO" alias="videoReplyVO"/>
-        <typeAlias type="com.app.onestepback.domain.VideoTagVO" alias="videoTagVO"/>
+        <typeAlias type="com.app.onestepback.domain.NoticeVO" alias="noticeVO"/>
+        <typeAlias type="com.app.onestepback.domain.NotificationVO" alias="notificationVO"/>
+        <typeAlias type="com.app.onestepback.domain.PostFileVO" alias="postFileVO"/>
+        <typeAlias type="com.app.onestepback.domain.PostLikeVO" alias="postLikeVO"/>
+        <typeAlias type="com.app.onestepback.domain.PostReplyVO" alias="postReplyVO"/>
+        <typeAlias type="com.app.onestepback.domain.PostTagVO" alias="postTagVO"/>
+        <typeAlias type="com.app.onestepback.domain.PostVO" alias="postVO"/>
+        <typeAlias type="com.app.onestepback.domain.SubscriptionVO" alias="subscriptionVO"/>
         <typeAlias type="com.app.onestepback.domain.VideoVO" alias="videoVO"/>
         <typeAlias type="com.app.onestepback.domain.ArtistDTO" alias="artistDTO"/>
         <typeAlias type="com.app.onestepback.domain.ArtistPostDTO" alias="artistPostDTO"/>

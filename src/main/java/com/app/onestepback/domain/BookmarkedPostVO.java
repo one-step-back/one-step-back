@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class ArtistPostReplyVO {
-    private Long id;
-    private Long artistPostId;
+public class BookmarkedPostVO {
+//    게시글 번호
+    private Long postId;
+//    회원 번호
     private Long memberId;
 }
