@@ -49,7 +49,7 @@
                     <nav>
                         <ul>
                             <li>
-                                <a href="">홈</a>
+                                <a class="active">홈</a>
                             </li>
                             <li>
                                 <a href="">게시글</a>
@@ -64,7 +64,7 @@
                                 <a href="#">후원</a>
                             </li>
                             <li>
-                                <a class="active">크라우드 펀딩</a>
+                                <a href="#">크라우드 펀딩</a>
                             </li>
                         </ul>
                     </nav>
@@ -163,7 +163,7 @@
                 console.log(data[0])
                 console.log(data[1])
                 $("#subscriberCount").text(data[0]);
-                $("#postCount").text(data[1]);
+                $("#postCount").text(data[1] + data[2]);
             },
             error: function (xhr, status, error) {
                 console.error(error);

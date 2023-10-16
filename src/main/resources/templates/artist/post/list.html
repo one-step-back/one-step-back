@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원스텝 - 아티스트 페이지</title>
+    <link rel="icon" href="/images/icon.svg">
+    <link rel="stylesheet" href="/css/main/root.css">
+    <link rel="stylesheet" href="/css/artist/blog-header.css">
+    <link rel="stylesheet" href="/css/artist/main.css">
+    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header th:replace="~{/artist/blog-header::blog-header}"></header>
+
+<div id="blog"
+     class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline">
+    <a id="skip" class="sr-only" href="#main">주요 내용으로 건너뛰기</a>
+    <div id="header" class="header bg-gray-0" role="banner">
+        <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
+            <div class="container">
+                <div id="masthead" class="masthead d-flex">
+                    <a class="channel-avatar" th:if="${artist.blogImgName == null}"
+                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
+
+                    <a class="channel-avatar" th:unless="${artist.blogImgName == null}"
+                       th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
+                    <div class="action-group">
+                        <a class="btn btn-icon btn-share" href="https://u-t-wp.postype.com" aria-label="공유" title="공유"
+                           data-share-url="https://u-t-wp.postype.com">
+                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                        </a>
+                        <button class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
+                                data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">
+                            <span class="default-text">구독하기</span>
+                            <span class="active-text">구독중</span>
+                        </button>
+                    </div>
+                    <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
+                            class="count" id="allPostsCount"></span>개</span>
+                    <h1 class="masthead-title">
+                        <div class="masthead-title-text">
+                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.id})}"></a>
+                        </div>
+                    </h1>
+                </div>
+                <div class="divider"></div>
+                <div id="gnb-nav" class="gnb-nav">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a class="active">홈</a>
+                            </li>
+                            <li>
+                                <a href="">게시글</a>
+                            </li>
+                            <li>
+                                <a href="">영상</a>
+                            </li>
+                            <li>
+                                <a href="">커뮤니티</a>
+                            </li>
+                            <li>
+                                <a href="#">후원</a>
+                            </li>
+                            <li>
+                                <a href="#">크라우드 펀딩</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main id="main" class="main body-custom" role="main">
+        <div id="content" class="content">
+            <article class="ch-home">
+                <div class="ch-home-aside">
+                    <div class="sticky-top">
+                        <section class="ch-home-author-bio">
+                            <div class="ch-section-header">
+                                <h4>아티스트</h4>
+                            </div>
+                            <div class="section-body">
+                                <div class="author-bio">
+                                    <div class="user-profile media align-items-center">
+                                        <a class="profile-img-link profile-avatar avatar-36"
+                                           href="https://www.postype.com/profile/@8q8la4" rel="author">
+                                            <img class="profile-img"
+                                                 src="/images/none-avatar.svg">
+                                        </a>
+                                        <div class="media-body profile-title-box">
+                                            <span class="profile-title">
+                                                <a th:text="${artist.memberNickname}"
+                                                   href=" https://www.postype.com/profile/@8q8la4" rel="author"></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p th:text="${artist.artistDescription}" class="text-alpha-black-60 mb-0"></p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="ch-home-body">
+                    <section class="ch-home-pin-post hide">
+                        <div id="pin-post">
+                            <div id="pin-post-image"></div>
+                            <div id="pin-post-info"></div>
+                        </div>
+                    </section>
+                    <section class="ch-home-post">
+                        <div class="ch-section-header">
+                            <h4 id="postsCount"></h4>
+                            <a class="btn-icon" href="/posts">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                        <div id="posts-container" class="article-list post-list channel-home-post-list"></div>
+                    </section>
+                </div>
+            </article>
+        </div>
+    </main>
+</div>
+</body>
+<script th:inline="javascript">
+    const artist = /*[[${artist}]]*/ null;
+    console.log(artist);
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    // Ajax 공부겸 fetch 기능 작성함
+
+    // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
+    function getCounts(artistId) {
+        $.ajax({
+            type: "GET",
+            url: "/artist/get-counts?id=" + artistId,
+            success: function (data) {
+                console.log(data[0])
+                console.log(data[1])
+                $("#subscriberCount").text(data[0]);
+                $("#allPostsCount").text(data[1] + data[2]);
+                $("#postsCount").text(data[1] + "개의 게시글")
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+
+    }
+
+    // 시간차이 계산 함수
+    function getTimeGap(datetime) {
+        const today = new Date();
+        const date = new Date(datetime);
+        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+
+        if (gap < 1) {
+            return "방금 전";
+        }
+
+        if (gap < 60) {
+            return `${gap}분 전`;
+        }
+
+        gap = Math.floor(gap / 60);
+
+        if (gap < 24) {
+            return `${gap}시간 전`;
+        }
+
+        gap = Math.floor(gap / 24);
+
+        if (gap < 32) {
+            return `${gap}일 전`;
+        }
+
+        gap = Math.floor(gap / 31);
+
+        if (gap < 13) {
+            return `${gap}개월 전`;
+        }
+
+        gap = Math.floor(gap / 12);
+
+        return `${gap}년 전`;
+    }
+
+    // 페이지 로드시 비동기 불러옴
+    $(document).ready(function () {
+        getCounts([[${artist.id}]]);
+    })
+</script>
+<script src="/js/artist/blog-header.js"></script>
+</html>

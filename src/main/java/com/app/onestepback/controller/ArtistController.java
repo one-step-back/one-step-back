@@ -30,11 +30,12 @@ public class ArtistController {
     @GetMapping("get-counts")
     @ResponseBody
     public int[] getCountOfSubscriber(@RequestParam("id") Long id) {
-        int[] counts = new int[2];
+        int[] counts = new int[3];
         // 구독자 수
         counts[0] = artistService.getCountOfSubscriber(id);
         // 아티스트 포스트 + 비디오 포스트
-        counts[1] = artistService.getCountOfPost(id) + artistService.getCountOfVideo(id);
+        counts[1] = artistService.getCountOfPost(id);
+        counts[2] = artistService.getCountOfVideo(id);
 
         return counts;
     }
@@ -102,6 +103,11 @@ public class ArtistController {
         }
 
         return videos;
+    }
+
+    @GetMapping("post/list")
+    public void goToPostList(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("artist", artistService.getArtist(id).get());
     }
 
     @GetMapping("sponsor")
