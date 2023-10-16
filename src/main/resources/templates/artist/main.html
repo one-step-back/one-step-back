@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +52,7 @@
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a href="">게시글</a>
+                                <a th:href="@{/artist/post/list(id=${artist.id})}">게시글</a>
                             </li>
                             <li>
                                 <a href="">영상</a>
@@ -179,7 +179,7 @@
             url: "/artist/get-3posts?id=" + artistId,
             success: function (data) {
                 let postsContainer = $("#posts-container");
-                postsContainer.empty(); // 이전 포스트를 모두 지웁니다.
+                postsContainer.empty();
 
                 data.forEach(function (post) {
                     console.log(post);
@@ -190,7 +190,7 @@
                                     <div class="post">
                                         <div class="post-data">
                                             <a href="/artist/post/detail?id=${post.id}">
-                                                <h3 class="ellipsis-2 text-color-black"></h3>
+                                                <div class="category-font">${post.postCategory}</div>
                                                 <div class="ellipsis-2 text-alpha-black-47">
                                                     <h3 class="ellipsis-2 text-color-black">${post.postTitle}</h3>
                                                     <h4>${post.postSubtitle}</h4>
@@ -223,7 +223,7 @@
                                             </div>
                                             ` : ''}
                                         </div>
-                                        ${post.postImgName !== null ? `
+                                        ${post.fileName !== null ? `
                                         <div class="post-data-thumbnail">
                                             <a href="https://u-t-wp.postype.com/post/15313057">
                                                 <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
@@ -250,6 +250,10 @@
                                                 <span class="meta-item" title="좋아요">
                                                     <i class="far fa-heart" aria-label="좋아요"></i>
                                                     <span class="stats-count">${post.likeCount}</span>
+                                                </span>
+                                                <span class="meta-item" title="댓글">
+                                                    <i class="far fa-comment-dots"></i>
+                                                    <span class="stats-count">${post.replyCount}</span>
                                                 </span>
                                                 <time class="meta-item">${getTimeGap(post.postWriteTime)}</time>
                                             </div>
@@ -322,7 +326,7 @@
             url: "/artist/get-3videos?id=" + artistId,
             success: function (data) {
                 let videosContainer = $("#videos-container");
-                videosContainer.empty(); // 이전 포스트를 모두 지웁니다.
+                videosContainer.empty();
 
                 data.forEach(function (video) {
                     console.log(video);
@@ -337,7 +341,7 @@
                                 </div>
                                 <div class="series">
                                     <div class="series-inner">
-                                        <h3 class="text-truncate"><a href="https://u-t-wp.postype.com/series/925516/강좌">${video.videoTitle}</a>
+                                        <h3 class="text-truncate"><a href="https://u-t-wp.postype.com/series/925516/강좌">${video.postTitle}</a>
                                         </h3>
                                         <div class="series-meta-wrapper">
                                             <div class="user-profile-nickname text-truncate">
@@ -348,7 +352,7 @@
                                             <div class="series-meta text-alpha-black-47">
                                                 <span class="meta-item" title="조회수">
                                                     <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">${video.videoViewCount}</span>
+                                                    <span class="stats-count">${video.postViewCount}</span>
                                                 </span>
                                                 <span class="meta-item" title="좋아요">
                                                     <i class="far fa-heart" aria-label="좋아요"></i>
@@ -358,11 +362,11 @@
                                                     <i class="far fa-comment-dots"></i>
                                                     <span class="stats-count">${video.replyCount}</span>
                                                 </span>
-                                                <time class="meta-item">${getTimeGap(video.videoWriteTime)}</time>
+                                                <time class="meta-item">${getTimeGap(video.postWriteTime)}</time>
                                             </div>
                                         </div>
                                         <p class="ellipsis-2">
-                                            <a href="https://u-t-wp.postype.com/series/925516/강좌">${video.videoContent}</a>
+                                            <a href="https://u-t-wp.postype.com/series/925516/강좌">${video.postContent}</a>
                                         </p>
                                     </div>
                                     ${video.tag1 !== null ? `

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.app.onestepback.mapper.VideoTagMapper">
-    <select id="selectAll" resultType="java.lang.String">
-        SELECT VIDEO_TAG_NAME
-        FROM TBL_VIDEO_TAG
-        WHERE VIDEO_ID = #{videoId}
-    </select>
-</mapper>

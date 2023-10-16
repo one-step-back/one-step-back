@@ -20,7 +20,5 @@ public interface ArtistService {
 
     public List<VideoDTO> get3Videos(Long memberId);
 
-    public List<String> getAllTagsOfPosts(Long artistPostId);
-
-    public List<String> getAllTagsOfVideos(Long videoId);
+    public List<String> getAllTags(Long postId);
 }

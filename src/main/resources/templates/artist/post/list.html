@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,8 +125,6 @@
 </div>
 </body>
 <script th:inline="javascript">
-    const artist = /*[[${artist}]]*/ null;
-    console.log(artist);
 
 </script>
 
@@ -140,8 +138,6 @@
             type: "GET",
             url: "/artist/get-counts?id=" + artistId,
             success: function (data) {
-                console.log(data[0])
-                console.log(data[1])
                 $("#subscriberCount").text(data[0]);
                 $("#allPostsCount").text(data[1] + data[2]);
                 $("#postsCount").text(data[1] + "개의 게시글")
@@ -150,7 +146,148 @@
                 console.error(error);
             }
         });
+    }
 
+    function loadPosts(artistId) {
+        $.ajax({
+            type: "GET",
+            url: "/artist/post/get-posts?id=" + artistId + "&page=1",
+            success: function (data) {
+                let postsContainer = $("#posts-container");
+                postsContainer.empty();
+
+                data.forEach(function (post) {
+                    console.log(post);
+
+                    let postHtml = `
+                            <div class="component-post list">
+                                <div>
+                                    <div class="post">
+                                        <div class="post-data">
+                                            <a href="/artist/post/detail?id=${post.id}">
+                                                <h3 class="ellipsis-2 text-color-black"></h3>
+                                                <div class="ellipsis-2 text-alpha-black-47">
+                                                    <h3 class="ellipsis-2 text-color-black">${post.postTitle}</h3>
+                                                    <h4>${post.postSubtitle}</h4>
+                                                    <div class="divider"></div>
+                                                    <p class="post-content">${post.postContent}</p>
+                                                </div>
+                                            </a>
+                                            ${post.tag1 !== null ? `
+                                            <div class="post-tags">
+                                                ${post.tag1 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag1}</a>
+                                                ` : ''}
+                                                ${post.tag2 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag2}</a>
+                                                ` : ''}
+                                                ${post.tag3 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag3}</a>
+                                                ` : ''}
+                                                ${post.tag4 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag4}</a>
+                                                ` : ''}
+                                                ${post.tag5 !== null ? `
+                                                <a href="#"
+                                                   class="general-tag">#${post.tag5}</a>
+                                                ` : ''}
+                                            </div>
+                                            ` : ''}
+                                        </div>
+                                        ${post.postImgName !== null ? `
+                                        <div class="post-data-thumbnail">
+                                            <a href="https://u-t-wp.postype.com/post/15313057">
+                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
+                                                     alt="우천시워터파크 드로잉 워크북 출시">
+                                            </a>
+                                        </div>
+                                        ` : ''}
+                                    </div>
+                                    <div class="post-info">
+                                        <a class="user-profile-avatar avatar-32"
+                                           href="https://www.postype.com/profile/@8q8la4">
+                                            <img src="/images/none-avatar.svg">
+                                        </a>
+                                        <div class="post-info-body">
+                                            <div class="user-profile-nickname text-truncate">
+                                                <a href="https://www.postype.com/profile/@8q8la4"
+                                                   rel="author">${post.memberNickname}</a>
+                                            </div>
+                                            <div class="post-meta text-alpha-black-47">
+                                                <span class="meta-item" title="조회수">
+                                                    <i class="ic ic-eye" aria-label="조회수"></i>
+                                                    <span class="stats-count">${post.postViewCount}</span>
+                                                </span>
+                                                <span class="meta-item" title="좋아요">
+                                                    <i class="far fa-heart" aria-label="좋아요"></i>
+                                                    <span class="stats-count">${post.likeCount}</span>
+                                                </span>
+                                                <time class="meta-item">${getTimeGap(post.postWriteTime)}</time>
+                                            </div>
+                                        </div>
+                                        <div class="post-action">
+                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
+                                                <i class="far fa-bookmark default-text"></i>
+                                                <i class="fas fa-bookmark active-text"></i>
+                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
+                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
+                                                        title="더보기">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
+                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
+                                                    <li>
+                                                        <a class="btn-open-add-collection-modal"
+                                                           href="javascript:void(0);" data-post-id="15313057">
+                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
+                                                                 alt="" class="ic-add-collection">
+                                                            컬렉션에 추가하기 </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item btn-share" href="#"
+                                                           data-share-url="https://posty.pe/fj428q"
+                                                           data-blog-title="우천시워터파크"
+                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
+                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
+                                                            <span class="order-2">공유하기</span>
+                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item btn-report-post" href="#"
+                                                           data-toggle="modal" data-target="#report-modal"
+                                                           data-post-id="15313057">
+                                                            <span class="order-2">신고하기</span>
+                                                            <i class="far fa-flag"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item btn-block-blog" href="#"
+                                                           data-blog-id="1287845">
+                                                            <span class="order-2">이 채널 보지 않기</span>
+                                                            <i class="fas fa-ban"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-post-divider"></div>`;
+                    postsContainer.append(postHtml);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
     }
 
     // 시간차이 계산 함수
@@ -193,6 +330,7 @@
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
         getCounts([[${artist.id}]]);
+        loadPosts([[${artist.id}]]);
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>

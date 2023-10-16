@@ -46,7 +46,7 @@ public class ArtistController {
         List<ArtistPostDTO> posts = artistService.get3Posts(id);
 
         for (ArtistPostDTO post : posts) {
-            List<String> tags = artistService.getAllTagsOfPosts(post.getId());
+            List<String> tags = artistService.getAllTags(post.getId());
 
             for (int i = 0; i < tags.size(); i++) {
                 switch (i) {
@@ -78,7 +78,7 @@ public class ArtistController {
         List<VideoDTO> videos = artistService.get3Videos(id);
 
         for (VideoDTO video : videos) {
-            List<String> tags = artistService.getAllTagsOfVideos(video.getId());
+            List<String> tags = artistService.getAllTags(video.getId());
 
             for (int i = 0; i < tags.size(); i++) {
                 log.info(tags.get(i));
@@ -103,11 +103,6 @@ public class ArtistController {
         }
 
         return videos;
-    }
-
-    @GetMapping("post/list")
-    public void goToPostList(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("artist", artistService.getArtist(id).get());
     }
 
     @GetMapping("sponsor")
