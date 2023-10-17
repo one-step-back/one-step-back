@@ -17,8 +17,7 @@ public class ArtistServiceImpl implements ArtistService {
     private final SubscriptionDAO subscriptionDAO;
     private final ArtistPostDAO artistPostDAO;
     private final VideoDAO videoDAO;
-    private final ArtistPostTagDAO artistPostTagDAO;
-    private final VideoTagDAO videoTagDAO;
+    private final PostTagDAO postTagDAO;
 
 //    아티스트 정보 가져오기
     @Override
@@ -53,12 +52,8 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<String> getAllTagsOfPosts(Long artistPostId) {
-        return artistPostTagDAO.getAllTags(artistPostId);
+    public List<String> getAllTags(Long postId) {
+        return postTagDAO.getAllTags(postId);
     }
 
-    @Override
-    public List<String> getAllTagsOfVideos(Long videoId) {
-        return videoTagDAO.getAllTags(videoId);
-    }
 }

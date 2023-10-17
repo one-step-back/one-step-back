@@ -796,6 +796,12 @@ p {
     opacity: .6;
 }
 
+.category-font {
+    font-size: 16px;
+    line-height: 100%;
+    margin-bottom: 4px;
+}
+
 .post-content {
     overflow: hidden;
     text-overflow: ellipsis;

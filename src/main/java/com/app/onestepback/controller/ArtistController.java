@@ -30,11 +30,12 @@ public class ArtistController {
     @GetMapping("get-counts")
     @ResponseBody
     public int[] getCountOfSubscriber(@RequestParam("id") Long id) {
-        int[] counts = new int[2];
+        int[] counts = new int[3];
         // 구독자 수
         counts[0] = artistService.getCountOfSubscriber(id);
         // 아티스트 포스트 + 비디오 포스트
-        counts[1] = artistService.getCountOfPost(id) + artistService.getCountOfVideo(id);
+        counts[1] = artistService.getCountOfPost(id);
+        counts[2] = artistService.getCountOfVideo(id);
 
         return counts;
     }
@@ -45,7 +46,7 @@ public class ArtistController {
         List<ArtistPostDTO> posts = artistService.get3Posts(id);
 
         for (ArtistPostDTO post : posts) {
-            List<String> tags = artistService.getAllTagsOfPosts(post.getId());
+            List<String> tags = artistService.getAllTags(post.getId());
 
             for (int i = 0; i < tags.size(); i++) {
                 switch (i) {
@@ -77,7 +78,7 @@ public class ArtistController {
         List<VideoDTO> videos = artistService.get3Videos(id);
 
         for (VideoDTO video : videos) {
-            List<String> tags = artistService.getAllTagsOfVideos(video.getId());
+            List<String> tags = artistService.getAllTags(video.getId());
 
             for (int i = 0; i < tags.size(); i++) {
                 log.info(tags.get(i));

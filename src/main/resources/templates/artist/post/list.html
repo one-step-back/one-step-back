@@ -37,7 +37,7 @@
                         </button>
                     </div>
                     <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
-                            class="count" id="postCount"></span>개</span>
+                            class="count" id="allPostsCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
                             <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.id})}"></a>
@@ -52,7 +52,7 @@
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/post/list(id=${artist.id})}">게시글</a>
+                                <a href="">게시글</a>
                             </li>
                             <li>
                                 <a href="">영상</a>
@@ -111,32 +111,12 @@
                     </section>
                     <section class="ch-home-post">
                         <div class="ch-section-header">
-                            <h4><a href="/posts">게시글</a></h4>
+                            <h4 id="postsCount"></h4>
                             <a class="btn-icon" href="/posts">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
                         <div id="posts-container" class="article-list post-list channel-home-post-list"></div>
-                        <div class="ch-section-footer">
-                            <a href="/posts" class="btn btn-secondary">전체 보기
-                                <i class="fas fa-chevron-right ml-2"></i>
-                            </a>
-                        </div>
-                    </section>
-                    <div id="store-section-insert-point" data-is-adult=""></div>
-                    <section class="ch-home-series">
-                        <div class="ch-section-header">
-                            <h4><a href="/series">영상</a></h4>
-                            <a class="btn-icon" href="/series">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                        <div id="videos-container" class="article-list series-list channel-home-series-list"></div>
-                        <div class="ch-section-footer">
-                            <a href="/series" class="btn btn-secondary">전체 보기
-                                <i class="fas fa-chevron-right ml-2"></i>
-                            </a>
-                        </div>
                     </section>
                 </div>
             </article>
@@ -145,8 +125,6 @@
 </div>
 </body>
 <script th:inline="javascript">
-    const artist = /*[[${artist}]]*/ null;
-    console.log(artist);
 
 </script>
 
@@ -160,23 +138,20 @@
             type: "GET",
             url: "/artist/get-counts?id=" + artistId,
             success: function (data) {
-                console.log(data[0])
-                console.log(data[1])
                 $("#subscriberCount").text(data[0]);
-                $("#postCount").text(data[1] + data[2]);
+                $("#allPostsCount").text(data[1] + data[2]);
+                $("#postsCount").text(data[1] + "개의 게시글")
             },
             error: function (xhr, status, error) {
                 console.error(error);
             }
         });
-
     }
 
-    // 포스트 로드 쿼리
     function loadPosts(artistId) {
         $.ajax({
             type: "GET",
-            url: "/artist/get-3posts?id=" + artistId,
+            url: "/artist/post/get-posts?id=" + artistId + "&page=1",
             success: function (data) {
                 let postsContainer = $("#posts-container");
                 postsContainer.empty();
@@ -190,7 +165,7 @@
                                     <div class="post">
                                         <div class="post-data">
                                             <a href="/artist/post/detail?id=${post.id}">
-                                                <div class="category-font">${post.postCategory}</div>
+                                                <h3 class="ellipsis-2 text-color-black"></h3>
                                                 <div class="ellipsis-2 text-alpha-black-47">
                                                     <h3 class="ellipsis-2 text-color-black">${post.postTitle}</h3>
                                                     <h4>${post.postSubtitle}</h4>
@@ -223,7 +198,7 @@
                                             </div>
                                             ` : ''}
                                         </div>
-                                        ${post.fileName !== null ? `
+                                        ${post.postImgName !== null ? `
                                         <div class="post-data-thumbnail">
                                             <a href="https://u-t-wp.postype.com/post/15313057">
                                                 <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
@@ -250,10 +225,6 @@
                                                 <span class="meta-item" title="좋아요">
                                                     <i class="far fa-heart" aria-label="좋아요"></i>
                                                     <span class="stats-count">${post.likeCount}</span>
-                                                </span>
-                                                <span class="meta-item" title="댓글">
-                                                    <i class="far fa-comment-dots"></i>
-                                                    <span class="stats-count">${post.replyCount}</span>
                                                 </span>
                                                 <time class="meta-item">${getTimeGap(post.postWriteTime)}</time>
                                             </div>
@@ -319,102 +290,6 @@
         });
     }
 
-    // 비디오 로드 쿼리
-    function loadVideos(artistId) {
-        $.ajax({
-            type: "GET",
-            url: "/artist/get-3videos?id=" + artistId,
-            success: function (data) {
-                let videosContainer = $("#videos-container");
-                videosContainer.empty();
-
-                data.forEach(function (video) {
-                    console.log(video);
-                    let youtubeLink = `${video.videoLink}`;
-                    let thumbnailUrl = getYouTubeThumbnailUrl(youtubeLink);
-
-                    let videoHtml = `<div class="component-series list">
-                                <div class="series-data-thumbnail">
-                                    <a href="#">
-                                        <img src="${thumbnailUrl}">
-                                    </a>
-                                </div>
-                                <div class="series">
-                                    <div class="series-inner">
-                                        <h3 class="text-truncate"><a href="https://u-t-wp.postype.com/series/925516/강좌">${video.postTitle}</a>
-                                        </h3>
-                                        <div class="series-meta-wrapper">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a class="text-color-black"
-                                                   href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">${video.memberNickname}</a>
-                                            </div>
-                                            <div class="series-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">${video.postViewCount}</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">${video.likeCount}</span>
-                                                </span>
-                                                <span class="meta-item" title="댓글">
-                                                    <i class="far fa-comment-dots"></i>
-                                                    <span class="stats-count">${video.replyCount}</span>
-                                                </span>
-                                                <time class="meta-item">${getTimeGap(video.postWriteTime)}</time>
-                                            </div>
-                                        </div>
-                                        <p class="ellipsis-2">
-                                            <a href="https://u-t-wp.postype.com/series/925516/강좌">${video.postContent}</a>
-                                        </p>
-                                    </div>
-                                    ${video.tag1 !== null ? `
-                                    <div class="series-tags">
-                                        ${video.tag1 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag1}</a>
-                                            ` : ''}
-                                            ${video.tag2 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag2}</a>
-                                            ` : ''}
-                                            ${video.tag3 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag3}</a>
-                                            ` : ''}
-                                            ${video.tag4 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag4}</a>
-                                            ` : ''}
-                                            ${video.tag5 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag5}</a>
-                                        ` : ''}
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                            <div class="component-series-divider"></div>`;
-                    videosContainer.append(videoHtml);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
-
-    // 유튜브 링크를 통해 썸네일을 가져오는 함수
-    function getYouTubeThumbnailUrl(youtubeLink) {
-        // YouTube 비디오 ID 추출
-        let videoId = youtubeLink.match(/v=([^&]+)/);
-        if (videoId) {
-            return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
-        }
-        return null; // 유효한 YouTube 비디오 ID가 없는 경우
-    }
-
     // 시간차이 계산 함수
     function getTimeGap(datetime) {
         const today = new Date();
@@ -456,9 +331,7 @@
     $(document).ready(function () {
         getCounts([[${artist.id}]]);
         loadPosts([[${artist.id}]]);
-        loadVideos([[${artist.id}]]);
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>
-<script src="/js/artist/main.js"></script>
 </html>
