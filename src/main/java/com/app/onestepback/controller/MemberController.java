@@ -5,9 +5,7 @@ import com.app.onestepback.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -43,6 +41,7 @@ public class MemberController {
     public void goToLoginEmailForm(MemberVO memberVO){;}
     @PostMapping("login-email")
     public RedirectView login(MemberVO memberVO, HttpSession session, RedirectAttributes redirectAttributes){
+        log.info(memberVO.toString());
         Optional<MemberVO> foundMember = memberService.loginByEmail(memberVO);
         if(foundMember.isPresent()){
             session.setAttribute("member", foundMember.get());
