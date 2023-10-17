@@ -12,7 +12,7 @@ import java.util.Optional;
 public class MemberDAO {
     private final MemberMapper memberMapper;
 
-    //    회원가입 - 이메일
+    //    회원가입
     public void enroll(MemberVO memberVO) {
         memberMapper.insert(memberVO);
     }

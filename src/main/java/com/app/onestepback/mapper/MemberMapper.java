@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
 
-    //    회원가입 - 이메일
+    //    회원가입
     public void insert(MemberVO memberVO);
 
     //    ID로 계정 조회
