@@ -9,6 +9,8 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
 
+    public void test(MemberVO memberVO);
+
     //    회원가입
     public void insert(MemberVO memberVO);
 
