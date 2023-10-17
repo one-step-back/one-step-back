@@ -84,7 +84,6 @@ label {
     text-align: left;
 }
 
-
 .main-content {
     transition: none;
     backface-visibility: hidden;
@@ -92,6 +91,7 @@ label {
     display: flex;
     -ms-flex-align: center;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
     position: relative;
     padding-top: 0;
@@ -249,7 +249,7 @@ label {
     margin: 0 auto 24px;
 }
 
-.join-button{
+.login-button{
     border: 1px solid transparent;
     width: 100%;
     line-height: 1.5rem;

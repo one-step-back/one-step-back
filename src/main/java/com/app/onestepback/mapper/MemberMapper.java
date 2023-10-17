@@ -3,7 +3,6 @@ package com.app.onestepback.mapper;
 import com.app.onestepback.domain.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.lang.reflect.Member;
 import java.util.Optional;
 
 @Mapper

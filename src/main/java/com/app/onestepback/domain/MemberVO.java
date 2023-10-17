@@ -22,12 +22,12 @@ public class MemberVO {
     private String memberProfilePath;
 //    회원소개
     private String memberIntroduction;
-//    총 결제 금액
-    private Long memberPaymentTotal; //디폴트 = 0
+//    총 결제 금액, 디폴트 = 0
+    private Long memberPaymentTotal;
 //    가입 일자
     private String memberCreateTime;
 //    회원 정보 수정 일자
     private String memberUpdateTime;
-//    회원 상태
-    private String memberStatus; //(디폴트)활동 중 - ACTIVE / 회원 탈퇴를 했을 시 - DISABLE / 정지 되었을 시 - BLOCKED
+//    회원 상태, (디폴트) 활동 중 - ACTIVE / 회원 탈퇴를 했을 시 - DISABLE / 정지 되었을 시 - BLOCKED
+    private String memberStatus;
 }
