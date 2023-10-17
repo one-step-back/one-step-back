@@ -22,7 +22,11 @@ public class MemberServiceImpl implements MemberService{
             Optional<MemberVO> foundMember = findByEmail(memberVO.getMemberEmail());
             if(id != null) {
                 memberVO.setId(id);
-                delete(foundMember.get().getId());
+//                카카오 연동 시 기존 정보를 지우면서 이메일 로그인이 안 되기 때문에 delete를 없애고 update만 하게 수정
+//                if(foundMember.get().getMemberPassword() != null) {
+//                    memberVO.setMemberPassword(foundMember.get().getMemberPassword());
+//                }
+//                delete(foundMember.get().getId());
                 synchronize(memberVO);
                 return;
             }
@@ -32,7 +36,7 @@ public class MemberServiceImpl implements MemberService{
             } else { // 계정이 존재하면 로그인
                 MemberVO member = foundMember.get();
 //              1-3. 카카오회원일 경우 프사 검사
-                if(member.getMemberProfileName() == null){ // 전달받은 프사경로로 수정
+                if(member.getMemberKakaoProfileUrl() == null){ // 전달받은 프사경로로 수정
 //                  전달받은 카카오 프사로 업데이트
                     updateKaKaoProfile(memberVO);
                 }
