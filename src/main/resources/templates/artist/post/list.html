@@ -49,10 +49,10 @@
                     <nav>
                         <ul>
                             <li>
-                                <a class="active">홈</a>
+                                <a th:href="@{/artist/main(id=${artist.id})}">홈</a>
                             </li>
                             <li>
-                                <a href="">게시글</a>
+                                <a class="active">게시글</a>
                             </li>
                             <li>
                                 <a href="">영상</a>
@@ -116,7 +116,133 @@
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
-                        <div id="posts-container" class="article-list post-list channel-home-post-list"></div>
+                        <th:block th:if="${#lists.size(posts) != 0}">
+                            <th:block th:each="post:${posts}">
+                                <div th:object="${post}" class="article-list post-list channel-home-post-list">
+                                    <div class="component-post list">
+                                        <div>
+                                            <div class="post">
+                                                <div class="post-data">
+                                                    <a href="/artist/post/detail?id=${post.id}">
+                                                        <h3 class="ellipsis-2 text-color-black"></h3>
+                                                        <div class="ellipsis-2 text-alpha-black-47">
+                                                            <h3 th:text="*{postTitle}"
+                                                                class="ellipsis-2 text-color-black"></h3>
+                                                            <h4 th:text="*{postSubtitle}"></h4>
+                                                            <div class="divider"></div>
+                                                            <p th:text="*{postContent}" class="post-content"></p>
+                                                        </div>
+                                                    </a>
+                                                    <div th:if="*{tag1 != null}" class="post-tags">
+                                                        <a href="#"
+                                                           th:text="*{tag1}" class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag2 != null}" th:text="*{tag2}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag3 != null}" th:text="*{tag3}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag4 != null}" th:text="*{tag4}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag5 != null}" th:text="*{tag5}"
+                                                           class="general-tag"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="post-data-thumbnail">
+                                                    <a href="https://u-t-wp.postype.com/post/15313057">
+                                                        <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
+                                                             alt="우천시워터파크 드로잉 워크북 출시">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="post-info">
+                                                <a class="user-profile-avatar avatar-32"
+                                                   href="https://www.postype.com/profile/@8q8la4">
+                                                    <img src="/images/none-avatar.svg">
+                                                </a>
+                                                <div class="post-info-body">
+                                                    <div class="user-profile-nickname text-truncate">
+                                                        <a th:text="*{memberNickname}"
+                                                           href="https://www.postype.com/profile/@8q8la4"
+                                                           rel="author"></a>
+                                                    </div>
+                                                    <div class="post-meta text-alpha-black-47">
+                                                        <span class="meta-item" title="조회수">
+                                                            <i class="ic ic-eye" aria-label="조회수"></i>
+                                                            <span th:text="*{postViewCount}" class="stats-count"></span>
+                                                        </span>
+                                                        <span class="meta-item" title="좋아요">
+                                                            <i class="far fa-heart" aria-label="좋아요"></i>
+                                                            <span th:text="*{likeCount}" class="stats-count"></span>
+                                                        </span>
+                                                        <span class="meta-item" title="댓글">
+                                                            <i class="far fa-comment-dots"></i>
+                                                            <span th:text="*{replyCount}" class="stats-count"></span>
+                                                        </span>
+                                                        <time class="meta-item time"
+                                                              th:data-post-time="*{postWriteTime}"></time>
+                                                    </div>
+                                                </div>
+                                                <div class="post-action">
+                                                    <a class="btn btn-icon btn-scrap" data-post-id="15313057">
+                                                        <i class="far fa-bookmark default-text"></i>
+                                                        <i class="fas fa-bookmark active-text"></i>
+                                                    </a>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-icon ic-secondary btn-more" type="button"
+                                                                data-toggle="dropdown" aria-expanded="true"
+                                                                aria-label="더보기"
+                                                                title="더보기">
+                                                            <i class="fas fa-ellipsis-h"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right"
+                                                            x-placement="bottom-end"
+                                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
+                                                            <li>
+                                                                <a class="btn-open-add-collection-modal"
+                                                                   href="javascript:void(0);" data-post-id="15313057">
+                                                                    <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
+                                                                         alt="" class="ic-add-collection">
+                                                                    컬렉션에 추가하기 </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item btn-share" href="#"
+                                                                   data-share-url="https://posty.pe/fj428q"
+                                                                   data-blog-title="우천시워터파크"
+                                                                   data-post-title="우천시워터파크 드로잉 워크북 출시"
+                                                                   data-tags="클래스 드로잉 미디어 클립스튜디오">
+                                                                    <span class="order-2">공유하기</span>
+                                                                    <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item btn-report-post" href="#"
+                                                                   data-toggle="modal" data-target="#report-modal"
+                                                                   data-post-id="15313057">
+                                                                    <span class="order-2">신고하기</span>
+                                                                    <i class="far fa-flag"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item btn-block-blog" href="#"
+                                                                   data-blog-id="1287845">
+                                                                    <span class="order-2">이 채널 보지 않기</span>
+                                                                    <i class="fas fa-ban"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="component-post-divider"></div>
+                                </div>
+                            </th:block>
+                        </th:block>
+                        <div id="page-wrap"></div>
                     </section>
                 </div>
             </article>
@@ -124,12 +250,8 @@
     </main>
 </div>
 </body>
-<script th:inline="javascript">
-
-</script>
-
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script>
+<script th:inline="javascript">
     // Ajax 공부겸 fetch 기능 작성함
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
@@ -148,189 +270,66 @@
         });
     }
 
-    function loadPosts(artistId) {
-        $.ajax({
-            type: "GET",
-            url: "/artist/post/get-posts?id=" + artistId + "&page=1",
-            success: function (data) {
-                let postsContainer = $("#posts-container");
-                postsContainer.empty();
 
-                data.forEach(function (post) {
-                    console.log(post);
+    function updateTimeGaps() {
+        var currentTime = new Date();
 
-                    let postHtml = `
-                            <div class="component-post list">
-                                <div>
-                                    <div class="post">
-                                        <div class="post-data">
-                                            <a href="/artist/post/detail?id=${post.id}">
-                                                <h3 class="ellipsis-2 text-color-black"></h3>
-                                                <div class="ellipsis-2 text-alpha-black-47">
-                                                    <h3 class="ellipsis-2 text-color-black">${post.postTitle}</h3>
-                                                    <h4>${post.postSubtitle}</h4>
-                                                    <div class="divider"></div>
-                                                    <p class="post-content">${post.postContent}</p>
-                                                </div>
-                                            </a>
-                                            ${post.tag1 !== null ? `
-                                            <div class="post-tags">
-                                                ${post.tag1 !== null ? `
-                                                <a href="#"
-                                                   class="general-tag">#${post.tag1}</a>
-                                                ` : ''}
-                                                ${post.tag2 !== null ? `
-                                                <a href="#"
-                                                   class="general-tag">#${post.tag2}</a>
-                                                ` : ''}
-                                                ${post.tag3 !== null ? `
-                                                <a href="#"
-                                                   class="general-tag">#${post.tag3}</a>
-                                                ` : ''}
-                                                ${post.tag4 !== null ? `
-                                                <a href="#"
-                                                   class="general-tag">#${post.tag4}</a>
-                                                ` : ''}
-                                                ${post.tag5 !== null ? `
-                                                <a href="#"
-                                                   class="general-tag">#${post.tag5}</a>
-                                                ` : ''}
-                                            </div>
-                                            ` : ''}
-                                        </div>
-                                        ${post.postImgName !== null ? `
-                                        <div class="post-data-thumbnail">
-                                            <a href="https://u-t-wp.postype.com/post/15313057">
-                                                <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                     alt="우천시워터파크 드로잉 워크북 출시">
-                                            </a>
-                                        </div>
-                                        ` : ''}
-                                    </div>
-                                    <div class="post-info">
-                                        <a class="user-profile-avatar avatar-32"
-                                           href="https://www.postype.com/profile/@8q8la4">
-                                            <img src="/images/none-avatar.svg">
-                                        </a>
-                                        <div class="post-info-body">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">${post.memberNickname}</a>
-                                            </div>
-                                            <div class="post-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">${post.postViewCount}</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">${post.likeCount}</span>
-                                                </span>
-                                                <time class="meta-item">${getTimeGap(post.postWriteTime)}</time>
-                                            </div>
-                                        </div>
-                                        <div class="post-action">
-                                            <a class="btn btn-icon btn-scrap" data-post-id="15313057">
-                                                <i class="far fa-bookmark default-text"></i>
-                                                <i class="fas fa-bookmark active-text"></i>
-                                            </a>
-                                            <div class="dropdown">
-                                                <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                        data-toggle="dropdown" aria-expanded="true" aria-label="더보기"
-                                                        title="더보기">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                    <li>
-                                                        <a class="btn-open-add-collection-modal"
-                                                           href="javascript:void(0);" data-post-id="15313057">
-                                                            <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                 alt="" class="ic-add-collection">
-                                                            컬렉션에 추가하기 </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-share" href="#"
-                                                           data-share-url="https://posty.pe/fj428q"
-                                                           data-blog-title="우천시워터파크"
-                                                           data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                           data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                            <span class="order-2">공유하기</span>
-                                                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-report-post" href="#"
-                                                           data-toggle="modal" data-target="#report-modal"
-                                                           data-post-id="15313057">
-                                                            <span class="order-2">신고하기</span>
-                                                            <i class="far fa-flag"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-block-blog" href="#"
-                                                           data-blog-id="1287845">
-                                                            <span class="order-2">이 채널 보지 않기</span>
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-post-divider"></div>`;
-                    postsContainer.append(postHtml);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
+        var timeElements = document.querySelectorAll('.meta-item.time');
+        timeElements.forEach(function (element) {
+            var postTime = new Date(element.getAttribute('data-post-time'));
+            var timeGap = getTimeGap(currentTime, postTime);
+            element.textContent = timeGap;
         });
     }
 
     // 시간차이 계산 함수
-    function getTimeGap(datetime) {
-        const today = new Date();
-        const date = new Date(datetime);
-        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+    function getTimeGap(currentTime, postTime) {
+        var timeDiff = Math.floor((currentTime - postTime) / 1000); // 초 단위로 시간 차이 계산
 
-        if (gap < 1) {
+        if (timeDiff < 60) {
             return "방금 전";
+        } else if (timeDiff < 3600) {
+            var minutes = Math.floor(timeDiff / 60);
+            return minutes + "분 전";
+        } else if (timeDiff < 86400) {
+            var hours = Math.floor(timeDiff / 3600);
+            return hours + "시간 전";
+        } else if (timeDiff < 2678400) {
+            var days = Math.floor(timeDiff / 86400);
+            return days + "일 전";
+        } else if (timeDiff < 32140800) {
+            var months = Math.floor(timeDiff / 2678400);
+            return months + "개월 전";
+        } else {
+            var years = Math.floor(timeDiff / 32140800);
+            return years + "년 전";
+        }
+    }
+
+    function getPageBtn(){
+        const pageWrap = $("#page-wrap");
+        const pagination = [[${pagination}]];
+        let pagingText = ``;
+
+        if (pagination.startPage > 1) {
+            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.id}]]&page=${pagination.startPage - 1}">이전</a>`;
+        }
+        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+            let isActive = i === pagination.page ? 'active' : '';
+            pagingText += `<a href="/artist/post/list?id=[[${artist.id}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
+        }
+        if (pagination.endPage < pagination.realEnd) {
+            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.id}]]&page=${pagination.endPage + 1}">다음</a>`;
         }
 
-        if (gap < 60) {
-            return `${gap}분 전`;
-        }
-
-        gap = Math.floor(gap / 60);
-
-        if (gap < 24) {
-            return `${gap}시간 전`;
-        }
-
-        gap = Math.floor(gap / 24);
-
-        if (gap < 32) {
-            return `${gap}일 전`;
-        }
-
-        gap = Math.floor(gap / 31);
-
-        if (gap < 13) {
-            return `${gap}개월 전`;
-        }
-
-        gap = Math.floor(gap / 12);
-
-        return `${gap}년 전`;
+        pageWrap.html(pagingText);
     }
 
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
         getCounts([[${artist.id}]]);
-        loadPosts([[${artist.id}]]);
+        updateTimeGaps();
+        getPageBtn();
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>

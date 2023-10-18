@@ -13,4 +13,6 @@ public interface ArtistPostService {
     public int getPostCount(Long memberId);
 
     public List<ArtistPostDTO> getAllPosts(Long memberId, Pagination pagination);
+
+    public List<String> getAllTags(Long postId);
 }

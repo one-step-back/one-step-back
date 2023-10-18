@@ -82,6 +82,10 @@ a:hover {
     outline: none;
 }
 
+input {
+    border: none;
+}
+
 input:focus {
     outline: none;
 }

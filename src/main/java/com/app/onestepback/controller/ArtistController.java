@@ -43,75 +43,17 @@ public class ArtistController {
     @GetMapping("get-3posts")
     @ResponseBody
     public List<ArtistPostDTO> load3Posts(@RequestParam("id") Long id) {
-        List<ArtistPostDTO> posts = artistService.get3Posts(id);
-
-        for (ArtistPostDTO post : posts) {
-            List<String> tags = artistService.getAllTags(post.getId());
-
-            for (int i = 0; i < tags.size(); i++) {
-                switch (i) {
-                    case 0:
-                        post.setTag1(tags.get(i));
-                        break;
-                    case 1:
-                        post.setTag2(tags.get(i));
-                        break;
-                    case 2:
-                        post.setTag3(tags.get(i));
-                        break;
-                    case 3:
-                        post.setTag4(tags.get(i));
-                        break;
-                    case 4:
-                        post.setTag5(tags.get(i));
-                        break;
-                }
-            }
-        }
-
-        return posts;
+        return artistService.get3Posts(id);
     }
 
     @GetMapping("get-3videos")
     @ResponseBody
     public List<VideoDTO> load3Videos(@RequestParam("id") Long id) {
-        List<VideoDTO> videos = artistService.get3Videos(id);
-
-        for (VideoDTO video : videos) {
-            List<String> tags = artistService.getAllTags(video.getId());
-
-            for (int i = 0; i < tags.size(); i++) {
-                log.info(tags.get(i));
-                switch (i) {
-                    case 0:
-                        video.setTag1(tags.get(i));
-                        break;
-                    case 1:
-                        video.setTag2(tags.get(i));
-                        break;
-                    case 2:
-                        video.setTag3(tags.get(i));
-                        break;
-                    case 3:
-                        video.setTag4(tags.get(i));
-                        break;
-                    case 4:
-                        video.setTag5(tags.get(i));
-                        break;
-                }
-            }
-        }
-
-        return videos;
+        return artistService.get3Videos(id);
     }
 
     @GetMapping("sponsor")
     public void goToSponsorForm() {
-        ;
-    }
-
-    @GetMapping("/post/write")
-    public void goToPostWriteForm() {
         ;
     }
 
