@@ -3,13 +3,12 @@ package com.app.onestepback.mapper;
 import com.app.onestepback.domain.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.lang.reflect.Member;
 import java.util.Optional;
 
 @Mapper
 public interface MemberMapper {
 
-    //    회원가입 - 이메일
+    //    회원가입
     public void insert(MemberVO memberVO);
 
     //    ID로 계정 조회

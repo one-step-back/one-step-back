@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -15,6 +15,7 @@
 <body>
 <div class="page-wrap">
     <header style="height: 60px; width: 100%; position:fixed;"></header>
+    <div th:text="${session.member.memberNickname}"></div>
     <div class="sub-header-wrap">
         <div class="web-grid sub-header-container">
             <ul class="sub-header-navs">
