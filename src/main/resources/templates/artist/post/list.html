@@ -30,7 +30,8 @@
                            data-share-url="https://u-t-wp.postype.com">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
-                        <button class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
+                        <button th:if="${session.member != null and artist.id != session.member.id}"
+                                class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
                                 data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">
                             <span class="default-text">구독하기</span>
                             <span class="active-text">구독중</span>
@@ -99,6 +100,10 @@
                                     <p th:text="${artist.artistDescription}" class="text-alpha-black-60 mb-0"></p>
                                 </div>
                             </div>
+                            <th:block th:if="${session.member != null}">
+                                <a th:if="${artist.id == session.member.id}" class="write-btn"
+                                   href="/artist/post/write">작성하기</a>
+                            </th:block>
                         </section>
                     </div>
                 </div>
@@ -150,17 +155,21 @@
                                                            class="general-tag"></a>
                                                     </div>
                                                 </div>
-                                                <div class="post-data-thumbnail">
-                                                    <a href="https://u-t-wp.postype.com/post/15313057">
-                                                        <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/16/12/29/f14b53fb8141f869787bb7016cc0ed42.jpeg?w=240&amp;h=180&amp;q=65"
-                                                             alt="우천시워터파크 드로잉 워크북 출시">
-                                                    </a>
-                                                </div>
+                                                <th:block th:unless="*{fileName == null}">
+                                                    <div class="post-data-thumbnail">
+                                                        <a href="https://u-t-wp.postype.com/post/15313057">
+                                                            <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">
+                                                        </a>
+                                                    </div>
+                                                </th:block>
                                             </div>
                                             <div class="post-info">
                                                 <a class="user-profile-avatar avatar-32"
                                                    href="https://www.postype.com/profile/@8q8la4">
-                                                    <img src="/images/none-avatar.svg">
+                                                    <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
+                                                         src="/images/none-avatar.svg">
+                                                    <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
+                                                         th:src="*{memberKakaoProfileUrl}">
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
@@ -242,6 +251,9 @@
                                 </div>
                             </th:block>
                         </th:block>
+                        <th:block th:unless="${#lists.size(posts) != 0}">
+                            <div class="content-none">게시글이 없습니다</div>
+                        </th:block>
                         <div id="page-wrap"></div>
                     </section>
                 </div>
@@ -252,6 +264,10 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script th:inline="javascript">
+    console.log([[${artist}]]);
+    console.log([[${session.member}]]);
+    console.log([[${posts}]]);
+
     // Ajax 공부겸 fetch 기능 작성함
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
@@ -306,7 +322,7 @@
         }
     }
 
-    function getPageBtn(){
+    function getPageBtn() {
         const pageWrap = $("#page-wrap");
         const pagination = [[${pagination}]];
         let pagingText = ``;

@@ -1,17 +1,18 @@
 package com.app.onestepback.controller;
 
 import com.app.onestepback.domain.ArtistPostDTO;
+import com.app.onestepback.domain.MemberVO;
 import com.app.onestepback.domain.Pagination;
 import com.app.onestepback.service.ArtistPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -33,7 +34,22 @@ public class ArtistPostController {
     }
 
     @GetMapping("write")
-    public void goToPostWriteForm() {
+    public void goToPostWriteForm(ArtistPostDTO artistPostDTO, HttpSession session, Model model) {
+        MemberVO memberSession = (MemberVO) session.getAttribute("member");
+
+        log.info(String.valueOf(memberSession.getId()));
+        model.addAttribute("memberId", memberSession.getId());
+    }
+
+    @PostMapping("write")
+    public RedirectView saveArtistPost(ArtistPostDTO artistPostDTO, @RequestParam("numberOfTags") int numberOfTags, @RequestParam(value = "uuid", required = false) List<String> uuids, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles) {
+        artistPostService.savePost(artistPostDTO, numberOfTags, uuids, uploadFiles);
+
+        return new RedirectView("/artist/post/detail?id=" + artistPostDTO.getId());
+    }
+
+    @GetMapping("detail")
+    public void goToPostDetailForm(@RequestParam("id") Long id) {
         ;
     }
 }
