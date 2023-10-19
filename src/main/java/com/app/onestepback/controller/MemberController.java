@@ -19,6 +19,13 @@ import java.util.Optional;
 public class MemberController {
     private final MemberService memberService;
 
+    //    아이디 중복검사
+    @GetMapping("check-email/{memberEmail}")
+    @ResponseBody
+    public boolean checkId(@PathVariable String memberEmail){
+        return memberService.findByEmail(memberEmail).isPresent();
+    }
+
     // 회원가입 페이지로 이동
     @GetMapping("join")
     public void goToJoinForm(MemberVO memberVO){;}
