@@ -2,6 +2,8 @@ package com.app.onestepback.repository;
 
 import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.Pagination;
+import com.app.onestepback.domain.PostFileVO;
+import com.app.onestepback.domain.PostTagVO;
 import com.app.onestepback.mapper.ArtistPostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,12 @@ public class ArtistPostDAO {
     public List<ArtistPostDTO> get3Posts(Long memberId){return artistPostMapper.select3Posts(memberId);}
 
     public List<ArtistPostDTO> getAllPosts(Long memberId, Pagination pagination){return artistPostMapper.selectAll(memberId, pagination);}
+
+    public void savePost(ArtistPostDTO artistPostDTO){artistPostMapper.insertPost(artistPostDTO);}
+
+    public void saveArtistPost(Long postId){artistPostMapper.insertArtistPost(postId);}
+
+    public void savePostTag(PostTagVO postTagVO){artistPostMapper.insertPostTag(postTagVO);}
+
+    public void saveFile(PostFileVO postFileVO){artistPostMapper.insertFile(postFileVO);}
 }

@@ -2,6 +2,8 @@ package com.app.onestepback.mapper;
 
 import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.Pagination;
+import com.app.onestepback.domain.PostFileVO;
+import com.app.onestepback.domain.PostTagVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +18,12 @@ public interface ArtistPostMapper {
 
 //    포스트 리스트 출력 (페이지네이션)
     public List<ArtistPostDTO> selectAll(Long memberId, Pagination pagination);
+
+    public void insertPost(ArtistPostDTO artistPostDTO);
+
+    public void insertArtistPost(Long postId);
+
+    public void insertPostTag(PostTagVO postTagVO);
+
+    public void insertFile(PostFileVO postFileVO);
 }

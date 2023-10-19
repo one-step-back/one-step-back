@@ -3,7 +3,6 @@ package com.app.onestepback.artist;
 import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
-import com.app.onestepback.mapper.ArtistPostTagMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +24,23 @@ public class ArtistPostMapperTest {
         pagination.setStartRow(1);
         pagination.setEndRow(10);
         artistPostMapper.selectAll(1L, pagination).stream().map(ArtistPostDTO::toString).forEach(log::info);
+    }
+
+    @Test
+    public void insertPostTest(){
+        ArtistPostDTO artistPostDTO = new ArtistPostDTO();
+
+        artistPostDTO.setMemberId(41L);
+        artistPostDTO.setPostTitle("맵퍼 테스트 글");
+        artistPostDTO.setPostSubtitle("맵퍼 테스트 서브제목");
+        artistPostDTO.setPostContent("내용");
+        artistPostDTO.setPostCategory("카테고리");
+        artistPostMapper.insertPost(artistPostDTO);
+        log.info(String.valueOf(artistPostDTO.getId()));
+    }
+
+    @Test
+    public void insertArtistPostTest(){
+        artistPostMapper.insertArtistPost(122L);
     }
 }

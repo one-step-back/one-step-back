@@ -15,49 +15,7 @@
 <!--헤더-->
 <header th:replace="~{main/header :: header}"></header>
 <!--프로필 모달-->
-<nav class="auto-height" id="user-menu" tabindex="-1" role="navigation">
-    <div class="dropdown user-wrapper">
-        <a class="btn btn-change-profile" href="#" aria-haspopup="true" aria-expanded="false" title="프로필 전환">
-            <div class="profile-avatar my-menu-profile-avatar avatar-24">
-                <img class="profile-img" src="./Images/userProfilePic.png" alt="">
-            </div>
-            <div class="media-body">
-                <div class="text-truncate user-name">손성민</div>
-            </div>
-            <i class="fas fa-angle-down fa-lg user-profile-arrow-down"></i>
-        </a>
-        <div class="dropdown-menu" id="profile-list" x-placement="top-start"
-             style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-4px, 4px, 0px);">
-            <h6 class="dropdown-header">마이페이지</h6>
-            <a class="dropdown-item" href="Namho/my-page/my-page.html">
-                <div class="profile-avatar avatar-24">
-                    <img class="profile-img"
-                         src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/06/23/38/9a787b703f93777569e803b91eba1ace.jpeg?w=64&amp;h=64&amp;q=65"
-                         alt="">
-                </div>
-                <span class="text-truncate">손성민</span>
-            </a>
-            <!--            <a class="dropdown-item" href="">-->
-            <!--                <div class="avatar-24">-->
-            <!--                    <span class="profile-img">-->
-            <!--                        <i class="fas fa-user-plus"></i>-->
-            <!--                    </span>-->
-            <!--                </div>-->
-            <!--                새 프로필 만들기-->
-            <!--            </a>-->
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="Namho/my-page/profile/profile.html">프로필 사진 수정</a>
-        </div>
-    </div>
-
-    <a class="dropdown-item" href="">홈</a>
-    <a class="dropdown-item" href="Namho/community/community.html">게시판</a>
-    <a class="dropdown-item" href="Namho/crowd-funding/crowd-funding.html">크라우드 펀딩</a>
-    <a class="dropdown-item" href="Namho/my-page/my-page.html">설정</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="Jiseong3030/question.html">도움 센터</a>
-    <a id="dropdown-item-logout" class="dropdown-item" href="">로그아웃</a>
-</nav>
+<nav th:replace="~{main/user-popover :: user-popover}"></nav>
 <!--메인 페이지-->
 <main class="main-content slide-left pool" id="pool-main-content" role="main">
     <div id="pool-main-home" class="pool-home-container ">
@@ -644,9 +602,11 @@
                             <a href="/collections" class="empty-button btn btn-primary">컬렉션 둘러보기</a>
                         </th:block>
                         <th:block th:unless="${session.member != null}">
-                            <span class="empty-title">로그인을 해주세요!</span>
+                            <a href="/member/login">
+                                <span class="empty-title">로그인을 해주세요!</span>
+                            </a>
                             <span class="empty-description">회원이 아니신가요?<br>아래 버튼을 눌러 가입하고 나만의 아티스트를 찾아보세요!</span>
-                            <a href="/collections" class="empty-button btn btn-primary">회원가입</a>
+                            <a href="/member/join" class="empty-button btn btn-primary">회원가입</a>
                         </th:block>
                     </section>
                 </div>
@@ -658,4 +618,9 @@
 <footer th:replace="~{main/footer :: footer}"></footer>
 <div class="backdrop fade" style="display: none"></div>
 </body>
+<script th:inline="javascript">
+    console.log([[${session.member}]])
+</script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="/js/main/header.js"></script>
 </html>

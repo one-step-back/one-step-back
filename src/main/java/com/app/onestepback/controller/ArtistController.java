@@ -24,6 +24,7 @@ public class ArtistController {
 
     @GetMapping("main")
     public void goToMainForm(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("posts", artistService.get3Posts(id));
         model.addAttribute("artist", artistService.getArtist(id).get());
     }
 
@@ -39,13 +40,6 @@ public class ArtistController {
 
         return counts;
     }
-
-    @GetMapping("get-3posts")
-    @ResponseBody
-    public List<ArtistPostDTO> load3Posts(@RequestParam("id") Long id) {
-        return artistService.get3Posts(id);
-    }
-
     @GetMapping("get-3videos")
     @ResponseBody
     public List<VideoDTO> load3Videos(@RequestParam("id") Long id) {
@@ -59,11 +53,6 @@ public class ArtistController {
 
     @GetMapping("/post/edit")
     public void goToPostEditForm() {
-        ;
-    }
-
-    @GetMapping("/post/detail")
-    public void goToPostDetailForm() {
         ;
     }
 }
