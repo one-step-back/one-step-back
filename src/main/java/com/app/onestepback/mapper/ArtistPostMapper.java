@@ -6,7 +6,9 @@ import com.app.onestepback.domain.PostFileVO;
 import com.app.onestepback.domain.PostTagVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ArtistPostMapper {
@@ -26,4 +28,10 @@ public interface ArtistPostMapper {
     public void insertPostTag(PostTagVO postTagVO);
 
     public void insertFile(PostFileVO postFileVO);
+
+    public ArtistPostDTO select(Long id);
+
+    public Optional<ArtistPostDTO> selectPrevPost(ArtistPostDTO artistPostDTO);
+
+    public Optional<ArtistPostDTO> selectNextPost(ArtistPostDTO artistPostDTO);
 }

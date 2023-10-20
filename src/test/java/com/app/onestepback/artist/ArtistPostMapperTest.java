@@ -43,4 +43,18 @@ public class ArtistPostMapperTest {
     public void insertArtistPostTest(){
         artistPostMapper.insertArtistPost(122L);
     }
+
+    @Test
+    public void selectPrevPost(){
+        ArtistPostDTO artistPostDTO = artistPostMapper.select(141L);
+
+        log.info(String.valueOf(artistPostMapper.selectPrevPost(artistPostDTO)));
+    }
+
+    @Test
+    public void selectNextPost(){
+        ArtistPostDTO artistPostDTO = artistPostMapper.select(137L);
+
+        log.info(String.valueOf(artistPostMapper.selectNextPost(artistPostDTO)));
+    }
 }

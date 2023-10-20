@@ -2,6 +2,7 @@ package com.app.onestepback.service;
 
 import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.ArtistPostDTO;
+import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.domain.VideoDTO;
 import com.app.onestepback.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -97,8 +98,8 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<String> getAllTags(Long postId) {
-        return postTagDAO.getAllTags(postId);
+    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO) {
+        return subscriptionDAO.checkSubscription(subscriptionVO);
     }
 
 }

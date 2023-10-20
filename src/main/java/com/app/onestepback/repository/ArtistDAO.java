@@ -14,6 +14,10 @@ public class ArtistDAO {
 
 //    아티스트 불러옴 -> 블로그 출력
     public Optional<ArtistDTO> getArtist(Long id){
-        return artistMapper.select(id);
+        return artistMapper.selectAM(id);
+    }
+
+    public Optional<ArtistDTO> getArtistInfo(Long memberId){
+        return artistMapper.select(memberId);
     }
 }

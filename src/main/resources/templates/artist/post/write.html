@@ -130,16 +130,19 @@
                             <div id="tag-wrap"></div>
                         </div>
 
-                        <div class="h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
+                        <div class="position-relative h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
                             <div class="flex items-center">
                                 <strong class="font_label_bold_xl content_primary">
                                     이미지
                                 </strong>
                             </div>
-                            <label for="img-input" style="margin: 0"
+                            <label for="img-input" style="margin: 0 20px 0 0"
                                    class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled">
                                 업로드
                             </label>
+                            <div id="erase-imgs">
+                                <i class="fa-solid fa-trash"></i>
+                            </div>
                         </div>
                         <div id="img-container">
                             <input id="img-input" type="file" multiple name="uploadFile"
@@ -147,14 +150,11 @@
                                    style="display: none">
                         </div>
                         <div class="px-[20px]">
-                            <div class="h-[88px] justify-center items-center">
+                            <div id="show-images" class="h-[88px] justify-center items-center">
                                 <div id="image-wrap">
-                                    <div class="image-item">
-                                        <img src="/images/test.jpg">
-                                        <i class="fa-solid fa-x"></i>
-                                    </div>
+                                    <div class="image-item"></div>
                                 </div>
-                                <span class="content_disabled font_body_regular_md">
+                                <span id="no-image" class="content_disabled font_body_regular_md">
                                     첨부된 이미지가 없습니다.
                                 </span>
                             </div>
@@ -191,6 +191,10 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script th:inline="javascript">
     $(function () {
+        const noImg = `<span id="no-image" class="content_disabled font_body_regular_md">
+                                    첨부된 이미지가 없습니다.
+                                </span>`;
+
         let numberOfTags = 0;
         const modal = $("#modal");
         $("#numberOfTags").val(numberOfTags);
@@ -293,12 +297,14 @@
         });
 
         $("#img-input").on("change", function () {
-            // 선택된 파일들을 FormData로 구성
+            const imageWrap = $("#image-wrap")
             let formData = new FormData();
             let files = $(this)[0].files;
             for (var i = 0; i < files.length; i++) {
                 formData.append("uploadFile", files[i]);
             }
+
+            imageWrap.empty();
 
             $.ajax({
                 type: "POST",
@@ -312,37 +318,44 @@
 
                     let imageHtml = null;
 
+                    let now = new Date();
+                    let year = now.getFullYear();
+                    let month = now.getMonth() + 1;
+                    let date = now.getDate();
+                    month = month < 10 ? '0' + month : month;
+                    date = date < 10 ? '0' + date : date;
+
                     for (let i = 0; i < uuids.length; i++) {
                         let uuidInput = document.createElement("input");
                         uuidInput.type = "hidden";
                         uuidInput.name = "uuid";
                         uuidInput.value = uuids[i];
 
-                        let now = new Date();
-                        let year = now.getFullYear();
-                        let month = now.getMonth() + 1;
-                        let date = now.getDate();
-                        month = month < 10 ? '0' + month : month;
-                        date = date < 10 ? '0' + date : date;
                         let fileName = `${year}/${month}/${date}/t_${uuids[i]}_${files[i].name}`;
 
                         imageHtml = `<div class="image-item">
                                         <img src="/file/display?fileName=${fileName}">
-                                        <i class="fa-solid fa-x"></i>
-                                    </div>`;
+                                     </div>`;
 
                         $("#image-wrap").append(imageHtml);
                         $("#img-container").append(uuidInput);
+                        $("#no-image").remove();
                     }
                 },
                 error: function (xhr, status, error) {
                     console.log("업로드 실패: " + error);
                 }
             });
-        });
+        })
+
+        $("#erase-imgs").click(() => {
+            $("#image-wrap").empty();
+            $("#img-container input[name='uuid']").remove();
+            $("#show-images").append(noImg);
+        })
 
 
-        $("#summit-btn").click(function () {
+        $("#summit-btn").click(() => {
             $("#summit-form").submit();
         });
     });

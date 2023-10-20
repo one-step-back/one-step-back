@@ -4,6 +4,7 @@ import com.app.onestepback.domain.*;
 import com.app.onestepback.repository.ArtistDAO;
 import com.app.onestepback.repository.ArtistPostDAO;
 import com.app.onestepback.repository.PostTagDAO;
+import com.app.onestepback.repository.SubscriptionDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final ArtistDAO artistDAO;
     private final ArtistPostDAO artistPostDAO;
     private final PostTagDAO postTagDAO;
+    private final SubscriptionDAO subscriptionDAO;
 
     @Override
     public Optional<ArtistDTO> getArtist(Long id) {
@@ -99,6 +101,51 @@ public class ArtistPostServiceImpl implements ArtistPostService {
                 artistPostDAO.saveFile(postFileVO);
             }
         }
+    }
+
+    @Override
+    public ArtistPostDTO getPost(Long id) {
+        ArtistPostDTO post = artistPostDAO.getPost(id);
+
+        List<String> tags = postTagDAO.getAllTags(post.getId());
+
+        if (!tags.isEmpty()) {
+            post.setTag1(tags.get(0));
+        }
+        if (tags.size() >= 2) {
+            post.setTag2(tags.get(1));
+        }
+        if (tags.size() >= 3) {
+            post.setTag3(tags.get(2));
+        }
+        if (tags.size() >= 4) {
+            post.setTag4(tags.get(3));
+        }
+        if (tags.size() >= 5) {
+            post.setTag5(tags.get(4));
+        }
+
+        return post;
+    }
+
+    @Override
+    public Optional<ArtistDTO> getArtistInfo(Long memberId) {
+        return artistDAO.getArtistInfo(memberId);
+    }
+
+    @Override
+    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO) {
+        return artistPostDAO.getPrevPost(artistPostDTO);
+    }
+
+    @Override
+    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO) {
+        return artistPostDAO.getNextPost(artistPostDTO);
+    }
+
+    @Override
+    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO) {
+        return subscriptionDAO.checkSubscription(subscriptionVO);
     }
 
     private String getPath() {

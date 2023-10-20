@@ -44,4 +44,6 @@ public class ArtistDTO {
     private String artistCreateTime;
     //    아티스트 정보 수정일자
     private String artistUpdateTime;
+
+    private int subscriptionCount;
 }

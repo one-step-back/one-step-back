@@ -6,13 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnSubscribe = document.querySelector(".btn-subscribe");
 
     // 1. 구독하기 버튼 동작
-    btnSubscribe.addEventListener("click", (e) => {
-      if(!btnSubscribe.classList.contains("active")){
-          btnSubscribe.classList.add("active");
-      } else{
-          btnSubscribe.classList.remove("active");
-      }
-    })
+    if (btnSubscribe) {
+        btnSubscribe.addEventListener("click", (e) => {
+            if (!btnSubscribe.classList.contains("active")) {
+                btnSubscribe.classList.add("active");
+            } else {
+                btnSubscribe.classList.remove("active");
+            }
+        });
+    }
 
     // 2. 북마크 버튼 누르면 색깔 바뀌기
     bookmarkButtons.forEach((bookmarkButton) => {

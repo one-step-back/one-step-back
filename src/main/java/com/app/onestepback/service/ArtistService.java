@@ -2,6 +2,7 @@ package com.app.onestepback.service;
 
 import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.ArtistPostDTO;
+import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.domain.VideoDTO;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface ArtistService {
 
     public List<VideoDTO> get3Videos(Long memberId);
 
-    public List<String> getAllTags(Long postId);
+    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO);
 }

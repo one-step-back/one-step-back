@@ -14,6 +14,6 @@ public class artistMapperTest {
 
     @Test
     public void selectTest(){
-        log.info(String.valueOf(artistMapper.select(1L)));
+        log.info(String.valueOf(artistMapper.selectAM(1L)));
     }
 }

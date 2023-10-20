@@ -128,7 +128,7 @@
                                         <div>
                                             <div class="post">
                                                 <div class="post-data">
-                                                    <a href="/artist/post/detail?id=${post.id}">
+                                                    <a th:href="@{/artist/post/detail(id=${post.id})}">
                                                         <h3 class="ellipsis-2 text-color-black"></h3>
                                                         <div class="ellipsis-2 text-alpha-black-47">
                                                             <h3 th:text="*{postTitle}"
@@ -157,15 +157,14 @@
                                                 </div>
                                                 <th:block th:unless="*{fileName == null}">
                                                     <div class="post-data-thumbnail">
-                                                        <a href="https://u-t-wp.postype.com/post/15313057">
+                                                        <a th:href="@{/artist/post/detail(id=${post.id})}">
                                                             <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">
                                                         </a>
                                                     </div>
                                                 </th:block>
                                             </div>
                                             <div class="post-info">
-                                                <a class="user-profile-avatar avatar-32"
-                                                   href="https://www.postype.com/profile/@8q8la4">
+                                                <a class="user-profile-avatar avatar-32">
                                                     <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                          src="/images/none-avatar.svg">
                                                     <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
@@ -173,9 +172,7 @@
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:text="*{memberNickname}"
-                                                           href="https://www.postype.com/profile/@8q8la4"
-                                                           rel="author"></a>
+                                                        <a th:text="*{memberNickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
                                                         <span class="meta-item" title="조회수">
@@ -349,4 +346,5 @@
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>
+<script src="/js/artist/main.js"></script>
 </html>

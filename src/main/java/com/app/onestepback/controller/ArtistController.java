@@ -2,6 +2,7 @@ package com.app.onestepback.controller;
 
 import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.ArtistPostDTO;
+import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.domain.VideoDTO;
 import com.app.onestepback.repository.ArtistPostDAO;
 import com.app.onestepback.service.ArtistService;
@@ -54,5 +55,15 @@ public class ArtistController {
     @GetMapping("/post/edit")
     public void goToPostEditForm() {
         ;
+    }
+
+    @GetMapping("check-subscription")
+    @ResponseBody
+    public int checkSubscription(@RequestParam("subscriptionInfo") SubscriptionVO subscriptionVO){
+        if (artistService.checkSubscription(subscriptionVO).isEmpty()){
+            return -1;
+        } else {
+            return 1;
+        }
     }
 }
