@@ -103,10 +103,14 @@ function checkEmail() {
             if(result){
                 $joinHelp.eq(0).text("사용중인 이메일입니다.");
                 $joinHelp.eq(0).css('color', 'red')
+                joinCheckAll[0] = false;
+                joinCheckAll[1] = false;
                 showHelp($joinInputs.eq(0), "error.png");
             } else{
                 $joinHelp.eq(0).text("사용 가능한 이메일이에요!");
                 $joinHelp.eq(0).css('color', '#7eb347')
+                joinCheckAll[0] = true;
+                joinCheckAll[1] = true;
                 showHelp($joinInputs.eq(0), "pass.png");
             }
         }
@@ -114,7 +118,9 @@ function checkEmail() {
 }
 
 function send(){
-    $joinInputs.trigger("blur");
+    $joinInputs.eq(2).trigger("blur");
+    $joinInputs.eq(3).trigger("blur");
+    $joinInputs.eq(4).trigger("blur");
     if(joinCheckAll.filter(check => check).length != $joinInputs.length){
         let modalMessage = "<span>모든 정보를 정확히 입력하셔야</span><span>가입이 완료됩니다.</span>";
         showWarnModal(modalMessage);

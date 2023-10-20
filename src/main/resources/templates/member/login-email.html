@@ -32,11 +32,11 @@
               <h1 class="mb-4">이메일로 로그인</h1>
               <div class="form-group">
                 <label class="form-label-sm">이메일 주소</label>
-                <input th:field="*{memberEmail}" id="email" name="memberEmail" class="form-control" placeholder="이메일 주소" autofocus>
+                <input th:field="*{memberEmail}" type="text" id="email" name="memberEmail" class="form-control" placeholder="이메일 주소" autofocus>
               </div>
               <div class="form-group">
                 <label class="form-label-sm">비밀번호</label>
-                <input th:field="*{memberPassword}" id="password" name="memberPassword" class="form-control" placeholder="비밀번호" autofocus>
+                <input th:field="*{memberPassword}" type="password" id="password" name="memberPassword" class="form-control" placeholder="비밀번호" autofocus>
               </div>
               <div class="btn-wrapper">
                 <button type="button" class="login login-button" onclick="send()">로그인</button>
