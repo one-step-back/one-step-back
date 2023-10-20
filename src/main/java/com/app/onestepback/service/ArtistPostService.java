@@ -1,8 +1,6 @@
 package com.app.onestepback.service;
 
-import com.app.onestepback.domain.ArtistDTO;
-import com.app.onestepback.domain.ArtistPostDTO;
-import com.app.onestepback.domain.Pagination;
+import com.app.onestepback.domain.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -18,4 +16,14 @@ public interface ArtistPostService {
     public List<String> getAllTags(Long postId);
 
     public void savePost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles);
+
+    public ArtistPostDTO getPost(Long id);
+
+    public Optional<ArtistDTO> getArtistInfo(Long memberId);
+
+    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO);
+
+    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO);
+
+    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO);
 }

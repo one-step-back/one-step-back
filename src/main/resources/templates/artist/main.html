@@ -124,7 +124,7 @@
                                         <div>
                                             <div class="post">
                                                 <div class="post-data">
-                                                    <a href="/artist/post/detail?id=${post.id}">
+                                                    <a th:href="@{/artist/post/detail(id=${post.id})}">
                                                         <h3 class="ellipsis-2 text-color-black"></h3>
                                                         <div class="ellipsis-2 text-alpha-black-47">
                                                             <h3 th:text="*{postTitle}"
@@ -303,21 +303,32 @@
     }
 
     // 비디오 로드 쿼리
-    function loadVideos(artistId) {
+    function loadVideos(artistId, callback) {
         $.ajax({
             type: "GET",
             url: "/artist/get-3videos?id=" + artistId,
             success: function (data) {
-                let videosContainer = $("#videos-container");
-                let videoHtml = null;
-                videosContainer.empty();
+                if(callback){
+                    callback(data)
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
 
-                if (data.length !== 0) {
-                    data.forEach(function (video) {
-                        let youtubeLink = `${video.videoLink}`;
-                        let thumbnailUrl = getYouTubeThumbnailUrl(youtubeLink);
+    function something(data){
+        let videosContainer = $("#videos-container");
+        let videoHtml = null;
+        videosContainer.empty();
 
-                        videoHtml = `<div class="component-series list">
+        if (data.length !== 0) {
+            data.forEach(function (video) {
+                let youtubeLink = `${video.videoLink}`;
+                let thumbnailUrl = getYouTubeThumbnailUrl(youtubeLink);
+
+                videoHtml = `<div class="component-series list">
                                 <div class="series-data-thumbnail">
                                     <a href="#">
                                         <img src="${thumbnailUrl}">
@@ -380,11 +391,22 @@
                                 </div>
                             </div>
                             <div class="component-series-divider"></div>`;
-                        videosContainer.append(videoHtml);
-                    });
-                } else {
-                    videoHtml = `<div class="content-none">영상이 없습니다.</div>`;
-                    videosContainer.append(videoHtml);
+
+                videosContainer.append(videoHtml);
+            });
+        } else {
+            videoHtml = `<div class="content-none">영상이 없습니다.</div>`;
+            videosContainer.append(videoHtml);
+        }
+    }
+
+    function checkSubscription(artistId, memberId, callback){
+        $.ajax({
+            type: "GET",
+            url: "/artist/check-subscription?artistId =" + artistId + "&memberId =" + memberId,
+            success: function (data) {
+                if(callback){
+                    callback(data)
                 }
             },
             error: function (xhr, status, error) {
@@ -392,6 +414,18 @@
             }
         });
     }
+
+    function didISubscribe(data){
+        let subscribeBtn = $(".btn-subscribe");
+        let subscriptionHtml = null;
+
+        if(data === -1){
+            subscriptionHtml = `<span className="default-text">구독하기</span>`;
+        } else {
+            subscriptionHtml = `<span className="active-text">구독중</span>`;
+        }
+    }
+
 
     // 유튜브 링크를 통해 썸네일을 가져오는 함수
     function getYouTubeThumbnailUrl(youtubeLink) {
@@ -443,7 +477,7 @@
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
         getCounts([[${artist.id}]]);
-        loadVideos([[${artist.id}]]);
+        loadVideos([[${artist.id}]], something);
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>

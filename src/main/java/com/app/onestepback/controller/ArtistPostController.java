@@ -3,6 +3,7 @@ package com.app.onestepback.controller;
 import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.MemberVO;
 import com.app.onestepback.domain.Pagination;
+import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.service.ArtistPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,7 +53,26 @@ public class ArtistPostController {
     }
 
     @GetMapping("detail")
-    public void goToPostDetailForm(@RequestParam("id") Long id) {
-        ;
+    public void goToPostDetailForm(@RequestParam("id") Long id, Model model) {
+
+        ArtistPostDTO nowPost = artistPostService.getPost(id);
+
+        Optional<ArtistPostDTO> prevPost = artistPostService.getPrevPost(nowPost);
+        Optional<ArtistPostDTO> nextPost = artistPostService.getNextPost(nowPost);
+
+        model.addAttribute("prevPost", prevPost.orElse(null));
+        model.addAttribute("nextPost", nextPost.orElse(null));
+        model.addAttribute("artist", artistPostService.getArtistInfo(nowPost.getMemberId()).get());
+        model.addAttribute("post", nowPost);
+    }
+
+    @GetMapping("check-subscription")
+    @ResponseBody
+    public int checkSubscription(@RequestParam("subscriptionInfo")SubscriptionVO subscriptionVO){
+       if (artistPostService.checkSubscription(subscriptionVO).isEmpty()){
+           return -1;
+       } else {
+           return 1;
+       }
     }
 }

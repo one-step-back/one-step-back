@@ -1,8 +1,11 @@
 package com.app.onestepback.repository;
 
+import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.mapper.SubscriptionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -12,4 +15,6 @@ public class SubscriptionDAO {
     public int getCountOfSubscriber(Long artistId) {
         return subscriptionMapper.selectCountOfSubscriber(artistId);
     }
+
+    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO){return subscriptionMapper.select(subscriptionVO);}
 }

@@ -1513,10 +1513,12 @@ input[type="radio" i] {
     height: 108px;
 }
 
-.image-item i {
+#erase-imgs {
+    right: 15px;
     position: absolute;
-    right: -15px;
-    top: 0;
-    font-size: 15px;
+    cursor: pointer;
 }
 
+.position-relative {
+    position: relative;
+}

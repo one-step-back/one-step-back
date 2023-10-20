@@ -1,177 +1,3 @@
-header {
-    position: fixed;
-    z-index: 1030;
-    width: 100%;
-    max-width: 100vw;
-    background-color: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, .05);
-}
-
-.h-blog-grid {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    position: relative;
-    max-width: 1072px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-#h-logo {
-    margin-left: -20px;
-    margin-right: 10px;
-    padding: 5px;
-    display: block;
-    position: relative;
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-}
-
-#h-logo:before {
-    background: url("https://d33pksfia2a94m.cloudfront.net/assets/img/postype/logo_black.svg") no-repeat center;
-    background-size: contain;
-    content: "";
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-}
-
-.h-actions-container {
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.h-nav-item {
-    border: 0;
-    background-color: transparent;
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-    padding: 7px;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.h-nav-item:not(first-child) {
-    margin-left: 8px;
-}
-
-.h-search-icon svg {
-    fill: #000;
-    width: 20px;
-    height: 21px;
-}
-
-.h-nav-item i {
-    color: #000;
-    line-height: .75em;
-    font-size: 20px;
-}
-
-.h-user-avatar {
-    vertical-align: initial;
-    border-radius: 50%;
-    background-color: #fff;
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.h-user-avatar-s {
-    vertical-align: initial;
-    border-radius: 50%;
-    background-color: #fff;
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    margin-right: 8px;
-    overflow: hidden;
-}
-
-.h-user-avatar-s img {
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 24px;
-    height: 24px;
-}
-
-.h-user-menu-popover {
-    position: absolute;
-    display: none;
-    z-index: 1050;
-    visibility: visible;
-    padding-bottom: 6px;
-    top: 100%;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: 5px;
-    width: 264px;
-    transform: translateX(-110px);
-}
-
-.h-user-menu-popover.active{
-    display: block;
-}
-
-.h-current-user-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 54px;
-    padding: 9px 18px;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 22px;
-    text-align: left;
-    border: 0;
-    cursor: pointer;
-}
-
-.h-user-nickname {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.h-popover-divider {
-    margin: 6px 0;
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, .075);
-}
-
-.h-user-menu-popover .h-popover-divider:first-of-type {
-    margin-top: 0 !important;
-}
-
-.h-popover-menu-item {
-    padding: 5px 18px;
-    font-size: 15px;
-    color: #444 !important;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    position: relative;
-    line-height: 24px;
-}
-
-.h-popover-menu-item:hover {
-    background-color: #f8f8f8;
-}
-
 /*===========================================================================================================================================*/
 
 .brand-wrap {
@@ -395,7 +221,6 @@ header {
 }
 
 .post-body {
-    height: 3888.52px;
     margin-top: 30px;
     border-top: 1px solid rgba(0,0,0,.05);
 }
@@ -459,6 +284,7 @@ header {
     height: inherit;
     vertical-align: top;
     border-style: none;
+    background-color: #E4E4E4;
 }
 
 .media-body {
@@ -654,9 +480,9 @@ header {
 }
 
 .fa-chevron-right {
-    font-size: 11px;
-    margin-left: 7px;
-    font-family: 'FontAwesome';
+    margin: 0 9px 0 -27px;
+    vertical-align: middle;
+    font-size: 20px;
     font-weight: 300;
     -webkit-font-smoothing: antialiased;
     display: inline-block;
@@ -664,7 +490,7 @@ header {
     font-variant: normal;
     text-rendering: auto;
     line-height: 1;
-
+    font-family: 'FontAwesome';
 }
 
 .pay-membership {
@@ -986,6 +812,7 @@ header {
     height: inherit;
     vertical-align: top;
     border-style: none;
+    background-color: #E4E4E4;
 }
 
 .profile-title98 {

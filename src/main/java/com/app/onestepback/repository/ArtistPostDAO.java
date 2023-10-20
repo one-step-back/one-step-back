@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,4 +29,10 @@ public class ArtistPostDAO {
     public void savePostTag(PostTagVO postTagVO){artistPostMapper.insertPostTag(postTagVO);}
 
     public void saveFile(PostFileVO postFileVO){artistPostMapper.insertFile(postFileVO);}
+
+    public ArtistPostDTO getPost(Long id){return artistPostMapper.select(id);}
+
+    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO){return artistPostMapper.selectPrevPost(artistPostDTO);}
+
+    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO){return artistPostMapper.selectNextPost(artistPostDTO);}
 }
