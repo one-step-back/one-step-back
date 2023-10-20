@@ -5,53 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>원스텝 | 회원가입</title>
-    <link rel="stylesheet" href="/css/member/join.css">
-    <link rel="stylesheet" href="/css/main/root.css">
+    <link rel="stylesheet" href="/css/member/member.css">
+    <link rel="stylesheet" href="/css/member/term.css">
+    <link rel="stylesheet" href="/css/member/info.css">
     <link rel="stylesheet" href="/css/member/modal.css">
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
-        onload="this.rel='stylesheet'">
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 </head>
 
 <body>
-    <main class="main-content" id="main-content" role="main">
-        <div class="modal">
-            <div class="warn-modal">
-                <div id="content-wrap"></div>
-            </div>
+<main id="join">
+    <div class="modal">
+        <div class="warn-modal">
+            <div id="content-wrap"></div>
         </div>
-        <section class="dialog">
-            <div class="dialog-content">
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="sign-up-email" role="tabpanel">
-                        <form th:action ="@{/member/join}" method="post" th:object="${memberVO}">
-                            <div>
-                                <h1 class="mb-4">이메일로 회원가입</h1>
-                                <div class="form-group">
-                                    <label class="form-label-sm">이메일 주소</label>
-                                    <input th:field="*{memberEmail}" id="email" name="memberEmail" class="form-control" placeholder="이메일 주소" autofocus>
+    </div>
+    <section id="join-container">
+        <article>
+            <form th:action="@{/member/join}" name="join" method="post" th:object="${memberVO}">
+                <div class="join">
+                    <div class="info-container info-container-first">
+                        <label>이메일</label>
+                        <span>
+                            <div class="email-wrap">
+                                <div class="email-first">
+                                    <input type="text" autocomplete="off" placeholder="이메일 앞자리">
+                                    <img width="16px">
+                                    <p class="help"></p>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label-sm">비밀번호</label>
-                                    <input th:field="*{memberPassword}" id="password" name="memberPassword" class="form-control" placeholder="비밀번호" autofocus>
+                                <span id="seperator">@</span>
+                                <div class="email-last">
+                                    <input type="text" autocomplete="off" placeholder="이메일 뒷자리">
+                                    <img width="16px">
+                                    <p class="help"></p>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label-sm">닉네임</label>
-                                    <input th:field="*{memberNickname}" id="nickname" name="memberNickname" class="form-control" placeholder="닉네임" autofocus>
-                                </div>
-                                <div class="btn-wrapper">
-                                    <button type="button" class="join join-button" onclick="send()">회원가입</button>
-                                </div>
+                                <input type="hidden" th:field="*{memberEmail}" >
                             </div>
-                        </form>
+                        </span>
+
+                        <div class="email-select-wrap">
+                            <select class="email">
+                                <option value="">직접입력</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="hanmail.net">hanmail.net</option>
+                                <option value="nate.com">nate.com</option>
+                                <option value="hotmail.com">hotmail.com</option>
+                                <option value="gmail.com">gmail.com</option>
+                            </select>
+                            <img src="/images/select.png" width="16px" style="display: inline-block;">
+                        </div>
+                        <button type="button" class="next" onclick="checkEmail()" style="margin: 16px 0px 0px; padding: 4px 32px;">중복확인</button>
+                        <h6 class="help">
+                            <img src="/images/warn.png" id="warn" width="16px" height="16px">
+                            이메일로 비밀번호 변경 링크 등이 발송됩니다.<br>개인정보 보호를 위해 정확한 메일 정보를 입력해주세요.
+                        </h6>
                     </div>
+                    <div class="info-container">
+                        <label>비밀번호</label>
+                        <span>
+                            <div class="password">
+                                <input type="password" id="password" th:field="*{memberPassword}" placeholder="영어, 숫자, 특수문자 중 2가지 이상 10~20자">
+                                <img width="16px">
+                                <p class="help"></p>
+                            </div>
+                            <div class="password password-check">
+                                <input type="password" id="password-check" placeholder="비밀번호 재입력">
+                                <img width="16px">
+                                <p class="help"></p>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="info-container">
+                        <label>닉네임</label>
+                        <span>
+                            <input type="text" id="nickname" th:field="*{memberNickname}" autocomplete="off" placeholder="영문 혹은 영문+숫자, 4~20자">
+                            <img width="16px">
+                        </span>
+                        <p class="help"></p>
+                    </div>
+                    <button type="button" class="next" onclick="send()">완료</button>
                 </div>
-            </div>
-        </section>
-    </main>
+            </form>
+        </article>
+    </section>
+</main>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="/js/member/modal.js"></script>
