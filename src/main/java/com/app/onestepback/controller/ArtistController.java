@@ -26,18 +26,21 @@ public class ArtistController {
     @GetMapping("main")
     public void goToMainForm(@RequestParam("id") Long id, Model model) {
         model.addAttribute("posts", artistService.get3Posts(id));
+        model.addAttribute("videos", artistService.get3Videos(id));
         model.addAttribute("artist", artistService.getArtist(id).get());
+
+        log.info(artistService.get3Posts(id).toString());
+        log.info(artistService.get3Videos(id).toString());
     }
 
     @GetMapping("get-counts")
     @ResponseBody
     public int[] getCountOfSubscriber(@RequestParam("id") Long id) {
-        int[] counts = new int[3];
+        int[] counts = new int[2];
         // 구독자 수
         counts[0] = artistService.getCountOfSubscriber(id);
         // 아티스트 포스트 + 비디오 포스트
-        counts[1] = artistService.getCountOfPost(id);
-        counts[2] = artistService.getCountOfVideo(id);
+        counts[1] = artistService.getCountOfPost(id) + artistService.getCountOfVideo(id);
 
         return counts;
     }
@@ -59,11 +62,33 @@ public class ArtistController {
 
     @GetMapping("check-subscription")
     @ResponseBody
-    public int checkSubscription(@RequestParam("subscriptionInfo") SubscriptionVO subscriptionVO){
+    public boolean checkSubscription(@RequestParam("artistId")Long artistId, @RequestParam("memberId")Long memberId){
+        SubscriptionVO subscriptionVO = new SubscriptionVO();
+        subscriptionVO.setArtistId(artistId);
+        subscriptionVO.setMemberId(memberId);
+
         if (artistService.checkSubscription(subscriptionVO).isEmpty()){
-            return -1;
+            return false;
         } else {
-            return 1;
+            return true;
+        }
+    }
+
+    @GetMapping("update-subscription")
+    @ResponseBody
+    public boolean updateSubscription(@RequestParam("subscriptionStatus")boolean subscriptionStatus, @RequestParam("artistId")Long artistId, @RequestParam("memberId")Long memberId){
+        SubscriptionVO subscriptionVO = new SubscriptionVO();
+        subscriptionVO.setArtistId(artistId);
+        subscriptionVO.setMemberId(memberId);
+
+        log.info(String.valueOf(subscriptionStatus));
+
+        if(!subscriptionStatus){
+            artistService.saveSubscription(subscriptionVO);
+            return true;
+        } else {
+            artistService.cancelSubscription(subscriptionVO);
+            return false;
         }
     }
 }

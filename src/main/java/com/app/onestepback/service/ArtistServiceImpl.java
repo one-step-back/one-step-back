@@ -102,4 +102,14 @@ public class ArtistServiceImpl implements ArtistService {
         return subscriptionDAO.checkSubscription(subscriptionVO);
     }
 
+    @Override
+    public void saveSubscription(SubscriptionVO subscriptionVO) {
+        subscriptionDAO.saveSubscription(subscriptionVO);
+    }
+
+    @Override
+    public void cancelSubscription(SubscriptionVO subscriptionVO) {
+        subscriptionDAO.cancelSubscription(subscriptionVO);
+    }
+
 }

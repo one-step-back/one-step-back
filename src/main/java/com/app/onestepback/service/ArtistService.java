@@ -22,4 +22,8 @@ public interface ArtistService {
     public List<VideoDTO> get3Videos(Long memberId);
 
     public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO);
+
+    public void saveSubscription(SubscriptionVO subscriptionVO);
+
+    public void cancelSubscription(SubscriptionVO subscriptionVO);
 }

@@ -10,4 +10,8 @@ public interface SubscriptionMapper {
     public int selectCountOfSubscriber(Long artistId);
 
     public Optional<SubscriptionVO> select(SubscriptionVO subscriptionVO);
+
+    public void insert(SubscriptionVO subscriptionVO);
+
+    public void delete(SubscriptionVO subscriptionVO);
 }

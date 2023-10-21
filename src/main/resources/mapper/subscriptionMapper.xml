@@ -12,4 +12,16 @@
         FROM TBL_SUBSCRIPTION
         WHERE ARTIST_ID = #{artistId} AND MEMBER_ID = #{memberId}
     </select>
+
+    <insert id="insert">
+        INSERT INTO TBL_SUBSCRIPTION(ARTIST_ID, MEMBER_ID)
+        VALUES (#{artistId}, #{memberId})
+    </insert>
+
+    <delete id="delete">
+        DELETE
+        FROM TBL_SUBSCRIPTION
+        WHERE ARTIST_ID = #{artistId}
+          AND MEMBER_ID = #{memberId}
+    </delete>
 </mapper>
