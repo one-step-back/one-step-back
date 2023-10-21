@@ -30,7 +30,7 @@
                            data-share-url="https://u-t-wp.postype.com">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
-                        <button th:if="${session.member != null and artist.id != session.member.id}"
+                        <button th:if="${session.member != null and artist.memberId != session.member.id}"
                                 class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
                                 data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">
                             <span class="default-text">구독하기</span>
@@ -41,7 +41,7 @@
                             class="count" id="allPostsCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.id})}"></a>
+                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
                         </div>
                     </h1>
                 </div>
@@ -50,7 +50,7 @@
                     <nav>
                         <ul>
                             <li>
-                                <a th:href="@{/artist/main(id=${artist.id})}">홈</a>
+                                <a th:href="@{/artist/main(id=${artist.memberId})}">홈</a>
                             </li>
                             <li>
                                 <a class="active">게시글</a>
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                             <th:block th:if="${session.member != null}">
-                                <a th:if="${artist.id == session.member.id}" class="write-btn"
+                                <a th:if="${artist.memberId == session.member.id}" class="write-btn"
                                    href="/artist/post/write">작성하기</a>
                             </th:block>
                         </section>
@@ -324,14 +324,14 @@
         let pagingText = ``;
 
         if (pagination.startPage > 1) {
-            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.id}]]&page=${pagination.startPage - 1}">이전</a>`;
+            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
         }
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
             let isActive = i === pagination.page ? 'active' : '';
-            pagingText += `<a href="/artist/post/list?id=[[${artist.id}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
+            pagingText += `<a href="/artist/post/list?id=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
         }
         if (pagination.endPage < pagination.realEnd) {
-            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.id}]]&page=${pagination.endPage + 1}">다음</a>`;
+            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
         }
 
         pageWrap.html(pagingText);
@@ -339,7 +339,7 @@
 
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
-        getCounts([[${artist.id}]]);
+        getCounts([[${artist.memberId}]]);
         updateTimeGaps();
         getPageBtn();
     })
