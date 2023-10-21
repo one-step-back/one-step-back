@@ -59,36 +59,4 @@ public class ArtistController {
     public void goToPostEditForm() {
         ;
     }
-
-    @GetMapping("check-subscription")
-    @ResponseBody
-    public boolean checkSubscription(@RequestParam("artistId")Long artistId, @RequestParam("memberId")Long memberId){
-        SubscriptionVO subscriptionVO = new SubscriptionVO();
-        subscriptionVO.setArtistId(artistId);
-        subscriptionVO.setMemberId(memberId);
-
-        if (artistService.checkSubscription(subscriptionVO).isEmpty()){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    @GetMapping("update-subscription")
-    @ResponseBody
-    public boolean updateSubscription(@RequestParam("subscriptionStatus")boolean subscriptionStatus, @RequestParam("artistId")Long artistId, @RequestParam("memberId")Long memberId){
-        SubscriptionVO subscriptionVO = new SubscriptionVO();
-        subscriptionVO.setArtistId(artistId);
-        subscriptionVO.setMemberId(memberId);
-
-        log.info(String.valueOf(subscriptionStatus));
-
-        if(!subscriptionStatus){
-            artistService.saveSubscription(subscriptionVO);
-            return true;
-        } else {
-            artistService.cancelSubscription(subscriptionVO);
-            return false;
-        }
-    }
 }

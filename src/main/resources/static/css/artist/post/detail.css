@@ -854,6 +854,12 @@
     margin-right: 8px;
 }
 
+.subscribe4.active {
+    background-color: transparent !important;
+    border-color: #aaa !important;
+    color: #aaa !important;
+}
+
 .section-head6 {
     padding-bottom: 0;
     border-bottom: 0 solid transparent;

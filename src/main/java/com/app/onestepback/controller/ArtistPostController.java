@@ -65,14 +65,4 @@ public class ArtistPostController {
         model.addAttribute("artist", artistPostService.getArtistInfo(nowPost.getMemberId()).get());
         model.addAttribute("post", nowPost);
     }
-
-    @GetMapping("check-subscription")
-    @ResponseBody
-    public int checkSubscription(@RequestParam("subscriptionInfo")SubscriptionVO subscriptionVO){
-       if (artistPostService.checkSubscription(subscriptionVO).isEmpty()){
-           return -1;
-       } else {
-           return 1;
-       }
-    }
 }

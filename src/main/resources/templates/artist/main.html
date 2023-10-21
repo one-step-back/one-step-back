@@ -378,7 +378,7 @@
     function checkSubscription(artistId, memberId, callback) {
         $.ajax({
             type: "GET",
-            url: "/artist/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
+            url: "/subscription/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
 
             success: function (data) {
                 // 불린타입으로 반납된 결과 값을 전역 변수에 대입
@@ -397,7 +397,7 @@
     function updateSubscription(artistId, memberId, callback, callback2) {
         $.ajax({
             type: "GET",
-            url: "/artist/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
+            url: "/subscription/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
 
             success: function (data) {
                 subscriptionStatus = data;
