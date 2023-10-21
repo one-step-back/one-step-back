@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Data
 public class ArtistDTO {
     //    회원 번호
-    private Long id;
+    private Long memberId;
     //    회원 이메일
     private String memberEmail;
     //    비밀번호

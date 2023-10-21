@@ -485,6 +485,10 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
     color: #aaa !important;
 }
 
+.btn-subscribe {
+    width: 88px;
+}
+
 .header .masthead .btn-strong.active {
     background-color: transparent;
     color: rgba(0, 0, 0, .47) !important;

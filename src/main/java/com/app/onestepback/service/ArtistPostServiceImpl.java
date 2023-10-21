@@ -143,11 +143,6 @@ public class ArtistPostServiceImpl implements ArtistPostService {
         return artistPostDAO.getNextPost(artistPostDTO);
     }
 
-    @Override
-    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO) {
-        return subscriptionDAO.checkSubscription(subscriptionVO);
-    }
-
     private String getPath() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }

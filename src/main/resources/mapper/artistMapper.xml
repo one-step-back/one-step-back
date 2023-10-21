@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.onestepback.mapper.ArtistMapper">
     <select id="selectAM" resultType="artistDTO">
-        SELECT M.ID,
+        SELECT A.MEMBER_ID,
                M.MEMBER_NICKNAME,
                M.MEMBER_KAKAO_PROFILE_URL,
                M.MEMBER_PROFILE_NAME,

@@ -30,18 +30,16 @@
                            data-share-url="https://u-t-wp.postype.com">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
-                        <button th:if="${session.member != null and artist.id != session.member.id}"
-                                class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
-                                data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">
-                            <span class="default-text">구독하기</span>
-                            <span class="active-text">구독중</span>
+                        <button th:if="${session.member != null and artist.memberId != session.member.id}"
+                                id="subscription-btn" class="btn btn-strong btn-strong-pill btn-subscribe active"
+                                type="button">
                         </button>
                     </div>
                     <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
                             class="count" id="postCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.id})}"></a>
+                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
                         </div>
                     </h1>
                 </div>
@@ -53,7 +51,7 @@
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/post/list(id=${artist.id})}">게시글</a>
+                                <a th:href="@{/artist/post/list(id=${artist.memberId})}">게시글</a>
                             </li>
                             <li>
                                 <a href="">영상</a>
@@ -124,7 +122,7 @@
                                         <div>
                                             <div class="post">
                                                 <div class="post-data">
-                                                    <a th:href="@{/artist/post/detail(id=${post.id})}">
+                                                    <a th:href="@{/artist/post/detail(id=*{id})}">
                                                         <h3 class="ellipsis-2 text-color-black"></h3>
                                                         <div class="ellipsis-2 text-alpha-black-47">
                                                             <h3 th:text="*{postTitle}"
@@ -153,7 +151,7 @@
                                                 </div>
                                                 <th:block th:unless="*{fileName == null}">
                                                     <div class="post-data-thumbnail">
-                                                        <a href="https://u-t-wp.postype.com/post/15313057">
+                                                        <a th:href="@{/artist/post/detail(id=*{id})}">
                                                             <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">
                                                         </a>
                                                     </div>
@@ -161,7 +159,7 @@
                                             </div>
                                             <div class="post-info">
                                                 <a class="user-profile-avatar avatar-32"
-                                                   href="https://www.postype.com/profile/@8q8la4">
+                                                   href="">
                                                     <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                          src="/images/none-avatar.svg">
                                                     <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
@@ -213,11 +211,7 @@
                                                                     컬렉션에 추가하기 </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item btn-share" href="#"
-                                                                   data-share-url="https://posty.pe/fj428q"
-                                                                   data-blog-title="우천시워터파크"
-                                                                   data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                                   data-tags="클래스 드로잉 미디어 클립스튜디오">
+                                                                <a class="dropdown-item btn-share" href="#">
                                                                     <span class="order-2">공유하기</span>
                                                                     <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                                                                 </a>
@@ -251,7 +245,7 @@
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/post/list(id=${artist.id})}" class="btn btn-secondary">전체 보기
+                            <a th:href="@{/artist/post/list(id=${artist.memberId})}" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
@@ -264,7 +258,74 @@
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
-                        <div id="videos-container" class="article-list series-list channel-home-series-list"></div>
+                        <th:block th:if="${#lists.size(videos) != 0}">
+                            <th:block th:each="video:${videos}">
+                                <div th:object="${video}" id="videos-container"
+                                     class="article-list series-list channel-home-series-list">
+                                    <div class="component-series list">
+                                        <div class="series-data-thumbnail">
+                                            <a th:href="@{/artist/video/detail(id=*{id})}">
+                                                <img class="video-thumbnails" th:videoLink="*{videoLink}">
+                                            </a>
+                                        </div>
+                                        <div class="series">
+                                            <div class="series-inner">
+                                                <h3 class="text-truncate">
+                                                    <a th:text="*{postTitle}"
+                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>
+                                                </h3>
+                                                <div class="series-meta-wrapper">
+                                                    <div class="user-profile-nickname text-truncate">
+                                                        <a class="text-color-black" th:text="*{memberNickname}"
+                                                           href="#"
+                                                           rel="author"></a>
+                                                    </div>
+                                                    <div class="series-meta text-alpha-black-47">
+                                                        <span class="meta-item" title="조회수">
+                                                            <i class="ic ic-eye" aria-label="조회수"></i>
+                                                            <span th:text="*{postViewCount}" class="stats-count"></span>
+                                                        </span>
+                                                        <span class="meta-item" title="좋아요">
+                                                            <i class="far fa-heart" aria-label="좋아요"></i>
+                                                            <span th:text="*{likeCount}" class="stats-count"></span>
+                                                        </span>
+                                                        <span class="meta-item" title="댓글">
+                                                            <i class="far fa-comment-dots"></i>
+                                                            <span th:text="*{replyCount}" class="stats-count"></span>
+                                                        </span>
+                                                        <time class="meta-item time"
+                                                              th:data-post-time="*{postWriteTime}"></time>
+                                                    </div>
+                                                </div>
+                                                <p class="ellipsis-2">
+                                                    <a th:text="*{postContent}" th:href="@{/artist/video/detail(id=*{id})}"></a>
+                                                </p>
+                                            </div>
+                                            <div th:if="*{tag1 != null}" class="series-tags">
+                                                <a href="#"
+                                                   th:text="*{tag1}" class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag2 != null}" th:text="*{tag2}"
+                                                   class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag3 != null}" th:text="*{tag3}"
+                                                   class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag4 != null}" th:text="*{tag4}"
+                                                   class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag5 != null}" th:text="*{tag5}"
+                                                   class="general-tag"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="component-series-divider"></div>
+                                </div>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${#lists.size(videos) != 0}">
+                            <div class="content-none">영상이 없습니다</div>
+                        </th:block>
                         <div class="ch-section-footer">
                             <a href="/series" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
@@ -277,24 +338,35 @@
     </main>
 </div>
 </body>
-<script th:inline="javascript">
-    const session = /*[[${session.member}]]*/ null;
-    console.log(session);
-
-</script>
-
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script>
-    // Ajax 공부겸 fetch 기능 작성함
+<script th:inline="javascript">
+
+    // 세션 값
+    const session = /*[[${session.member}]]*/ null;
+    // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
+    const artistId = [[${artist.memberId}]]
+    // 구독버튼
+    const subscriptionBtn = $("#subscription-btn");
+    // 구독자 수 인디케이터
+    const subscriberCount = $("#subscriberCount");
+    // 구독자 수 (구독 버튼을 누르면 구독자수가 얼마인지 다시 조사하는 쿼리는 비효율적이므로 화면상에서만 변경처리)
+    let currentCount = null;
+    // 현재 구독상태인지 아닌지를 분별하기 위한 전역 변수
+    let subscriptionStatus = null;
+
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
     function getCounts(artistId) {
+        // 아약스 문법은 j쿼리 버전의 페치임
         $.ajax({
             type: "GET",
             url: "/artist/get-counts?id=" + artistId,
             success: function (data) {
-                $("#subscriberCount").text(data[0]);
-                $("#postCount").text(data[1] + data[2]);
+                // data는 2칸의 배열을 반납, 0은 구독자 수, 1은 비디오 포스트와 일반 포스트의 합산
+                // 현재 구독자수 전역변수에 구독자 수 삽입
+                currentCount = data[0];
+                subscriberCount.text(data[0]);
+                $("#postCount").text(data[1]);
             },
             error: function (xhr, status, error) {
                 console.error(error);
@@ -302,13 +374,16 @@
         });
     }
 
-    // 비디오 로드 쿼리
-    function loadVideos(artistId, callback) {
+    // 로그인이 되어있을 시 클라이언트가 아티스트의 구독자인지 아닌지 구분하는 함수
+    function checkSubscription(artistId, memberId, callback) {
         $.ajax({
             type: "GET",
-            url: "/artist/get-3videos?id=" + artistId,
+            url: "/subscription/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
+
             success: function (data) {
-                if(callback){
+                // 불린타입으로 반납된 결과 값을 전역 변수에 대입
+                subscriptionStatus = data;
+                if (callback) {
                     callback(data)
                 }
             },
@@ -318,114 +393,61 @@
         });
     }
 
-    function something(data){
-        let videosContainer = $("#videos-container");
-        let videoHtml = null;
-        videosContainer.empty();
-
-        if (data.length !== 0) {
-            data.forEach(function (video) {
-                let youtubeLink = `${video.videoLink}`;
-                let thumbnailUrl = getYouTubeThumbnailUrl(youtubeLink);
-
-                videoHtml = `<div class="component-series list">
-                                <div class="series-data-thumbnail">
-                                    <a href="#">
-                                        <img src="${thumbnailUrl}">
-                                    </a>
-                                </div>
-                                <div class="series">
-                                    <div class="series-inner">
-                                        <h3 class="text-truncate"><a href="https://u-t-wp.postype.com/series/925516/강좌">${video.postTitle}</a>
-                                        </h3>
-                                        <div class="series-meta-wrapper">
-                                            <div class="user-profile-nickname text-truncate">
-                                                <a class="text-color-black"
-                                                   href="https://www.postype.com/profile/@8q8la4"
-                                                   rel="author">${video.memberNickname}</a>
-                                            </div>
-                                            <div class="series-meta text-alpha-black-47">
-                                                <span class="meta-item" title="조회수">
-                                                    <i class="ic ic-eye" aria-label="조회수"></i>
-                                                    <span class="stats-count">${video.postViewCount}</span>
-                                                </span>
-                                                <span class="meta-item" title="좋아요">
-                                                    <i class="far fa-heart" aria-label="좋아요"></i>
-                                                    <span class="stats-count">${video.likeCount}</span>
-                                                </span>
-                                                <span class="meta-item" title="댓글">
-                                                    <i class="far fa-comment-dots"></i>
-                                                    <span class="stats-count">${video.replyCount}</span>
-                                                </span>
-                                                <time class="meta-item">${getTimeGap(video.postWriteTime)}</time>
-                                            </div>
-                                        </div>
-                                        <p class="ellipsis-2">
-                                            <a href="https://u-t-wp.postype.com/series/925516/강좌">${video.postContent}</a>
-                                        </p>
-                                    </div>
-                                    ${video.tag1 !== null ? `
-                                    <div class="series-tags">
-                                        ${video.tag1 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag1}</a>
-                                            ` : ''}
-                                            ${video.tag2 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag2}</a>
-                                            ` : ''}
-                                            ${video.tag3 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag3}</a>
-                                            ` : ''}
-                                            ${video.tag4 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag4}</a>
-                                            ` : ''}
-                                            ${video.tag5 !== null ? `
-                                            <a href="#"
-                                               class="general-tag">#${video.tag5}</a>
-                                        ` : ''}
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                            <div class="component-series-divider"></div>`;
-
-                videosContainer.append(videoHtml);
-            });
-        } else {
-            videoHtml = `<div class="content-none">영상이 없습니다.</div>`;
-            videosContainer.append(videoHtml);
-        }
-    }
-
-    function checkSubscription(artistId, memberId, callback){
+    // 구독버튼을 누를시.
+    function updateSubscription(artistId, memberId, callback, callback2) {
         $.ajax({
             type: "GET",
-            url: "/artist/check-subscription?artistId =" + artistId + "&memberId =" + memberId,
+            url: "/subscription/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
+
             success: function (data) {
-                if(callback){
+                subscriptionStatus = data;
+                if (callback) {
                     callback(data)
+                }
+                if (callback2) {
+                    callback2(data)
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
             }
-        });
+        })
     }
 
-    function didISubscribe(data){
-        let subscribeBtn = $(".btn-subscribe");
+    // data 값에 따라 구독버튼에 html 삽입
+    function didISubscribe(data) {
         let subscriptionHtml = null;
+        subscriptionBtn.empty();
 
-        if(data === -1){
-            subscriptionHtml = `<span className="default-text">구독하기</span>`;
-        } else {
-            subscriptionHtml = `<span className="active-text">구독중</span>`;
+        if (!data) {
+            subscriptionHtml = `<span class="default-text">구독하기</span>`;
+            subscriptionBtn.removeClass("active");
+            subscriptionBtn.append(subscriptionHtml);
+        } else if (data) {
+            subscriptionHtml = `<span class="active-text">구독중</span>`;
+            subscriptionBtn.addClass("active");
+            subscriptionBtn.append(subscriptionHtml);
         }
     }
 
+    // 화면상의 구독자 수 업데이트
+    function updateSubscriberCount(data) {
+        if (!data) {
+            currentCount -= 1;
+            subscriberCount.text(currentCount)
+        } else {
+            currentCount += 1;
+            subscriberCount.text(currentCount)
+        }
+    }
+
+    // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
+    function postVideoThumbnail() {
+        const thumbnailElements = document.querySelectorAll('.video-thumbnails');
+        thumbnailElements.forEach(function (element) {
+            element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
+        })
+    }
 
     // 유튜브 링크를 통해 썸네일을 가져오는 함수
     function getYouTubeThumbnailUrl(youtubeLink) {
@@ -434,50 +456,57 @@
         if (videoId) {
             return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
         }
-        return null; // 유효한 YouTube 비디오 ID가 없는 경우
+        return null;
+    }
+
+    // postWriteTime을 통해 현재시간과 비교해 시간차이를 표시해주는 함수
+    function updateTimeGaps() {
+        let currentTime = new Date();
+
+        const timeElements = document.querySelectorAll('.meta-item.time');
+        timeElements.forEach(function (element) {
+            let postTime = new Date(element.getAttribute('data-post-time'));
+            element.textContent = getTimeGap(currentTime, postTime);
+        });
     }
 
     // 시간차이 계산 함수
-    function getTimeGap(datetime) {
-        const today = new Date();
-        const date = new Date(datetime);
-        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+    function getTimeGap(currentTime, postTime) {
+        let timeDiff = Math.floor((currentTime - postTime) / 1000); // 초 단위로 시간 차이 계산
 
-        if (gap < 1) {
+        if (timeDiff < 60) {
             return "방금 전";
+        } else if (timeDiff < 3600) {
+            var minutes = Math.floor(timeDiff / 60);
+            return minutes + "분 전";
+        } else if (timeDiff < 86400) {
+            var hours = Math.floor(timeDiff / 3600);
+            return hours + "시간 전";
+        } else if (timeDiff < 2678400) {
+            var days = Math.floor(timeDiff / 86400);
+            return days + "일 전";
+        } else if (timeDiff < 32140800) {
+            var months = Math.floor(timeDiff / 2678400);
+            return months + "개월 전";
+        } else {
+            var years = Math.floor(timeDiff / 32140800);
+            return years + "년 전";
         }
-
-        if (gap < 60) {
-            return `${gap}분 전`;
-        }
-
-        gap = Math.floor(gap / 60);
-
-        if (gap < 24) {
-            return `${gap}시간 전`;
-        }
-
-        gap = Math.floor(gap / 24);
-
-        if (gap < 32) {
-            return `${gap}일 전`;
-        }
-
-        gap = Math.floor(gap / 31);
-
-        if (gap < 13) {
-            return `${gap}개월 전`;
-        }
-
-        gap = Math.floor(gap / 12);
-
-        return `${gap}년 전`;
     }
 
     // 페이지 로드시 비동기 불러옴
-    $(document).ready(function () {
-        getCounts([[${artist.id}]]);
-        loadVideos([[${artist.id}]], something);
+    $(function () {
+        getCounts(artistId);
+        if (session != null) {
+            checkSubscription(artistId, session.id, didISubscribe);
+        }
+        postVideoThumbnail();
+        updateTimeGaps();
+    });
+
+    // 구독 버튼 누를시 작동되는 함수
+    subscriptionBtn.click(() => {
+        updateSubscription(artistId, session.id, didISubscribe, updateSubscriberCount);
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>

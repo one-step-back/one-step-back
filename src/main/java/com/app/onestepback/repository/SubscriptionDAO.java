@@ -17,4 +17,12 @@ public class SubscriptionDAO {
     }
 
     public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO){return subscriptionMapper.select(subscriptionVO);}
+
+    public void saveSubscription(SubscriptionVO subscriptionVO){
+        subscriptionMapper.insert(subscriptionVO);
+    }
+
+    public void cancelSubscription(SubscriptionVO subscriptionVO){
+        subscriptionMapper.delete(subscriptionVO);
+    }
 }

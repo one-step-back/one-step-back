@@ -24,6 +24,4 @@ public interface ArtistPostService {
     public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO);
 
     public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO);
-
-    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO);
 }

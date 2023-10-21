@@ -96,10 +96,4 @@ public class ArtistServiceImpl implements ArtistService {
         }
         return videos;
     }
-
-    @Override
-    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO) {
-        return subscriptionDAO.checkSubscription(subscriptionVO);
-    }
-
 }
