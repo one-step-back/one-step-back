@@ -155,13 +155,12 @@
                                         </h5>
                                         <div class="profile-subtitle-gray-600">
                                             <span class="meta-item">구독자&nbsp;</span>
-                                            <span th:text="${artist.subscriptionCount}" class="stats-count"></span>
+                                            <span th:text="${artist.subscriptionCount}" id="subscriber-count" class="stats-count"></span>
                                         </div>
                                     </div>
                                     <div class="action-group">
-                                        <button id="subscription-btn" class="subscribe4 active">
+                                        <button id="subscription-btn" class="subscribe4">
                                             <span class="default-text">구독하기</span>
-                                            <span class="active-text">구독 중</span>
                                         </button>
                                     </div>
                                 </div>
@@ -334,12 +333,16 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/post/detail.js"></script>
 <script th:inline="javascript">
+    console.log([[${artist}]]);
+
     // 세션 값
     const session = /*[[${session.member}]]*/ null;
     // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
-    const artistId = [[${artist.id}]]
+    const artistId = [[${artist.memberId}]]
     // 구독버튼
     const subscriptionBtn = $("#subscription-btn");
+
+    const subscriberCount = $("#subscriber-count")
 
     let currentCount = [[${artist.subscriptionCount}]];
 
@@ -351,7 +354,7 @@
     function checkSubscription(artistId, memberId, callback) {
         $.ajax({
             type: "GET",
-            url: "/artist/post/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
+            url: "/subscription/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
 
             success: function (data) {
                 // 불린타입으로 반납된 결과 값을 전역 변수에 대입
@@ -370,7 +373,7 @@
     function updateSubscription(artistId, memberId, callback, callback2) {
         $.ajax({
             type: "GET",
-            url: "/artist/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
+            url: "/subscription/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
 
             success: function (data) {
                 subscriptionStatus = data;
@@ -403,6 +406,16 @@
         }
     }
 
+    // 화면상의 구독자 수 업데이트
+    function updateSubscriberCount(data) {
+        if (!data) {
+            currentCount -= 1;
+            subscriberCount.text(currentCount)
+        } else {
+            currentCount += 1;
+            subscriberCount.text(currentCount)
+        }
+    }
 
     $(function () {
         if (session != null) {
@@ -412,7 +425,7 @@
 
     // 구독 버튼 누를시 작동되는 함수
     subscriptionBtn.click(() => {
-        updateSubscription(artistId, session.id, didISubscribe);
+        updateSubscription(artistId, session.id, didISubscribe, updateSubscriberCount);
     })
 </script>
 </html>

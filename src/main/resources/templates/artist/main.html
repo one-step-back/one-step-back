@@ -30,7 +30,7 @@
                            data-share-url="https://u-t-wp.postype.com">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
-                        <button th:if="${session.member != null and artist.id != session.member.id}"
+                        <button th:if="${session.member != null and artist.memberId != session.member.id}"
                                 id="subscription-btn" class="btn btn-strong btn-strong-pill btn-subscribe active"
                                 type="button">
                         </button>
@@ -39,7 +39,7 @@
                             class="count" id="postCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.id})}"></a>
+                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
                         </div>
                     </h1>
                 </div>
@@ -51,7 +51,7 @@
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/post/list(id=${artist.id})}">게시글</a>
+                                <a th:href="@{/artist/post/list(id=${artist.memberId})}">게시글</a>
                             </li>
                             <li>
                                 <a href="">영상</a>
@@ -245,7 +245,7 @@
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/post/list(id=${artist.id})}" class="btn btn-secondary">전체 보기
+                            <a th:href="@{/artist/post/list(id=${artist.memberId})}" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
@@ -344,7 +344,7 @@
     // 세션 값
     const session = /*[[${session.member}]]*/ null;
     // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
-    const artistId = [[${artist.id}]]
+    const artistId = [[${artist.memberId}]]
     // 구독버튼
     const subscriptionBtn = $("#subscription-btn");
     // 구독자 수 인디케이터
