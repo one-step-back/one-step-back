@@ -33,17 +33,6 @@ public class ArtistController {
         log.info(artistService.get3Videos(id).toString());
     }
 
-    @GetMapping("get-counts")
-    @ResponseBody
-    public int[] getCountOfSubscriber(@RequestParam("id") Long id) {
-        int[] counts = new int[2];
-        // 구독자 수
-        counts[0] = artistService.getCountOfSubscriber(id);
-        // 아티스트 포스트 + 비디오 포스트
-        counts[1] = artistService.getCountOfPost(id) + artistService.getCountOfVideo(id);
-
-        return counts;
-    }
     @GetMapping("get-3videos")
     @ResponseBody
     public List<VideoDTO> load3Videos(@RequestParam("id") Long id) {

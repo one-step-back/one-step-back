@@ -14,4 +14,8 @@ public class PostReplyVO {
     private Long memberId;
 //    댓글 내용
     private String replyContent;
+//    댓글 작성 시간
+    private String replyWriteTime;
+//    댓글 수정 시간
+    private String replyUpdateTime;
 }

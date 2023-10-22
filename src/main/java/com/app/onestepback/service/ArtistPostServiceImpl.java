@@ -20,7 +20,6 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(rollbackFor = Exception.class)
 public class ArtistPostServiceImpl implements ArtistPostService {
     private final ArtistDAO artistDAO;
     private final ArtistPostDAO artistPostDAO;
@@ -28,8 +27,8 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final SubscriptionDAO subscriptionDAO;
 
     @Override
-    public Optional<ArtistDTO> getArtist(Long id) {
-        return artistDAO.getArtist(id);
+    public Optional<ArtistDTO> getArtist(Long memberId) {
+        return artistDAO.getArtist(memberId);
     }
 
     @Override
@@ -69,6 +68,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void savePost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles) {
         artistPostDAO.savePost(artistPostDTO);
         artistPostDAO.saveArtistPost(artistPostDTO.getId());
@@ -126,11 +126,6 @@ public class ArtistPostServiceImpl implements ArtistPostService {
         }
 
         return post;
-    }
-
-    @Override
-    public Optional<ArtistDTO> getArtistInfo(Long memberId) {
-        return artistDAO.getArtistInfo(memberId);
     }
 
     @Override

@@ -17,7 +17,6 @@ public class Pagination {
 
     public void progress() {
         this.page = page == null ? 1 : page;
-        this.rowCount = 10;
         this.pageCount = 5;
         this.endRow = page * rowCount;
         this.startRow = endRow - rowCount + 1;

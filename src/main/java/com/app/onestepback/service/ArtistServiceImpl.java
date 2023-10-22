@@ -8,6 +8,7 @@ import com.app.onestepback.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,32 +19,16 @@ import java.util.Optional;
 @Slf4j
 public class ArtistServiceImpl implements ArtistService {
     private final ArtistDAO artistDAO;
-    private final SubscriptionDAO subscriptionDAO;
     private final ArtistPostDAO artistPostDAO;
     private final VideoDAO videoDAO;
     private final PostTagDAO postTagDAO;
 
 //    아티스트 정보 가져오기
     @Override
-    public Optional<ArtistDTO> getArtist(Long id) {
-        return artistDAO.getArtist(id);
+    public Optional<ArtistDTO> getArtist(Long memberId) {
+        return artistDAO.getArtist(memberId);
     }
 
-//    구독자 수 정보 가져오기
-    @Override
-    public int getCountOfSubscriber(Long artistId) {
-        return subscriptionDAO.getCountOfSubscriber(artistId);
-    }
-
-    @Override
-    public int getCountOfPost(Long memberId) {
-        return artistPostDAO.getCountOfPost(memberId);
-    }
-
-    @Override
-    public int getCountOfVideo(Long memberId) {
-        return videoDAO.getCountOfVideo(memberId);
-    }
 
     @Override
     public List<ArtistPostDTO> get3Posts(Long memberId) {

@@ -9,13 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArtistService {
-    public Optional<ArtistDTO> getArtist(Long id);
-
-    public int getCountOfSubscriber(Long artistId);
-
-    public int getCountOfPost(Long memberId);
-
-    public int getCountOfVideo(Long memberId);
+    public Optional<ArtistDTO> getArtist(Long memberId);
 
     public List<ArtistPostDTO> get3Posts(Long memberId);
 
