@@ -15,7 +15,7 @@ function send(){
         return;
     }
     // /*비밀번호 암호화(인코딩)*/
-    // $password.val(btoa($password.val()));
+    $password.val(btoa($password.val()));
 
     document.login.submit();
 }

@@ -21,7 +21,8 @@
     <div class="navbar">
         <div class="navbar-container">
             <div class="navbar-left">
-                <a class="btn-back" href="https://richlaboratory.postype.com/posts" id="post-viewer-header-btn-back">
+                <a th:if="${prevPost != null}" class="btn-back" th:href="@{/artist/post/detail(id=${prevPost.id})}"
+                   id="post-viewer-header-btn-back">
                     <i class="fa-chevron-left"></i>
                 </a>
             </div>
@@ -34,17 +35,10 @@
                         <a th:text="${post.postCategory}" class="sub-title2"></a>
                     </div>
                 </div>
-                <a class="btn-prev" href="#" aria-label="이전화"
-                   title="#">
-                    <i class="fas fa-caret-left"></i>
-                </a>
-                <a class="btn-prev-next" href="#" aria-label="다음화"
-                   title="#">
-                    <i class="fas fa-caret-right"></i>
-                </a>
             </div>
             <div class="navbar-right">
-                <a class="btn-back" href="#" id="post-viewer-header-btn-next">
+                <a th:if="${nextPost != null}" class="btn-back" th:href="@{/artist/post/detail(id=${nextPost.id})}"
+                   id="post-viewer-header-btn-next">
                     <i class="fa-chevron-right"></i>
                 </a>
             </div>
@@ -115,8 +109,8 @@
                                         </div>
                                         <th:block th:unless="${prevPost.fileName == null}">
                                             <div class="pager-img">
-                                                <div class="pager-img9"
-                                                     th:style="'background-image: url(' + @{/file/display(fileName=${prevPost.filePath} + '/' + ${prevPost.fileName})} + ');'"></div>
+                                                <img class="pager-img9"
+                                                     th:src="@{/file/display(fileName=${prevPost.filePath} + '/t_' + ${prevPost.fileName})}">
                                             </div>
                                         </th:block>
                                     </a>
@@ -133,8 +127,8 @@
                                         </div>
                                         <th:block th:unless="${nextPost.fileName == null}">
                                             <div class="pager-img">
-                                                <div class="pager-img91"
-                                                     th:style="'background-image: url(' + @{/file/display(fileName=${nextPost.filePath} + '/' + ${nextPost.fileName})} + ');'"></div>
+                                                <img class="pager-img9"
+                                                     th:src="@{/file/display(fileName=${nextPost.filePath} + '/t_' + ${nextPost.fileName})}">
                                             </div>
                                         </th:block>
                                     </a>
@@ -144,8 +138,7 @@
                         <section class="profile-gray50">
                             <div class="container32">
                                 <div class="profile-bar">
-                                    <a class="profile-img-link blog-avatar avatar-60"
-                                       href="" title="부자연구소">
+                                    <a class="profile-img-link blog-avatar avatar-60">
                                         <img class="blog-img"
                                              src="/images/none-avatar.svg">
                                     </a>
@@ -155,7 +148,8 @@
                                         </h5>
                                         <div class="profile-subtitle-gray-600">
                                             <span class="meta-item">구독자&nbsp;</span>
-                                            <span th:text="${artist.subscriptionCount}" id="subscriber-count" class="stats-count"></span>
+                                            <span th:text="${artist.subscriptionCount}" id="subscriber-count"
+                                                  class="stats-count"></span>
                                         </div>
                                     </div>
                                     <div class="action-group">
@@ -169,25 +163,21 @@
                         <section class="response3">
                             <div class="container44">
                                 <header class="section-head6">
-                                    <h3 class="comment-section-title" data-comment-counts="0">0개의 댓글</h3>
+                                    <h3 th:text="${post.replyCount + '개의 댓글'}" class="comment-section-title"></h3>
                                 </header>
                                 <div class="comment-list">
                                     <div class="comments">
-
                                         <div class="comment-customize-form">
-                                            <textarea class="form-control autosize" name="text" id="mention"
+                                            <textarea class="form-control autosize" name="text" id="reply"
                                                       style="overflow: hidden; overflow-wrap: break-word; height: 40px; resize: none; overflow-y: auto"></textarea>
                                             <div class="brand-icons">
-                                                <div>
-
-                                                </div>
-                                                <a class="btn btn-strong btn-login btn-create-comment" href="#"
-                                                   data-toggle="modal" data-target="#easy-login">댓글 남기기</a>
+                                                <button id="send" class="btn btn-strong btn-login btn-create-comment">댓글 남기기</button>
                                             </div>
                                         </div>
+                                        <div id="reply-wrap"></div>
+                                        <button type="button" class="more-btn">댓글 더보기</button>
                                     </div>
                                 </div>
-                                <div></div>
                             </div>
                         </section>
                         <!--                        <section class="related-post">-->
@@ -348,7 +338,10 @@
 
     let subscriptionStatus = null;
 
+    // 리플라이 페이지
+    let currentPage = 1;
 
+    const moreBtn = $(".more-btn");
 
     // 로그인이 되어있을 시 클라이언트가 아티스트의 구독자인지 아닌지 구분하는 함수
     function checkSubscription(artistId, memberId, callback) {
@@ -417,15 +410,154 @@
         }
     }
 
+    // 시간차이 계산 함수
+    function getTimeGap(datetime) {
+        const today = new Date();
+        const date = new Date(datetime);
+        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+
+        if (gap < 1) {
+            return "방금 전";
+        }
+        if (gap < 60) {
+            return `${gap}분 전`;
+        }
+        gap = Math.floor(gap / 60);
+        if (gap < 24) {
+            return `${gap}시간 전`;
+        }
+        gap = Math.floor(gap / 24);
+        if (gap < 32) {
+            return `${gap}일 전`;
+        }
+        gap = Math.floor(gap / 31);
+        if (gap < 13) {
+            return `${gap}개월 전`;
+        }
+        gap = Math.floor(gap / 12);
+
+        return `${gap}년 전`;
+    }
+
+    // 댓글 관련 종합 서비스 ============================================================
+    const replyService = (function () {
+        // 댓글 리스트 출력 컨테이너
+        const repliesContainer = $("#reply-wrap");
+
+        // 댓글 작성 부분
+        // (작성에 성공할 시 현재 댓글wrap을 전부 삭제 후 다시 처음부터 출력하는 형식. 본래는 redirect 하는 것이 더욱 맞지 않겠나라고 생각하지만 어짜피 댓글 불러오는
+        // 형식이 페이지네이션 형식이 아니므로 rest형태로 구현해보았음)
+        function write(replyContent) {
+            $.ajax({
+                type: "POST",
+                url: "/replies/write",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    replyContent: replyContent,
+                    memberId: session.id,
+                    postId: [[${post.id}]]
+                }),
+                success: function () {
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        // 리플라이 업데이트
+        function updateReplies(postId, page, callback) {
+            $.ajax({
+                type: "GET",
+                url: "/replies/getAllReplies?postId=" + postId + "&page=" + page,
+                success: function (data) {
+                    if (callback) {
+                        callback(data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // 리플라이들을 출력하는 역할과 리플라이 창을 보일지 말지 결정
+        function showReply(data) {
+            let replyHtml = '';
+
+            data.replies.forEach(reply => {
+                replyHtml += `
+            <div class="reply-item">
+                <a class="replier-avatar">
+                ${reply.memberKakaoProfileUrl == null && reply.memberProfileName == null ? `
+                    <img src="/images/none-avatar.svg">
+                ` : ''}
+                ${reply.memberKakaoProfileUrl != null && reply.memberProfileName == null ? `
+                    <img src="${reply.memberKakaoProfileUrl}">
+                ` : ''}
+                </a>
+                <div class="reply-body">
+                    <div class="reply-head">
+                        <a class="replier-name">${reply.memberNickname}</a>
+                         <time class="reply-time">${getTimeGap(reply.replyWriteTime)}</time>
+                    </div>
+                    <pre class="reply-content">${reply.replyContent}</pre>
+                </div>
+            </div>
+            `;
+            });
+
+            if (data.isItEnd === false) {
+                moreBtn.css("display", "block");
+            } else {
+                moreBtn.css("display", "none");
+            }
+
+            repliesContainer.append(replyHtml);
+        }
+
+        return { write: write, updateReplies: updateReplies, showReply: showReply };
+    })();
+
+    // 페이지 로드 시
     $(function () {
         if (session != null) {
             checkSubscription(artistId, session.id, didISubscribe);
         }
+        replyService.updateReplies([[${post.id}]], currentPage, replyService.showReply);
     });
 
     // 구독 버튼 누를시 작동되는 함수
     subscriptionBtn.click(() => {
+        if (session == null) {
+            alert("먼저 로그인을 해주세요.");
+            window.location.href = "/member/login";
+        }
         updateSubscription(artistId, session.id, didISubscribe, updateSubscriberCount);
     })
+
+    // 댓글 추가 불러오기
+    moreBtn.click(() => {
+        currentPage += 1;
+        replyService.updateReplies([[${post.id}]], currentPage, replyService.showReply);
+    })
+
+    // 댓글 작성 버튼 누를시
+    $("#send").on("click", function() {
+        if (session == null) {
+            alert("먼저 로그인을 해주세요.");
+            window.location.href = "/member/login";
+        }
+        const replyContent = $("#reply").val();
+        if (replyContent == null){
+            alert("먼저 댓글을 작성해주세요.");
+            return
+        }
+        replyService.write(replyContent);
+    });
+
+
 </script>
 </html>

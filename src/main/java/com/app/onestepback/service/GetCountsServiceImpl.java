@@ -1,0 +1,30 @@
+package com.app.onestepback.service;
+
+import com.app.onestepback.repository.ArtistPostDAO;
+import com.app.onestepback.repository.SubscriptionDAO;
+import com.app.onestepback.repository.VideoDAO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class GetCountsServiceImpl implements GetCountsService {
+    private final SubscriptionDAO subscriptionDAO;
+    private final ArtistPostDAO artistPostDAO;
+    private final VideoDAO videoDAO;
+
+    @Override
+    public int getCountOfSubscriber(Long artistId) {
+        return subscriptionDAO.getCountOfSubscriber(artistId);
+    }
+
+    @Override
+    public int getCountOfPost(Long memberId) {
+        return artistPostDAO.getCountOfPost(memberId);
+    }
+
+    @Override
+    public int getCountOfVideo(Long memberId) {
+        return videoDAO.getCountOfVideo(memberId);
+    }
+}

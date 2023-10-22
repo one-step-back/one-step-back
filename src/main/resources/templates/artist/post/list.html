@@ -271,7 +271,7 @@
     function getCounts(artistId) {
         $.ajax({
             type: "GET",
-            url: "/artist/get-counts?id=" + artistId,
+            url: "/getCounts?id=" + artistId,
             success: function (data) {
                 $("#subscriberCount").text(data[0]);
                 $("#allPostsCount").text(data[1] + data[2]);

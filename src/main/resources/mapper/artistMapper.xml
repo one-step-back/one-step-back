@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.onestepback.mapper.ArtistMapper">
-    <select id="selectAM" resultType="artistDTO">
+    <select id="select" resultType="artistDTO">
         SELECT A.MEMBER_ID,
                M.MEMBER_NICKNAME,
                M.MEMBER_KAKAO_PROFILE_URL,
@@ -11,21 +11,12 @@
                A.ARTIST_BLOG_NAME,
                A.ARTIST_DESCRIPTION,
                A.BLOG_IMG_NAME,
-               A.BLOG_IMG_PATH
-        FROM TBL_MEMBER M
-                 JOIN TBL_ARTIST A on M.ID = A.MEMBER_ID
-        WHERE M.ID = #{id}
-    </select>
-
-    <select id="select" resultType="artistDTO">
-        SELECT MEMBER_ID,
-               ARTIST_BLOG_NAME,
-               BLOG_IMG_NAME,
-               BLOG_IMG_PATH,
+               A.BLOG_IMG_PATH,
                (SELECT COUNT(S.ARTIST_ID)
                 FROM TBL_SUBSCRIPTION S
                 WHERE S.ARTIST_ID = A.MEMBER_ID) AS SUBSCRIPTION_COUNT
-        FROM TBL_ARTIST A
-        WHERE MEMBER_ID = #{memberId}
+        FROM TBL_MEMBER M
+                 JOIN TBL_ARTIST A on M.ID = A.MEMBER_ID
+        WHERE A.MEMBER_ID = #{memberId}
     </select>
 </mapper>

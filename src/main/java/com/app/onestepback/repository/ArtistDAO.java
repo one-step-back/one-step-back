@@ -13,11 +13,7 @@ public class ArtistDAO {
     private final ArtistMapper artistMapper;
 
 //    아티스트 불러옴 -> 블로그 출력
-    public Optional<ArtistDTO> getArtist(Long id){
-        return artistMapper.selectAM(id);
-    }
-
-    public Optional<ArtistDTO> getArtistInfo(Long memberId){
+    public Optional<ArtistDTO> getArtist(Long memberId){
         return artistMapper.select(memberId);
     }
 }

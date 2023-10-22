@@ -32,6 +32,7 @@ public class ArtistPostController {
 
         pagination.setTotal(artistPostService.getPostCount(id));
         pagination.setPage(page);
+        pagination.setRowCount(10);
         pagination.progress();
         model.addAttribute("pagination", pagination);
         model.addAttribute("posts", artistPostService.getAllPosts(id, pagination));
@@ -62,7 +63,7 @@ public class ArtistPostController {
 
         model.addAttribute("prevPost", prevPost.orElse(null));
         model.addAttribute("nextPost", nextPost.orElse(null));
-        model.addAttribute("artist", artistPostService.getArtistInfo(nowPost.getMemberId()).get());
+        model.addAttribute("artist", artistPostService.getArtist(nowPost.getMemberId()).get());
         model.addAttribute("post", nowPost);
     }
 }
