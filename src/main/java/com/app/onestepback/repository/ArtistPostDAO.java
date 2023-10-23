@@ -26,13 +26,13 @@ public class ArtistPostDAO {
 
     public void saveArtistPost(Long postId){artistPostMapper.insertArtistPost(postId);}
 
-    public void savePostTag(PostTagVO postTagVO){artistPostMapper.insertPostTag(postTagVO);}
-
-    public void saveFile(PostFileVO postFileVO){artistPostMapper.insertFile(postFileVO);}
-
     public ArtistPostDTO getPost(Long id){return artistPostMapper.select(id);}
 
     public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO){return artistPostMapper.selectPrevPost(artistPostDTO);}
 
     public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO){return artistPostMapper.selectNextPost(artistPostDTO);}
+
+    public void editPost(ArtistPostDTO artistPostDTO){
+        artistPostMapper.update(artistPostDTO);
+    }
 }

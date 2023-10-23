@@ -1,10 +1,7 @@
 package com.app.onestepback.service;
 
 import com.app.onestepback.domain.*;
-import com.app.onestepback.repository.ArtistDAO;
-import com.app.onestepback.repository.ArtistPostDAO;
-import com.app.onestepback.repository.PostTagDAO;
-import com.app.onestepback.repository.SubscriptionDAO;
+import com.app.onestepback.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final ArtistDAO artistDAO;
     private final ArtistPostDAO artistPostDAO;
     private final PostTagDAO postTagDAO;
-    private final SubscriptionDAO subscriptionDAO;
+    private final PostFileDAO postFileDAO;
 
     @Override
     public Optional<ArtistDTO> getArtist(Long memberId) {
@@ -84,7 +81,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
                 postTagVO.setPostId(artistPostDTO.getId());
                 postTagVO.setPostTagName((String) field.get(artistPostDTO));
 
-                artistPostDAO.savePostTag(postTagVO);
+                postTagDAO.savePostTag(postTagVO);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -98,7 +95,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
                 postFileVO.setFileName(uuids.get(i) + "_" + uploadFiles.get(i).getOriginalFilename());
                 postFileVO.setFilePath(getPath());
 
-                artistPostDAO.saveFile(postFileVO);
+                postFileDAO.saveFile(postFileVO);
             }
         }
     }
@@ -136,6 +133,46 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     @Override
     public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO) {
         return artistPostDAO.getNextPost(artistPostDTO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void editPost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles) {
+        artistPostDAO.editPost(artistPostDTO);
+
+        postTagDAO.deletePostTag(artistPostDTO.getId());
+        for (int i = 1; i <= numberOfTags; i++) {
+            try {
+                PostTagVO postTagVO = new PostTagVO();
+
+                String tagName = "tag" + i;
+                Field field = artistPostDTO.getClass().getDeclaredField(tagName);
+                field.setAccessible(true);
+
+                postTagVO.setPostId(artistPostDTO.getId());
+                postTagVO.setPostTagName((String) field.get(artistPostDTO));
+
+                postTagDAO.savePostTag(postTagVO);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        if (uuids != null) {
+            for (int i = 0; i < uploadFiles.size(); i++) {
+                PostFileVO postFileVO = new PostFileVO();
+
+                postFileVO.setPostId(artistPostDTO.getId());
+                postFileVO.setFileName(uuids.get(i) + "_" + uploadFiles.get(i).getOriginalFilename());
+                postFileVO.setFilePath(getPath());
+
+                postFileDAO.saveFile(postFileVO);
+            }
+        }
+    }
+
+    @Override
+    public List<PostFileVO> getAllFiles(Long postId) {
+        return postFileDAO.getAllFiles(postId);
     }
 
     private String getPath() {

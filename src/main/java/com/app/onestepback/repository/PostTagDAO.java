@@ -1,5 +1,6 @@
 package com.app.onestepback.repository;
 
+import com.app.onestepback.domain.PostTagVO;
 import com.app.onestepback.mapper.PostTagMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,8 @@ public class PostTagDAO {
     private final PostTagMapper postTagMapper;
 
     public List<String> getAllTags(Long postId){return postTagMapper.selectAll(postId);}
+
+    public void savePostTag(PostTagVO postTagVO){postTagMapper.insert(postTagVO);}
+
+    public void deletePostTag(Long postId){postTagMapper.delete(postId);}
 }

@@ -24,28 +24,9 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping("main")
-    public void goToMainForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("posts", artistService.get3Posts(id));
-        model.addAttribute("videos", artistService.get3Videos(id));
-        model.addAttribute("artist", artistService.getArtist(id).get());
-
-        log.info(artistService.get3Posts(id).toString());
-        log.info(artistService.get3Videos(id).toString());
-    }
-
-    @GetMapping("get-3videos")
-    @ResponseBody
-    public List<VideoDTO> load3Videos(@RequestParam("id") Long id) {
-        return artistService.get3Videos(id);
-    }
-
-    @GetMapping("sponsor")
-    public void goToSponsorForm() {
-        ;
-    }
-
-    @GetMapping("/post/edit")
-    public void goToPostEditForm() {
-        ;
+    public void goToMainForm(@RequestParam("memberId") Long memberId, Model model) {
+        model.addAttribute("artist", artistService.getArtist(memberId).get());
+        model.addAttribute("posts", artistService.get3Posts(memberId));
+        model.addAttribute("videos", artistService.get3Videos(memberId));
     }
 }
