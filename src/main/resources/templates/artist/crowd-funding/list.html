@@ -26,8 +26,8 @@
                    th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'">
                 </a>
                 <span class="channel-meta">
-                    구독자 <span class="count" id="subscriberCount">140</span>명 ·
-                    포스트 <span class="count" id="postCount">40</span>개
+                    구독자 <span class="count" id="subscriberCount"></span>명 ·
+                    포스트 <span class="count" id="postCount"></span>개
                 </span>
                 <h1 class="blog-title">
                     <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
@@ -66,7 +66,7 @@
             <div class="crowd-funding-wrap">
                 <div class="crowd-funding-head">
                     <div style="display: flex; flex-wrap: wrap">
-                        <span id="crowdFundingCount">n</span> 개의 크라우드 펀딩이 진행 중 입니다.
+                        <span id="crowdFundingCount"></span> 개의 크라우드 펀딩이 진행 중 입니다.
                     </div>
                     <a href="/artist/crowd-funding/write">
                         <button class="go-to-write">크라우드 펀딩 요청하기</button>

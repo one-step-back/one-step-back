@@ -1,6 +1,5 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.CrowdFundingDTO;
 import com.app.onestepback.domain.Pagination;
 import org.apache.ibatis.annotations.Mapper;

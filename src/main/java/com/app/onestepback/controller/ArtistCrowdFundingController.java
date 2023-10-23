@@ -27,7 +27,7 @@ public class ArtistCrowdFundingController {
         model.addAttribute("artist", artistService.getArtist(memberId).get());
         pagination.setTotal(artistCrowdFundingService.getCountOfCF(memberId));
         pagination.setPage(page);
-        pagination.setRowCount(5);
+        pagination.setRowCount(1);
         pagination.progress();
         model.addAttribute("pagination", pagination);
         model.addAttribute("crowdFundings", artistCrowdFundingService.getAllCrowdFundings(memberId, pagination));
