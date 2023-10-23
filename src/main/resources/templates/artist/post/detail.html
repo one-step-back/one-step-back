@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>당신 삶에 아우라가 생기는 방법</title>
+    <title th:text="${post.postTitle}"></title>
     <link rel="stylesheet" href="/css/main/root.css">
     <link rel="stylesheet" href="/css/artist/blog-header.css">
     <link rel="stylesheet" href="/css/artist/post/detail.css">
@@ -85,6 +85,13 @@
                                         <span th:text="${post.replyCount}" class="stats-count"></span>
                                 </span>
                             </div>
+                            <th:block th:if="${session.member != null}">
+                                <a th:if="${post.memberId == session.member.id}"
+                                   th:href="@{/artist/post/edit(id=${post.id})}" class="edit-container">
+                                    게시글 수정
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                            </th:block>
                         </div>
 
                     </div>
@@ -153,9 +160,11 @@
                                         </div>
                                     </div>
                                     <div class="action-group">
-                                        <button id="subscription-btn" class="subscribe4">
-                                            <span class="default-text">구독하기</span>
-                                        </button>
+                                        <th:block th:unless="${post.memberId == session.member?.id}">
+                                            <button id="subscription-btn" class="subscribe4">
+                                                <span class="default-text">구독하기</span>
+                                            </button>
+                                        </th:block>
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +180,9 @@
                                             <textarea class="form-control autosize" name="text" id="reply"
                                                       style="overflow: hidden; overflow-wrap: break-word; height: 40px; resize: none; overflow-y: auto"></textarea>
                                             <div class="brand-icons">
-                                                <button id="send" class="btn btn-strong btn-login btn-create-comment">댓글 남기기</button>
+                                                <button id="send" class="btn btn-strong btn-login btn-create-comment">댓글
+                                                    남기기
+                                                </button>
                                             </div>
                                         </div>
                                         <div id="reply-wrap"></div>
@@ -489,24 +500,24 @@
 
             data.replies.forEach(reply => {
                 replyHtml += `
-            <div class="reply-item">
-                <a class="replier-avatar">
-                ${reply.memberKakaoProfileUrl == null && reply.memberProfileName == null ? `
-                    <img src="/images/none-avatar.svg">
-                ` : ''}
-                ${reply.memberKakaoProfileUrl != null && reply.memberProfileName == null ? `
-                    <img src="${reply.memberKakaoProfileUrl}">
-                ` : ''}
-                </a>
-                <div class="reply-body">
-                    <div class="reply-head">
-                        <a class="replier-name">${reply.memberNickname}</a>
-                         <time class="reply-time">${getTimeGap(reply.replyWriteTime)}</time>
-                    </div>
-                    <pre class="reply-content">${reply.replyContent}</pre>
-                </div>
-            </div>
-            `;
+                              <div class="reply-item">
+                                  <a class="replier-avatar">
+                                  ${reply.memberKakaoProfileUrl == null && reply.memberProfileName == null ? `
+                                      <img src="/images/none-avatar.svg">
+                                  ` : ''}
+                                  ${reply.memberKakaoProfileUrl != null && reply.memberProfileName == null ? `
+                                      <img src="${reply.memberKakaoProfileUrl}">
+                                  ` : ''}
+                                  </a>
+                                  <div class="reply-body">
+                                      <div class="reply-head">
+                                          <a class="replier-name">${reply.memberNickname}</a>
+                                           <time class="reply-time">${getTimeGap(reply.replyWriteTime)}</time>
+                                      </div>
+                                      <pre class="reply-content">${reply.replyContent}</pre>
+                                  </div>
+                              </div>
+                              `;
             });
 
             if (data.isItEnd === false) {
@@ -518,7 +529,7 @@
             repliesContainer.append(replyHtml);
         }
 
-        return { write: write, updateReplies: updateReplies, showReply: showReply };
+        return {write: write, updateReplies: updateReplies, showReply: showReply};
     })();
 
     // 페이지 로드 시
@@ -545,13 +556,13 @@
     })
 
     // 댓글 작성 버튼 누를시
-    $("#send").on("click", function() {
+    $("#send").on("click", function () {
         if (session == null) {
             alert("먼저 로그인을 해주세요.");
             window.location.href = "/member/login";
         }
         const replyContent = $("#reply").val();
-        if (replyContent == null){
+        if (replyContent == null) {
             alert("먼저 댓글을 작성해주세요.");
             return
         }

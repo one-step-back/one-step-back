@@ -106,16 +106,6 @@
         VALUES (#{postId})
     </insert>
 
-    <insert id="insertPostTag">
-        INSERT INTO TBL_POST_TAG(POST_ID, POST_TAG_NAME)
-        VALUES (#{postId}, #{postTagName})
-    </insert>
-
-    <insert id="insertFile">
-        INSERT INTO TBL_POST_FILE(ID, POST_ID, FILE_NAME, FILE_PATH)
-        VALUES (SEQ_POST_FILE.NEXTVAL, #{postId}, #{fileName}, #{filePath})
-    </insert>
-
     <select id="select" resultType="artistPostDTO">
         SELECT A.ID,
                A.MEMBER_ID,
@@ -181,4 +171,14 @@
               ORDER BY POST_WRITE_TIME)
         WHERE ROWNUM = 1
     </select>
+
+    <update id="update">
+        UPDATE TBL_POST
+        SET POST_TITLE = #{postTitle},
+            POST_SUBTITLE = #{postSubtitle},
+            POST_CONTENT = #{postContent},
+            POST_CATEGORY = #{postCategory},
+            POST_UPDATE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
 </mapper>

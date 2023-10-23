@@ -1367,7 +1367,7 @@ textarea {
     border-radius: 100px;
 }
 
-#post-content {
+#postContent {
     width: 100%;
     height: 280px;
     border: 1px solid rgba(0, 0, 0, .1);
@@ -1504,8 +1504,19 @@ input[type="radio" i] {
 }
 
 .image-item {
+    display: flex;
     position: relative;
     margin-bottom: 10px;
+    justify-content: center;
+}
+
+.saved-img-delete-btn {
+    position: absolute;
+    right: -20px;
+    top: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
 }
 
 .image-item img {

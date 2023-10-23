@@ -57,4 +57,17 @@ public class ArtistPostMapperTest {
 
         log.info(String.valueOf(artistPostMapper.selectNextPost(artistPostDTO)));
     }
+
+    @Test
+    public void updatePostTest(){
+        ArtistPostDTO artistPostDTO = new ArtistPostDTO();
+
+        artistPostDTO.setId(141L);
+        artistPostDTO.setPostTitle("게시글 테스트");
+        artistPostDTO.setPostSubtitle("수정을해볼까?");
+        artistPostDTO.setPostContent("수정이 될까?");
+        artistPostDTO.setPostCategory("테스트");
+
+        artistPostMapper.update(artistPostDTO);
+    }
 }

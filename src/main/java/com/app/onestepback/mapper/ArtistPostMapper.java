@@ -25,13 +25,11 @@ public interface ArtistPostMapper {
 
     public void insertArtistPost(Long postId);
 
-    public void insertPostTag(PostTagVO postTagVO);
-
-    public void insertFile(PostFileVO postFileVO);
-
     public ArtistPostDTO select(Long id);
 
     public Optional<ArtistPostDTO> selectPrevPost(ArtistPostDTO artistPostDTO);
 
     public Optional<ArtistPostDTO> selectNextPost(ArtistPostDTO artistPostDTO);
+
+    public void update(ArtistPostDTO artistPostDTO);
 }

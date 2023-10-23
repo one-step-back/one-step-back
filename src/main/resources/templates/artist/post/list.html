@@ -20,10 +20,9 @@
         <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
             <div class="container">
                 <div id="masthead" class="masthead d-flex">
-                    <a class="channel-avatar" th:if="${artist.blogImgName == null}"
+                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar" th:if="${artist.blogImgName == null}"
                        style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
-
-                    <a class="channel-avatar" th:unless="${artist.blogImgName == null}"
+                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar" th:unless="${artist.blogImgName == null}"
                        th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
                     <div class="action-group">
                         <a class="btn btn-icon btn-share" href="https://u-t-wp.postype.com" aria-label="공유" title="공유"
@@ -50,7 +49,7 @@
                     <nav>
                         <ul>
                             <li>
-                                <a th:href="@{/artist/main(id=${artist.memberId})}">홈</a>
+                                <a th:href="@{/artist/main(memberId=${artist.memberId})}">홈</a>
                             </li>
                             <li>
                                 <a class="active">게시글</a>
@@ -164,7 +163,7 @@
                                                 </th:block>
                                             </div>
                                             <div class="post-info">
-                                                <a class="user-profile-avatar avatar-32">
+                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}" class="user-profile-avatar avatar-32">
                                                     <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                          src="/images/none-avatar.svg">
                                                     <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
@@ -172,7 +171,7 @@
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:text="*{memberNickname}"></a>
+                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}" th:text="*{memberNickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
                                                         <span class="meta-item" title="조회수">

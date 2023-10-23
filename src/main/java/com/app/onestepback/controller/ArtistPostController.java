@@ -27,15 +27,15 @@ public class ArtistPostController {
     private final ArtistPostService artistPostService;
 
     @GetMapping("list")
-    public void goToPostList(Pagination pagination, @RequestParam("id") Long id, @RequestParam(value = "page", required = false) Integer page, Model model) {
-        model.addAttribute("artist", artistPostService.getArtist(id).get());
+    public void goToPostList(Pagination pagination, @RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model) {
+        model.addAttribute("artist", artistPostService.getArtist(memberId).get());
 
-        pagination.setTotal(artistPostService.getPostCount(id));
+        pagination.setTotal(artistPostService.getPostCount(memberId));
         pagination.setPage(page);
         pagination.setRowCount(10);
         pagination.progress();
         model.addAttribute("pagination", pagination);
-        model.addAttribute("posts", artistPostService.getAllPosts(id, pagination));
+        model.addAttribute("posts", artistPostService.getAllPosts(memberId, pagination));
     }
 
     @GetMapping("write")
@@ -65,5 +65,27 @@ public class ArtistPostController {
         model.addAttribute("nextPost", nextPost.orElse(null));
         model.addAttribute("artist", artistPostService.getArtist(nowPost.getMemberId()).get());
         model.addAttribute("post", nowPost);
+    }
+
+    @GetMapping("edit")
+    public void goToEditForm(@RequestParam("id")Long id, ArtistPostDTO artistPostDTO, HttpSession session, Model model) {
+        MemberVO memberSession = (MemberVO) session.getAttribute("member");
+
+        model.addAttribute("memberId", memberSession.getId());
+        model.addAttribute("post", artistPostService.getPost(id));
+        model.addAttribute("files", artistPostService.getAllFiles(id));
+    }
+
+    @PostMapping("edit")
+    public RedirectView editForm(ArtistPostDTO artistPostDTO, @RequestParam("numberOfTags") int numberOfTags, @RequestParam(value = "uuid", required = false) List<String> uuids, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles){
+        if (uploadFiles != null) {
+            log.info(String.valueOf(uploadFiles.size()));
+        } else {
+            log.info("No files uploaded.");
+        }
+
+        artistPostService.editPost(artistPostDTO, numberOfTags, uuids, uploadFiles);
+
+        return new RedirectView("/artist/post/detail?id=" + artistPostDTO.getId());
     }
 }

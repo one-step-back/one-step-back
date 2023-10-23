@@ -1,75 +1,496 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>원스텝 - 게시글 수정</title>
-  <link rel="stylesheet" href="/css/main/root.css">
-  <link rel="stylesheet" href="/css/artist/post/write.css">
-  <script src="https://kit.fontawesome.com/44012a5eeb.js" crossorigin="anonymous"></script>
-  <!-- include libraries(jQuery, bootstrap) -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-  <!-- include summernote css/js -->
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-  <script src="/js/artist/post/write.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>원스텝 | 포스트 수정</title>
+    <link rel="icon" href="/images/icon.svg">
+    <link rel="stylesheet" href="/css/main/root.css">
+    <link rel="stylesheet" href="/css/artist/blog-header.css">
+    <link rel="stylesheet" href="/css/manage/announcement-write.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
+          onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 </head>
-<body id="editor-body" class="editor">
-<div class="header slide-left mb-0">
-  <div class="navbar primary-nav">
-    <div class="container justify-content-between">
-      <div class="btn-group-left">
-        <a class="btn btn-icon" id="btn-back" title="뒤로" aria-label="뒤로">
-          <i class="fas fa-chevron-left"></i>
-        </a>
-      </div>
-      <div class="btn-group-right">
-        <div class="character-counter" id="character-counter" data-toggle="tooltip" data-placement="left" title="" data-original-title="공백을 포함한 글자 수입니다.">
-          <span id="character-count">0</span>
-          자
+
+<body class="h-full overflow-x-hidden">
+<div class="__next">
+    <div class="flex flex-col h-screen">
+        <header th:replace="~{/artist/blog-header::blog-header}"></header>
+
+        <div class="h-[68px] border-b border_primary flex items-center surface_primary">
+            <div class="min-w-desktop-grid mx-auto flex items-center justify-between">
+                <div class="flex items-center content_primary">
+                    <button class="surface_tertiary w-[32px] h-[32px] mr-[16px] rounded-full flex items-center justify-center">
+                        <svg viewBox="0 0 17 16" xmlns="http://www.w3.org/2000/svg" class="w-[16px] h-[16px] ">
+                            <path d="M13.833 8a.667.667 0 0 0-.666-.667H5.72L8.973 4.08a.667.667 0 1 0-.943-.943L3.167 8l4.863 4.863a.665.665 0 0 0 .94-.94L5.72 8.667h7.447A.667.667 0 0 0 13.833 8Z">
+
+                            </path>
+                        </svg>
+                    </button>
+                    <h1 class="font_title_bold_lg">공지사항 작성하기</h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="mr-[12px]">
+                        <button type="button"
+                                class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled">
+                            임시저장
+                        </button>
+                    </div>
+                    <button type="button" name="modalbutton"
+                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px]  false disabled:content_disabled"
+                            style="background-color: black">
+                        게시
+                    </button>
+                </div>
+            </div>
         </div>
+        <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0%; height: 3px;"></div>
+        <form id="summit-form" class="mt-[32px]" th:action="@{/artist/post/edit}" method="post"
+              enctype="multipart/form-data"
+              th:object="${artistPostDTO}">
+            <input id="id" th:field="*{id}" type="hidden">
+            <input id="numberOfTags" type="hidden" name="numberOfTags">
+            <div id="tags"></div>
+            <div class="grid grid-cols-15 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto">
+                <section class="col-span-10">
+                    <div class="mb-[14px]">
+                        <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
+                            <input id="postTitle" th:field="*{postTitle}" type="text"
+                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="제목을 입력해 주세요." value>
+                        </label>
+                        <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
+                            <input id="postSubtitle" th:field="*{postSubtitle}" type="text"
+                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="부제목을 입력해 주세요." value>
+                        </label>
+                    </div>
+                    <div class="mb-[14px]"></div>
 
-        <a class="btn font-weight-semibold" id="insert-file">
-          <i class="fas fa-link"></i>
-          <span class="insert-file">파일 첨부</span>
-        </a>
+                    <div class="mb-[48px]">
+                        <div class="border border-[#e6e6e7] p-0">
+                            <div role="application" class="tox tox-tinymce" style="visibility: hidden; height: 474px;">
+                                <div class="tox-editor-container">
+                                    <div class="tox-sidebar-wrap">
+                                        <div class="tox-edit-area">
+                                            <textarea id="postContent" th:field="*{postContent}"
+                                                      class="placeholder:font_body_regular_md"
+                                                      cols="30" rows="10" placeholder="내용을 입력해주세요."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="popover-on-btn">
+                                    <span>작성하기</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-        <a class="btn font-weight-semibold" id="save">
-          <i class="far fa-save"></i>
-          <span class="save-text">저장</span>
-        </a>
+                <section class="col-start-11 col-span-5 ml-[15px]">
+                    <section class="border border_primary rounded-[12px] flex flex-col">
+                        <div class="h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
+                            <strong class="font_label_bold_xl content_primary">
+                                카테고리
+                            </strong>
+                        </div>
+                        <div class="px-[20px]">
+                            <label style="padding: 20px">
+                                <input id="postCategory" th:field="*{postCategory}" type="text"
+                                       placeholder="카테고리를 작성해주세요"
+                                       maxlength="6"
+                                       class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                       value="">
+                            </label>
+                        </div>
+                        <div class="h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
+                            <strong class="font_label_bold_xl content_primary">
+                                태그
+                            </strong>
+                        </div>
+                        <div class="px-[20px]">
+                            <div class="flex gap-x-[12px]">
+                                <div class="w-full">
+                                    <label class="tag-label surface_primary rounded-[8px] h-[48px] flex items-center cursor-pointer border border_black_opacity pl-[20px] pr-[16px] focus-within:border-2 focus-within:border_accent_active focus-within:pl-[19px] focus-within:pr-[15px]">
+                                        <input id="tag-input" type="text" placeholder="태그는 최대 5개 까지 작성가능합니다"
+                                               maxlength="10"
+                                               class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                               value="">
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="tag-wrap"></div>
+                        </div>
 
-        <a class="btn font-weight-semibold" id="delete">
-          <i class="fas fa-trash"></i>
-          <span class="delete-text">삭제</span>
-        </a>
+                        <th:block th:if="${#lists.size(files) != 0}">
+                            <div class="position-relative h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <strong class="font_label_bold_xl content_primary">
+                                        저장된 이미지
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="px-[20px]">
+                                <div id="show-saved-images" class="justify-center items-center">
+                                    <div id="saved-image-wrap">
+                                        <th:block th:each="file:${files}">
+                                            <div th:object="${file}" class="image-item">
+                                                <div class="image-item" th:data-id="*{id}">
+                                                    <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">
+                                                    <button type="button" class="saved-img-delete-btn">
+                                                        <i class="fa-solid fa-x"></i>
+                                                        <input type="hidden" th:value="*{id}">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
 
-      </div>
-    </div>
-  </div>
-</div>
-<div class="main-content slide-left">
-  <form method="post" id="post-save-form">
-    <input class="form-control focus" id="embed-url" name="link_url" value="" placeholder="https://" style="display: none;">
-    <article class="post" style="padding-bottom: 0px;">
-      <div class="container">
-        <div class="title-wrap">
-          <div class="inner">
-            <label for="post-title" class="sr-only">포스트 제목</label>
-            <textarea id="post-title" name="title" rows="1" maxlength="100" class="post-title autosize" placeholder="제목을 수정하세요." style="overflow: hidden; overflow-wrap: break-word; height: 40px;"></textarea>
-            <label for="post-sub-title" class="sr-only">포스트 부제목</label>
-            <textarea id="post-sub-title" name="sub_title" rows="1" maxlength="100" class="post-subtitle autosize" placeholder="부제목을 수정하세요." style="overflow: hidden; overflow-wrap: break-word; height: 24px;"></textarea>
-          </div>
-        </div>
-        <form method="post">
-          <textarea id="summernote" name="post-content" placeholder="내용을 수정하세요."></textarea>
+                        <div class="position-relative h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
+                            <div class="flex items-center">
+                                <strong class="font_label_bold_xl content_primary">
+                                    이미지
+                                </strong>
+                            </div>
+                            <label for="img-input" style="margin: 0 20px 0 0"
+                                   class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled">
+                                업로드
+                            </label>
+                            <div id="erase-imgs">
+                                <i class="fa-solid fa-trash"></i>
+                            </div>
+                        </div>
+                        <div id="img-container">
+                            <input id="img-input" type="file" multiple name="uploadFile"
+                                   accept="image/jpg,image/png,image/jpeg,image/gif"
+                                   style="display: none">
+                        </div>
+                        <div class="px-[20px]">
+                            <div id="show-images" class="h-[88px] justify-center items-center">
+                                <div id="image-wrap">
+                                    <div class="image-item"></div>
+                                </div>
+                                <span id="no-image" class="content_disabled font_body_regular_md">
+                                    첨부된 이미지가 없습니다.
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
         </form>
-      </div>
-    </article>
-  </form>
+        <div id="modal"
+             class="z-50 fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center min-w-[360px] p-[32px] border box-border rounded-[16px] border_primary surface_primary shadow-s">
+            <div id="post-form" style="display: none">
+                <h4 class="font_headline_bold_sm mb-[12px] content_primary">게시글 수정</h4>
+                <div class="font_body_regular_lg max-w-[300px] text-center content_secondary">
+                    게시글을 수정하시겠습니까?
+                </div>
+                <div class="flex items-center justify-between w-full mt-[24px]">
+                    <div class="flex-1">
+                        <button type="button"
+                                class="modal-cancel relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                            취소
+                        </button>
+                    </div>
+                    <div class="ml-[16px] flex-1">
+                        <button type="button" id="summit-btn"
+                                class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                            확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="re-check-form" style="display: none">
+                <h4 class="font_headline_bold_sm mb-[12px] content_primary">저장된 사진 삭제</h4>
+                <div class="font_body_regular_lg max-w-[300px] text-center content_secondary">
+                    저장된 사진을 삭제하시겠습니까?
+                </div>
+                <div class="flex items-center justify-between w-full mt-[24px]">
+                    <input type="hidden" name="fileId" id="fileId">
+                    <div class="flex-1">
+                        <button type="button"
+                                class="modal-cancel relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                            취소
+                        </button>
+                    </div>
+                    <div class="ml-[16px] flex-1">
+                        <button type="button" id="summit-deletion"
+                                class="modal-cancel relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                            확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script th:inline="javascript">
+    const imageWrap = $("#image-wrap")
+    const tagWrap = $("#tag-wrap");
+    const tags = $("#tags");
+    let numberOfTags = 0;
+
+    // 페이지 출력후 포스트의 정보를 각 정보칸에 저장하는 함수
+    function loadPostInfo() {
+        const post = [[${post}]];
+
+        $("#id").val(post.id);
+        $("#postTitle").val(post.postTitle);
+        $("#postSubtitle").val(post.postSubtitle);
+        $("#postContent").val(post.postContent);
+        $("#postCategory").val(post.postCategory);
+
+        for (let i = 1; i <= 5; i++) {
+            const tag = post[`tag${i}`];
+            if (tag != null) {
+                let tagContainer = `<div class="tag-container">${tag}<i class="fa-solid fa-x"></i></div>`;
+                let tagInput = `<input type="hidden" name="tag${i}" value="${tag}">`;
+
+                tagWrap.append(tagContainer);
+                tags.append(tagInput);
+                numberOfTags++;
+                $("#numberOfTags").val(numberOfTags);
+            }
+        }
+        console.log(numberOfTags);
+    }
+
+    // 파일관련 통합 서비스
+    const fileService = (function () {
+        function addFile(callback) {
+            let formData = new FormData();
+            let files = $("#img-input")[0].files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append("uploadFile", files[i]);
+            }
+
+            imageWrap.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "/file/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (uuids) {
+                    // 비동기 테스트
+                    console.log(uuids);
+
+                    let imageHtml = null;
+
+                    let now = new Date();
+                    let year = now.getFullYear();
+                    let month = now.getMonth() + 1;
+                    let date = now.getDate();
+                    month = month < 10 ? '0' + month : month;
+                    date = date < 10 ? '0' + date : date;
+
+                    for (let i = 0; i < uuids.length; i++) {
+                        let uuidInput = document.createElement("input");
+                        uuidInput.type = "hidden";
+                        uuidInput.name = "uuid";
+                        uuidInput.value = uuids[i];
+
+                        let fileName = `${year}/${month}/${date}/t_${uuids[i]}_${files[i].name}`;
+
+                        imageHtml = `<div class="image-item">
+                                        <img src="/file/display?fileName=${fileName}">
+                                     </div>`;
+
+                        $("#image-wrap").append(imageHtml);
+                        $("#img-container").append(uuidInput);
+                        $("#no-image").remove();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("업로드 실패: " + error);
+                }
+            });
+        }
+
+        function deleteFile(callback) {
+            const fileId = $("#fileId").val();
+
+            $.ajax({
+                type: "POST",
+                url: `/file/delete?fileId=${fileId}`,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (callback) {
+                        callback(data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function deleteImg(data) {
+            $(".image-item[data-id='" + data + "']").remove();
+        }
+
+        return {addFile: addFile, deleteFile: deleteFile, deleteImg: deleteImg}
+    })();
+
+
+    $(function () {
+        loadPostInfo();
+
+        const modal = $("#modal");
+        const postForm = $("#post-form");
+        const reCheckForm = $("#re-check-form")
+
+        $(".saved-img-delete-btn").click(function () {
+            let fileId = $(this).find("input[type='hidden']").val();
+
+            $("#re-check-form input[name='fileId']").val(fileId);
+
+            modal.show();
+            reCheckForm.show();
+        });
+
+        $("#summit-deletion").click(() => {
+            fileService.deleteFile(fileService.deleteImg);
+        })
+
+
+        const noImg = `<span id="no-image" class="content_disabled font_body_regular_md">
+                                    첨부된 이미지가 없습니다.
+                                </span>`;
+
+
+        $("#numberOfTags").val(numberOfTags);
+
+        $("#popover-on-btn").click(() => {
+            let postTitleInput = $("#postTitle");
+            let postSubtitleInput = $("#postSubtitle");
+            let postContentInput = $("#postContent");
+            let postCategoryInput = $("#postCategory");
+
+            // 값이 비어있는지 확인
+            if (postTitleInput.val() === "") {
+                alert("제목을 입력해 주세요.");
+                return;
+            }
+            if (postSubtitleInput.val() === "") {
+                alert("부제목을 입력해 주세요.");
+                return;
+            }
+            if (postContentInput.val() === "") {
+                alert("내용을 입력해 주세요.");
+                return;
+            }
+            if (postCategoryInput.val() === "") {
+                alert("카테고리를 입력해 주세요.");
+                return;
+            }
+
+            modal.css("display", "block");
+            postForm.css("display", "block")
+        });
+
+        $(".modal-cancel").click(() => {
+            modal.hide();
+            postForm.hide();
+            reCheckForm.hide();
+        })
+
+        $("#tag-input").on("input", function () {
+            const inputValue = $(this).val();
+            const sanitizedValue = sanitizeInput(inputValue);
+            $(this).val(sanitizedValue);
+        });
+
+
+        $("#tag-input").on("keydown", function (event) {
+            if (event.key === "Enter") {
+                let tagValue = $(this).val().trim();
+
+                if (tagValue !== "") {
+                    const tagCount = tagWrap.find(".tag-container").length;
+                    if (tagCount >= 5) {
+                        alert("태그는 최대 5개까지 작성 가능합니다.");
+                        return;
+                    }
+
+                    tagValue = tagValue.replace(/ /g, "_");
+
+                    let isDuplicate = false;
+                    tagWrap.find(".tag-container").each(function () {
+                        if ($(this).text() === tagValue) {
+                            isDuplicate = true;
+                            return false;
+                        }
+                    });
+
+                    if (isDuplicate) {
+                        alert("이미 추가된 태그입니다.");
+                        return;
+                    }
+
+                    numberOfTags++;
+
+                    let tagContainer = `<div class="tag-container">${tagValue}<i class="fa-solid fa-x"></i></div>`;
+                    let tagInput = `<input type="hidden" name="tag${numberOfTags}" value="${tagValue}">`;
+
+                    tagWrap.append(tagContainer);
+                    tags.append(tagInput);
+
+                    $("#numberOfTags").val(numberOfTags);
+
+                    $(this).val("");
+                }
+            }
+        });
+
+        $("#tag-wrap").on("click", ".tag-container i", function () {
+            const deletedTag = $(this).parent().text().trim();
+            $(this).parent().remove();
+            numberOfTags--;
+            $("#numberOfTags").val(numberOfTags);
+
+            $("#tags input").each(function () {
+                if ($(this).val() === deletedTag) {
+                    $(this).remove();
+                }
+            });
+        });
+
+        $("#img-input").on("change", function () {
+            fileService.addFile();
+        })
+
+        $("#erase-imgs").click(() => {
+            $("#image-wrap").empty();
+            $("#img-container input[name='uuid']").remove();
+            $("#show-images").append(noImg);
+        })
+
+
+        $("#summit-btn").click(() => {
+            $("#summit-form").submit();
+        });
+    });
+
+    function sanitizeInput(input) {
+        return input.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/g, "");
+    }
+
+</script>
 </html>

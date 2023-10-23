@@ -22,4 +22,8 @@ public interface ArtistPostService {
     public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO);
 
     public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO);
+
+    public void editPost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles);
+
+    public List<PostFileVO> getAllFiles(Long postId);
 }
