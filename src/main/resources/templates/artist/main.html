@@ -39,7 +39,7 @@
                             class="count" id="postCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
+                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(memberId=${artist.memberId})}"></a>
                         </div>
                     </h1>
                 </div>
@@ -51,7 +51,7 @@
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/post/list(id=${artist.memberId})}">게시글</a>
+                                <a th:href="@{/artist/post/list(memberId=${artist.memberId})}">게시글</a>
                             </li>
                             <li>
                                 <a href="">영상</a>
@@ -158,7 +158,7 @@
                                                 </th:block>
                                             </div>
                                             <div class="post-info">
-                                                <a class="user-profile-avatar avatar-32"
+                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}" class="user-profile-avatar avatar-32"
                                                    href="">
                                                     <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                          src="/images/none-avatar.svg">
@@ -167,9 +167,7 @@
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:text="*{memberNickname}"
-                                                           href="https://www.postype.com/profile/@8q8la4"
-                                                           rel="author"></a>
+                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}" th:text="*{memberNickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
                                                         <span class="meta-item" title="조회수">

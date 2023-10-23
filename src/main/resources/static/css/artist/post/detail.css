@@ -285,8 +285,22 @@
 }
 
 .media-body {
+    position: relative;
     overflow: hidden;
     flex: 1;
+}
+
+.edit-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: rgba(0, 0, 0, .75);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-container i {
+    margin-left: 4px;
 }
 
 .article-author {

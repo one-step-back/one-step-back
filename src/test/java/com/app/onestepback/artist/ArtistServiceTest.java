@@ -11,14 +11,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ArtistServiceTest {
     @Autowired
     private ArtistService artistService;
-
-    @Test
-    public void getCountOfSubscriberTest(){
-        log.info(String.valueOf(artistService.getCountOfSubscriber(1L)));
-    }
-
-    @Test
-    public void getCountOfPostTest(){
-        log.info(String.valueOf(artistService.getCountOfPost(1L)));
-    }
 }

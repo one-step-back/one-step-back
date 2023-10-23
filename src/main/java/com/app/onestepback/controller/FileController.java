@@ -1,5 +1,7 @@
 package com.app.onestepback.controller;
 
+import com.app.onestepback.service.PostFileService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.util.FileCopyUtils;
@@ -18,7 +20,10 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping("/file/*")
+@RequiredArgsConstructor
 public class FileController {
+    private final PostFileService postFileService;
+
     //    파일 업로드
     @PostMapping("upload")
     public List<String> upload(@RequestParam("uploadFile") List<MultipartFile> uploadFiles) throws IOException {
@@ -44,9 +49,17 @@ public class FileController {
     }
 
     @GetMapping("display")
-    @ResponseBody
     public byte[] display(String fileName) throws IOException{
         return FileCopyUtils.copyToByteArray(new File("C:/upload", fileName));
+    }
+
+    @PostMapping("delete")
+    public Long eraseFile(@RequestParam("fileId")Long fileId){
+        log.info(fileId.toString());
+
+        postFileService.eraseFile(fileId);
+
+        return fileId;
     }
 
     private String getPath() {
