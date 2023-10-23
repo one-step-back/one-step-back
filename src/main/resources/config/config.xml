@@ -9,6 +9,7 @@
         <typeAlias type="com.app.onestepback.domain.BookmarkedVideoVO" alias="bookmarkedVideoVO"/>
         <typeAlias type="com.app.onestepback.domain.CommunityPostVO" alias="communityPostVO"/>
         <typeAlias type="com.app.onestepback.domain.CrowdFundingVO" alias="crowdFundingVO"/>
+        <typeAlias type="com.app.onestepback.domain.CrowdFundingDTO" alias="crowdFundingDTO"/>
         <typeAlias type="com.app.onestepback.domain.FundingPaymentVO" alias="fundingPaymentVO"/>
         <typeAlias type="com.app.onestepback.domain.FundingRequestVO" alias="fundingRequestVO"/>
         <typeAlias type="com.app.onestepback.domain.MemberVO" alias="memberVO"/>
