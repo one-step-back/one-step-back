@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>원스텝 | 크라우드 펀딩</title>
-    <link rel="stylesheet" href="../../../root.css">
-    <link rel="stylesheet" href="../../../static/css/artist/crowd-funding/pay.css">
+    <link rel="stylesheet" href="/css/main/root.css">
+    <link rel="stylesheet" href="/css/artist/blog-header.css">
+    <link rel="stylesheet" href="/css/main/footer.css">
+    <link rel="stylesheet" href="/css/artist/crowd-funding/pay.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
           onload="this.rel='stylesheet'">
@@ -13,7 +15,7 @@
 </head>
 <body>
 <div class="page-wrap">
-    <header style="width: 100%; height: 60px; position:fixed; top: 0"></header>
+    <header th:replace="~{/artist/blog-header::blog-header}"></header>
     <main class="mt60">
         <div class="content-container">
             <div class="form-container">
@@ -76,9 +78,10 @@
             </div>
         </div>
     </main>
+    <footer th:replace="~{main/footer :: footer}"></footer>
 </div>
 </body>
 <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="../../../static/js/artist/crowd-funding/pay.js"></script>
+<script src="/js/artist/crowd-funding/pay.js"></script>
 </html>

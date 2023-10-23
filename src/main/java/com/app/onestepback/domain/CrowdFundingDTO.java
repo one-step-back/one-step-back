@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class CrowdFundingVO {
+public class CrowdFundingDTO {
     //    크라우드 펀딩  id
     private Long id;
     //    회원 번호(아티스트)
@@ -32,4 +32,16 @@ public class CrowdFundingVO {
     private String fundingUpdateTime;
     //    종료 시간
     private String fundingTimeLimit;
+
+//        멤버 VO와 조인
+    //    회원 번호
+    private Long writerMemberId;
+    //    회원 닉네임
+    private String memberNickname;
+    //    카카오 프로필 사진
+    private String memberKakaoProfileUrl;
+    //    프로필 사진 이름
+    private String memberProfileName;
+    //    프로필 사진 경로
+    private String memberProfilePath;
 }

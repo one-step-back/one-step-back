@@ -7,7 +7,7 @@
 
 /* 블로그 헤드 ====================================================== */
 .blog-header {
-    padding-top: 68px;
+    padding-top: 30px;
     padding-bottom: 30px;
     display: flex;
     flex-direction: column;
@@ -220,6 +220,13 @@
     flex-direction: column;
 }
 
+.content-none {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+    color: rgba(0, 0, 0, .6) !important;
+}
+
 .crowd-funding-content {
     padding: 12px;
     display: flex;
@@ -421,9 +428,39 @@
     margin: 0;
 }
 
+/* 페이지네이션 =========================================================================  */
+#page-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    color: rgba(0, 0, 0, .47);
+}
+
+#page-wrap a {
+    margin: 0 4px;
+}
+
+.change-page {
+    margin: 0 10px;
+}
+
+#page-wrap .active {
+    font-weight: 600;
+    color: #000;
+}
+
+.button-highlight {
+    padding: 0 8px;
+}
+
+.active .button-highlight {
+    border: 1px solid rgba(0, 0, 0, .47);
+    border-radius: 4px;
+}
+
 /* 모달 =========================================================================  */
 .modal {
-    display: flex;
     display: none;
     right: unset;
     bottom: unset;
@@ -444,7 +481,6 @@
 
 
 .modal-container {
-    display: flex;
     display: none;
     transition: transform .3s ease-out, -webkit-transform .3s ease-out;
     margin: 30px auto;
