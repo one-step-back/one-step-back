@@ -2,7 +2,7 @@ package com.app.onestepback.service;
 
 import com.app.onestepback.repository.ArtistPostDAO;
 import com.app.onestepback.repository.SubscriptionDAO;
-import com.app.onestepback.repository.VideoDAO;
+import com.app.onestepback.repository.VideoPostDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class GetCountsServiceImpl implements GetCountsService {
     private final SubscriptionDAO subscriptionDAO;
     private final ArtistPostDAO artistPostDAO;
-    private final VideoDAO videoDAO;
+    private final VideoPostDAO videoPostDAO;
 
     @Override
     public int getCountOfSubscriber(Long artistId) {
@@ -25,6 +25,6 @@ public class GetCountsServiceImpl implements GetCountsService {
 
     @Override
     public int getCountOfVideo(Long memberId) {
-        return videoDAO.getCountOfVideo(memberId);
+        return videoPostDAO.getCountOfVideo(memberId);
     }
 }
