@@ -1,5 +1,6 @@
 package com.app.onestepback.controller;
 
+import com.app.onestepback.domain.CrowdFundingVO;
 import com.app.onestepback.domain.Pagination;
 import com.app.onestepback.service.ArtistCrowdFundingService;
 import com.app.onestepback.service.ArtistService;
@@ -23,7 +24,7 @@ public class ArtistCrowdFundingController {
     private final ArtistCrowdFundingService artistCrowdFundingService;
 
     @GetMapping("list")
-    public void goToListForm(@RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
+    public void goToList(@RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
         model.addAttribute("artist", artistService.getArtist(memberId).get());
         pagination.setTotal(artistCrowdFundingService.getCountOfCF(memberId));
         pagination.setPage(page);
@@ -38,9 +39,9 @@ public class ArtistCrowdFundingController {
         return artistCrowdFundingService.getCountOfCF(memberId);
     }
 
-    @GetMapping("pay")
-    public void goToPayForm(){;}
-
     @GetMapping("write")
-    public void goToWriteForm(){;}
+    public void goToWrite(CrowdFundingVO crowdFundingVO){;}
+
+    @GetMapping("pay")
+    public void goToPay(){;}
 }

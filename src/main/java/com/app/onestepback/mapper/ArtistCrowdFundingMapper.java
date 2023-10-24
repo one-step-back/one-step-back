@@ -1,6 +1,7 @@
 package com.app.onestepback.mapper;
 
 import com.app.onestepback.domain.CrowdFundingDTO;
+import com.app.onestepback.domain.CrowdFundingVO;
 import com.app.onestepback.domain.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,5 +18,8 @@ public interface ArtistCrowdFundingMapper {
 
     //    크라우드 펀딩 객체 조회
     public Optional<CrowdFundingDTO> select(Long memberId);
+
+    //    크라우드 펀딩 추가
+    public void insert(CrowdFundingVO crowdFundingVO);
 
 }
