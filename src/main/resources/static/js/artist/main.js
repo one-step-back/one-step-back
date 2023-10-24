@@ -16,18 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 2. 북마크 버튼 누르면 색깔 바뀌기
-    bookmarkButtons.forEach((bookmarkButton) => {
-        bookmarkButton.addEventListener("click", (e) => {
-            const btnScrap = e.target.parentElement;
-            if((e.target === bookmarkButton) && btnScrap.classList.contains("active")){
-                btnScrap.classList.remove("active");
-            } else if((e.target === bookmarkButton) && !btnScrap.classList.contains("active")){
-                btnScrap.classList.add("active");
-            }
-        })
-    })
-
     // 3. (...)버튼 누르면 추가정보 모달 띄우기
     body.addEventListener("click", (e) => {
         // ... 버튼 누를시 조건문

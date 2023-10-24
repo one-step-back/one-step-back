@@ -39,7 +39,8 @@
                             class="count" id="postCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(memberId=${artist.memberId})}"></a>
+                            <a th:text="${artist.artistBlogName}"
+                               th:href="@{/artist/main(memberId=${artist.memberId})}"></a>
                         </div>
                     </h1>
                 </div>
@@ -54,7 +55,7 @@
                                 <a th:href="@{/artist/post/list(memberId=${artist.memberId})}">게시글</a>
                             </li>
                             <li>
-                                <a href="">영상</a>
+                                <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
                             </li>
                             <li>
                                 <a href="">커뮤니티</a>
@@ -158,7 +159,8 @@
                                                 </th:block>
                                             </div>
                                             <div class="post-info">
-                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}" class="user-profile-avatar avatar-32"
+                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                   class="user-profile-avatar avatar-32"
                                                    href="">
                                                     <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                          src="/images/none-avatar.svg">
@@ -167,7 +169,8 @@
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}" th:text="*{memberNickname}"></a>
+                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                           th:text="*{memberNickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
                                                         <span class="meta-item" title="조회수">
@@ -187,7 +190,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon btn-scrap" data-post-id="15313057">
+                                                    <a class="btn btn-icon btn-scrap" th:data-post-id="*{id}">
                                                         <i class="far fa-bookmark default-text"></i>
                                                         <i class="fas fa-bookmark active-text"></i>
                                                     </a>
@@ -201,13 +204,6 @@
                                                         <ul class="dropdown-menu dropdown-menu-right"
                                                             x-placement="bottom-end"
                                                             style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                            <li>
-                                                                <a class="btn-open-add-collection-modal"
-                                                                   href="javascript:void(0);" data-post-id="15313057">
-                                                                    <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                         alt="" class="ic-add-collection">
-                                                                    컬렉션에 추가하기 </a>
-                                                            </li>
                                                             <li>
                                                                 <a class="dropdown-item btn-share" href="#">
                                                                     <span class="order-2">공유하기</span>
@@ -243,7 +239,7 @@
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/post/list(id=${artist.memberId})}" class="btn btn-secondary">전체 보기
+                            <a th:href="@{/artist/post/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
@@ -251,8 +247,8 @@
                     <div id="store-section-insert-point" data-is-adult=""></div>
                     <section class="ch-home-series">
                         <div class="ch-section-header">
-                            <h4><a href="/series">영상</a></h4>
-                            <a class="btn-icon" href="/series">
+                            <h4><a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a></h4>
+                            <a class="btn-icon" th:href="@{/artist/video/list(memberId=${artist.memberId})}">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
@@ -296,7 +292,8 @@
                                                     </div>
                                                 </div>
                                                 <p class="ellipsis-2">
-                                                    <a th:text="*{postContent}" th:href="@{/artist/video/detail(id=*{id})}"></a>
+                                                    <a th:text="*{postContent}"
+                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>
                                                 </p>
                                             </div>
                                             <div th:if="*{tag1 != null}" class="series-tags">
@@ -325,7 +322,7 @@
                             <div class="content-none">영상이 없습니다</div>
                         </th:block>
                         <div class="ch-section-footer">
-                            <a href="/series" class="btn btn-secondary">전체 보기
+                            <a th:href="@{/artist/video/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
@@ -351,6 +348,8 @@
     let currentCount = null;
     // 현재 구독상태인지 아닌지를 분별하기 위한 전역 변수
     let subscriptionStatus = null;
+    // 북마크 버튼
+    const libraryBtn = $(".btn-scrap");
 
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
@@ -492,11 +491,76 @@
         }
     }
 
+    const bookmarkService = (function () {
+        function checkPost(postId, btn, callback) {
+            $.ajax({
+                type: "GET",
+                url: "/bookmark/check-post",
+                data: {
+                    memberId: session.id,
+                    postId: postId
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateStatus(btn, data) {
+            if (data === true) {
+                btn.data('bookmark-status', 'true');
+                btn.addClass("active");
+            } else {
+                btn.data('bookmark-status', 'false');
+                btn.removeClass("active")
+            }
+        }
+
+
+        function updateBookmarkPost(btn, postId, bookmarkStatus, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/bookmark/update-post",
+                data: {
+                    memberId: session.id,
+                    postId: postId,
+                    bookmarkStatus: bookmarkStatus
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        return {checkPost: checkPost, updateStatus:updateStatus, updateBookmarkPost: updateBookmarkPost}
+    })();
+
     // 페이지 로드시 비동기 불러옴
     $(function () {
         getCounts(artistId);
         if (session != null) {
             checkSubscription(artistId, session.id, didISubscribe);
+        }
+        if (session != null) {
+            libraryBtn.each(function () {
+                let btn = $(this);
+                console.log(btn);
+                let postId = $(this).data('post-id');
+                bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
+            })
         }
         postVideoThumbnail();
         updateTimeGaps();
@@ -506,6 +570,21 @@
     subscriptionBtn.click(() => {
         updateSubscription(artistId, session.id, didISubscribe, updateSubscriberCount);
     })
+
+
+    libraryBtn.click(function () {
+        if (session == null){
+            alert("먼저 로그인을 해주세요.");
+            return;
+        }
+        let btn = $(this);
+        let postId = $(this).data('post-id');
+        let bookmarkStatus = btn.data('bookmark-status');
+        console.log(bookmarkStatus);
+
+        bookmarkService.updateBookmarkPost(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
+    });
+
 </script>
 <script src="/js/artist/blog-header.js"></script>
 <script src="/js/artist/main.js"></script>

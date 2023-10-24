@@ -3,7 +3,7 @@ package com.app.onestepback.controller;
 import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.SubscriptionVO;
-import com.app.onestepback.domain.VideoDTO;
+import com.app.onestepback.domain.VideoPostDTO;
 import com.app.onestepback.repository.ArtistPostDAO;
 import com.app.onestepback.service.ArtistService;
 import lombok.RequiredArgsConstructor;

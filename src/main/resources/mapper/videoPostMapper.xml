@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.mapper.VideoPostMapper">
+    <select id="selectCountOfVideo" resultType="int">
+        SELECT COUNT(MEMBER_ID)
+        FROM VIEW_VIDEO_POST
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="select3Videos" resultType="VideoPostDTO">
+        SELECT *
+        FROM (SELECT V.ID,
+                     V.MEMBER_ID,
+                     V.POST_TITLE,
+                     V.POST_SUBTITLE,
+                     V.POST_CONTENT,
+                     V.POST_CATEGORY,
+                     V.POST_VIEW_COUNT,
+                     V.POST_WRITE_TIME,
+                     V.VIDEO_LINK,
+                     M.MEMBER_NICKNAME,
+                     M.MEMBER_KAKAO_PROFILE_URL,
+                     M.MEMBER_PROFILE_NAME,
+                     M.MEMBER_PROFILE_PATH,
+                     (SELECT COUNT(L.POST_ID)
+                      FROM TBL_POST_LIKE L
+                      WHERE L.POST_ID = V.ID)                                                AS LIKE_COUNT,
+                     (SELECT COUNT(R.POST_ID)
+                      FROM TBL_POST_REPLY R
+                      WHERE R.POST_ID = V.ID)                                                AS REPLY_COUNT,
+                     (SELECT F.FILE_NAME
+                      FROM TBL_POST_FILE F
+                      WHERE F.POST_ID = V.ID
+                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = V.ID)) AS FILE_NAME,
+                     (SELECT F.FILE_PATH
+                      FROM TBL_POST_FILE F
+                      WHERE F.POST_ID = V.ID
+                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = V.ID)) AS FILE_PATH
+              FROM VIEW_VIDEO_POST V
+                       JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
+              WHERE V.MEMBER_ID = #{memberId}
+              ORDER BY V.POST_WRITE_TIME DESC)
+        WHERE ROWNUM &lt;= 3
+    </select>
+
+    <select id="selectAll" resultType="videoPostDTO">
+        SELECT P2.ID,
+               P2.MEMBER_ID,
+               P2.POST_TITLE,
+               P2.POST_CONTENT,
+               P2.POST_CATEGORY,
+               P2.POST_VIEW_COUNT,
+               P2.POST_WRITE_TIME,
+               P2.VIDEO_LINK,
+               P2.MEMBER_NICKNAME,
+               P2.MEMBER_KAKAO_PROFILE_URL,
+               P2.MEMBER_PROFILE_NAME,
+               P2.MEMBER_PROFILE_PATH,
+               P2.LIKE_COUNT,
+               P2.REPLY_COUNT
+        FROM (SELECT ROWNUM R, P1.*
+              FROM (SELECT V.ID,
+                           V.MEMBER_ID,
+                           V.POST_TITLE,
+                           V.POST_CONTENT,
+                           V.POST_CATEGORY,
+                           V.POST_VIEW_COUNT,
+                           V.POST_WRITE_TIME,
+                           V.VIDEO_LINK,
+                           M.MEMBER_NICKNAME,
+                           M.MEMBER_KAKAO_PROFILE_URL,
+                           M.MEMBER_PROFILE_NAME,
+                           M.MEMBER_PROFILE_PATH,
+                           (SELECT COUNT(L.POST_ID)
+                            FROM TBL_POST_LIKE L
+                            WHERE L.POST_ID = V.ID) AS LIKE_COUNT,
+                           (SELECT COUNT(R.POST_ID)
+                            FROM TBL_POST_REPLY R
+                            WHERE R.POST_ID = V.ID) AS REPLY_COUNT
+                    FROM VIEW_VIDEO_POST V
+                             JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
+                    WHERE MEMBER_ID = #{memberId}
+                    ORDER BY V.POST_WRITE_TIME DESC) P1
+              WHERE ROWNUM &lt;= #{pagination.endRow}) P2
+        WHERE R >= #{pagination.startRow}
+    </select>
+
+    <insert id="insertPost">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_POST.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TBL_POST(ID, MEMBER_ID, POST_TITLE, POST_CONTENT, POST_CATEGORY, POST_WRITE_TIME)
+        VALUES (#{id}, #{memberId}, #{postTitle}, #{postContent}, #{postCategory}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <insert id="insertVideoPost">
+        INSERT INTO TBL_VIDEO_POST(POST_ID, VIDEO_LINK)
+        VALUES (#{id}, #{videoLink})
+    </insert>
+</mapper>
