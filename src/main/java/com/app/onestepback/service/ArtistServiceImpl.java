@@ -2,15 +2,12 @@ package com.app.onestepback.service;
 
 import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.ArtistPostDTO;
-import com.app.onestepback.domain.SubscriptionVO;
-import com.app.onestepback.domain.VideoDTO;
+import com.app.onestepback.domain.VideoPostDTO;
 import com.app.onestepback.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +17,7 @@ import java.util.Optional;
 public class ArtistServiceImpl implements ArtistService {
     private final ArtistDAO artistDAO;
     private final ArtistPostDAO artistPostDAO;
-    private final VideoDAO videoDAO;
+    private final VideoPostDAO videoPostDAO;
     private final PostTagDAO postTagDAO;
 
 //    아티스트 정보 가져오기
@@ -57,10 +54,10 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<VideoDTO> get3Videos(Long memberId) {
-        List<VideoDTO> videos = videoDAO.get3Videos(memberId);
+    public List<VideoPostDTO> get3Videos(Long memberId) {
+        List<VideoPostDTO> videos = videoPostDAO.get3Videos(memberId);
 
-        for (VideoDTO video : videos){
+        for (VideoPostDTO video : videos){
             List<String> tags = postTagDAO.getAllTags(video.getId());
 
             if (!tags.isEmpty()) {

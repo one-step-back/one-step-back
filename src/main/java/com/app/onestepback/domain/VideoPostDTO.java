@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class VideoDTO {
+public class VideoPostDTO {
     //    게시글 번호
     private Long id;
     //    회원 번호
@@ -17,7 +17,7 @@ public class VideoDTO {
     //    게시글 내용
     private String postContent;
     //    글 카테고리
-    private String pstCategory;
+    private String postCategory;
     //    조회수 카운트
     private Long postViewCount;  // 디폴트 - 0
     //    글 작성 시간

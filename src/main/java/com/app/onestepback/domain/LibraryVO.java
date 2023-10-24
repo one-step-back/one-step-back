@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class BookmarkedArtistPostVO {
-    private Long postId;
+public class LibraryVO {
+    private Long id;
     private Long memberId;
-    private String bookmarkAddedTime;
+    private Long postId;
+    private String libraryAddedTime;
 }

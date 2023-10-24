@@ -55,7 +55,7 @@
                                 <a class="active">게시글</a>
                             </li>
                             <li>
-                                <a href="">영상</a>
+                                <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
                             </li>
                             <li>
                                 <a href="">커뮤니티</a>
@@ -191,7 +191,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon btn-scrap" data-post-id="15313057">
+                                                    <a class="btn btn-icon btn-scrap" th:data-post-id="*{id}">
                                                         <i class="far fa-bookmark default-text"></i>
                                                         <i class="fas fa-bookmark active-text"></i>
                                                     </a>
@@ -260,9 +260,10 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script th:inline="javascript">
-    console.log([[${artist}]]);
-    console.log([[${session.member}]]);
-    console.log([[${posts}]]);
+    // 세션 값
+    const session = /*[[${session.member}]]*/ null;
+    // 북마크 버튼
+    const libraryBtn = $(".btn-scrap");
 
     // Ajax 공부겸 fetch 기능 작성함
 
@@ -323,25 +324,103 @@
         let pagingText = ``;
 
         if (pagination.startPage > 1) {
-            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
+            pagingText += `<a class="change-page" href="/artist/post/list?memberId=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
         }
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
             let isActive = i === pagination.page ? 'active' : '';
-            pagingText += `<a href="/artist/post/list?id=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
+            pagingText += `<a href="/artist/post/list?memberId=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
         }
         if (pagination.endPage < pagination.realEnd) {
-            pagingText += `<a class="change-page" href="/artist/post/list?id=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
+            pagingText += `<a class="change-page" href="/artist/post/list?memberId=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
         }
 
         pageWrap.html(pagingText);
     }
+
+    const bookmarkService = (function () {
+        function checkPost(postId, btn, callback) {
+            $.ajax({
+                type: "GET",
+                url: "/bookmark/check-post",
+                data: {
+                    memberId: session.id,
+                    postId: postId
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateStatus(btn, data) {
+            if (data === true) {
+                btn.data('bookmark-status', 'true');
+                btn.addClass("active");
+            } else {
+                btn.data('bookmark-status', 'false');
+                btn.removeClass("active")
+            }
+        }
+
+
+        function updateBookmarkPost(btn, postId, bookmarkStatus, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/bookmark/update-post",
+                data: {
+                    memberId: session.id,
+                    postId: postId,
+                    bookmarkStatus: bookmarkStatus
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        return {checkPost: checkPost, updateStatus:updateStatus, updateBookmarkPost: updateBookmarkPost}
+    })();
 
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
         getCounts([[${artist.memberId}]]);
         updateTimeGaps();
         getPageBtn();
+        if (session != null) {
+            libraryBtn.each(function () {
+                let btn = $(this);
+                console.log(btn);
+                let postId = $(this).data('post-id');
+                bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
+            })
+        }
     })
+
+    libraryBtn.click(function () {
+        if (session == null){
+            alert("먼저 로그인을 해주세요.");
+            return;
+        }
+        let btn = $(this);
+        let postId = $(this).data('post-id');
+        let bookmarkStatus = btn.data('bookmark-status');
+        console.log(bookmarkStatus);
+
+        bookmarkService.updateBookmarkPost(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
+    });
 </script>
 <script src="/js/artist/blog-header.js"></script>
 <script src="/js/artist/main.js"></script>
