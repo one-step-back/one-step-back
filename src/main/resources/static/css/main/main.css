@@ -661,9 +661,11 @@ dl, ol, ul {
 .pool-home-slide .top-thumbnail-section {
     width: 100%;
     height: 192px;
-    background-position: center center;
-    background-size: cover;
-    background-image: url("./Images/bannerSample.png");
+}
+
+.top-thumbnail-section img {
+    width: 320px;
+    height: 192px;
 }
 
 .pool-home-slide .bottom-contents-section {
@@ -691,6 +693,10 @@ dl, ol, ul {
     order: 0;
     align-self: stretch;
     flex-grow: 0;
+}
+
+.general-tag{
+    margin-right: 8px;
 }
 
 .pool-home-slide .bottom-contents-section .contents-wrapper {
@@ -1873,6 +1879,7 @@ address {
         #user-menu-toggle .user-avatar-sm {
             width: 32px;
             height: 32px;
+            overflow: hidden;
         }
 
         .header .secondary-nav [class*="container"], .header .tertiary-nav [class*="container"], .header .local-nav [class*="container"] {
