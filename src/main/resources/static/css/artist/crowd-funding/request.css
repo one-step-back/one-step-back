@@ -288,18 +288,17 @@
 }
 
 .request-form-container {
-    display: flex;
-    flex-direction: column;
     padding: 20px 30px;
 }
 
 .form-content {
     min-height: 280px;
     word-wrap: break-word;
-    border: none;
+    border: 1px solid lightgray;
     resize: none;
     padding: 16px 10px;
-    margin: 0 40px;
+    margin: 10px 40px;
+    width: 90%;
 }
 
 .cancel-btn {

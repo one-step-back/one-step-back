@@ -27,21 +27,11 @@
                         <article th:if="${artist.memberId == crowdFundingRequest.writerId}" th:object="${crowdFundingRequest}" class="crowd-funding-content">
                             <div class="post">
                                 <div class="post-content">
-                                    <h3 class="post-data-title" style="height: 40px;">
+                                    <h3 th:text="*{fundingRequestTitle}" class="post-data-title" style="height: 40px;">
                                         크라우드 펀딩 제목 테스트
                                     </h3>
-                                    <p class="post-data-content">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Quisque varius, ante et posuere bibendum, felis massa scelerisque enim, quis
-                                        imperdiet massa justo non lacus. Mauris posuere auctor lorem, vitae pellentesque
-                                        dolor vehicula at. Aenean malesuada posuere erat, at condimentum nunc aliquet ut.
-                                        Quisque euismod tristique turpis, nec aliquam urna laoreet a. Quisque venenatis,
-                                        orci quis imperdiet vehicula, urna lacus commodo neque, vitae hendrerit magna quam
-                                        ac odio. Integer convallis tristique varius. In sit amet neque tempor neque auctor
-                                        maximus vel vitae lacus. Nunc sit amet viverra velit. Proin elit ex, vestibulum et
-                                        turpis vel, consectetur hendrerit felis. Etiam rutrum tincidunt rutrum. Phasellus
-                                        feugiat egestas varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Phasellus aliquam magna augue, a gravida orci lacinia vulputate.
+                                    <p th:text="*{fundingRequestContent}" class="post-data-content">
+                                        크라우드 펀딩 내용 테스트
                                     </p>
                                 </div>
                             </div>
@@ -58,6 +48,7 @@
                                     </div>
                                 </div>
                             </div>
+<!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">                            -->
                             <div class="btn-wrap">
                                 <button class="accept-btn">수락하기</button>
                                 <button class="refuse-btn">취소하기</button>
@@ -69,7 +60,7 @@
                                     <h3 class="post-data-title">
                                         <span style="color: hotpink">팬 요청</span>
                                         <hr class="title-divider">
-                                        <span th:text="*{requestFundingTitle}">크라우드 펀딩 제목 테스트</span>
+                                        <span th:text="*{fundingRequestTitle}">크라우드 펀딩 제목 테스트</span>
                                     </h3>
                                     <div class="post-request-user">
                                         <a th:href="@{/artist/main(memberId=${crowdFundingRequest.writerId})}" class="user-avatar-container">
@@ -86,7 +77,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <p th:text="*{requestFundingContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
+                                    <p th:text="*{fundingRequestContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
                                 </div>
                             </div>
                             <div class="summit-input-wrap">
@@ -122,12 +113,19 @@
                 </div>
                 <div class="request-form-wrap">
                     <div class="request-form-container">
-                        <input type="text">
-                        <textarea class="form-content" cols="30" rows="10" maxlength="1000"></textarea>
-                        <div class="request-btn-wrap">
-                            <button class="request-btn">작성완료</button>
-                            <button class="cancel-btn">취소</button>
-                        </div>
+                        <form th:action ="@{/artist/crowd-funding/request}" name="fundingRequest" method="post" th:object="${fundingRequestVO}">
+                            <input id="memberId" th:field="*{memberId}" type="hidden">
+                            <input th:field="*{fundingRequestTitle}" id="fundingRequestTitle" type="text"
+                                   placeholder="크라우드 펀딩 제목을 입력하세요" class="form-content" style="text-align: left; min-height: unset;"
+                                   maxlength="100">
+                            <input th:field="*{fundingRequestContent}" id="fundingRequestContent" type="text"
+                                   placeholder="크라우드 펀딩 내용을 입력하세요" class="form-content" style="text-align: left;"
+                                   maxlength="1000">
+                            <div class="request-btn-wrap">
+                                <button class="request-btn" style="position: relative; right: 40px;">작성완료</button>
+                            </div>
+                        </form>
+                        <button class="cancel-btn" style="position: relative; left: 495px; top: -35px;" onclick="resetFundingRequestForm()">취소</button>
                     </div>
                 </div>
             </div>
@@ -146,6 +144,10 @@
     const artistId = [[${artist.memberId}]]
     // 크라우드 펀딩 목록
     const crowdFundingRequests = [[${crowdFundingRequests}]]
+    // 펀딩 작성 취소 버튼
+    const cancelBtn = $(".cancel-btn");
+    // 크라우드 펀딩 작성 폼 리스트
+    const formContents = $(".form-content");
 
     // 크라우드 펀딩 갯수를 가져오는 ajax 모듈
     function getFRCount(artistId){
@@ -161,23 +163,47 @@
         });
     }
 
+    // 작성하기 버튼 누를 시 artist의 memberId 담고 실행
+    function requestFunding(e){
+        $("#memberId").val([[${artist.memberId}]]);
+        if(!formContents.eq(0).val()){
+            formContents.eq(0).css("color", "red");
+            formContents.eq(0).val("크라우드 펀딩 제목을 입력해주세요");
+            return;
+        }
+        formContents.eq(0).css("color", "black");
+        if(!formContents.eq(1).val()){
+            formContents.eq(1).css("color", "red");
+            formContents.eq(1).val("크라우드 펀딩 내용을 입력해주세요");
+            return;
+        }
+        document.fundingRequest.submit();
+    }
+
+    // 페이지 버튼 생성 모듈
     function getPageBtn() {
         const pageWrap = $("#page-wrap");
         const pagination = [[${pagination}]];
         let pagingText = ``;
 
         if (pagination.startPage > 1) {
-            pagingText += `<a class="change-page" href="/artist/crowd-funding/list?memberId=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
+            pagingText += `<a class="change-page" href="/artist/crowd-funding/request?memberId=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
         }
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
             let isActive = i === pagination.page ? 'active' : '';
-            pagingText += `<a href="/artist/crowd-funding/list?memberId=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
+            pagingText += `<a href="/artist/crowd-funding/request?memberId=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
         }
         if (pagination.endPage < pagination.realEnd) {
-            pagingText += `<a class="change-page" href="/artist/crowd-funding/list?memberId=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
+            pagingText += `<a class="change-page" href="/artist/crowd-funding/request?memberId=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
         }
 
         pageWrap.html(pagingText);
+    }
+
+    // 크라우드 펀딩 작성 내용 초기화 기능 모듈
+    function resetFundingRequestForm() {
+        formContents.eq(0).val("");
+        formContents.eq(1).val("");
     }
 
     // 페이지 로드시 비동기 불러옴

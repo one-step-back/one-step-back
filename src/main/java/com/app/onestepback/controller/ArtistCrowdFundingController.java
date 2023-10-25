@@ -1,6 +1,7 @@
 package com.app.onestepback.controller;
 
 import com.app.onestepback.domain.FundingRequestDTO;
+import com.app.onestepback.domain.FundingRequestVO;
 import com.app.onestepback.domain.MemberVO;
 import com.app.onestepback.domain.Pagination;
 import com.app.onestepback.service.ArtistCrowdFundingService;
@@ -48,7 +49,7 @@ public class ArtistCrowdFundingController {
 
     //    펀딩 요청 목록 & 작성 으로 이동
     @GetMapping("request")
-    public void goToRequest(FundingRequestDTO fundingRequestDTO, @RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
+    public void goToRequest(FundingRequestVO fundingRequestVO, @RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
         model.addAttribute("artist", artistService.getArtist(memberId).get());
         pagination.setTotal(artistCrowdFundingService.getCountOfFR(memberId));
         pagination.setPage(page);
@@ -60,13 +61,13 @@ public class ArtistCrowdFundingController {
 
     @PostMapping("request")
     // RequestParam
-    public RedirectView request(FundingRequestDTO fundingRequestDTO, @RequestParam("memberId") Long memberId, HttpSession session){
+    public RedirectView request(FundingRequestVO fundingRequestVO, @RequestParam("memberId") Long memberId, HttpSession session){
         // 폼 태그로 submit을 통해 DTO에 작성된 펀딩 요청 정보가 자동으로 채워진 채 넘어옴
-        // (아티스트)memberId와 (작성자) writerId만 담고 artistCrowdFundingService로 DTO 넘겨주기
-        fundingRequestDTO.setMemberId(memberId);
-        fundingRequestDTO.setWriterId(((MemberVO)session.getAttribute("member")).getId());
-        artistCrowdFundingService.requestFunding(fundingRequestDTO);
-        return new RedirectView("/artist/crowd-funding/request");
+        // (아티스트)memberId와 (작성자)writerId만 담고 artistCrowdFundingService로 DTO 넘겨주기
+        fundingRequestVO.setMemberId(memberId);
+        fundingRequestVO.setWriterId(((MemberVO)session.getAttribute("member")).getId());
+        artistCrowdFundingService.requestFunding(fundingRequestVO);
+        return new RedirectView("/artist/crowd-funding/request?memberId=" + memberId);
     }
 
     //    펀딩 결제로 이동

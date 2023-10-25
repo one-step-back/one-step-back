@@ -25,7 +25,7 @@ public interface ArtistCrowdFundingService {
     public Optional<FundingRequestDTO> getRequest(Long memberId);
 
     //    크라우드 펀딩 요청 작성
-    public void requestFunding(FundingRequestDTO fundingRequestDTO);
+    public void requestFunding(FundingRequestVO fundingRequestVO);
 
     //    크라우드 펀딩 수락
     public void acceptCrowdFundingRequest(CrowdFundingVO crowdFundingVO);

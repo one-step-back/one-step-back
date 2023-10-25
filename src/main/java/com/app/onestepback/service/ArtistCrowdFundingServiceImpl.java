@@ -56,13 +56,7 @@ public class ArtistCrowdFundingServiceImpl implements ArtistCrowdFundingService 
 
     //    크라우드 펀딩 요청 작성
     @Override
-    public void requestFunding(FundingRequestDTO fundingRequestDTO) {
-        //    지역 변수로 fundingRequestVO를 만들고 fundingRequestDTO에 담긴 필요 정보를 받아옴
-        FundingRequestVO fundingRequestVO = new FundingRequestVO();
-        fundingRequestVO.setMemberId(fundingRequestDTO.getMemberId());
-        fundingRequestVO.setRequestFundingTitle(fundingRequestDTO.getRequestFundingTitle());
-        fundingRequestVO.setRequestFundingContent(fundingRequestVO.getRequestFundingContent());
-
+    public void requestFunding(FundingRequestVO fundingRequestVO) {
         artistCrowdFundingDAO.requestFunding(fundingRequestVO);
     }
 

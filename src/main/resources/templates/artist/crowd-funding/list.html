@@ -73,10 +73,10 @@
                     <div style="display: flex; flex-wrap: wrap">
                         <span id="crowdFundingCount"></span>개의 크라우드 펀딩이 진행 중 입니다.
                     </div>
-                    <a th:if="${session.member == null}" th:href="@{'/member/login'}" href="/artist/crowd-funding/write">
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">
                         <button class="go-to-write">크라우드 펀딩 요청하기</button>
                     </a>
-                    <a th:if="${session.member != null}" th:href="@{/artist/crowd-funding/write(memberId=${artist.memberId})}">
+                    <a th:if="${session.member != null}" th:href="@{/artist/crowd-funding/request(memberId=${artist.memberId})}">
                         <button class="go-to-write">크라우드 펀딩 요청하기</button>
                     </a>
                 </div>
