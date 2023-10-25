@@ -1,5 +1,7 @@
 package com.app.onestepback.controller;
 
+import com.app.onestepback.service.MainService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,12 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Slf4j
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class MainController {
+    private final MainService mainService;
 
     // 메인 페이지
     @GetMapping
     public String goToMainForm(Model model) {
-        model.addAttribute("currentPage", "home");
+
+        model.addAttribute("bannerPosts", mainService.getElementsOfBanners());
+        model.addAttribute("posts", mainService.getPostsForCards());
         return "/main/main";
     }
 }

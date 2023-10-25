@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/main/main.css">
     <link rel="icon" href="/images/icon.svg">
     <script src="https://kit.fontawesome.com/44012a5eeb.js" crossorigin="anonymous"></script>
-    <script src="/js/main/main.js"></script>
 </head>
 <body>
 <a href="#main-content" class="sr-only" id="top">주요 내용으로 건너뛰기</a>
@@ -25,121 +24,51 @@
                 <div class="swiper home-slide-banner swiper-initialized swiper-horizontal swiper-android"
                      id="home-slide-banner">
                     <div id="pool-main-slide-wrapper" class="swiper-wrapper">
-                        <div class="swiper-slide swiper-slide-duplicate" role="group" aria-label="1 / 5">
-                            <div class="pool-home-slide">
-                                <div class="top-thumbnail-section"></div>
-                                <div class="bottom-contents-section">
-                                    <div class="contents-top">
-                                        <div class="item-label">
-                                            #지식 #경제 #투자
+                        <th:block th:each="bannerPost:${bannerPosts}">
+                            <div th:object="${bannerPost}" class="swiper-slide swiper-slide-duplicate" role="group">
+                                <div class="pool-home-slide">
+                                    <a th:href="${bannerPost.videoLink == null ? '/artist/post/detail?id=' + bannerPost.id : '/artist/video/detail?id=' + bannerPost.id}">
+                                        <div class="top-thumbnail-section">
+                                            <img th:if="*{videoLink == null}"
+                                                 th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
+                                                 alt="banner">
+                                            <img th:unless="*{videoLink == null}" class="video-thumbnails"
+                                                 th:videoLink="*{videoLink}"
+                                                 alt="banner">
                                         </div>
-                                        <div class="contents-wrapper">
-                                            <div class="title">
-                                                가진 돈이 2,000만원 뿐일 때
+                                    </a>
+                                    <div class="bottom-contents-section">
+                                        <div class="contents-top">
+                                            <div class="item-label">
+                                                <a href="#"
+                                                   th:text="*{tag1}" class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag2 != null}" th:text="*{tag2}"
+                                                   class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag3 != null}" th:text="*{tag3}"
+                                                   class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag4 != null}" th:text="*{tag4}"
+                                                   class="general-tag"></a>
+                                                <a href="#"
+                                                   th:if="*{tag5 != null}" th:text="*{tag5}"
+                                                   class="general-tag"></a>
                                             </div>
-                                            <div class="contents">
-                                                '내가 몇 억 집을 어떻게 사? 그냥 차나 사야지.' 이렇게 악순환이 시작된다.
-                                            </div>
+                                            <a th:href="${bannerPost.videoLink == null ? '/artist/post/detail?id=' + bannerPost.id : '/artist/video/detail?id=' + bannerPost.id}">
+                                                <div class="contents-wrapper">
+                                                    <div th:text="*{postTitle}" class="title"></div>
+                                                    <div th:text="*{postContent}" class="contents"></div>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                    <div class="contents-bottom">
-                                        지식 · 5분임장
+                                        <div class="contents-bottom">
+                                            <div th:text="*{postCategory + ' · ' + memberNickname}"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide swiper-slide-duplicate" role="group" aria-label="2 / 5">
-                            <div class="pool-home-slide">
-                                <div class="top-thumbnail-section"></div>
-                                <div class="bottom-contents-section">
-                                    <div class="contents-top">
-                                        <div class="item-label">
-                                            #지식 #경제 #투자
-                                        </div>
-                                        <div class="contents-wrapper">
-                                            <div class="title">
-                                                가진 돈이 2,000만원 뿐일 때
-                                            </div>
-                                            <div class="contents">
-                                                '내가 몇 억 집을 어떻게 사? 그냥 차나 사야지.' 이렇게 악순환이 시작된다.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="contents-bottom">
-                                        지식 · 5분임장
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide swiper-slide-duplicate" role="group" aria-label="3 / 5">
-                            <div class="pool-home-slide">
-                                <div class="top-thumbnail-section"></div>
-                                <div class="bottom-contents-section">
-                                    <div class="contents-top">
-                                        <div class="item-label">
-                                            #지식 #경제 #투자
-                                        </div>
-                                        <div class="contents-wrapper">
-                                            <div class="title">
-                                                가진 돈이 2,000만원 뿐일 때
-                                            </div>
-                                            <div class="contents">
-                                                '내가 몇 억 집을 어떻게 사? 그냥 차나 사야지.' 이렇게 악순환이 시작된다.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="contents-bottom">
-                                        지식 · 5분임장
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide swiper-slide-duplicate" role="group" aria-label="4 / 5">
-                            <div class="pool-home-slide">
-                                <div class="top-thumbnail-section"></div>
-                                <div class="bottom-contents-section">
-                                    <div class="contents-top">
-                                        <div class="item-label">
-                                            #지식 #경제 #투자
-                                        </div>
-                                        <div class="contents-wrapper">
-                                            <div class="title">
-                                                가진 돈이 2,000만원 뿐일 때
-                                            </div>
-                                            <div class="contents">
-                                                '내가 몇 억 집을 어떻게 사? 그냥 차나 사야지.' 이렇게 악순환이 시작된다.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="contents-bottom">
-                                        지식 · 5분임장
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide swiper-slide-duplicate" role="group" aria-label="5 / 5">
-                            <div class="pool-home-slide">
-                                <div class="top-thumbnail-section"></div>
-                                <div class="bottom-contents-section">
-                                    <div class="contents-top">
-                                        <div class="item-label">
-                                            #지식 #경제 #투자
-                                        </div>
-                                        <div class="contents-wrapper">
-                                            <div class="title">
-                                                가진 돈이 2,000만원 뿐일 때
-                                            </div>
-                                            <div class="contents">
-                                                '내가 몇 억 집을 어떻게 사? 그냥 차나 사야지.' 이렇게 악순환이 시작된다.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="contents-bottom">
-                                        지식 · 5분임장
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </th:block>
                     </div>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                 </div>
@@ -163,316 +92,95 @@
             </div>
         </div>
         <!--추천 아티스트-->
-        <div class="pool-home-body">
-            <div class="pool-posts-list-container-title">
-                회원님을 위한 추천 게시글
-                <div class="beta-badge">BETA</div>
-            </div>
-            <div class="pool-posts-list-container">
-                <div class="pool-posts-list">
-                    <div class="pool-post-container" data-is-adult="false" data-type="pool" data-index="0">
-                        <div class="post-contents">
-                            <a class="post-data home-main" href="" data-channel-id="1578583">
-                                <h3 class="title">
-                                    [금융개념] Fed, Fomc, FRB란?
-                                </h3>
-                                <div class="contents">
-                                    <p>금융업계 현업에서 실제로 쓰이는 실용적인 금융개념을 알려드립니다. 중요도? ★★★★★ 영어로? Fed: Federal Reserve
-                                        syestem
-                                        =the Fed =FRS FOMC: Federal Open Market Committee FRB: (2가지로 쓰임) 1) Federal
-                                        Reserve Bank 2) Federal Reserve Board of Governors 직역하면? Fed: 연방준비제도(=연준)
-                                        FOMC:
-                                        연방 공개 시장 위원회</p>
-                                </div>
-                            </a>
-                            <div class="post-data-thumbnail"><a href="https://www.postype.com/post/15195261"><img
-                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/28/21/33/502bb39455458c9c9cf7008e9c6231f9.jpeg?w=120&amp;h=120&amp;q=65"
-                                    alt="[금융개념] Fed, Fomc, FRB란?"></a></div>
-                        </div>
-                        <div class="post-contents-bottom">
-                            <div class="post-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@bo3fu5">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/06/04/20/04/6afa7e8e9960a1f6ea1a1c2b7ee1b9f1.jpeg?w=24&amp;h=24&amp;q=65"
-                                         alt="김호연">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@bo3fu5" rel="author">김호연</a>
+        <th:block th:if="${#lists.size(posts) != 0}">
+            <div class="pool-home-body">
+                <div class="pool-posts-list-container-title">
+                    한달 동안 많은 사람들이 본 게시글
+                </div>
+                <div class="pool-posts-list-container">
+                    <div class="pool-posts-list">
+                        <th:block th:each="post:${posts}">
+                            <div th:object="${post}" class="pool-post-container">
+                                <div class="post-contents">
+                                    <a class="post-data home-main" href="" data-channel-id="1578583">
+                                        <h3 th:text="*{postTitle}" class="title"></h3>
+                                        <div th:text="*{postContent}" class="contents"></div>
+                                    </a>
+                                    <div class="post-data-thumbnail">
+                                        <a th:href="@{/artist/post/detail(id=*{id})}">
+                                            <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
+                                                th:alt="*{postTitle}">
+                                        </a>
                                     </div>
-                                    <div class="post-meta text-alpha-black-47">
-                                        <time class="meta-item">2주 전</time>
+                                </div>
+                                <div class="post-contents-bottom">
+                                    <div class="post-author">
+                                        <a class="user-profile-avatar" href="https://www.postype.com/profile/@bo3fu5">
+                                            <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
+                                                 src="/images/none-avatar.svg">
+                                            <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
+                                                 th:src="*{memberKakaoProfileUrl}">
+                                        </a>
+                                        <div class="footer-info">
+                                            <div class="user-profile-nickname text-truncate">
+                                                <a th:text="*{memberNickname}" th:href="@{/artist/main(memberId=*{memberId})}"></a>
+                                            </div>
+                                            <div class="post-meta text-alpha-black-47">
+                                                <time class="meta-item">2주 전</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="post-action">
+                                        <a class="btn btn-icon btn-scrap">
+                                            <i class="far fa-bookmark default-text"></i>
+                                            <i class="fas fa-bookmark active-text"></i>
+                                        </a>
+                                        <div class="dropdown">
+                                            <button class="btn btn-icon ic-secondary btn-more" type="button"
+                                                    data-toggle="dropdown" aria-expanded="false" aria-label="더보기"
+                                                    title="더보기">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right"
+                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
+                                                <li><a class="btn-open-add-collection-modal" href="#"><img
+                                                        src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
+                                                        alt="" class="ic-add-collection">컬렉션에 추가하기</a></li>
+                                                <li>
+                                                    <a class="dropdown-item btn-share" href="#"
+                                                       data-share-url="https://posty.pe/4t86ay" data-blog-title="김호연"
+                                                       data-post-title="[금융개념] Fed, Fomc, FRB란?" data-tags="">
+                                                        <span class="order-2">공유하기</span>
+                                                        <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item btn-report-post" href="#"
+                                                       data-toggle="modal"
+                                                       data-target="#report-modal">
+                                                        <span class="order-2">신고하기</span>
+                                                        <i class="far fa-flag"></i>
+                                                    </a>
+                                                </li>
+                                                <li><a class="dropdown-item btn-block-blog" href="#"
+                                                       data-blog-id="1578583"><span class="order-2">이 채널 보지 않기</span><i
+                                                        class="fas fa-ban"></i></a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="post-action">
-                                <a class="btn btn-icon btn-scrap">
-                                    <i class="far fa-bookmark default-text"></i>
-                                    <i class="fas fa-bookmark active-text"></i>
-                                </a>
-                                <div class="dropdown">
-                                    <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                            data-toggle="dropdown" aria-expanded="false" aria-label="더보기" title="더보기">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right"
-                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                        <li><a class="btn-open-add-collection-modal" href="#"><img
-                                                src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                alt="" class="ic-add-collection">컬렉션에 추가하기</a></li>
-                                        <li>
-                                            <a class="dropdown-item btn-share" href="#"
-                                               data-share-url="https://posty.pe/4t86ay" data-blog-title="김호연"
-                                               data-post-title="[금융개념] Fed, Fomc, FRB란?" data-tags="">
-                                                <span class="order-2">공유하기</span>
-                                                <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item btn-report-post" href="#" data-toggle="modal"
-                                               data-target="#report-modal">
-                                                <span class="order-2">신고하기</span>
-                                                <i class="far fa-flag"></i>
-                                            </a>
-                                        </li>
-                                        <li><a class="dropdown-item btn-block-blog" href="#"
-                                               data-blog-id="1578583"><span class="order-2">이 채널 보지 않기</span><i
-                                                class="fas fa-ban"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        </th:block>
                     </div>
-                    <div class="pool-post-container" data-is-adult="false" data-type="pool" data-index="1">
-                        <div class="post-contents">
-                            <a class="post-data home-main" href="https://www.postype.com/post/15195261"
-                               data-channel-id="1578583">
-                                <h3 class="title">
-                                    [금융개념] Fed, Fomc, FRB란?
-                                </h3>
-                                <div class="contents">
-                                    <p>금융업계 현업에서 실제로 쓰이는 실용적인 금융개념을 알려드립니다. 중요도? ★★★★★ 영어로? Fed: Federal Reserve
-                                        syestem
-                                        =the Fed =FRS FOMC: Federal Open Market Committee FRB: (2가지로 쓰임) 1) Federal
-                                        Reserve Bank 2) Federal Reserve Board of Governors 직역하면? Fed: 연방준비제도(=연준)
-                                        FOMC:
-                                        연방 공개 시장 위원회</p>
-                                </div>
-                            </a>
-                            <div class="post-data-thumbnail"><a href="https://www.postype.com/post/15195261"><img
-                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/28/21/33/502bb39455458c9c9cf7008e9c6231f9.jpeg?w=120&amp;h=120&amp;q=65"
-                                    alt="[금융개념] Fed, Fomc, FRB란?"></a></div>
-                        </div>
-                        <div class="post-contents-bottom">
-                            <div class="post-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@bo3fu5">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/06/04/20/04/6afa7e8e9960a1f6ea1a1c2b7ee1b9f1.jpeg?w=24&amp;h=24&amp;q=65"
-                                         alt="김호연">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@bo3fu5" rel="author">김호연</a>
-                                    </div>
-                                    <div class="post-meta text-alpha-black-47">
-                                        <time class="meta-item">2주 전</time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-action">
-                                <a class="btn btn-icon btn-scrap">
-                                    <i class="far fa-bookmark default-text"></i>
-                                    <i class="fas fa-bookmark active-text"></i>
-                                </a>
-                                <div class="dropdown">
-                                    <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                            data-toggle="dropdown" aria-expanded="false" aria-label="더보기" title="더보기">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right"
-                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                        <li><a class="btn-open-add-collection-modal" href="#"><img
-                                                src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                alt="" class="ic-add-collection">컬렉션에 추가하기</a></li>
-                                        <li>
-                                            <a class="dropdown-item btn-share" href="#"
-                                               data-share-url="https://posty.pe/4t86ay" data-blog-title="김호연"
-                                               data-post-title="[금융개념] Fed, Fomc, FRB란?" data-tags="">
-                                                <span class="order-2">공유하기</span>
-                                                <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item btn-report-post" href="#" data-toggle="modal"
-                                               data-target="#report-modal">
-                                                <span class="order-2">신고하기</span>
-                                                <i class="far fa-flag"></i>
-                                            </a>
-                                        </li>
-                                        <li><a class="dropdown-item btn-block-blog" href="#"
-                                               data-blog-id="1578583"><span class="order-2">이 채널 보지 않기</span><i
-                                                class="fas fa-ban"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pool-post-container" data-is-adult="false" data-type="pool" data-index="2">
-                        <div class="post-contents">
-                            <a class="post-data home-main" href="https://www.postype.com/post/15195261"
-                               data-channel-id="1578583">
-                                <h3 class="title">
-                                    [금융개념] Fed, Fomc, FRB란?
-                                </h3>
-                                <div class="contents">
-                                    <p>금융업계 현업에서 실제로 쓰이는 실용적인 금융개념을 알려드립니다. 중요도? ★★★★★ 영어로? Fed: Federal Reserve
-                                        syestem
-                                        =the Fed =FRS FOMC: Federal Open Market Committee FRB: (2가지로 쓰임) 1) Federal
-                                        Reserve Bank 2) Federal Reserve Board of Governors 직역하면? Fed: 연방준비제도(=연준)
-                                        FOMC:
-                                        연방 공개 시장 위원회</p>
-                                </div>
-                            </a>
-                            <div class="post-data-thumbnail"><a href="https://www.postype.com/post/15195261"><img
-                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/28/21/33/502bb39455458c9c9cf7008e9c6231f9.jpeg?w=120&amp;h=120&amp;q=65"
-                                    alt="[금융개념] Fed, Fomc, FRB란?"></a></div>
-                        </div>
-                        <div class="post-contents-bottom">
-                            <div class="post-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@bo3fu5">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/06/04/20/04/6afa7e8e9960a1f6ea1a1c2b7ee1b9f1.jpeg?w=24&amp;h=24&amp;q=65"
-                                         alt="김호연">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@bo3fu5" rel="author">김호연</a>
-                                    </div>
-                                    <div class="post-meta text-alpha-black-47">
-                                        <time class="meta-item">2주 전</time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-action">
-                                <a class="btn btn-icon btn-scrap">
-                                    <i class="far fa-bookmark default-text"></i>
-                                    <i class="fas fa-bookmark active-text"></i>
-                                </a>
-                                <div class="dropdown">
-                                    <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                            data-toggle="dropdown" aria-expanded="false" aria-label="더보기" title="더보기">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right"
-                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, -170px, 0px);">
-                                        <li><a class="btn-open-add-collection-modal" href="#"><img
-                                                src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                alt="" class="ic-add-collection">컬렉션에 추가하기</a></li>
-                                        <li>
-                                            <a class="dropdown-item btn-share" href="#"
-                                               data-share-url="https://posty.pe/4t86ay" data-blog-title="김호연"
-                                               data-post-title="[금융개념] Fed, Fomc, FRB란?" data-tags="">
-                                                <span class="order-2">공유하기</span>
-                                                <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item btn-report-post" href="#" data-toggle="modal"
-                                               data-target="#report-modal">
-                                                <span class="order-2">신고하기</span>
-                                                <i class="far fa-flag"></i>
-                                            </a>
-                                        </li>
-                                        <li><a class="dropdown-item btn-block-blog" href="#"
-                                               data-blog-id="1578583"><span class="order-2">이 채널 보지 않기</span><i
-                                                class="fas fa-ban"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pool-post-container" data-is-adult="false" data-type="pool" data-index="3">
-                        <div class="post-contents">
-                            <a class="post-data home-main" href="https://www.postype.com/post/15195261"
-                               data-channel-id="1578583">
-                                <h3 class="title">
-                                    [금융개념] Fed, Fomc, FRB란?
-                                </h3>
-                                <div class="contents">
-                                    <p>금융업계 현업에서 실제로 쓰이는 실용적인 금융개념을 알려드립니다. 중요도? ★★★★★ 영어로? Fed: Federal Reserve
-                                        syestem
-                                        =the Fed =FRS FOMC: Federal Open Market Committee FRB: (2가지로 쓰임) 1) Federal
-                                        Reserve Bank 2) Federal Reserve Board of Governors 직역하면? Fed: 연방준비제도(=연준)
-                                        FOMC:
-                                        연방 공개 시장 위원회</p>
-                                </div>
-                            </a>
-                            <div class="post-data-thumbnail"><a href="https://www.postype.com/post/15195261"><img
-                                    src="https://d3mcojo3jv0dbr.cloudfront.net/2023/08/28/21/33/502bb39455458c9c9cf7008e9c6231f9.jpeg?w=120&amp;h=120&amp;q=65"
-                                    alt="[금융개념] Fed, Fomc, FRB란?"></a></div>
-                        </div>
-                        <div class="post-contents-bottom">
-                            <div class="post-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@bo3fu5">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/06/04/20/04/6afa7e8e9960a1f6ea1a1c2b7ee1b9f1.jpeg?w=24&amp;h=24&amp;q=65"
-                                         alt="김호연">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@bo3fu5" rel="author">김호연</a>
-                                    </div>
-                                    <div class="post-meta text-alpha-black-47">
-                                        <time class="meta-item">2주 전</time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-action">
-                                <a class="btn btn-icon btn-scrap">
-                                    <i class="far fa-bookmark default-text"></i>
-                                    <i class="fas fa-bookmark active-text"></i>
-                                </a>
-                                <div class="dropdown">
-                                    <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                            data-toggle="dropdown" aria-expanded="false" aria-label="더보기" title="더보기">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right"
-                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, -170px, 0px);">
-                                        <li><a class="btn-open-add-collection-modal" href="#"><img
-                                                src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                alt="" class="ic-add-collection">컬렉션에 추가하기</a></li>
-                                        <li>
-                                            <a class="dropdown-item btn-share" href="#"
-                                               data-share-url="https://posty.pe/4t86ay" data-blog-title="김호연"
-                                               data-post-title="[금융개념] Fed, Fomc, FRB란?" data-tags="">
-                                                <span class="order-2">공유하기</span>
-                                                <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item btn-report-post" href="#" data-toggle="modal"
-                                               data-target="#report-modal">
-                                                <span class="order-2">신고하기</span>
-                                                <i class="far fa-flag"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item btn-block-blog" href="#">
-                                                <span class="order-2">이 채널 보지 않기</span>
-                                                <i class="fas fa-ban"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="refrest-pool-contents">
+                    <div class="btn btn-secondary">
+                        콘텐츠 발견하기
+                        <i class="fas fa-sync"></i>
                     </div>
                 </div>
             </div>
-            <div class="refrest-pool-contents">
-                <div class="btn btn-secondary">
-                    콘텐츠 발견하기
-                    <i class="fas fa-sync"></i>
-                </div>
-            </div>
-        </div>
+        </th:block>
         <!--후원-->
         <div class="home-body-inner" id="스토어">
             <div class="section-container">
@@ -618,9 +326,35 @@
 <footer th:replace="~{main/footer :: footer}"></footer>
 <div class="backdrop fade" style="display: none"></div>
 </body>
-<script th:inline="javascript">
-    console.log([[${session.member}]])
-</script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/main/header.js"></script>
+<script src="/js/main/main.js"></script>
+<script th:inline="javascript">
+    console.log([[${bannerPosts}]]);
+
+    const videoService = (function () {
+        // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
+        function postVideoThumbnail() {
+            const thumbnailElements = document.querySelectorAll('.video-thumbnails');
+            thumbnailElements.forEach(function (element) {
+                element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
+            })
+        }
+
+        function getYouTubeThumbnailUrl(youtubeLink) {
+            // YouTube 비디오 ID 추출
+            let videoId = youtubeLink.match(/v=([^&]+)/);
+            if (videoId) {
+                return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
+            }
+            return null;
+        }
+
+        return {postVideoThumbnail: postVideoThumbnail}
+    })();
+
+    $(function () {
+        videoService.postVideoThumbnail();
+    })
+</script>
 </html>
