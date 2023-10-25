@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 public class FundingRequestVO {
 //    펀딩 요청 id
     private Long id;
-//    회원 번호
-    private Long memberId;
 //    아티스트 번호
-    private Long artistId;
+    private Long memberId;
+//    작성자 번호
+    private Long writerId;
 //    요청 펀딩 제목
     private String requestFundingTitle;
 //    요청 펀딩 내용

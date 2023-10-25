@@ -25,7 +25,7 @@ public class CrowdFundingVO {
     //    목표 금액
     private Long fundingTargetAmount;
     //    펀딩 상태
-    private String fundingStatus; //(디폴트)진행 중 : ONGOING / 종료 : FINISH
+    private String fundingStatus; //(디폴트)진행 중 : ONGOING / 종료 : ENDED
     //    작성 시간
     private String fundingWriteTime;
     //    수정 시간

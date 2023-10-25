@@ -6,10 +6,6 @@
 }
 
 /* 크라우드 펀딩 */
-.crowd-funding-wrap {
-    margin-top: 60px;
-}
-
 .crowd-funding-head {
     display: flex;
     align-items: center;
@@ -140,24 +136,26 @@
 }
 
 .accept-btn {
+    height: 40px;
     border: 0;
     line-height: 1.5rem;
     color: #fff;
     background-color: #3478ff;
     cursor: pointer;
-    padding: 11px 19px;
+    padding: 0px 19px;
     font-size: 16px;
     border-radius: 4px;
 }
 
 .refuse-btn {
+    height: 40px;
     margin-left: 0.5rem;
     line-height: 1.5rem;
     color: #000;
     background-color: transparent;
     border: 1px solid rgba(0, 0, 0, .47);
     cursor: pointer;
-    padding: 11px 19px;
+    padding: 0px 19px;
     font-size: 16px;
     border-radius: 4px;
 }

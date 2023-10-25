@@ -12,6 +12,7 @@
         <typeAlias type="com.app.onestepback.domain.CrowdFundingDTO" alias="crowdFundingDTO"/>
         <typeAlias type="com.app.onestepback.domain.FundingPaymentVO" alias="fundingPaymentVO"/>
         <typeAlias type="com.app.onestepback.domain.FundingRequestVO" alias="fundingRequestVO"/>
+        <typeAlias type="com.app.onestepback.domain.FundingRequestDTO" alias="fundingRequestDTO"/>
         <typeAlias type="com.app.onestepback.domain.MemberVO" alias="memberVO"/>
         <typeAlias type="com.app.onestepback.domain.SubscriptionVO" alias="subscriptionVO"/>
         <typeAlias type="com.app.onestepback.domain.VideoPostVO" alias="videoPostVO"/>
