@@ -40,4 +40,8 @@ public interface ArtistCrowdFundingMapper {
 
     //    크라우드 펀딩 기간 만료
     public void updateToEnded(Long id);
+
+    //    메인 페이지    
+    public List<CrowdFundingDTO> select4Randomly();
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -48,6 +49,31 @@ public class VideoPostController {
     @PostMapping("write")
     public RedirectView saveArtistPost(VideoPostDTO videoPostDTO, @RequestParam("numberOfTags") int numberOfTags, @RequestParam(value = "uuid", required = false) List<String> uuids, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles) {
         videoPostService.savePost(videoPostDTO, numberOfTags);
+
+        return new RedirectView("/artist/video/detail?id=" + videoPostDTO.getId());
+    }
+
+    @GetMapping("detail")
+    public void goToVideoDetail(@RequestParam("id") Long id, Model model){
+        VideoPostDTO nowVideoPost = videoPostService.getVideoPost(id);
+
+        Optional<VideoPostDTO> prevPost = videoPostService.getPrevPost(nowVideoPost);
+        Optional<VideoPostDTO> nextPost = videoPostService.getNextPost(nowVideoPost);
+
+        model.addAttribute("prevPost", prevPost.orElse(null));
+        model.addAttribute("nextPost", nextPost.orElse(null));
+        model.addAttribute("artist", videoPostService.getArtist(nowVideoPost.getMemberId()).get());
+        model.addAttribute("post", nowVideoPost);
+    }
+
+    @GetMapping("edit")
+    public void goToEditForm(@RequestParam("id")Long id, VideoPostDTO videoPostDTO, Model model) {
+        model.addAttribute("post", videoPostService.getVideoPost(id));
+    }
+
+    @PostMapping("edit")
+    public RedirectView editForm(VideoPostDTO videoPostDTO, @RequestParam("numberOfTags")int numberOfTags){
+        videoPostService.editVideoPost(videoPostDTO, numberOfTags);
 
         return new RedirectView("/artist/video/detail?id=" + videoPostDTO.getId());
     }

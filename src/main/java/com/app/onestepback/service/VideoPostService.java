@@ -16,4 +16,14 @@ public interface VideoPostService {
     public List<VideoPostDTO> getAllVideos(Long memberId, Pagination pagination);
 
     public void savePost(VideoPostDTO videoPostDTO, int numberOfTags);
+
+    public VideoPostDTO getVideoPost(Long id);
+
+    public Optional<VideoPostDTO> getPrevPost(VideoPostDTO videoPostDTO);
+
+    public Optional<VideoPostDTO> getNextPost(VideoPostDTO videoPostDTO);
+
+    public void editVideoPost(VideoPostDTO videoPostDTO, int numberOfTags);
+
+    public void viewCountUp(Long id);
 }

@@ -1,9 +1,14 @@
 package com.app.onestepback.controller;
 
+import com.app.onestepback.domain.CombinedPostDTO;
+import com.app.onestepback.domain.SubscriptionDTO;
 import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +42,15 @@ public class SubscriptionController {
             subscriptionService.cancelSubscription(subscriptionVO);
             return false;
         }
+    }
+
+    @GetMapping("bring-all-artists")
+    public List<SubscriptionDTO> getAllSubscribedArtist(@RequestParam("memberId")Long memberId){
+        return subscriptionService.getAllSubscribedArtist(memberId);
+    }
+
+    @GetMapping("get-one-post")
+    public Optional<CombinedPostDTO> getLatestOne(@RequestParam("memberId")Long memberId){
+        return subscriptionService.getLatestOne(memberId);
     }
 }

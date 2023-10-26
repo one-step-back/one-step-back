@@ -20,9 +20,11 @@
         <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
             <div class="container">
                 <div id="masthead" class="masthead d-flex">
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar" th:if="${artist.blogImgName == null}"
+                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
+                       th:if="${artist.blogImgName == null}"
                        style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar" th:unless="${artist.blogImgName == null}"
+                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
+                       th:unless="${artist.blogImgName == null}"
                        th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
                     <div class="action-group">
                         <a class="btn btn-icon btn-share" href="https://u-t-wp.postype.com" aria-label="공유" title="공유"
@@ -275,29 +277,33 @@
         pageWrap.html(pagingText);
     }
 
-    // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
-    function postVideoThumbnail() {
-        const thumbnailElements = document.querySelectorAll('.video-thumbnails');
-        thumbnailElements.forEach(function (element) {
-            element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
-        })
-    }
-
-    function getYouTubeThumbnailUrl(youtubeLink) {
-        // YouTube 비디오 ID 추출
-        let videoId = youtubeLink.match(/v=([^&]+)/);
-        if (videoId) {
-            return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
+    const videoService = (function () {
+        // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
+        function postVideoThumbnail() {
+            const thumbnailElements = document.querySelectorAll('.video-thumbnails');
+            thumbnailElements.forEach(function (element) {
+                element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
+            })
         }
-        return null;
-    }
+
+        function getYouTubeThumbnailUrl(youtubeLink) {
+            // YouTube 비디오 ID 추출
+            let videoId = youtubeLink.match(/v=([^&]+)/);
+            if (videoId) {
+                return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
+            }
+            return null;
+        }
+
+        return {postVideoThumbnail:postVideoThumbnail}
+    })();
 
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
         getCounts([[${artist.memberId}]]);
         updateTimeGaps();
         getPageBtn();
-        postVideoThumbnail();
+        videoService.postVideoThumbnail();
     })
 </script>
 <script src="/js/artist/blog-header.js"></script>

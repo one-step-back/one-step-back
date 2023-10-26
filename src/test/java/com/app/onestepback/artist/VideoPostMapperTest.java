@@ -24,4 +24,19 @@ public class VideoPostMapperTest {
     }
 
 
+    @Test
+    public void selectTest(){
+        log.info(videoPostMapper.select(269L).toString());
+    }
+
+    @Test
+    public void selectPrev(){
+        VideoPostDTO videoPostDTO = new VideoPostDTO();
+
+        videoPostDTO.setId(224L);
+        videoPostDTO.setPostWriteTime("2023-10-24 04:24:19.250075");
+        videoPostDTO.setMemberId(1L);
+
+        log.info(videoPostMapper.selectPrevPost(videoPostDTO).toString());
+    }
 }
