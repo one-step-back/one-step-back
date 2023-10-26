@@ -22,4 +22,6 @@ public interface ArtistCrowdFundingMapper {
     //    크라우드 펀딩 추가
     public void insert(CrowdFundingVO crowdFundingVO);
 
+    public List<CrowdFundingDTO> select4Randomly();
+
 }

@@ -29,4 +29,26 @@
         FROM TBL_CROWDFUNDING CF JOIN TBL_MEMBER M
                                       ON WRITER_ID = M.ID AND MEMBER_ID = #{memberId}
     </select>
+
+    <select id="select4Randomly" resultType="crowdFundingDTO">
+        SELECT *
+        FROM (SELECT F.ID,
+                     F.MEMBER_ID,
+                     F.FUNDING_TITLE,
+                     F.FUNDING_CONTENT,
+                     F.FUNDING_IMG_NAME,
+                     F.FUNDING_IMG_PATH,
+                     F.FUNDING_SUM_COLLECTED,
+                     F.FUNDING_TARGET_AMOUNT,
+                     F.FUNDING_STATUS,
+                     M.MEMBER_NICKNAME,
+                     M.MEMBER_KAKAO_PROFILE_URL,
+                     M.MEMBER_PROFILE_NAME,
+                     M.MEMBER_PROFILE_PATH
+              FROM TBL_CROWDFUNDING F
+                       JOIN TBL_MEMBER M ON F.MEMBER_ID = M.ID
+              WHERE FUNDING_STATUS = 'ONGOING'
+              ORDER BY DBMS_RANDOM.VALUE)
+        WHERE ROWNUM &lt;= 4
+    </select>
 </mapper>

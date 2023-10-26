@@ -22,6 +22,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final ArtistPostDAO artistPostDAO;
     private final PostTagDAO postTagDAO;
     private final PostFileDAO postFileDAO;
+    private final PostDAO postDAO;
 
     @Override
     public Optional<ArtistDTO> getArtist(Long memberId) {
@@ -102,6 +103,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
 
     @Override
     public ArtistPostDTO getPost(Long id) {
+        postDAO.viewCountUp(id);
         ArtistPostDTO post = artistPostDAO.getPost(id);
 
         List<String> tags = postTagDAO.getAllTags(post.getId());

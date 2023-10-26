@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>원스텝 | 포스트 작성</title>
+    <title>원스텝 | 포스트 수정</title>
     <link rel="icon" href="/images/icon.svg">
     <link rel="stylesheet" href="/css/main/root.css">
     <link rel="stylesheet" href="/css/artist/blog-header.css">
@@ -51,24 +51,24 @@
             </div>
         </div>
         <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0%; height: 3px;"></div>
-        <form id="summit-form" class="mt-[32px]" th:action="@{/artist/video/write}" method="post"
+        <form id="summit-form" class="mt-[32px]" th:action="@{/artist/video/edit}" method="post"
               enctype="multipart/form-data"
               th:object="${videoPostDTO}">
-            <input id="id" th:field="*{memberId}" type="hidden">
+            <input id="id" th:field="*{id}" type="hidden">
             <input id="numberOfTags" type="hidden" name="numberOfTags">
             <div id="tags"></div>
             <div class="grid grid-cols-15 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto">
                 <section class="col-span-10">
                     <div class="mb-[14px]">
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input th:field="*{postTitle}" type="text"
+                            <input id="postTitle" th:field="*{postTitle}" type="text"
                                    class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
                                    placeholder="제목을 입력해 주세요." value>
                         </label>
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input th:field="*{videoLink}" type="text"
+                            <input id="videoLink" th:field="*{videoLink}" type="text"
                                    class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
-                                   placeholder="유튜브 링크를 넣어주세요.">
+                                   placeholder="유튜브 링크를 넣어주세요." value>
                         </label>
                     </div>
                     <div class="mb-[14px]"></div>
@@ -79,13 +79,12 @@
                                 <div class="tox-editor-container">
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
-                                            <textarea th:field="*{postContent}" name="" id="post-content"
+                                            <textarea id="postContent" th:field="*{postContent}"
                                                       class="placeholder:font_body_regular_md"
                                                       cols="30" rows="10" placeholder="내용을 입력해주세요."></textarea>
                                         </div>
                                     </div>
                                 </div>
-
                                 <button type="button" id="popover-on-btn">
                                     <span>작성하기</span>
                                 </button>
@@ -103,7 +102,8 @@
                         </div>
                         <div class="px-[20px]">
                             <label style="padding: 20px">
-                                <input th:field="*{postCategory}" type="text" placeholder="카테고리를 작성해주세요"
+                                <input id="postCategory" th:field="*{postCategory}" type="text"
+                                       placeholder="카테고리를 작성해주세요"
                                        maxlength="6"
                                        class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
                                        value="">
@@ -133,22 +133,24 @@
         </form>
         <div id="modal"
              class="z-50 fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center min-w-[360px] p-[32px] border box-border rounded-[16px] border_primary surface_primary shadow-s">
-            <h4 class="font_headline_bold_sm mb-[12px] content_primary">게시글 등록</h4>
-            <div class="font_body_regular_lg max-w-[300px] text-center content_secondary">
-                게시글을 등록하시겠습니까?
-            </div>
-            <div class="flex items-center justify-between w-full mt-[24px]">
-                <div class="flex-1">
-                    <button type="button" id="modal-cancel"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
-                        취소
-                    </button>
+            <div id="post-form" style="display: none">
+                <h4 class="font_headline_bold_sm mb-[12px] content_primary">게시글 수정</h4>
+                <div class="font_body_regular_lg max-w-[300px] text-center content_secondary">
+                    게시글을 수정하시겠습니까?
                 </div>
-                <div class="ml-[16px] flex-1">
-                    <button type="button" id="summit-btn"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
-                        확인
-                    </button>
+                <div class="flex items-center justify-between w-full mt-[24px]">
+                    <div class="flex-1">
+                        <button type="button"
+                                class="modal-cancel relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                            취소
+                        </button>
+                    </div>
+                    <div class="ml-[16px] flex-1">
+                        <button type="button" id="summit-btn"
+                                class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                            확인
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,30 +161,58 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/blog-header.js"></script>
 <script th:inline="javascript">
-    $(function () {
-        const noImg = `<span id="no-image" class="content_disabled font_body_regular_md">
-                                    첨부된 이미지가 없습니다.
-                                </span>`;
+    const tagWrap = $("#tag-wrap");
+    const tags = $("#tags");
+    let numberOfTags = 0;
 
-        let numberOfTags = 0;
+    // 페이지 출력후 포스트의 정보를 각 정보칸에 저장하는 함수
+    function loadPostInfo() {
+        const post = [[${post}]];
+
+        $("#id").val(post.id);
+        $("#postTitle").val(post.postTitle);
+        $("#videoLink").val(post.videoLink);
+        $("#postContent").val(post.postContent);
+        $("#postCategory").val(post.postCategory);
+
+        for (let i = 1; i <= 5; i++) {
+            const tag = post[`tag${i}`];
+            if (tag != null) {
+                let tagContainer = `<div class="tag-container">${tag}<i class="fa-solid fa-x"></i></div>`;
+                let tagInput = `<input type="hidden" name="tag${i}" value="${tag}">`;
+
+                tagWrap.append(tagContainer);
+                tags.append(tagInput);
+                numberOfTags++;
+                $("#numberOfTags").val(numberOfTags);
+            }
+        }
+        console.log(numberOfTags);
+    }
+
+
+    $(function () {
+        loadPostInfo();
+
         const modal = $("#modal");
+        const postForm = $("#post-form");
+        const reCheckForm = $("#re-check-form")
+
+
         $("#numberOfTags").val(numberOfTags);
 
-        $("#id").val([[${memberId}]]);
-
         $("#popover-on-btn").click(() => {
-            // 제목, 부제목, 내용, 카테고리 input 요소에 접근
-            var postTitleInput = $("#postTitle");
-            var postSubtitleInput = $("#postSubtitle");
-            var postContentInput = $("#post-content");
-            var postCategoryInput = $("#postCategory");
+            let postTitleInput = $("#postTitle");
+            let videoLinkInput = $("#videoLink");
+            let postContentInput = $("#postContent");
+            let postCategoryInput = $("#postCategory");
 
             // 값이 비어있는지 확인
             if (postTitleInput.val() === "") {
                 alert("제목을 입력해 주세요.");
                 return;
             }
-            if (postSubtitleInput.val() === "") {
+            if (videoLinkInput.val() === "") {
                 alert("부제목을 입력해 주세요.");
                 return;
             }
@@ -196,10 +226,13 @@
             }
 
             modal.css("display", "block");
+            postForm.css("display", "block")
         });
 
-        $("#modal-cancel").click(() => {
-            modal.css("display", "none")
+        $(".modal-cancel").click(() => {
+            modal.hide();
+            postForm.hide();
+            reCheckForm.hide();
         })
 
         $("#tag-input").on("input", function () {
@@ -212,8 +245,6 @@
         $("#tag-input").on("keydown", function (event) {
             if (event.key === "Enter") {
                 let tagValue = $(this).val().trim();
-                const tagWrap = $("#tag-wrap");
-                const tags = $("#tags");
 
                 if (tagValue !== "") {
                     const tagCount = tagWrap.find(".tag-container").length;

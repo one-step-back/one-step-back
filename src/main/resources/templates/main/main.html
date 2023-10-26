@@ -29,7 +29,9 @@
                                 <div class="pool-home-slide">
                                     <a th:href="${bannerPost.videoLink == null ? '/artist/post/detail?id=' + bannerPost.id : '/artist/video/detail?id=' + bannerPost.id}">
                                         <div class="top-thumbnail-section">
-                                            <img th:if="*{videoLink == null}"
+                                            <img th:if="*{fileName == null and videoLink == null}"
+                                                 src="/images/no-img.png" alt="">
+                                            <img th:if="*{videoLink == null and fileName != null}"
                                                  th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
                                                  alt="banner">
                                             <img th:unless="*{videoLink == null}" class="video-thumbnails"
@@ -62,9 +64,9 @@
                                                 </div>
                                             </a>
                                         </div>
-                                        <div class="contents-bottom">
+                                        <a class="contents-bottom" th:href="@{/artist/main(memberId=*{memberId})}">
                                             <div th:text="*{postCategory + ' · ' + memberNickname}"></div>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -102,20 +104,22 @@
                         <th:block th:each="post:${posts}">
                             <div th:object="${post}" class="pool-post-container">
                                 <div class="post-contents">
-                                    <a class="post-data home-main" href="" data-channel-id="1578583">
+                                    <a class="post-data home-main" th:href="@{/artist/post/detail(id=*{id})}">
                                         <h3 th:text="*{postTitle}" class="title"></h3>
                                         <div th:text="*{postContent}" class="contents"></div>
                                     </a>
                                     <div class="post-data-thumbnail">
                                         <a th:href="@{/artist/post/detail(id=*{id})}">
-                                            <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
-                                                th:alt="*{postTitle}">
+                                            <img th:if="*{fileName == null}" src="/images/no-img.png" alt="">
+                                            <img th:if="*{fileName != null}"
+                                                 th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
+                                                 th:alt="*{postTitle}">
                                         </a>
                                     </div>
                                 </div>
                                 <div class="post-contents-bottom">
                                     <div class="post-author">
-                                        <a class="user-profile-avatar" href="https://www.postype.com/profile/@bo3fu5">
+                                        <a class="user-profile-avatar" th:href="@{/artist/main(memberId=*{memberId})}">
                                             <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                  src="/images/none-avatar.svg">
                                             <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
@@ -123,7 +127,8 @@
                                         </a>
                                         <div class="footer-info">
                                             <div class="user-profile-nickname text-truncate">
-                                                <a th:text="*{memberNickname}" th:href="@{/artist/main(memberId=*{memberId})}"></a>
+                                                <a th:text="*{memberNickname}"
+                                                   th:href="@{/artist/main(memberId=*{memberId})}"></a>
                                             </div>
                                             <div class="post-meta text-alpha-black-47">
                                                 <time class="meta-item">2주 전</time>
@@ -183,117 +188,49 @@
         </th:block>
         <!--후원-->
         <div class="home-body-inner" id="스토어">
-            <div class="section-container">
-                <div class="title-container">
-                    <div class="item-title">크라우드 펀딩</div>
-                    <a class="more-link" href="/store">전체 보기</a>
-                </div>
-                <div class="goods-list">
-                    <div class="component-goods">
-                        <div class="goods-data-thumbnail">
-                            <a href="https://almmedia.postype.com/goods/14725812">
-                                <div class="grid-image-wrapper ">
-                                    <img alt="[수염&amp;멜빵] 굿즈 대방출! 윌의동화책, 스마트톡, 도트키링"
-                                         src="https://d3mcojo3jv0dbr.cloudfront.net/2023/06/22/17/29/06b6b3b031aaeb901aa60026b2b36b09.png?w=360&amp;h=270&amp;q=65">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="goods-data">
-                            <a href="https://almmedia.postype.com/goods/14725812" class="goods-item-title">
-                                [수염&amp;멜빵] 굿즈 대방출! 윌의동화책, 스마트톡, 도트키링 </a>
-                            <div class="goods-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@9wppzx">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2020/12/21/18/15/8d7cd275de28d0531c1f86699299e07f.png?w=24&amp;h=24&amp;q=65"
-                                         alt="alm미디어">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@9wppzx" rel="author">alm미디어</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <th:block th:if="${#lists.size(crowdFundings) != 0}">
+                <div class="section-container">
+                    <div class="title-container">
+                        <div class="item-title">현재 진행중인 다양한 크라우드 펀딩</div>
+                        <a class="more-link" href="/store">전체 보기</a>
                     </div>
-                    <div class="component-goods">
-                        <div class="goods-data-thumbnail">
-                            <a href="https://little-dragon-atelier.postype.com/goods/14264593">
-                                <div class="grid-image-wrapper ">
-                                    <img alt="보글보글 볌볌 쉐이커"
-                                         src="https://d3mcojo3jv0dbr.cloudfront.net/2023/03/28/15/17/ede1afd2e63f7d2a6cbaeb0d27bf1bb3.png?w=360&amp;h=270&amp;q=65">
+                    <div class="goods-list">
+                        <th:block th:each="crowdFunding:${crowdFundings}">
+                            <div th:object="${crowdFunding}" class="component-goods">
+                                <div class="goods-data-thumbnail">
+                                    <a th:href="@{/artist/crowd-funding/list(memberId=*{memberId})}">
+                                        <div class="grid-image-wrapper ">
+                                            <img th:if="*{fundingImgName == null}" src="/images/no-img.png" alt="">
+                                            <img th:if="*{fundingImgName != null}"
+                                                 th:src="@{/file/display(fileName=*{fundingImgPath} + '/t_' + *{fundingImgName})}"
+                                                 th:alt="*{fundingTitle}">
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </div>
-                        <div class="goods-data">
-                            <a href="https://little-dragon-atelier.postype.com/goods/14264593"
-                               class="goods-item-title">
-                                보글보글 볌볌 쉐이커 </a>
-                            <div class="goods-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@1dfh9b">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2018/12/04/20/04/cd5fe880170cba9ce9edc0a8d718ef5f.png?w=24&amp;h=24&amp;q=65"
-                                         alt="잠룡">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@1dfh9b" rel="author">잠룡</a>
+                                <div class="goods-data">
+                                    <a th:href="@{/artist/crowd-funding/list(memberId=*{memberId})}"
+                                       th:text="*{fundingTitle}" class="goods-item-title"></a>
+                                    <div class="goods-author">
+                                        <a class="user-profile-avatar" href="https://www.postype.com/profile/@9wppzx">
+                                            <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
+                                                 src="/images/none-avatar.svg">
+                                            <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
+                                                 th:src="*{memberKakaoProfileUrl}">
+                                        </a>
+                                        <div class="footer-info">
+                                            <div class="user-profile-nickname text-truncate">
+                                                <a th:href="@{/artist/main(memberId=*{memberId})}"
+                                                   th:text="*{memberNickname}"
+                                                   rel="author"></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="component-goods">
-                        <div class="goods-data-thumbnail">
-                            <a href="https://almmedia.postype.com/goods/14725812">
-                                <div class="grid-image-wrapper ">
-                                    <img alt="[수염&amp;멜빵] 굿즈 대방출! 윌의동화책, 스마트톡, 도트키링"
-                                         src="https://d3mcojo3jv0dbr.cloudfront.net/2023/06/22/17/29/06b6b3b031aaeb901aa60026b2b36b09.png?w=360&amp;h=270&amp;q=65">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="goods-data">
-                            <a href="https://almmedia.postype.com/goods/14725812" class="goods-item-title">
-                                [수염&amp;멜빵] 굿즈 대방출! 윌의동화책, 스마트톡, 도트키링 [수염&amp;멜빵] 굿즈 대방출! 윌의동화책, 스마트톡, 도트키링 [수염&amp;멜빵]
-                                굿즈 대방출! 윌의동화책, 스마트톡, 도트키링 [수염&amp;멜빵] 굿즈 대방출! 윌의동화책, 스마트톡, 도트키링 </a>
-                            <div class="goods-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@9wppzx">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2020/12/21/18/15/8d7cd275de28d0531c1f86699299e07f.png?w=24&amp;h=24&amp;q=65"
-                                         alt="alm미디어">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@9wppzx" rel="author">alm미디어</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="component-goods">
-                        <div class="goods-data-thumbnail">
-                            <a href="https://little-dragon-atelier.postype.com/goods/14264593">
-                                <div class="grid-image-wrapper ">
-                                    <img alt="보글보글 볌볌 쉐이커"
-                                         src="https://d3mcojo3jv0dbr.cloudfront.net/2023/03/28/15/17/ede1afd2e63f7d2a6cbaeb0d27bf1bb3.png?w=360&amp;h=270&amp;q=65">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="goods-data">
-                            <a href="https://little-dragon-atelier.postype.com/goods/14264593"
-                               class="goods-item-title">
-                                보글보글 볌볌 쉐이커 </a>
-                            <div class="goods-author">
-                                <a class="user-profile-avatar" href="https://www.postype.com/profile/@1dfh9b">
-                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2018/12/04/20/04/cd5fe880170cba9ce9edc0a8d718ef5f.png?w=24&amp;h=24&amp;q=65"
-                                         alt="잠룡">
-                                </a>
-                                <div class="footer-info">
-                                    <div class="user-profile-nickname text-truncate">
-                                        <a href="https://www.postype.com/profile/@1dfh9b" rel="author">잠룡</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </th:block>
                     </div>
                 </div>
-            </div>
+            </th:block>
         </div>
         <!--내가 찜한 아티스트-->
         <div class="home-body-inner" id="main-home-upper-body">
@@ -303,7 +240,7 @@
                     <a class="more-link" href="/subscriptions">전체 보기</a>
                 </div>
                 <div class="item-container post-grid-item-container" id="subscribed-posts">
-                    <section class="empty-subscribed-posts">
+                    <section id="artistPost" class="empty-subscribed-posts">
                         <th:block th:if="${session.member != null}">
                             <span class="empty-title">구독한 채널이 없어요.</span>
                             <span class="empty-description">원스텝 컬렉션에서 작품을 둘러보고<br>마음에 드는 채널을 구독해보세요.</span>
@@ -330,7 +267,7 @@
 <script src="/js/main/header.js"></script>
 <script src="/js/main/main.js"></script>
 <script th:inline="javascript">
-    console.log([[${bannerPosts}]]);
+    const session = /*[[${session.member}]]*/ null;
 
     const videoService = (function () {
         // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
@@ -350,11 +287,88 @@
             return null;
         }
 
-        return {postVideoThumbnail: postVideoThumbnail}
+        return {postVideoThumbnail: postVideoThumbnail, getYouTubeThumbnailUrl:getYouTubeThumbnailUrl}
+    })();
+
+    const subscriptionService = (function () {
+        function getSubscribedArtist(callback) {
+            $.ajax({
+                type: "GET",
+                url: `/subscription/bring-all-artists?memberId=${session.id}`,
+
+                success: function (datas) {
+                    console.log(datas)
+                    if (callback) {
+                        callback(datas);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            })
+        }
+
+        function getLatestPost(datas) {
+            datas.forEach((data) => {
+                $.ajax({
+                    type: "GET",
+                    url: `/subscription/get-one-post?memberId=${data.artistId}`,
+
+                    success: function (post) {
+                        console.log(post)
+                        if (post != null) {
+                            let postHtml = `<div class="one-item">
+                                                <a href="/artist/main?memberId=${data.artistId}" class="artist-container">
+                                                    <div class="blog-img-container">
+                                                        <img src="/images/none-avatar.svg" alt="">
+                                                    </div>
+                                                    <div class="body-container">
+                                                        <div class="artist-blog-container">
+                                                            <div class="blog-name-container">${data.artistBlogName}</div>
+                                                        </div>
+                                                        <div class="artist-info-container">
+                                                            <div class="artist-img-container">
+                                                                <div class="blog-img-container">
+                                                                    <img src="/images/none-avatar.svg" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="artist-name-container">${data.memberNickname}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="${post.videoLink == null ? `/artist/post/detail?id=${post.id}` : `/artist/video/detail?id=${post.id}`}" class="content-container">
+                                                    <div class="content-body">
+                                                        <div class="content-head"><b>${data.memberNickname}</b>의 최근 게시물</div>
+                                                        <div class="content-title">${post.postTitle}</div>
+                                                        <div class="content">${post.postContent}</div>
+                                                    </div>
+                                                    <div class="thumbnail-body">
+                                                    ${post.videoLink == null ? `
+                                                        <img src="/images/no-img.png" alt="">
+                                                    ` : ''}
+                                                    ${post.videoLink != null ? `
+                                                        <img src="${videoService.getYouTubeThumbnailUrl(post.videoLink)}" alt="">
+                                                    ` : ''}
+                                                    </div>
+                                                </a>
+                                            </div>`;
+                            $("#artistPost").empty()
+                            $("#artistPost").append(postHtml);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                })
+            })
+        }
+
+        return {getSubscribedArtist: getSubscribedArtist, getLatestPost: getLatestPost}
     })();
 
     $(function () {
         videoService.postVideoThumbnail();
+        subscriptionService.getSubscribedArtist(subscriptionService.getLatestPost);
     })
 </script>
 </html>

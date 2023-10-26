@@ -28,8 +28,8 @@ public class VideoPostDTO {
 
     private String memberNickname;
     private String memberKakaoProfileUrl;
-    private String memberImgName;
-    private String memberImgPath;
+    private String memberProfileName;
+    private String memberProfilePath;
 
     private String tag1;
     private String tag2;

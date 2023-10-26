@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,5 +19,9 @@ public class CombinedPostDAO {
 
     public List<CombinedPostDTO> get4Posts(){
         return combinedPostMapper.select4Posts();
+    }
+
+    public Optional<CombinedPostDTO> getLatestOne(Long memberId){
+        return combinedPostMapper.selectLatestOne(memberId);
     }
 }

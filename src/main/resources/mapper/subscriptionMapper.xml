@@ -24,4 +24,20 @@
         WHERE ARTIST_ID = #{artistId}
           AND MEMBER_ID = #{memberId}
     </delete>
+
+    <select id="selectAll" resultType="subscriptionDTO">
+        SELECT S.ARTIST_ID,
+               S.MEMBER_ID,
+               A.ARTIST_BLOG_NAME,
+               A.BLOG_IMG_PATH,
+               A.BLOG_IMG_NAME,
+               M.MEMBER_NICKNAME,
+               M.MEMBER_KAKAO_PROFILE_URL,
+               M.MEMBER_PROFILE_NAME,
+               M.MEMBER_PROFILE_PATH
+        FROM TBL_SUBSCRIPTION S
+                 LEFT JOIN TBL_ARTIST A ON S.ARTIST_ID = A.MEMBER_ID
+                 LEFT JOIN TBL_MEMBER M ON S.ARTIST_ID = M.ID
+        WHERE S.MEMBER_ID = #{memberId}
+    </select>
 </mapper>

@@ -16,6 +16,9 @@
                      (SELECT COUNT(L.POST_ID)
                       FROM TBL_POST_LIKE L
                       WHERE L.POST_ID = P.ID)                                                AS LIKE_COUNT,
+                     (SELECT COUNT(R.POST_ID)
+                      FROM TBL_POST_REPLY R
+                      WHERE R.POST_ID = P.ID)                                                AS REPLY_COUNT,
                      (SELECT F.FILE_NAME
                       FROM TBL_POST_FILE F
                       WHERE F.POST_ID = P.ID
@@ -28,7 +31,7 @@
                        LEFT JOIN TBL_ARTIST_POST A ON P.ID = A.POST_ID
                        LEFT JOIN TBL_VIDEO_POST V ON P.ID = V.POST_ID
                        JOIN TBL_MEMBER M ON P.MEMBER_ID = M.ID
-              ORDER BY LIKE_COUNT DESC, P.POST_VIEW_COUNT DESC, P.ID DESC)
+              ORDER BY LIKE_COUNT DESC, P.POST_VIEW_COUNT DESC, REPLY_COUNT DESC, P.ID DESC)
         WHERE ROWNUM &lt;= 5
     </select>
 
@@ -48,6 +51,9 @@
                      (SELECT COUNT(L.POST_ID)
                       FROM TBL_POST_LIKE L
                       WHERE L.POST_ID = A.ID)                                                AS LIKE_COUNT,
+                     (SELECT COUNT(R.POST_ID)
+                      FROM TBL_POST_REPLY R
+                      WHERE R.POST_ID = A.ID)                                                AS REPLY_COUNT,
                      (SELECT F.FILE_NAME
                       FROM TBL_POST_FILE F
                       WHERE F.POST_ID = A.ID
@@ -59,7 +65,30 @@
               FROM VIEW_ARTIST_POST A
                        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
               WHERE A.POST_WRITE_TIME >= (SYSDATE - INTERVAL '1' MONTH)
-              ORDER BY POST_VIEW_COUNT DESC, LIKE_COUNT DESC, ID DESC)
+              ORDER BY POST_VIEW_COUNT DESC, LIKE_COUNT DESC, REPLY_COUNT DESC, ID DESC)
         WHERE ROWNUM &lt;= 4
+    </select>
+
+    <select id="selectLatestOne" resultType="combinedPostDTO">
+        SELECT *
+        FROM (SELECT P.ID,
+                     P.MEMBER_ID,
+                     P.POST_TITLE,
+                     P.POST_SUBTITLE,
+                     P.POST_CONTENT,
+                     P.POST_CATEGORY,
+                     P.POST_VIEW_COUNT,
+                     P.POST_WRITE_TIME,
+                     P.POST_UPDATE_TIME,
+                     V.VIDEO_LINK,
+                     (SELECT COUNT(L.POST_ID)
+                      FROM TBL_POST_LIKE L
+                      WHERE L.POST_ID = P.ID) AS LIKE_COUNT
+              FROM TBL_POST P
+                       LEFT JOIN TBL_ARTIST_POST A ON P.ID = A.POST_ID
+                       LEFT JOIN TBL_VIDEO_POST V ON P.ID = V.POST_ID
+              WHERE P.MEMBER_ID = #{memberId}
+              ORDER BY LIKE_COUNT, P.POST_VIEW_COUNT, P.ID DESC)
+        WHERE ROWNUM = 1
     </select>
 </mapper>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.mapper.PostMapper">
+    <update id="updateViewCount">
+        UPDATE TBL_POST
+        SET POST_VIEW_COUNT = POST_VIEW_COUNT + 1
+        WHERE ID = #{id}
+    </update>
+</mapper>

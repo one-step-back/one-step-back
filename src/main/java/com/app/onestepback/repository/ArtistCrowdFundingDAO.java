@@ -16,18 +16,22 @@ public class ArtistCrowdFundingDAO {
     private final ArtistCrowdFundingMapper artistCrowdFundingMapper;
 
     //    멤버아이디로 조회된 크라우드 펀딩의 갯수
-    public int getCountOfCF(Long memberId){
+    public int getCountOfCF(Long memberId) {
         return artistCrowdFundingMapper.selectCountOfCF(memberId);
     }
 
     //    크라우드 펀딩 리스트 출력 (페이지네이션)
-    public List<CrowdFundingDTO> getAllCrowdFundings(Long memberId, Pagination pagination){
+    public List<CrowdFundingDTO> getAllCrowdFundings(Long memberId, Pagination pagination) {
         return artistCrowdFundingMapper.selectAll(memberId, pagination);
     }
 
     //    크라우드 펀딩 객체 조회
-    public Optional<CrowdFundingDTO> getCrowdFunding(Long id){
+    public Optional<CrowdFundingDTO> getCrowdFunding(Long id) {
         return artistCrowdFundingMapper.select(id);
     }
 
+    //    매인페이지 출력용
+    public List<CrowdFundingDTO> get4FundingsRandomly() {
+        return artistCrowdFundingMapper.select4Randomly();
+    }
 }

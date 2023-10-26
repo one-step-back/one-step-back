@@ -21,7 +21,7 @@
     <div class="navbar">
         <div class="navbar-container">
             <div class="navbar-left">
-                <a th:if="${prevPost != null}" class="btn-back" th:href="@{/artist/post/detail(id=${prevPost.id})}"
+                <a th:if="${prevPost != null}" class="btn-back" th:href="@{/artist/video/detail(id=${prevPost.id})}"
                    id="post-viewer-header-btn-back">
                     <i class="fa-chevron-left"></i>
                 </a>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="navbar-right">
-                <a th:if="${nextPost != null}" class="btn-back" th:href="@{/artist/post/detail(id=${nextPost.id})}"
+                <a th:if="${nextPost != null}" class="btn-back" th:href="@{/artist/video/detail(id=${nextPost.id})}"
                    id="post-viewer-header-btn-next">
                     <i class="fa-chevron-right"></i>
                 </a>
@@ -55,7 +55,6 @@
                     </h4>
                     <div class="title-wrap">
                         <h1 th:text="${post.postTitle}" class="post-title6"></h1>
-                        <h2 th:text="${post.postSubtitle}" class="post-subtitle6"></h2>
                     </div>
                     <div class="post-meta3">
                         <a class="profile-avatar" th:href="@{/artist/main(memberId=${post.memberId})}" rel="author">
@@ -88,7 +87,7 @@
                             </div>
                             <th:block th:if="${session.member != null}">
                                 <a th:if="${post.memberId == session.member.id}"
-                                   th:href="@{/artist/post/edit(id=${post.id})}" class="edit-container">
+                                   th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
                                     게시글 수정
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </a>
@@ -97,6 +96,13 @@
 
                     </div>
                     <div class="post-body">
+                        <div class="video-wrap">
+                            <iframe id="video" width="560" height="315"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
                         <pre th:text="${post.postContent}" class="post-content3" style="white-space: pre-line"></pre>
                         <div class="tag-list">
                             <h6 class="sr-only"></h6>
@@ -109,36 +115,28 @@
                         <div class="post-pager">
                             <th:block th:if="${prevPost != null}">
                                 <article class="pager-item1">
-                                    <a class="flex-middle" th:href="@{/artist/post/detail(id=${prevPost.id})}">
+                                    <a class="flex-middle" th:href="@{/artist/video/detail(id=${prevPost.id})}">
                                         <div class="pager-label">이전글</div>
                                         <div class="media-body7">
                                             <h5 th:text="${prevPost.postTitle}" class="pager-title"></h5>
-                                            <h6 th:text="${prevPost.postSubtitle}" class="pager-subtitle"></h6>
                                         </div>
-                                        <th:block th:unless="${prevPost.fileName == null}">
-                                            <div class="pager-img">
-                                                <img class="pager-img9"
-                                                     th:src="@{/file/display(fileName=${prevPost.filePath} + '/t_' + ${prevPost.fileName})}">
-                                            </div>
-                                        </th:block>
+                                        <div class="pager-img">
+                                            <img class="pager-img9" th:videoLink="${prevPost.videoLink}">
+                                        </div>
                                     </a>
                                 </article>
                             </th:block>
 
                             <th:block th:if="${nextPost != null}">
                                 <article class="pager-item2">
-                                    <a class="flex-middle" th:href="@{/artist/post/detail(id=${nextPost.id})}">
+                                    <a class="flex-middle" th:href="@{/artist/video/detail(id=${nextPost.id})}">
                                         <div class="pager-label">다음글</div>
                                         <div class="media-body7">
                                             <h5 th:text="${nextPost.postTitle}" class="pager-title"></h5>
-                                            <h6 th:text="${nextPost.postSubtitle}" class="pager-subtitle"></h6>
                                         </div>
-                                        <th:block th:unless="${nextPost.fileName == null}">
-                                            <div class="pager-img">
-                                                <img class="pager-img9"
-                                                     th:src="@{/file/display(fileName=${nextPost.filePath} + '/t_' + ${nextPost.fileName})}">
-                                            </div>
-                                        </th:block>
+                                        <div class="pager-img">
+                                            <img class="pager-img9" th:videoLink="${nextPost.videoLink}">
+                                        </div>
                                     </a>
                                 </article>
                             </th:block>
@@ -336,7 +334,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/post/detail.js"></script>
 <script th:inline="javascript">
-    console.log([[${artist}]]);
+    console.log([[${nextPost}]]);
 
     // 세션 값
     const session = /*[[${session.member}]]*/ null;
@@ -534,8 +532,46 @@
         return {write: write, updateReplies: updateReplies, showReply: showReply};
     })();
 
+    const videoService = (function () {
+        // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
+        function postVideoThumbnail() {
+            const thumbnailElements = document.querySelectorAll('.pager-img9');
+            thumbnailElements.forEach(function (element) {
+                element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
+            })
+        }
+
+        function getYouTubeThumbnailUrl(youtubeLink) {
+            // YouTube 비디오 ID 추출
+            let videoId = youtubeLink.match(/v=([^&]+)/);
+            if (videoId) {
+                return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
+            }
+            return null;
+        }
+
+        function getYouTubeVideo(link) {
+            const source = link.match(/(?:\?v=|&v=|youtu\.be\/|embed\/|\/v\/|\/e\/|watch\?v=)([a-zA-Z0-9_-]{11})/);
+
+
+            if (source) {
+                const videoId = source[1];
+                const embedLink = `https://www.youtube.com/embed/${videoId}?si=UW0il-4Lpr4jUYbK`;
+
+                $("#video").attr("src", embedLink);
+                return embedLink;
+            }
+            return null;
+        }
+
+
+        return {postVideoThumbnail: postVideoThumbnail, getYouTubeVideo: getYouTubeVideo}
+    })();
+
     // 페이지 로드 시
     $(function () {
+        videoService.getYouTubeVideo([[${post.videoLink}]]);
+        videoService.postVideoThumbnail();
         if (session != null) {
             checkSubscription(artistId, session.id, didISubscribe);
         }

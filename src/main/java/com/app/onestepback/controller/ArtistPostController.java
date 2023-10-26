@@ -68,10 +68,7 @@ public class ArtistPostController {
     }
 
     @GetMapping("edit")
-    public void goToEditForm(@RequestParam("id")Long id, ArtistPostDTO artistPostDTO, HttpSession session, Model model) {
-        MemberVO memberSession = (MemberVO) session.getAttribute("member");
-
-        model.addAttribute("memberId", memberSession.getId());
+    public void goToEditForm(@RequestParam("id")Long id, ArtistPostDTO artistPostDTO, Model model) {
         model.addAttribute("post", artistPostService.getPost(id));
         model.addAttribute("files", artistPostService.getAllFiles(id));
     }
