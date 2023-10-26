@@ -25,7 +25,7 @@
                 <th:block th:if="${#lists.size(crowdFundingRequests) != 0}">
                     <div th:block th:each="crowdFundingRequest:${crowdFundingRequests}" class="crowd-funding-container">
                         <article th:if="${artist.memberId == crowdFundingRequest.writerId}" th:object="${crowdFundingRequest}" class="crowd-funding-content">
-                            <input th:value="*{}" type="hidden">
+                            <input th:value="*{memberId}" type="hidden">
                             <div class="post">
                                 <div class="post-content">
                                     <h3 th:text="*{fundingRequestTitle}" class="post-data-title" style="height: 40px;">
@@ -164,19 +164,6 @@
                 console.error(error);
             }
         });
-    }
-
-    // 펀딩 요청 객체의 id 가져오는 ajax 모듈
-    function getFRId(){
-        $.ajax({
-            type: "GET",
-            url: "/artist/crowd-funding/getFRCount?memberId=" + artistId,
-        }
-    }
-
-    // 크라우드 펀딩 수락
-    function acceptRequest(){
-
     }
 
     // 작성하기 버튼 누를 시 artist의 memberId 담고 실행
