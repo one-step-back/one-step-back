@@ -29,4 +29,9 @@ public class ArtistController {
         model.addAttribute("posts", artistService.get3Posts(memberId));
         model.addAttribute("videos", artistService.get3Videos(memberId));
     }
+
+    @GetMapping("sponsor")
+    public void goToSponsorPage(@RequestParam("memberId") Long memberId, Model model) {
+        model.addAttribute("artist", artistService.getArtist(memberId).get());
+    }
 }
