@@ -39,6 +39,11 @@
                     <button th:if="${session.member != null and artist.memberId != session.member.id}"
                             id="subscription-btn" class="blog-action-subscription-btn">
                     </button>
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">
+                        <button class="blog-action-subscription-btn subscription-btn">
+                            구독하기
+                        </button>
+                    </a>
                 </div>
             </div>
             <div class="head-nav-bar">
@@ -66,9 +71,12 @@
             <div class="crowd-funding-wrap">
                 <div class="crowd-funding-head">
                     <div style="display: flex; flex-wrap: wrap">
-                        <span id="crowdFundingCount"></span> 개의 크라우드 펀딩이 진행 중 입니다.
+                        <span id="crowdFundingCount"></span>개의 크라우드 펀딩이 진행 중 입니다.
                     </div>
-                    <a href="/artist/crowd-funding/write">
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">
+                        <button class="go-to-write">크라우드 펀딩 요청하기</button>
+                    </a>
+                    <a th:if="${session.member != null}" th:href="@{/artist/crowd-funding/request(memberId=${artist.memberId})}">
                         <button class="go-to-write">크라우드 펀딩 요청하기</button>
                     </a>
                 </div>
@@ -101,11 +109,11 @@
                             <div class="funding-container">
                                 <div class="funding">
                                     현재 모인 금액 :
-                                    <span th:text="*{fundingSumCollected}" class="price">800,000</span>원
+                                    <span th:text="*{fundingSumCollected}" class="price"></span>원
                                 </div>
                                 <div class="funding">
                                     목표 금액 :
-                                    <span th:text="*{fundingTargetAmount}" class="price">1,000,000</span>원
+                                    <span th:text="*{fundingTargetAmount}" class="price"></span>원
                                 </div>
                             </div>
                         </article>
@@ -113,25 +121,27 @@
                             <div class="post">
                                 <div class="post-content">
                                     <h3 class="post-data-title">
-                                        <span>팬 요청</span>
-                                        <hr class="title-divider">
                                         <span th:text="*{fundingTitle}">크라우드 펀딩 제목 테스트</span>
+                                        <span class="post-info">
+                                            <span style="color: hotpink">팬 요청</span>
+                                            <hr class="title-divider">
+                                            <div class="post-request-user">
+                                                <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}" class="user-avatar-container">
+                                                    <img th:if="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl != null)}"
+                                                         th:src="${crowdFunding.memberKakaoProfileUrl}">
+                                                    <img th:if="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl == null) && (crowdFunding.memberProfilePath !=null)}"
+                                                         th:src="@{/file/display(fileName=${crowdFunding.memberProfilePath} + '/' + ${crowdFunding.memberProfileName})}">
+                                                    <img th:unless="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl == null) && (crowdFunding.memberProfilePath !=null)}"
+                                                         class="no-avatar" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
+                                                </a>
+                                                <div class="artist-body">
+                                                    <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}">
+                                                        <h3 th:text="${crowdFunding.memberNickname}" class="artist-nickname">테스트 요청자 유저</h3>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </span>
                                     </h3>
-                                    <div class="post-request-user">
-                                        <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}" class="user-avatar-container">
-                                            <img th:if="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl != null)}"
-                                                 th:src="${crowdFunding.memberKakaoProfileUrl}">
-                                            <img th:if="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl == null) && (crowdFunding.memberProfilePath !=null)}"
-                                                 th:src="@{/file/display(fileName=${crowdFunding.memberProfilePath} + '/' + ${crowdFunding.memberProfileName})}">
-                                            <img th:unless="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl == null) && (crowdFunding.memberProfilePath !=null)}"
-                                                 class="no-avatar" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
-                                        </a>
-                                        <div class="artist-body">
-                                            <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}">
-                                                <h3 th:text="${crowdFunding.memberNickname}" class="artist-nickname">테스트 요청자 유저</h3>
-                                            </a>
-                                        </div>
-                                    </div>
                                     <p th:text="*{fundingContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
                                 </div>
                             </div>
@@ -152,11 +162,11 @@
                             <div class="funding-container">
                                 <div class="funding">
                                     현재 모인 금액 :
-                                    <span th:text="*{fundingSumCollected}" class="price">800,000</span>원
+                                    <span th:text="*{fundingSumCollected}" class="price"></span>원
                                 </div>
                                 <div class="funding">
                                     목표 금액 :
-                                    <span th:text="*{fundingTargetAmount}" class="price">1,000,000</span>원
+                                    <span th:text="*{fundingTargetAmount}" class="price"></span>원
                                 </div>
                             </div>
                         </article>
@@ -196,9 +206,9 @@
     // 세션 값
     const session = [[${session.member}]];
     // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
-    const artistId = [[${artist.memberId}]]
+    const artistId = [[${artist.memberId}]];
     // 크라우드 펀딩 목록
-    const crowdFundings = [[${crowdFundings}]]
+    const crowdFundings = [[${crowdFundings}]];
     // 구독버튼
     const subscriptionBtn = $("#subscription-btn");
     // 구독자 수 인디케이터
@@ -229,6 +239,7 @@
         });
     }
 
+    // 크라우드 펀딩 갯수를 가져오는 ajax 모듈
     function getCFCount(artistId){
         $.ajax({
             type: "GET",

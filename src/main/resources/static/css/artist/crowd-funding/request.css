@@ -6,10 +6,6 @@
 }
 
 /* 크라우드 펀딩 */
-.crowd-funding-wrap {
-    margin-top: 60px;
-}
-
 .crowd-funding-head {
     display: flex;
     align-items: center;
@@ -140,24 +136,26 @@
 }
 
 .accept-btn {
+    height: 40px;
     border: 0;
     line-height: 1.5rem;
     color: #fff;
     background-color: #3478ff;
     cursor: pointer;
-    padding: 11px 19px;
+    padding: 0px 19px;
     font-size: 16px;
     border-radius: 4px;
 }
 
 .refuse-btn {
+    height: 40px;
     margin-left: 0.5rem;
     line-height: 1.5rem;
     color: #000;
     background-color: transparent;
     border: 1px solid rgba(0, 0, 0, .47);
     cursor: pointer;
-    padding: 11px 19px;
+    padding: 0px 19px;
     font-size: 16px;
     border-radius: 4px;
 }
@@ -233,6 +231,37 @@
     border-radius: 4px;
 }
 
+/* 페이지네이션 =========================================================================  */
+#page-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    color: rgba(0, 0, 0, .47);
+}
+
+#page-wrap a {
+    margin: 0 4px;
+}
+
+.change-page {
+    margin: 0 10px;
+}
+
+#page-wrap .active {
+    font-weight: 600;
+    color: #000;
+}
+
+.button-highlight {
+    padding: 0 8px;
+}
+
+.active .button-highlight {
+    border: 1px solid rgba(0, 0, 0, .47);
+    border-radius: 4px;
+}
+
 /* 요청부문 ================================================================== */
 .request-btn-wrap {
     display: flex;
@@ -259,18 +288,17 @@
 }
 
 .request-form-container {
-    display: flex;
-    flex-direction: column;
     padding: 20px 30px;
 }
 
 .form-content {
     min-height: 280px;
     word-wrap: break-word;
-    border: none;
+    border: 1px solid lightgray;
     resize: none;
     padding: 16px 10px;
-    margin: 0 40px;
+    margin: 10px 40px;
+    width: 90%;
 }
 
 .cancel-btn {
@@ -287,6 +315,11 @@
 
 #relative {
     position: relative;
+}
+
+.slidedownBtn{
+    position: absolute;
+    right: 0;
 }
 
 #slidedownBtn {

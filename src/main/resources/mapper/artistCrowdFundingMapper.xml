@@ -30,6 +30,63 @@
                                       ON WRITER_ID = M.ID AND MEMBER_ID = #{memberId}
     </select>
 
+    <select id="selectCountOfFR" resultType="int">
+        SELECT COUNT(ID)
+        FROM TBL_FUNDING_REQUEST
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="selectAllRequests" resultType="fundingRequestDTO">
+        SELECT ID, MEMBER_ID, WRITER_ID, FUNDING_REQUEST_TITLE, FUNDING_REQUEST_CONTENT, FUNDING_REQUEST_STATUS, WRITER_MEMBER_ID, MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH FROM
+            (
+                SELECT ROWNUM R, ID, MEMBER_ID, WRITER_ID, FUNDING_REQUEST_TITLE, FUNDING_REQUEST_CONTENT, FUNDING_REQUEST_STATUS, WRITER_MEMBER_ID, MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH FROM
+                    (
+                        SELECT FR.ID, MEMBER_ID, WRITER_ID, FUNDING_REQUEST_TITLE, FUNDING_REQUEST_CONTENT, FUNDING_REQUEST_STATUS, M.ID AS "WRITER_MEMBER_ID", MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH
+                        FROM TBL_FUNDING_REQUEST FR JOIN TBL_MEMBER M
+                                                      ON WRITER_ID = M.ID AND MEMBER_ID = #{memberId}
+                        ORDER BY ID DESC
+                    ) P1
+    <![CDATA[
+                WHERE ROWNUM <= #{pagination.endRow}
+            ) P2
+        WHERE P2.R >= #{pagination.startRow}
+        ]]>
+    </select>
+
+    <select id="selectRequest" resultType="fundingRequestDTO">
+        SELECT FR.ID, MEMBER_ID, WRITER_ID, FUNDING_REQUEST_TITLE, FUNDING_REQUEST_CONTENT, FUNDING_REQUEST_STATUS, M.ID AS "WRITER_MEMBER_ID", MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH
+        FROM TBL_FUNDING_REQUEST FR JOIN TBL_MEMBER M
+                                         ON WRITER_ID = M.ID AND MEMBER_ID = #{memberId}
+    </select>
+
+    <insert id="insertRequest">
+        INSERT INTO TBL_FUNDING_REQUEST (ID, MEMBER_ID, WRITER_ID, FUNDING_REQUEST_TITLE, FUNDING_REQUEST_CONTENT)
+        VALUES (SEQ_FUNDING_REQUEST.NEXTVAL, #{memberId}, #{writerId}, #{fundingRequestTitle}, #{fundingRequestContent})
+    </insert>
+
+    <insert id="insert">
+        INSERT INTO TBL_CROWDFUNDING (ID, MEMBER_ID, WRITER_ID, FUNDING_TITLE, FUNDING_CONTENT, FUNDING_TARGET_AMOUNT, FUNDING_WRITE_TIME, FUNDING_TIME_LIMIT)
+        VALUES (SEQ_CROWDFUNDING.NEXTVAL, #{memberId}, #{writerId}, #{fundingTitle}, #{fundingContent}, #{fundingTargetAmount}, CURRENT_TIMESTAMP, #{fundingTimeLimit})
+    </insert>
+
+    <update id="updateToAccepted">
+        UPDATE TBL_FUNDING_REQUEST
+        SET FUNDING_REQUEST_STATUS = 'ACCEPTED'
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateToRejected">
+        UPDATE TBL_FUNDING_REQUEST
+        SET FUNDING_REQUEST_STATUS = 'REJECTED'
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateToEnded">
+        UPDATE TBL_CROWDFUNDING
+        SET FUNDING_CONTENT = 'ENDED', FUNDING_UPDATE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
+
     <select id="select4Randomly" resultType="crowdFundingDTO">
         SELECT *
         FROM (SELECT F.ID,
@@ -51,4 +108,5 @@
               ORDER BY DBMS_RANDOM.VALUE)
         WHERE ROWNUM &lt;= 4
     </select>
+
 </mapper>

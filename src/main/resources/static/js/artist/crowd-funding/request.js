@@ -27,4 +27,16 @@ $(function (){
         $("#slidedownBtn").show();
         $(".request-form-wrap").slideUp(200);
     });
+
+    $("#fundingRequestTitle").keyup(function (){
+        if($(this).val){
+            $(this).css("color", "black");
+        }
+    });
+
+    $("#fundingRequestContent").keyup(function (){
+        if($(this).val){
+            $(this).css("color", "black");
+        }
+    })
 })
