@@ -1,6 +1,5 @@
 package com.app.onestepback.controller;
 
-import com.app.onestepback.domain.FundingRequestDTO;
 import com.app.onestepback.domain.FundingRequestVO;
 import com.app.onestepback.domain.MemberVO;
 import com.app.onestepback.domain.Pagination;

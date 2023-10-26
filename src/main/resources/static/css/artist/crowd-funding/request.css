@@ -317,6 +317,11 @@
     position: relative;
 }
 
+.slidedownBtn{
+    position: absolute;
+    right: 0;
+}
+
 #slidedownBtn {
     position: absolute;
     right: 0;
