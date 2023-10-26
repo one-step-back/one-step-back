@@ -65,9 +65,9 @@ public class ArtistCrowdFundingDAO {
     }
 
     //    크라우드 펀딩 기간 만료
-    public void endCrowdFunding(Long id){
+    public void endCrowdFunding(Long id) {
         artistCrowdFundingMapper.updateToEnded(id);
-
+    }
     //    매인페이지 출력용
     public List<CrowdFundingDTO> get4FundingsRandomly() {
         return artistCrowdFundingMapper.select4Randomly();
