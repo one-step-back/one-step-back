@@ -1,5 +1,6 @@
 package com.app.onestepback.repository;
 
+import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.Pagination;
 import com.app.onestepback.domain.VideoPostDTO;
 import com.app.onestepback.mapper.VideoPostMapper;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,5 +27,21 @@ public class VideoPostDAO {
 
     public void saveVideoPost(VideoPostDTO videoPostDTO){
         videoPostMapper.insertVideoPost(videoPostDTO);
+    }
+
+    public VideoPostDTO getVideoPost(Long id){
+        return videoPostMapper.select(id);
+    }
+
+    public Optional<VideoPostDTO> getPrevPost(VideoPostDTO videoPostDTO){return videoPostMapper.selectPrevPost(videoPostDTO);}
+
+    public Optional<VideoPostDTO> getNextPost(VideoPostDTO videoPostDTO){return videoPostMapper.selectNextPost(videoPostDTO);}
+
+    public void editVideoPost(VideoPostDTO videoPostDTO){
+        videoPostMapper.update(videoPostDTO);
+    }
+
+    public void editVideoLink(VideoPostDTO videoPostDTO){
+        videoPostMapper.updateVideoLink(videoPostDTO);
     }
 }
