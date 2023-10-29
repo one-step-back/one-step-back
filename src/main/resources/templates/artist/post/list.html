@@ -20,9 +20,11 @@
         <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
             <div class="container">
                 <div id="masthead" class="masthead d-flex">
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar" th:if="${artist.blogImgName == null}"
+                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
+                       th:if="${artist.blogImgName == null}"
                        style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar" th:unless="${artist.blogImgName == null}"
+                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
+                       th:unless="${artist.blogImgName == null}"
                        th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
                     <div class="action-group">
                         <a class="btn btn-icon btn-share" href="https://u-t-wp.postype.com" aria-label="공유" title="공유"
@@ -85,14 +87,15 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           href="https://www.postype.com/profile/@8q8la4" rel="author">
+                                           th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
                                             <img class="profile-img"
                                                  src="/images/none-avatar.svg">
                                         </a>
                                         <div class="media-body profile-title-box">
                                             <span class="profile-title">
                                                 <a th:text="${artist.memberNickname}"
-                                                   href=" https://www.postype.com/profile/@8q8la4" rel="author"></a>
+                                                   th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                   rel="author"></a>
                                             </span>
                                         </div>
                                     </div>
@@ -163,7 +166,8 @@
                                                 </th:block>
                                             </div>
                                             <div class="post-info">
-                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}" class="user-profile-avatar avatar-32">
+                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                   class="user-profile-avatar avatar-32">
                                                     <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                          src="/images/none-avatar.svg">
                                                     <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
@@ -171,7 +175,8 @@
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}" th:text="*{memberNickname}"></a>
+                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                           th:text="*{memberNickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
                                                         <span class="meta-item" title="조회수">
@@ -191,54 +196,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon btn-scrap" th:data-post-id="*{id}">
-                                                        <i class="far fa-bookmark default-text"></i>
-                                                        <i class="fas fa-bookmark active-text"></i>
+                                                    <a class="btn btn-icon bookmark-btn b" th:data-post-id="*{id}">
+                                                        <i class="far fa-bookmark default-bookmark"></i>
+                                                        <i class="fas fa-bookmark active-bookmark"></i>
                                                     </a>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                                data-toggle="dropdown" aria-expanded="true"
-                                                                aria-label="더보기"
-                                                                title="더보기">
-                                                            <i class="fas fa-ellipsis-h"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-right"
-                                                            x-placement="bottom-end"
-                                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                            <li>
-                                                                <a class="btn-open-add-collection-modal"
-                                                                   href="javascript:void(0);" data-post-id="15313057">
-                                                                    <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                                         alt="" class="ic-add-collection">
-                                                                    컬렉션에 추가하기 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item btn-share" href="#"
-                                                                   data-share-url="https://posty.pe/fj428q"
-                                                                   data-blog-title="우천시워터파크"
-                                                                   data-post-title="우천시워터파크 드로잉 워크북 출시"
-                                                                   data-tags="클래스 드로잉 미디어 클립스튜디오">
-                                                                    <span class="order-2">공유하기</span>
-                                                                    <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item btn-report-post" href="#"
-                                                                   data-toggle="modal" data-target="#report-modal"
-                                                                   data-post-id="15313057">
-                                                                    <span class="order-2">신고하기</span>
-                                                                    <i class="far fa-flag"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item btn-block-blog" href="#"
-                                                                   data-blog-id="1287845">
-                                                                    <span class="order-2">이 채널 보지 않기</span>
-                                                                    <i class="fas fa-ban"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -263,7 +224,7 @@
     // 세션 값
     const session = /*[[${session.member}]]*/ null;
     // 북마크 버튼
-    const libraryBtn = $(".btn-scrap");
+    const bookmarkBtn = $(".bookmark-btn");
 
     // Ajax 공부겸 fetch 기능 작성함
 
@@ -391,7 +352,7 @@
             });
         }
 
-        return {checkPost: checkPost, updateStatus:updateStatus, updateBookmarkPost: updateBookmarkPost}
+        return {checkPost: checkPost, updateStatus: updateStatus, updateBookmarkPost: updateBookmarkPost}
     })();
 
     // 페이지 로드시 비동기 불러옴
@@ -400,7 +361,7 @@
         updateTimeGaps();
         getPageBtn();
         if (session != null) {
-            libraryBtn.each(function () {
+            bookmarkBtn.each(function () {
                 let btn = $(this);
                 console.log(btn);
                 let postId = $(this).data('post-id');
@@ -409,8 +370,8 @@
         }
     })
 
-    libraryBtn.click(function () {
-        if (session == null){
+    bookmarkBtn.click(function () {
+        if (session == null) {
             alert("먼저 로그인을 해주세요.");
             return;
         }

@@ -11,4 +11,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ArtistServiceTest {
     @Autowired
     private ArtistService artistService;
+
 }

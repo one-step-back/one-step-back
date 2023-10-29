@@ -19,4 +19,10 @@
                  JOIN TBL_ARTIST A on M.ID = A.MEMBER_ID
         WHERE A.MEMBER_ID = #{memberId}
     </select>
+
+    <select id="selectId" resultType="Long">
+        SELECT MEMBER_ID
+        FROM TBL_ARTIST
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 </mapper>

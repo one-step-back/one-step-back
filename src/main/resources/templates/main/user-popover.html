@@ -15,10 +15,14 @@
     <div class="dropdown user-wrapper">
         <a class="btn btn-change-profile" href="#" aria-haspopup="true" aria-expanded="false" title="프로필 전환">
             <div class="profile-avatar my-menu-profile-avatar avatar-24">
-                <img class="profile-img" src="./Images/userProfilePic.png" alt="">
+                <img th:if="${session.member.memberKakaoProfileUrl == null and session.member.memberProfileName == null}"
+                     class="profile-img" src="/images/none-avatar.svg" alt="">
+                <img th:if="${session.member.memberKakaoProfileUrl != null and session.member.memberProfileName == null}"
+                     class="profile-img" th:src="${session.member.memberKakaoProfileUrl}" alt="">
             </div>
             <div class="media-body">
-                <div class="text-truncate user-name">손성민</div>
+                <div th:text="${session.member.memberNickname}"
+                     class="text-truncate user-name"></div>
             </div>
             <i class="fas fa-angle-down fa-lg user-profile-arrow-down"></i>
         </a>
@@ -27,11 +31,12 @@
             <h6 class="dropdown-header">마이페이지</h6>
             <a class="dropdown-item" href="Namho/my-page/my-page.html">
                 <div class="profile-avatar avatar-24">
-                    <img class="profile-img"
-                         src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/06/23/38/9a787b703f93777569e803b91eba1ace.jpeg?w=64&amp;h=64&amp;q=65"
-                         alt="">
+                    <img th:if="${session.member.memberKakaoProfileUrl == null and session.member.memberProfileName == null}"
+                         class="profile-img" src="/images/none-avatar.svg" alt="">
+                    <img th:if="${session.member.memberKakaoProfileUrl != null and session.member.memberProfileName == null}"
+                         class="profile-img" th:src="${session.member.memberKakaoProfileUrl}" alt="">
                 </div>
-                <span class="text-truncate">손성민</span>
+                <span th:text="${session.member.memberNickname}" class="text-truncate"></span>
             </a>
             <!--            <a class="dropdown-item" href="">-->
             <!--                <div class="avatar-24">-->
@@ -42,16 +47,16 @@
             <!--                새 프로필 만들기-->
             <!--            </a>-->
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="Namho/my-page/profile/profile.html">프로필 사진 수정</a>
+            <a class="dropdown-item" href="/my-page/profile">내 프로필</a>
         </div>
     </div>
-    ​
-    <a class="dropdown-item" href="">홈</a>
-    <a class="dropdown-item" href="Namho/community/community.html">게시판</a>
-    <a class="dropdown-item" href="Namho/crowd-funding/crowd-funding.html">크라우드 펀딩</a>
-    <a class="dropdown-item" href="Namho/my-page/my-page.html">설정</a>
+    <a class="dropdown-item" href="/">홈</a>
+    <th:block th:if="${session.artistId != null}">
+        <a class="dropdown-item" th:href="@{/artist/main(memberId=${session.member.id})}">내 블로그</a>
+        <a class="dropdown-item" th:href="@{/artist/main(memberId=${session.member.id})}">내 크라우드 펀딩</a>
+    </th:block>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="Jiseong3030/question.html">도움 센터</a>
+    <a class="dropdown-item" href="/inquiry/write">문의</a>
     <a id="dropdown-item-logout" class="dropdown-item" href="/member/logout">로그아웃</a>
 </nav>
 </header>

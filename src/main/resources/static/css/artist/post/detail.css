@@ -667,10 +667,16 @@
     font-weight: 300;
 }
 
+.bottom-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    padding-top: 28px;
+}
+
 .tag-list {
     position: relative;
     padding-left: 0;
-    margin-bottom: 0;
     line-height: 1;
     list-style: none;
 }
@@ -710,11 +716,63 @@
 
 }
 
+.bottom-post-action {
+    display: flex;
+    align-items: center;
+}
+
+.like-btn {
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.active-like {
+    color: #ff3445;
+}
+
+.active-bookmark {
+    color: #3478ff;
+}
+
+.like-btn:not(.active) .active-like {
+    display: none;
+}
+
+.like-btn.active .default-like {
+    display: none;
+}
+
+.bookmark-btn {
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.bookmark-btn:not(.active) .active-bookmark {
+    display: none;
+}
+
+.bookmark-btn.active .default-bookmark {
+    display: none;
+}
+
+.img-list {
+    display: flex;
+    overflow: auto;
+}
+
+.img-item {
+    width: 280px;
+    height: 150px;
+    margin-right: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
 .post-pager {
     padding-top: 0;
     padding-bottom: 0;
     border-top: 1px ridge;
-    margin-top: 50px;;
 }
 
 .pager-item1 {
@@ -1551,11 +1609,6 @@
     .post-pager {
         font-size: 14px;
         line-height: 19px;
-    }
-
-
-    .tag-list {
-        padding-top: 28px;
     }
 
     .gnb-brand {

@@ -251,6 +251,8 @@ button, input, optgroup, select, textarea {
     display: none;
 }
 
+
+
 .header .channel-meta {
     font-size: 14px;
     color: rgba(0, 0, 0, .47);
@@ -1338,7 +1340,6 @@ p {
 .component-series .series .series-tags {
     display: flex;
     height: 20px;
-    margin-top: 10px;
     line-height: 0;
     white-space: nowrap;
     overflow-x: auto;
@@ -1370,6 +1371,42 @@ p {
 
 .series-list .component-series-divider {
     margin: 0 6px;
+}
+
+.bottom-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.bookmark-btn {
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.bookmark-btn:not(.active) .active-bookmark {
+    display: none;
+}
+
+.bookmark-btn.active .default-bookmark {
+    display: none;
+}
+
+.bookmark-video-btn {
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.bookmark-video-btn:not(.active) .active-bookmark {
+    display: none;
+}
+
+.bookmark-video-btn.active .default-bookmark {
+    display: none;
+}
+
+.active-bookmark {
+    color: #3478ff;
 }
 
 .modal {

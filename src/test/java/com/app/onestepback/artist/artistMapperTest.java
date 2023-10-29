@@ -11,4 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class artistMapperTest {
     @Autowired
     private ArtistMapper artistMapper;
+
+    @Test
+    public void checkArtistTest(){
+        log.info(artistMapper.selectId(61L).toString());
+    }
 }

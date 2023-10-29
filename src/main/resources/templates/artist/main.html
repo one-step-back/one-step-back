@@ -8,9 +8,31 @@
     <link rel="stylesheet" href="/css/main/root.css">
     <link rel="stylesheet" href="/css/artist/blog-header.css">
     <link rel="stylesheet" href="/css/artist/main.css">
+    <link rel="stylesheet" href="/css/artist/blog-modal.css">
     <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<div id="b-modal">
+    <div id="b-modal-link-container">
+        <div class="b-modal-header">
+            <h5 id="b-modal-label" class="modal-title">공유하기</h5>
+            <button type="button" class="btn b-btn-icon b-btn-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="b-modal-body">
+            <div class="b-link-container">
+                <input type="text" class="b-input" readonly>
+                <span class="b-copy">
+                    <button class="btn b-btn-clipboard" type="button">URL 복사</button>
+                </span>
+            </div>
+        </div>
+        <div class="b-modal-footer">
+            <button type="button" class="b-modal-btn">확인</button>
+        </div>
+    </div>
+</div>
 <header th:replace="~{/artist/blog-header::blog-header}"></header>
 
 <div id="blog"
@@ -26,8 +48,7 @@
                     <a class="channel-avatar" th:unless="${artist.blogImgName == null}"
                        th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
                     <div class="action-group">
-                        <a class="btn btn-icon btn-share" href="https://u-t-wp.postype.com" aria-label="공유" title="공유"
-                           data-share-url="https://u-t-wp.postype.com">
+                        <a class="btn btn-icon btn-share">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
                         <button th:if="${session.member != null and artist.memberId != session.member.id}"
@@ -85,14 +106,15 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           href="https://www.postype.com/profile/@8q8la4" rel="author">
+                                           th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
                                             <img class="profile-img"
                                                  src="/images/none-avatar.svg">
                                         </a>
                                         <div class="media-body profile-title-box">
                                             <span class="profile-title">
                                                 <a th:text="${artist.memberNickname}"
-                                                   href=" https://www.postype.com/profile/@8q8la4" rel="author"></a>
+                                                   th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                   rel="author"></a>
                                             </span>
                                         </div>
                                     </div>
@@ -190,43 +212,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon btn-scrap" th:data-post-id="*{id}">
-                                                        <i class="far fa-bookmark default-text"></i>
-                                                        <i class="fas fa-bookmark active-text"></i>
+                                                    <a class="btn btn-icon bookmark-btn" th:data-post-id="*{id}">
+                                                        <i class="far fa-bookmark default-bookmark"></i>
+                                                        <i class="fas fa-bookmark active-bookmark"></i>
                                                     </a>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                                data-toggle="dropdown" aria-expanded="true"
-                                                                aria-label="더보기"
-                                                                title="더보기">
-                                                            <i class="fas fa-ellipsis-h"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-right"
-                                                            x-placement="bottom-end"
-                                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                            <li>
-                                                                <a class="dropdown-item btn-share" href="#">
-                                                                    <span class="order-2">공유하기</span>
-                                                                    <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item btn-report-post" href="#"
-                                                                   data-toggle="modal" data-target="#report-modal"
-                                                                   data-post-id="15313057">
-                                                                    <span class="order-2">신고하기</span>
-                                                                    <i class="far fa-flag"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item btn-block-blog" href="#"
-                                                                   data-blog-id="1287845">
-                                                                    <span class="order-2">이 채널 보지 않기</span>
-                                                                    <i class="fas fa-ban"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +228,8 @@
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/post/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체 보기
+                            <a th:href="@{/artist/post/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체
+                                보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
@@ -296,21 +286,29 @@
                                                        th:href="@{/artist/video/detail(id=*{id})}"></a>
                                                 </p>
                                             </div>
-                                            <div th:if="*{tag1 != null}" class="series-tags">
-                                                <a href="#"
-                                                   th:text="*{tag1}" class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag2 != null}" th:text="*{tag2}"
-                                                   class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag3 != null}" th:text="*{tag3}"
-                                                   class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag4 != null}" th:text="*{tag4}"
-                                                   class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag5 != null}" th:text="*{tag5}"
-                                                   class="general-tag"></a>
+                                            <div class="bottom-container">
+                                                <div class="series-tags">
+                                                    <th:block th:if="*{tag1 != null}">
+                                                        <a href="#"
+                                                           th:text="*{tag1}" class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag2 != null}" th:text="*{tag2}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag3 != null}" th:text="*{tag3}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag4 != null}" th:text="*{tag4}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag5 != null}" th:text="*{tag5}"
+                                                           class="general-tag"></a>
+                                                    </th:block>
+                                                </div>
+                                                <div class="bookmark-video-btn" th:data-post-id="*{id}">
+                                                    <i class="fa-regular fa-bookmark default-bookmark"></i>
+                                                    <i class="fa-solid fa-bookmark active-bookmark"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -322,7 +320,8 @@
                             <div class="content-none">영상이 없습니다</div>
                         </th:block>
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/video/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체 보기
+                            <a th:href="@{/artist/video/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체
+                                보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
@@ -334,6 +333,7 @@
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="/js/artist/blog-modal.js"></script>
 <script th:inline="javascript">
 
     // 세션 값
@@ -349,7 +349,8 @@
     // 현재 구독상태인지 아닌지를 분별하기 위한 전역 변수
     let subscriptionStatus = null;
     // 북마크 버튼
-    const libraryBtn = $(".btn-scrap");
+    const bookmarkPostBtn = $(".bookmark-btn");
+    const bookmarkVideoBtn = $(".bookmark-video-btn");
 
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
@@ -545,7 +546,7 @@
             });
         }
 
-        return {checkPost: checkPost, updateStatus:updateStatus, updateBookmarkPost: updateBookmarkPost}
+        return {checkPost: checkPost, updateStatus: updateStatus, updateBookmarkPost: updateBookmarkPost}
     })();
 
     // 페이지 로드시 비동기 불러옴
@@ -555,7 +556,7 @@
             checkSubscription(artistId, session.id, didISubscribe);
         }
         if (session != null) {
-            libraryBtn.each(function () {
+            bookmarkPostBtn.each(function () {
                 let btn = $(this);
                 console.log(btn);
                 let postId = $(this).data('post-id');
@@ -572,8 +573,8 @@
     })
 
 
-    libraryBtn.click(function () {
-        if (session == null){
+    bookmarkPostBtn.click(function () {
+        if (session == null) {
             alert("먼저 로그인을 해주세요.");
             return;
         }

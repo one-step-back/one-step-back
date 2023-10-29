@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${post.postTitle}"></title>
+    <link rel="icon" href="/images/icon.svg">
     <link rel="stylesheet" href="/css/main/root.css">
     <link rel="stylesheet" href="/css/artist/blog-header.css">
     <link rel="stylesheet" href="/css/artist/post/detail.css">
@@ -79,7 +80,7 @@
                                     <span th:text="${post.postViewCount}" class="status-count"></span>
                                 </span>
                                 <span class="view-count">* 좋아요
-                                    <span th:text="${post.likeCount}" class="status-count"></span>
+                                    <span th:text="${post.likeCount}" id="likeCount" class="status-count"></span>
                                 </span>
                                 <span class="comment-count">* 댓글
                                         <span th:text="${post.replyCount}" class="stats-count"></span>
@@ -104,13 +105,25 @@
                             </iframe>
                         </div>
                         <pre th:text="${post.postContent}" class="post-content3" style="white-space: pre-line"></pre>
-                        <div class="tag-list">
-                            <h6 class="sr-only"></h6>
-                            <a th:if="${post.tag1}" class="tag gray-600" th:text="${post.tag1}" href="#"></a>
-                            <a th:if="${post.tag2}" class="tag gray-600" th:text="${post.tag2}" href="#"></a>
-                            <a th:if="${post.tag3}" class="tag gray-600" th:text="${post.tag3}" href="#"></a>
-                            <a th:if="${post.tag4}" class="tag gray-600" th:text="${post.tag4}" href="#"></a>
-                            <a th:if="${post.tag5}" class="tag gray-600" th:text="${post.tag5}" href="#"></a>
+                        <div class="bottom-container">
+                            <div class="tag-list">
+                                <h6 class="sr-only"></h6>
+                                <a th:if="${post.tag1}" class="tag gray-600" th:text="${post.tag1}" href="#"></a>
+                                <a th:if="${post.tag2}" class="tag gray-600" th:text="${post.tag2}" href="#"></a>
+                                <a th:if="${post.tag3}" class="tag gray-600" th:text="${post.tag3}" href="#"></a>
+                                <a th:if="${post.tag4}" class="tag gray-600" th:text="${post.tag4}" href="#"></a>
+                                <a th:if="${post.tag5}" class="tag gray-600" th:text="${post.tag5}" href="#"></a>
+                            </div>
+                            <div class="bottom-post-action">
+                                <div class="like-btn">
+                                    <i class="fa-regular fa-heart default-like"></i>
+                                    <i class="fa-solid fa-heart active-like"></i>
+                                </div>
+                                <div class="bookmark-btn">
+                                    <i class="fa-regular fa-bookmark default-bookmark"></i>
+                                    <i class="fa-solid fa-bookmark active-bookmark"></i>
+                                </div>
+                            </div>
                         </div>
                         <div class="post-pager">
                             <th:block th:if="${prevPost != null}">
@@ -354,6 +367,8 @@
 
     const moreBtn = $(".more-btn");
 
+    let likeCount = [[${post.likeCount}]];
+
     // 로그인이 되어있을 시 클라이언트가 아티스트의 구독자인지 아닌지 구분하는 함수
     function checkSubscription(artistId, memberId, callback) {
         $.ajax({
@@ -568,12 +583,149 @@
         return {postVideoThumbnail: postVideoThumbnail, getYouTubeVideo: getYouTubeVideo}
     })();
 
+    // 좋아요 관련 종합 서비스
+    const likeService = (function () {
+        const likeBtn = $(".like-btn");
+
+        function checkLike(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/like/check-like",
+                data: {
+                    memberId: session.id,
+                    postId: [[${post.id}]]
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (callback) {
+                        callback(data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateLike(likeStatus, callback, callback2) {
+            $.ajax({
+                type: "POST",
+                url: "/like/update-like",
+                data: {
+                    memberId: session.id,
+                    postId: [[${post.id}]],
+                    likeStatus: likeStatus
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(data)
+                    }
+                    if (callback2) {
+                        callback2(data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateStatus(data) {
+            if (data === true) {
+                likeBtn.data('like-status', 'true');
+                likeBtn.addClass("active");
+            } else {
+                likeBtn.data('like-status', 'false');
+                likeBtn.removeClass("active")
+            }
+        }
+
+        function updateLikeCount(data) {
+            if (data === true) {
+                likeCount++;
+                $("#likeCount").text(likeCount);
+            } else {
+                likeCount--;
+                $("#likeCount").text(likeCount);
+            }
+        }
+
+        return {
+            checkLike: checkLike,
+            updateLike: updateLike,
+            updateStatus: updateStatus,
+            updateLikeCount: updateLikeCount
+        }
+    })();
+
+    const bookmarkService = (function () {
+        const bookmarkBtn = $(".bookmark-btn");
+        function checkPost(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/bookmark/check-video",
+                data: {
+                    memberId: session.id,
+                    postId: [[${post.id}]]
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (callback) {
+                        callback(data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateStatus(data) {
+            if (data === true) {
+                bookmarkBtn.data('bookmark-status', 'true');
+                bookmarkBtn.addClass("active");
+            } else {
+                bookmarkBtn.data('bookmark-status', 'false');
+                bookmarkBtn.removeClass("active")
+            }
+        }
+
+
+        function updateBookmarkPost(bookmarkStatus, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/bookmark/update-video",
+                data: {
+                    memberId: session.id,
+                    postId: [[${post.id}]],
+                    bookmarkStatus: bookmarkStatus
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        return {checkPost: checkPost, updateStatus:updateStatus, updateBookmarkPost: updateBookmarkPost}
+    })();
+
     // 페이지 로드 시
     $(function () {
         videoService.getYouTubeVideo([[${post.videoLink}]]);
         videoService.postVideoThumbnail();
         if (session != null) {
             checkSubscription(artistId, session.id, didISubscribe);
+            likeService.checkLike(likeService.updateStatus);
+            bookmarkService.checkPost(bookmarkService.updateStatus);
         }
         replyService.updateReplies([[${post.id}]], currentPage, replyService.showReply);
     });
@@ -606,6 +758,29 @@
         }
         replyService.write(replyContent);
     });
+
+    // 좋아요 버튼 누를시
+    $(".like-btn").click(function () {
+        if (session == null) {
+            alert("먼저 로그인을 해주세요.");
+            return;
+        }
+        let likeStatus = $(this).data('like-status');
+
+        likeService.updateLike(likeStatus, likeService.updateStatus, likeService.updateLikeCount);
+    });
+
+    // 북마크 버튼
+    $(".bookmark-btn").click(function (){
+        if (session == null) {
+            alert("먼저 로그인을 해주세요.");
+            return;
+        }
+        let bookmarkStatus = $(this).data('bookmark-status');
+
+        bookmarkService.updateBookmarkPost(bookmarkStatus, bookmarkService.updateStatus);
+    });
+
 
 
 </script>

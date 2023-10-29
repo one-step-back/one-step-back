@@ -52,6 +52,9 @@ public class MemberController {
         Optional<MemberVO> foundMember = memberService.loginByEmail(memberVO);
         if(foundMember.isPresent()){
             session.setAttribute("member", foundMember.get());
+            if (memberService.checkArtist(foundMember.get().getId()).isPresent()){
+                session.setAttribute("artistId", foundMember.get().getId());
+            }
             return new RedirectView("/my-page/my-page");
         }
         redirectAttributes.addFlashAttribute("login", "fail");

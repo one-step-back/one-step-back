@@ -72,6 +72,10 @@ header {
     margin-left: 8px;
 }
 
+.h-nav-item.bell{
+    display: none;
+}
+
 .h-notification-popover-container {
     display: none;
     flex-direction: column;
