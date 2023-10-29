@@ -697,6 +697,7 @@ dl, ol, ul {
     order: 0;
     align-self: stretch;
     flex-grow: 0;
+    height: 17px;
 }
 
 .general-tag{

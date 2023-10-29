@@ -10,4 +10,9 @@ public class CustomError implements ErrorController {
     public String handleError(){
         return "/error/error";
     }
+
+    @GetMapping("no-artist")
+    public String noArtist(){
+        return "/error/no-artist";
+    }
 }

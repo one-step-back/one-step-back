@@ -24,6 +24,9 @@ public class CombinedPostDTO {
     //    글 수정 시간
     private String postUpdateTime;
 
+    private String likeCount;
+    private String replyCount;
+
     private String videoLink;
     private String fileName;
     private String filePath;

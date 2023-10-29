@@ -51,23 +51,33 @@ document.addEventListener("DOMContentLoaded", function () {
     let temp = swiperBullets[count];
     // 첫번째 배너를 복사해서 변수에 담는다.
     const firstSlide = swiperSlides[0].cloneNode(true);
+    const secondSlide = swiperSlides[1].cloneNode(true);
     // 마지막 배너를 복사해서 변수에 담는다.
     const lastSlide = swiperSlides[swiperSlides.length - 1].cloneNode(true);
+    const beforeLastSlide = swiperSlides[swiperSlides.length - 2].cloneNode(true);
 
-    // 가장 마지막에 첫번째 배너를 이어 붙인다, 슬라이드 모션이 자연스럽게 1번으로 돌아가게 하기 위함
+    //  (4 5 1 2 3 4 5 1 2) 배너의 배치 순서.
+    // 배너가 화면에 보이는 것이 총 3개이므로 화면 넘어가는것까지 고려하여 두개를 더 가져와서 좌우에 붙혀줘야함.
+
+    // 가장 마지막에 첫번째 배너를 이어 붙인다, 슬라이드 모션이 자연스럽게 1번으로 돌아가게 하기 위함 => 2번째 배너도 붙혀줘야 배너가 넘어가도 비정상적으로 보이는 것을 방지 가능
     swiperWrapper.appendChild(firstSlide);
+    swiperWrapper.appendChild(secondSlide);
 
-    // 가장 앞에 마지막 배너를 이어 붙인다, 슬라이드 모션이 자연스럽게 마지막으로 돌아가게 하기 위함
+    // 가장 앞에 마지막 배너를 이어 붙인다, 슬라이드 모션이 자연스럽게 마지막으로 돌아가게 하기 위함 => 마지막 배너 뿐만아니라 마지막 이전의 배너도 붙혀줘야 배너가 넘어가도 비정상적으로 보이는것을 방지 가능
     swiperWrapper.insertBefore(
         lastSlide,
+        document.querySelectorAll(".swiper-slide")[0]
+    );
+    swiperWrapper.insertBefore(
+        beforeLastSlide,
         document.querySelectorAll(".swiper-slide")[0]
     );
 
     // 첫번째 버튼이 무조건 첫번째 배너이기 때문에 classList에 active 추가
     swiperBullets[count].classList.add("active");
 
-    // 첫번째 배너는 6번이니까 왼쪽으로 한 번 밀어서 1번 보이게 함.
-    swiperWrapper.style.transform = "translate(0px)";
+    // 첫번째 배너는 6번이니까 왼쪽으로 한 번 밀어서 1번 보이게 함. => (4 5 1 2 3 4 5 1 2) 가 실질적 현재 배너의 배치. 화면이 실행되면 첫번째 1번 배너가 보여야 하므로 그에 맞게 트랜슬레이트.
+    swiperWrapper.style.transform = "translate(-340px)";
 
     // 4초마다 슬라이드 이동
     let inter = setInterval(autoSlide, 4000);
