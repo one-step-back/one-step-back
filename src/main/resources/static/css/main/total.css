@@ -609,12 +609,10 @@ html {
 .logo-img-dark {
   opacity: .85;
   display: inline-block;
-  width: 92px;
+  width: 108px;
   height: 24px;
   vertical-align: top;
-  background: url(https://d33pksfia2a94m.cloudfront.net/assets/img/brand/logo.svg) no-repeat 0 0;
   background-size: 92px 48px;
-  font: 0/0 a;
   color: transparent;
   text-shadow: none;
   border: 0;

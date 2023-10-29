@@ -1,9 +1,6 @@
 package com.app.onestepback.controller;
 
-import com.app.onestepback.domain.ArtistPostDTO;
-import com.app.onestepback.domain.MemberVO;
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.SubscriptionVO;
+import com.app.onestepback.domain.*;
 import com.app.onestepback.service.ArtistPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,16 +62,17 @@ public class ArtistPostController {
         model.addAttribute("nextPost", nextPost.orElse(null));
         model.addAttribute("artist", artistPostService.getArtist(nowPost.getMemberId()).get());
         model.addAttribute("post", nowPost);
+        model.addAttribute("images", artistPostService.getAllFiles(id));
     }
 
     @GetMapping("edit")
-    public void goToEditForm(@RequestParam("id")Long id, ArtistPostDTO artistPostDTO, Model model) {
+    public void goToEditForm(@RequestParam("id") Long id, ArtistPostDTO artistPostDTO, Model model) {
         model.addAttribute("post", artistPostService.getPost(id));
         model.addAttribute("files", artistPostService.getAllFiles(id));
     }
 
     @PostMapping("edit")
-    public RedirectView editForm(ArtistPostDTO artistPostDTO, @RequestParam("numberOfTags") int numberOfTags, @RequestParam(value = "uuid", required = false) List<String> uuids, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles){
+    public RedirectView editForm(ArtistPostDTO artistPostDTO, @RequestParam("numberOfTags") int numberOfTags, @RequestParam(value = "uuid", required = false) List<String> uuids, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles) {
         if (uploadFiles != null) {
             log.info(String.valueOf(uploadFiles.size()));
         } else {

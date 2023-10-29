@@ -1,7 +1,9 @@
 package com.app.onestepback.service;
 
 import com.app.onestepback.domain.BookmarkedArtistPostVO;
+import com.app.onestepback.domain.BookmarkedVideoVO;
 import com.app.onestepback.repository.BookmarkedArtistPostDAO;
+import com.app.onestepback.repository.BookmarkedVideoDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkedArtistPostDAO bookmarkedArtistPostDAO;
+    private final BookmarkedVideoDAO bookmarkedVideoDAO;
 
     @Override
     public Optional<BookmarkedArtistPostVO> checkArtistPostBookmarkInfo(BookmarkedArtistPostVO bookmarkedArtistPostVO) {
@@ -25,5 +28,20 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     public void eraseBookmarkedArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO) {
         bookmarkedArtistPostDAO.eraseBookmarkedArtistPost(bookmarkedArtistPostVO);
+    }
+
+    @Override
+    public Optional<BookmarkedVideoVO> checkVideoBookmarkInfo(BookmarkedVideoVO bookmarkedVideoVO) {
+        return bookmarkedVideoDAO.getVideoBookmarkInfo(bookmarkedVideoVO);
+    }
+
+    @Override
+    public void doBookmarkVideo(BookmarkedVideoVO bookmarkedVideoVO) {
+        bookmarkedVideoDAO.doBookmarkVideo(bookmarkedVideoVO);
+    }
+
+    @Override
+    public void eraseBookmarkedVideo(BookmarkedVideoVO bookmarkedVideoVO) {
+        bookmarkedVideoDAO.eraseBookmarkedVideo(bookmarkedVideoVO);
     }
 }

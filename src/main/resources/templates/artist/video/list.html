@@ -87,14 +87,15 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           href="https://www.postype.com/profile/@8q8la4" rel="author">
+                                           th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
                                             <img class="profile-img"
                                                  src="/images/none-avatar.svg">
                                         </a>
                                         <div class="media-body profile-title-box">
                                             <span class="profile-title">
                                                 <a th:text="${artist.memberNickname}"
-                                                   href=" https://www.postype.com/profile/@8q8la4" rel="author"></a>
+                                                   th:href="@{/artist/main(memberId=${artist.memberId})}"
+                                                   rel="author"></a>
                                             </span>
                                         </div>
                                     </div>
@@ -166,21 +167,29 @@
                                                        th:href="@{/artist/video/detail(id=*{id})}"></a>
                                                 </p>
                                             </div>
-                                            <div th:if="*{tag1 != null}" class="series-tags">
-                                                <a href="#"
-                                                   th:text="*{tag1}" class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag2 != null}" th:text="*{tag2}"
-                                                   class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag3 != null}" th:text="*{tag3}"
-                                                   class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag4 != null}" th:text="*{tag4}"
-                                                   class="general-tag"></a>
-                                                <a href="#"
-                                                   th:if="*{tag5 != null}" th:text="*{tag5}"
-                                                   class="general-tag"></a>
+                                            <div class="bottom-container">
+                                                <div class="series-tags">
+                                                    <th:block th:if="*{tag1 != null}">
+                                                        <a href="#"
+                                                           th:text="*{tag1}" class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag2 != null}" th:text="*{tag2}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag3 != null}" th:text="*{tag3}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag4 != null}" th:text="*{tag4}"
+                                                           class="general-tag"></a>
+                                                        <a href="#"
+                                                           th:if="*{tag5 != null}" th:text="*{tag5}"
+                                                           class="general-tag"></a>
+                                                    </th:block>
+                                                </div>
+                                                <div class="bookmark-btn" th:data-post-id="*{id}">
+                                                    <i class="fa-regular fa-bookmark default-bookmark"></i>
+                                                    <i class="fa-solid fa-bookmark active-bookmark"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -201,11 +210,9 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script th:inline="javascript">
-    console.log([[${artist}]]);
-    console.log([[${session.member}]]);
-    console.log([[${videos}]]);
 
-    // Ajax 공부겸 fetch 기능 작성함
+    const session = /*[[${session.member}]]*/ null;
+    const bookmarkBtn = $(".bookmark-btn");
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
     function getCounts(artistId) {
@@ -295,7 +302,63 @@
             return null;
         }
 
-        return {postVideoThumbnail:postVideoThumbnail}
+        return {postVideoThumbnail: postVideoThumbnail}
+    })();
+
+    const bookmarkService = (function () {
+        function checkPost(postId, btn, callback) {
+            $.ajax({
+                type: "GET",
+                url: "/bookmark/check-video",
+                data: {
+                    memberId: session.id,
+                    postId: postId
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateStatus(btn, data) {
+            if (data === true) {
+                btn.data('bookmark-status', 'true');
+                btn.addClass("active");
+            } else {
+                btn.data('bookmark-status', 'false');
+                btn.removeClass("active")
+            }
+        }
+
+
+        function updateBookmarkPost(btn, postId, bookmarkStatus, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/bookmark/update-video",
+                data: {
+                    memberId: session.id,
+                    postId: postId,
+                    bookmarkStatus: bookmarkStatus
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        return {checkPost: checkPost, updateStatus: updateStatus, updateBookmarkPost: updateBookmarkPost}
     })();
 
     // 페이지 로드시 비동기 불러옴
@@ -304,7 +367,27 @@
         updateTimeGaps();
         getPageBtn();
         videoService.postVideoThumbnail();
+        if (session != null) {
+            bookmarkBtn.each(function () {
+                let btn = $(this);
+                console.log(btn);
+                let postId = $(this).data('post-id');
+                bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
+            })
+        }
     })
+
+    bookmarkBtn.click(function () {
+        if (session == null) {
+            alert("먼저 로그인을 해주세요.");
+            return;
+        }
+        let btn = $(this);
+        let postId = $(this).data('post-id');
+        let bookmarkStatus = btn.data('bookmark-status');
+
+        bookmarkService.updateBookmarkPost(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
+    });
 </script>
 <script src="/js/artist/blog-header.js"></script>
 <script src="/js/artist/main.js"></script>

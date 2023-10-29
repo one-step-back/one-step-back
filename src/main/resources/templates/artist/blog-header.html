@@ -117,16 +117,12 @@
                         </div>
                         <hr class="h-popover-divider">
                         <a class="h-popover-menu-item" href="/">홈</a>
-                        <a class="h-popover-menu-item" href="#">구독</a>
-                        <a class="h-popover-menu-item" href="#">메시지</a>
-                        <a class="h-popover-menu-item" href="#">알림</a>
-                        <a class="h-popover-menu-item" href="#">보관함</a>
-                        <a class="h-popover-menu-item" href="#">멤버십</a>
-                        <a class="h-popover-menu-item" href="#">포인트/수익</a>
-                        <a class="h-popover-menu-item" href="#">주문내역</a>
-                        <a class="h-popover-menu-item" href="#">설정</a>
+                        <a class="h-popover-menu-item" href="/my-artist/list">나의 아티스트</a>
+                        <a class="h-popover-menu-item" href="/my-library/posts">보관함</a>
                         <hr class="h-popover-divider">
-                        <a class="h-popover-menu-item" href="#">새 채널 만들기</a>
+                        <th:block th:if="session.artistId == null">
+                            <a class="h-popover-menu-item" href="#">새 채널 만들기</a>
+                        </th:block>
                         <a class="h-popover-menu-item" href="/member/logout">로그아웃</a>
                     </div>
                 </button>

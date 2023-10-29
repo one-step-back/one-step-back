@@ -16,4 +16,6 @@ public class ArtistDAO {
     public Optional<ArtistDTO> getArtist(Long memberId){
         return artistMapper.select(memberId);
     }
+
+    public Optional<Long> checkArtist(Long memberId){return artistMapper.selectId(memberId);}
 }

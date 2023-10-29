@@ -79,11 +79,6 @@ a {
     text-decoration: inherit;
 }
 
-a:-webkit-any-link {
-    color: -webkit-link;
-    cursor: pointer;
-}
-
 @media (min-width: 1024px)
 
 .lg\:hidden {
@@ -107,11 +102,6 @@ audio, canvas, embed, iframe, img, object, svg, video {
 svg:not(:root) {
     overflow-clip-margin: content-box;
     overflow: hidden;
-}
-
-a:-webkit-any-link {
-    color: -webkit-link;
-    cursor: pointer;
 }
 
 :not(svg) {
@@ -551,6 +541,10 @@ h1 {
     margin-inline-end: 0px;
 }
 
+#summit-form {
+    margin-top: 60px;
+}
+
 .gap-\[16px\] {
     gap: 16px;
 }
@@ -934,11 +928,6 @@ h1 {
 
 
 /*Custom fix End*/
-
-a:-webkit-any-link:hover, a:-webkit-any-link.active {
-    background: #EBF4FF;
-    border-radius: 80px;
-}
 
 a:-webkit-any-link:hover svg, a:-webkit-any-link.active svg {
     fill: #3478FF;

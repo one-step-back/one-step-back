@@ -1,5 +1,6 @@
 package com.app.onestepback.service;
 
+import com.app.onestepback.repository.ArtistDAO;
 import com.app.onestepback.repository.MemberDAO;
 import com.app.onestepback.domain.MemberVO;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Transactional(rollbackFor = Exception.class)
 public class MemberServiceImpl implements MemberService{
     private final MemberDAO memberDAO;
+    private final ArtistDAO artistDAO;
 
     //    회원가입
     @Override
@@ -92,5 +94,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void delete(Long id) {
         memberDAO.delete(id);
+    }
+
+    //    아티스트 여부 확인
+    @Override
+    public Optional<Long> checkArtist(Long memberId) {
+        return artistDAO.checkArtist(memberId);
     }
 }

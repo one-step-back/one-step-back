@@ -38,6 +38,9 @@ public class KaKaoController {
                 redirectAttributes.addFlashAttribute("withdraw", false);
             }
             session.setAttribute("member", memberVO);
+            if (memberService.checkArtist(memberVO.getId()).isPresent()){
+                session.setAttribute("artistId", memberVO.getId());
+            }
             return new RedirectView("/my-page/my-page");
         }
         return new RedirectView("/member/login");

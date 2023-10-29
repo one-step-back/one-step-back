@@ -1,6 +1,7 @@
 package com.app.onestepback.controller;
 
 import com.app.onestepback.domain.BookmarkedArtistPostVO;
+import com.app.onestepback.domain.BookmarkedVideoVO;
 import com.app.onestepback.domain.LibraryVO;
 import com.app.onestepback.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,8 @@ public class BookmarkController {
         bookmarkedArtistPostVO.setPostId(postId);
         bookmarkedArtistPostVO.setMemberId(memberId);
 
-        if (bookmarkService.checkArtistPostBookmarkInfo(bookmarkedArtistPostVO).isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return bookmarkService.checkArtistPostBookmarkInfo(bookmarkedArtistPostVO).isPresent();
     }
-
 
     @PostMapping("update-post")
     public boolean saveToLibrary(@RequestParam("postId") Long postId, @RequestParam("memberId") Long memberId, @RequestParam("bookmarkStatus") boolean bookmarkStatus) {
@@ -40,6 +36,30 @@ public class BookmarkController {
             return true;
         } else {
             bookmarkService.eraseBookmarkedArtistPost(bookmarkedArtistPostVO);
+            return false;
+        }
+    }
+
+    @GetMapping("check-video")
+    public boolean checkVideoLibrary(@RequestParam("postId") Long postId, @RequestParam("memberId") Long memberId) {
+        BookmarkedVideoVO bookmarkedVideoVO = new BookmarkedVideoVO();
+        bookmarkedVideoVO.setPostId(postId);
+        bookmarkedVideoVO.setMemberId(memberId);
+
+        return bookmarkService.checkVideoBookmarkInfo(bookmarkedVideoVO).isPresent();
+    }
+
+    @PostMapping("update-video")
+    public boolean saveToVideoLibrary(@RequestParam("postId") Long postId, @RequestParam("memberId") Long memberId, @RequestParam("bookmarkStatus") boolean bookmarkStatus) {
+        BookmarkedVideoVO bookmarkedVideoVO = new BookmarkedVideoVO();
+        bookmarkedVideoVO.setPostId(postId);
+        bookmarkedVideoVO.setMemberId(memberId);
+
+        if (!bookmarkStatus){
+            bookmarkService.doBookmarkVideo(bookmarkedVideoVO);
+            return true;
+        } else {
+            bookmarkService.eraseBookmarkedVideo(bookmarkedVideoVO);
             return false;
         }
     }
