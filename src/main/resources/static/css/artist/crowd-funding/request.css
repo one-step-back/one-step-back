@@ -160,7 +160,7 @@
     border-radius: 4px;
 }
 
-.summit-input-wrap {
+.submit-input-wrap {
     display: none;
     position: relative;
     justify-content: center;
@@ -175,12 +175,23 @@
 .row {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .funding-font {
     font-size: 18px;
     margin-right: 15px;
+}
+
+.funding-time-limit{
+    width: 218px;
+    height: 41px;
+    margin-right: 3px;
+    padding-right: 10px;
+    border: 1px solid #ccc;
+    font-size: 28px;
+    line-height: 41px;
+    font-weight: 700;
+    text-align: right;
 }
 
 .funding-money-input {
@@ -198,6 +209,7 @@
 .tx-won {
     display: inline-block;
     font-weight: 700;
+    margin-right: 15px;
 }
 
 
@@ -208,7 +220,7 @@
     right: 12px;
 }
 
-.summit-btn {
+.submit-btn {
     border: 0;
     line-height: 1.5rem;
     color: #fff;
