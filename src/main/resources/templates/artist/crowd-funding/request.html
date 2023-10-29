@@ -13,7 +13,6 @@
           onload="this.rel='stylesheet'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
 <div class="page-wrap">
     <header th:replace="~{/artist/blog-header::blog-header}"></header>
     <main style="padding-top: 60px;">
@@ -25,7 +24,7 @@
                 <th:block th:if="${#lists.size(crowdFundingRequests) != 0}">
                     <div th:block th:each="crowdFundingRequest:${crowdFundingRequests}" class="crowd-funding-container">
                         <article th:if="${artist.memberId == crowdFundingRequest.writerId}" th:object="${crowdFundingRequest}" class="crowd-funding-content">
-                            <input th:value="*{memberId}" type="hidden">
+                            <!--                            <input id="memberIDForAccept" th:value="*{memberId}" type="hidden">-->
                             <div class="post">
                                 <div class="post-content">
                                     <h3 th:text="*{fundingRequestTitle}" class="post-data-title" style="height: 40px;">
@@ -36,26 +35,32 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="summit-input-wrap">
+                            <div class="submit-input-wrap">
                                 <div class="row">
-                                    <div>
+                                    <div style="margin: 0 100px 0 50px;">
                                         <strong class="funding-font">목표 금액</strong>
                                         <input value="10000" class="funding-money-input" maxlength="8">
                                         <span class="tx-won">원</span>
+                                        <strong class="funding-font">종료 날짜</strong>
+                                        <input type="date" class="funding-time-limit" min="2022-04-01" max="2022-04-30" />
                                     </div>
                                     <div class="accept-btn-wrap">
-                                        <button class="summit-btn">작성완료</button>
+                                        <button class="submit-btn">작성완료</button>
                                         <button class="accept-cancel-btn">뒤로가기</button>
                                     </div>
                                 </div>
                             </div>
-<!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">                            -->
+                            <!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">                            -->
                             <div class="btn-wrap">
                                 <button class="accept-btn">수락하기</button>
                                 <button class="refuse-btn">취소하기</button>
                             </div>
                         </article>
                         <article th:unless="${artist.memberId == crowdFundingRequest.writerId}" th:object="${crowdFundingRequest}" class="crowd-funding-content">
+                            <input class="memberId" th:value="*{memberId}" type="hidden">
+                            <input class="writerId" th:value="*{writerId}" type="hidden">
+                            <input class="fundingRequestTitle" th:value="*{fundingRequestTitle}" type="hidden">
+                            <input class="fundingRequestContent" th:value="*{fundingRequestContent}" type="hidden">
                             <div class="post">
                                 <div class="post-content">
                                     <h3 class="post-data-title">
@@ -81,23 +86,33 @@
                                     <p th:text="*{fundingRequestContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
                                 </div>
                             </div>
-                            <div class="summit-input-wrap">
-                                <div class="row">
-                                    <div>
-                                        <strong class="funding-font">목표 금액</strong>
-                                        <input value="10000" class="funding-money-input" maxlength="8">
-                                        <span class="tx-won">원</span>
-                                    </div>
-                                    <div class="accept-btn-wrap">
-                                        <button class="summit-btn">작성완료</button>
-                                        <button class="accept-cancel-btn">뒤로가기</button>
+                            <form th:action ="@{/artist/crowd-funding/accept}" class="acceptRequest" method="post" th:object="${crowdFundingVO}">
+                                <div class="submit-input-wrap">
+                                    <input class="memberIdForAccept" th:field="*{memberId}" type="hidden">
+                                    <input class="writerIdForAccept" th:field="*{writerId}" type="hidden">
+                                    <input class="fundingTitleForAccept" th:field="*{fundingTitle}" type="hidden">
+                                    <input class="fundingContentForAccept" th:field="*{fundingContent}" type="hidden">
+                                    <div class="row">
+                                        <div style="margin: 0 100px 0 50px;">
+                                            <strong class="funding-font">목표 금액</strong>
+                                            <input th:field="*{fundingTargetAmount}" value="10000" class="funding-money-input" maxlength="8">
+                                            <span class="tx-won">원</span>
+                                            <strong class="funding-font">종료 날짜</strong>
+                                            <input th:field="*{fundingTimeLimit}" type="date" class="funding-time-limit" min="2023-10-30" max="2099-12-31" />
+                                        </div>
+                                        <div class="accept-btn-wrap">
+                                            <button class="submit-btn">작성완료</button>
+                                            <button class="accept-cancel-btn">뒤로가기</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-<!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">-->
+                            </form>
+                                <!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">-->
                             <div class="btn-wrap">
-                                <button class="accept-btn" >수락하기</button>
-                                <button class="refuse-btn">취소하기</button>
+                                <button class="accept-btn">수락하기</button>
+                                <a th:href="@{'/artist/crowdfunding/reject?id=' + ${crowdFundingRequest.id} + '&memberId=' + ${crowdFundingRequest.memberId}}">
+                                    <button class="refuse-btn">취소하기</button>
+                                </a>
                             </div>
                         </article>
                     </div>
@@ -116,7 +131,7 @@
                 <div class="request-form-wrap">
                     <div class="request-form-container">
                         <form th:action ="@{/artist/crowd-funding/request}" name="fundingRequest" method="post" th:object="${fundingRequestVO}">
-                            <input id="memberId" th:field="*{memberId}" type="hidden">
+                            <input id="memberIdForRequest" th:field="*{memberId}" type="hidden">
                             <input th:field="*{fundingRequestTitle}" id="fundingRequestTitle" type="text"
                                    placeholder="크라우드 펀딩 제목을 입력하세요" class="form-content" style="text-align: left; min-height: unset;"
                                    maxlength="100">
@@ -125,7 +140,7 @@
                                    maxlength="1000">
                             <div class="request-btn-wrap">
                                 <a th:if="${session.member == null}" class="request-btn" style="position: relative; right: 40px;" href="/member/login">작성완료</a>
-                                <button th:unless="${session.member == null}" class="request-btn" style="position: relative; right: 40px;" onclick="requestFunding(e)">작성완료</button>
+                                <button th:unless="${session.member == null}" id="submitRequest" class="request-btn" style="position: relative; right: 40px;">작성완료</button>
                             </div>
                         </form>
                         <button class="cancel-btn" style="position: relative; left: 495px; top: -35px;" onclick="resetFundingRequestForm()">취소</button>
@@ -147,8 +162,6 @@
     const artistId = [[${artist.memberId}]]
     // 크라우드 펀딩 목록
     const crowdFundingRequests = [[${crowdFundingRequests}]]
-    // 펀딩 작성 취소 버튼
-    const cancelBtn = $(".cancel-btn");
     // 크라우드 펀딩 작성 폼 리스트
     const formContents = $(".form-content");
 
@@ -166,23 +179,65 @@
         });
     }
 
-    // 작성하기 버튼 누를 시 artist의 memberId 담고 실행
-    function requestFunding(e){
+    // 수락하기 모달에서 작성완료 버튼 누를 시 artist의 정보 담고 실행
+    $(".submit-btn").on("click", function(e) {
         e.preventDefault();
-        $("#memberId").val([[${artist.memberId}]]);
+
+        let i = $(".submit-btn").index($(this));
+        console.log(i);
+
+        $(".memberIdForAccept").eq(i).val($(".memberId").eq(i).val());
+        $(".writerIdForAccept").eq(i).val($(".writerId").eq(i).val());
+        $(".fundingTitleForAccept").eq(i).val($(".fundingRequestTitle").eq(i).val());
+        $(".fundingContentForAccept").eq(i).val($(".fundingRequestContent").eq(i).val());
+
+        let fundingTargetAmount = $(".funding-money-input").eq(i);
+        let fundingTimeLimit = $(".funding-time-limit").eq(i);
+
+        if(!fundingTargetAmount.val()){
+            fundingTargetAmount.css("border-color", "red");
+            return;
+        }
+        fundingTargetAmount.css("border-color", "lightgray");
+        if(!fundingTimeLimit.val()){
+            fundingTimeLimit.css("border-color", "red");
+            return;
+        }
+        fundingTimeLimit.css("border-color", "lightgray");
+        $(".submit-btn").eq(i).trigger('click');
+    });
+
+
+    // 뒤로가기
+    $(".accept-cancel-btn").on("click", (e) => {
+        e.preventDefault();
+    });
+
+    // 크라우드 펀딩 작성하기 (버튼 누를 시 artist의 memberId 담고 실행)
+    $("#submitRequest").on("click", (e) => {
+        e.preventDefault();
+        $("#memberIdForRequest").val([[${artist.memberId}]]);
         if(!formContents.eq(0).val()){
-            formContents.eq(0).css("color", "red");
-            formContents.eq(0).val("크라우드 펀딩 제목을 입력해주세요");
+            formContents.eq(0).css("border-color", "red");
             return;
         }
-        formContents.eq(0).css("color", "black");
+        formContents.eq(0).css("border-color", "lightgray");
         if(!formContents.eq(1).val()){
-            formContents.eq(1).css("color", "red");
-            formContents.eq(1).val("크라우드 펀딩 내용을 입력해주세요");
+            formContents.eq(1).css("border-color", "red");
             return;
         }
+        formContents.eq(1).css("border-color", "lightgray");
         document.fundingRequest.submit();
-    }
+    });
+
+    // 비어있는 폼 작성시 테두리 색 원상 복구
+    formContents.eq(0).on("keyup", () => {
+        formContents.eq(0).css("border-color", "lightgray");
+    });
+
+    formContents.eq(1).on("keyup", () => {
+        formContents.eq(0).css("border-color", "lightgray");
+    });
 
     // 페이지 버튼 생성 모듈
     function getPageBtn() {
@@ -204,7 +259,7 @@
         pageWrap.html(pagingText);
     }
 
-    // 크라우드 펀딩 작성 내용 초기화 기능 모듈
+    // 크라우드 펀딩 작성 취소시 내용 초기화
     function resetFundingRequestForm() {
         formContents.eq(0).val("");
         formContents.eq(1).val("");
