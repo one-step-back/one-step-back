@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/main/root.css">
     <link rel="stylesheet" href="/css/main/main.css">
     <link rel="icon" href="/images/icon.svg">
-    <script src="https://kit.fontawesome.com/44012a5eeb.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <a href="#main-content" class="sr-only" id="top">주요 내용으로 건너뛰기</a>
@@ -138,41 +138,21 @@
                                         </div>
                                     </div>
                                     <div class="post-action">
-                                        <a class="btn btn-icon btn-scrap">
-                                            <i class="far fa-bookmark default-text"></i>
-                                            <i class="fas fa-bookmark active-text"></i>
-                                        </a>
-                                        <div class="dropdown">
-                                            <button class="btn btn-icon ic-secondary btn-more" type="button"
-                                                    data-toggle="dropdown" aria-expanded="false" aria-label="더보기"
-                                                    title="더보기">
-                                                <i class="fas fa-ellipsis-h"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-right"
-                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-168px, 32px, 0px);">
-                                                <li><a class="btn-open-add-collection-modal" href="#"><img
-                                                        src="https://d33pksfia2a94m.cloudfront.net/assets/img/collection/add_collection.svg"
-                                                        alt="" class="ic-add-collection">컬렉션에 추가하기</a></li>
-                                                <li>
-                                                    <a class="dropdown-item btn-share" href="#"
-                                                       data-share-url="https://posty.pe/4t86ay" data-blog-title="김호연"
-                                                       data-post-title="[금융개념] Fed, Fomc, FRB란?" data-tags="">
-                                                        <span class="order-2">공유하기</span>
-                                                        <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item btn-report-post" href="#"
-                                                       data-toggle="modal"
-                                                       data-target="#report-modal">
-                                                        <span class="order-2">신고하기</span>
-                                                        <i class="far fa-flag"></i>
-                                                    </a>
-                                                </li>
-                                                <li><a class="dropdown-item btn-block-blog" href="#"
-                                                       data-blog-id="1578583"><span class="order-2">이 채널 보지 않기</span><i
-                                                        class="fas fa-ban"></i></a></li>
-                                            </ul>
+                                        <div class="post-meta text-alpha-black-47">
+                                            <span class="meta-item" title="조회수">
+                                                <i class="fa-regular fa-eye"></i>
+                                                <span th:text="*{postViewCount}" class="stats-count"></span>
+                                            </span>
+                                            <span class="meta-item" title="좋아요">
+                                                <i class="far fa-heart" aria-label="좋아요"></i>
+                                                <span th:text="*{likeCount}" class="stats-count"></span>
+                                            </span>
+                                            <span class="meta-item" title="댓글">
+                                                <i class="far fa-comment-dots"></i>
+                                                <span th:text="*{replyCount}" class="stats-count"></span>
+                                            </span>
+                                            <time class="meta-item time"
+                                                  th:data-post-time="*{postWriteTime}"></time>
                                         </div>
                                     </div>
                                 </div>

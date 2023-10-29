@@ -4,6 +4,7 @@ import com.app.onestepback.domain.ArtistDTO;
 import com.app.onestepback.domain.ArtistPostDTO;
 import com.app.onestepback.domain.SubscriptionVO;
 import com.app.onestepback.domain.VideoPostDTO;
+import com.app.onestepback.exception.CustomException;
 import com.app.onestepback.repository.ArtistPostDAO;
 import com.app.onestepback.service.ArtistService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,9 @@ public class ArtistController {
 
     @GetMapping("main")
     public void goToMainForm(@RequestParam("memberId") Long memberId, Model model) {
+        if (memberId == null){
+            throw new CustomException("존재하지 않는 아티스트");
+        }
         model.addAttribute("artist", artistService.getArtist(memberId).get());
         model.addAttribute("posts", artistService.get3Posts(memberId));
         model.addAttribute("videos", artistService.get3Videos(memberId));

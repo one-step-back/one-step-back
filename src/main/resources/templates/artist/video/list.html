@@ -60,13 +60,14 @@
                                 <a class="active">영상</a>
                             </li>
                             <li>
-                                <a href="">커뮤니티</a>
+                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}">커뮤니티</a>
                             </li>
                             <li>
-                                <a href="#">후원</a>
+                                <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
                             </li>
                             <li>
-                                <a href="#">크라우드 펀딩</a>
+                                <a th:href="@{/artist/crowd-funding/list(memberId=${artist.memberId})}">크라우드
+                                    펀딩</a>
                             </li>
                         </ul>
                     </nav>

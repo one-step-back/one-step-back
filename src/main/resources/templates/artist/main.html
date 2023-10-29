@@ -79,13 +79,13 @@
                                 <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
                             </li>
                             <li>
-                                <a href="">커뮤니티</a>
+                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}">커뮤니티</a>
                             </li>
                             <li>
-                                <a href="#">후원</a>
+                                <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
                             </li>
                             <li>
-                                <a href="#">크라우드 펀딩</a>
+                                <a th:href="@{/artist/crowd-funding/list(memberId=${artist.memberId})}">크라우드 펀딩</a>
                             </li>
                         </ul>
                     </nav>
@@ -546,7 +546,55 @@
             });
         }
 
-        return {checkPost: checkPost, updateStatus: updateStatus, updateBookmarkPost: updateBookmarkPost}
+        function checkVideo(postId, btn, callback) {
+            $.ajax({
+                type: "GET",
+                url: "/bookmark/check-video",
+                data: {
+                    memberId: session.id,
+                    postId: postId
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+
+        function updateVideoBookmark(btn, postId, bookmarkStatus, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/bookmark/update-video",
+                data: {
+                    memberId: session.id,
+                    postId: postId,
+                    bookmarkStatus: bookmarkStatus
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(btn, data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        return {
+            checkPost: checkPost,
+            updateStatus: updateStatus,
+            updateBookmarkPost: updateBookmarkPost,
+            checkVideo: checkVideo,
+            updateVideoBookmark: updateVideoBookmark
+        }
     })();
 
     // 페이지 로드시 비동기 불러옴
@@ -561,6 +609,12 @@
                 console.log(btn);
                 let postId = $(this).data('post-id');
                 bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
+            })
+            bookmarkVideoBtn.each(function () {
+                let btn = $(this);
+                console.log(btn);
+                let postId = $(this).data('post-id');
+                bookmarkService.checkVideo(postId, btn, bookmarkService.updateStatus);
             })
         }
         postVideoThumbnail();
@@ -581,9 +635,20 @@
         let btn = $(this);
         let postId = $(this).data('post-id');
         let bookmarkStatus = btn.data('bookmark-status');
-        console.log(bookmarkStatus);
 
         bookmarkService.updateBookmarkPost(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
+    });
+
+    bookmarkVideoBtn.click(function () {
+        if (session == null) {
+            alert("먼저 로그인을 해주세요.");
+            return;
+        }
+        let btn = $(this);
+        let postId = $(this).data('post-id');
+        let bookmarkStatus = btn.data('bookmark-status');
+
+        bookmarkService.updateVideoBookmark(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
     });
 
 </script>

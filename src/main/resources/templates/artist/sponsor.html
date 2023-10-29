@@ -51,16 +51,21 @@
                                 <a th:href="@{/artist/main(memberId=${artist.memberId})}">홈</a>
                             </li>
                             <li>
-                                <a href="/posts">게시글</a>
+                                <a th:href="@{/artist/post/list(memberId=${artist.memberId})}">게시글</a>
                             </li>
                             <li>
-                                <a href="/series">영상</a>
+                                <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
                             </li>
                             <li>
-                                <a href="/series">커뮤니티</a>
+                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}">커뮤니티</a>
                             </li>
-                            <li><a class="active">후원</a></li>
-                            <li><a href="/about">크라우드 펀딩</a></li>
+                            <li>
+                                <a class="active">후원</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/artist/crowd-funding/list(memberId=${artist.memberId})}">크라우드
+                                    펀딩</a>
+                            </li>
                         </ul>
                     </nav>
                     <div class="action-group">
