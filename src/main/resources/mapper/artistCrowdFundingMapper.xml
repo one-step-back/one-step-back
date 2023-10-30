@@ -33,7 +33,7 @@
     <select id="selectCountOfFR" resultType="int">
         SELECT COUNT(ID)
         FROM TBL_FUNDING_REQUEST
-        WHERE MEMBER_ID = #{memberId}
+        WHERE MEMBER_ID = #{memberId} AND FUNDING_REQUEST_STATUS = 'REQUESTED'
     </select>
 
     <select id="selectAllRequests" resultType="fundingRequestDTO">
