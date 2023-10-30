@@ -58,6 +58,7 @@
                         </article>
                         <article th:unless="${artist.memberId == crowdFundingRequest.writerId}" th:object="${crowdFundingRequest}" class="crowd-funding-content">
                             <input class="memberId" th:value="*{memberId}" type="hidden">
+                            <input class="memberId" th:value="*{memberId}" type="hidden">
                             <input class="writerId" th:value="*{writerId}" type="hidden">
                             <input class="fundingRequestTitle" th:value="*{fundingRequestTitle}" type="hidden">
                             <input class="fundingRequestContent" th:value="*{fundingRequestContent}" type="hidden">
@@ -86,27 +87,21 @@
                                     <p th:text="*{fundingRequestContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
                                 </div>
                             </div>
-                            <form th:action ="@{/artist/crowd-funding/accept}" class="acceptRequest" method="post" th:object="${crowdFundingVO}">
-                                <div class="submit-input-wrap">
-                                    <input class="memberIdForAccept" th:field="*{memberId}" type="hidden">
-                                    <input class="writerIdForAccept" th:field="*{writerId}" type="hidden">
-                                    <input class="fundingTitleForAccept" th:field="*{fundingTitle}" type="hidden">
-                                    <input class="fundingContentForAccept" th:field="*{fundingContent}" type="hidden">
-                                    <div class="row">
-                                        <div style="margin: 0 100px 0 50px;">
-                                            <strong class="funding-font">목표 금액</strong>
-                                            <input th:field="*{fundingTargetAmount}" value="10000" class="funding-money-input" maxlength="8">
-                                            <span class="tx-won">원</span>
-                                            <strong class="funding-font">종료 날짜</strong>
-                                            <input th:field="*{fundingTimeLimit}" type="date" class="funding-time-limit" min="2023-10-30" max="2099-12-31" />
-                                        </div>
-                                        <div class="accept-btn-wrap">
-                                            <button class="submit-btn">작성완료</button>
-                                            <button class="accept-cancel-btn">뒤로가기</button>
-                                        </div>
+                            <div class="submit-input-wrap">
+                                <div class="row">
+                                    <div style="margin: 0 100px 0 50px;">
+                                        <strong class="funding-font">목표 금액</strong>
+                                        <input placeholder="10000" class="funding-money-input" maxlength="8">
+                                        <span class="tx-won">원</span>
+                                        <strong class="funding-font">종료 날짜</strong>
+                                        <input type="date" class="funding-time-limit" min="2023-10-30" max="2099-12-31" />
+                                    </div>
+                                    <div class="accept-btn-wrap">
+                                        <button class="submit-btn">작성완료</button>
+                                        <button class="accept-cancel-btn">뒤로가기</button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                                 <!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">-->
                             <div class="btn-wrap">
                                 <button class="accept-btn">수락하기</button>
@@ -121,6 +116,14 @@
                     <div class="content-none">진행중인 크라우드 펀딩이 없습니다</div>
                 </th:block>
                 <div id="page-wrap"></div>
+                <form th:action ="@{/artist/crowd-funding/accept}" name="acceptRequest" method="post" th:object="${crowdFundingVO}">
+                    <input id="memberIdForAccept" th:field="*{memberId}" type="hidden">
+                    <input id="writerIdForAccept" th:field="*{writerId}" type="hidden">
+                    <input id="fundingTitleForAccept" th:field="*{fundingTitle}" type="hidden">
+                    <input id="fundingContentForAccept" th:field="*{fundingContent}" type="hidden">
+                    <input id="fundingTargetAmountForAccept" th:field="*{fundingTargetAmount}" type="hidden">
+                    <input id="fundingTimeLimitForAccept" th:field="*{fundingTimeLimit}" type="hidden">
+                </form>
             </div>
             <div class="request-wrap">
                 <div class="crowd-funding-head" id="relative">
@@ -180,16 +183,19 @@
     }
 
     // 수락하기 모달에서 작성완료 버튼 누를 시 artist의 정보 담고 실행
-    $(".submit-btn").on("click", function(e) {
-        e.preventDefault();
+    $(".submit-btn").on("click", function() {
 
         let i = $(".submit-btn").index($(this));
         console.log(i);
 
-        $(".memberIdForAccept").eq(i).val($(".memberId").eq(i).val());
-        $(".writerIdForAccept").eq(i).val($(".writerId").eq(i).val());
-        $(".fundingTitleForAccept").eq(i).val($(".fundingRequestTitle").eq(i).val());
-        $(".fundingContentForAccept").eq(i).val($(".fundingRequestContent").eq(i).val());
+        $("#memberIdForAccept").val($(".memberId").eq(i).val());
+        console.log($("#memberIdForAccept").val());
+        $("#writerIdForAccept").val($(".writerId").eq(i).val());
+        console.log($("#writerIdForAccept").val());
+        $("#fundingTitleForAccept").val($(".fundingRequestTitle").eq(i).val());
+        console.log($("#fundingTitleForAccept").val());
+        $("#fundingContentForAccept").val($(".fundingRequestContent").eq(i).val());
+        console.log($("#fundingContentForAccept").val());
 
         let fundingTargetAmount = $(".funding-money-input").eq(i);
         let fundingTimeLimit = $(".funding-time-limit").eq(i);
@@ -198,13 +204,17 @@
             fundingTargetAmount.css("border-color", "red");
             return;
         }
+        $("#fundingTargetAmountForAccept").val($(".funding-money-input").eq(i).val());
+        console.log($("#fundingTargetAmountForAccept").val());
         fundingTargetAmount.css("border-color", "lightgray");
         if(!fundingTimeLimit.val()){
             fundingTimeLimit.css("border-color", "red");
             return;
         }
+        $("#fundingTimeLimitForAccept").val($(".funding-time-limit").eq(i).val());
+        console.log($("#fundingTimeLimitForAccept").val());
         fundingTimeLimit.css("border-color", "lightgray");
-        $(".submit-btn").eq(i).trigger('click');
+        document.acceptRequest.submit();
     });
 
 
