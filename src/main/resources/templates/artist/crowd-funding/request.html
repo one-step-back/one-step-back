@@ -110,7 +110,7 @@
                                 <!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">-->
                             <div class="btn-wrap">
                                 <button class="accept-btn">수락하기</button>
-                                <a th:href="@{'/artist/crowdfunding/reject?id=' + ${crowdFundingRequest.id} + '&memberId=' + ${crowdFundingRequest.memberId}}">
+                                <a th:href="@{'/artist/crowd-funding/reject?id=' + ${crowdFundingRequest.id} + '&memberId=' + ${crowdFundingRequest.memberId}}">
                                     <button class="refuse-btn">취소하기</button>
                                 </a>
                             </div>
