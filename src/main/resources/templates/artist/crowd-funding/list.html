@@ -30,7 +30,7 @@
                     포스트 <span class="count" id="postCount"></span>개
                 </span>
                 <h1 class="blog-title">
-                    <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
+                    <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(memberId=${artist.memberId})}"></a>
                 </h1>
                 <div class="blog-action-container">
                     <a class="blog-action-share">
