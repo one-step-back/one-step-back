@@ -177,6 +177,12 @@ public class ArtistPostServiceImpl implements ArtistPostService {
         return postFileDAO.getAllFiles(postId);
     }
 
+    @Override
+    public void erasePost(Long id) {
+        postDAO.erasePost(id);
+    }
+
+
     private String getPath() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }

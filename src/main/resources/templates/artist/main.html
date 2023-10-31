@@ -134,7 +134,7 @@
                     <section class="ch-home-post">
                         <div class="ch-section-header">
                             <h4><a href="/posts">게시글</a></h4>
-                            <a class="btn-icon" href="/posts">
+                            <a class="btn-icon" th:href="@{/artist/post/list(memberId=${artist.memberId})}">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>

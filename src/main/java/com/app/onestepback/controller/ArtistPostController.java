@@ -83,4 +83,14 @@ public class ArtistPostController {
 
         return new RedirectView("/artist/post/detail?id=" + artistPostDTO.getId());
     }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public RedirectView erasePost(@RequestParam("id") Long id, HttpSession session){
+        artistPostService.erasePost(id);
+
+        MemberVO member = (MemberVO) session.getAttribute("member");
+
+        return new RedirectView("/artist/post/list?memberId=" + member.getId());
+    }
 }

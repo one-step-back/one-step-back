@@ -12,4 +12,8 @@ public class PostDAO {
     public void viewCountUp(Long id){
         postMapper.updateViewCount(id);
     }
+
+    public void erasePost(Long id){
+        postMapper.updateToDelete(id);
+    }
 }

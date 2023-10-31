@@ -26,4 +26,6 @@ public interface ArtistPostService {
     public void editPost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles);
 
     public List<PostFileVO> getAllFiles(Long postId);
+
+    public void erasePost(Long id);
 }

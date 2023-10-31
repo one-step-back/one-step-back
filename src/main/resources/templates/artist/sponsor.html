@@ -155,6 +155,9 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://js.bootpay.co.kr/bootpay-4.3.3.min.js" type="application/javascript"></script>
 <script th:inline="javascript">
+
+    const user = [[${session.member}]];
+
     function payment(amountOfMoney, name, email, tel) {
         // Bootpay.requestPayment 함수를 호출하고 입력란의 값으로 price 필드를 설정합니다.
         const response = Bootpay.requestPayment({
@@ -165,7 +168,7 @@
             "pg": "웰컴",
             "tax_free": 0,
             "user": {
-                "id": [[session.member.id]],
+                "id": [[user.id]],
                 "username": name,
                 "phone": tel,
                 "email": email

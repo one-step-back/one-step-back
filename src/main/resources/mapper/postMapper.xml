@@ -6,4 +6,11 @@
         SET POST_VIEW_COUNT = POST_VIEW_COUNT + 1
         WHERE ID = #{id}
     </update>
+
+    <update id="updateToDelete">
+        UPDATE TBL_POST
+        SET POST_READABLE    = 'DISABLE',
+            POST_DELETE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
 </mapper>

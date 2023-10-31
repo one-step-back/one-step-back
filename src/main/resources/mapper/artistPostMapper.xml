@@ -36,7 +36,7 @@
                         AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
               FROM VIEW_ARTIST_POST A
                        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
-              WHERE MEMBER_ID = #{memberId}
+              WHERE MEMBER_ID = #{memberId} AND A.POST_READABLE != 'DISABLE'
               ORDER BY POST_WRITE_TIME DESC)
         WHERE ROWNUM &lt;= 3
     </select>
@@ -87,7 +87,7 @@
                               AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
                     FROM VIEW_ARTIST_POST A
                              JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
-                    WHERE MEMBER_ID = #{memberId}
+                    WHERE MEMBER_ID = #{memberId} AND A.POST_READABLE != 'DISABLE'
                     ORDER BY POST_WRITE_TIME DESC) P1
               WHERE ROWNUM &lt;= #{pagination.endRow}) P2
         WHERE P2.R >= #{pagination.startRow}
@@ -147,6 +147,7 @@
               WHERE POST_WRITE_TIME &lt; #{postWriteTime}
                 AND ID != #{id}
                 AND MEMBER_ID = #{memberId}
+                AND A.POST_READABLE != 'DISABLE'
               ORDER BY POST_WRITE_TIME DESC)
         WHERE ROWNUM = 1
     </select>
@@ -168,6 +169,7 @@
               WHERE POST_WRITE_TIME > #{postWriteTime}
                 AND ID != #{id}
                 AND MEMBER_ID = #{memberId}
+                AND A.POST_READABLE != 'DISABLE'
               ORDER BY POST_WRITE_TIME)
         WHERE ROWNUM = 1
     </select>

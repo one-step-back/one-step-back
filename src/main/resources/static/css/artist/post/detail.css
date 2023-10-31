@@ -296,12 +296,21 @@
     flex: 1;
 }
 
-.edit-container {
+.action-container {
     position: absolute;
     right: 0;
     bottom: 0;
     color: rgba(0, 0, 0, .75);
     font-size: 14px;
+}
+
+.action-container a {
+    margin-right: 5px;
+}
+
+#delete-btn {
+    border: 0;
+    background-color: transparent;
     cursor: pointer;
 }
 

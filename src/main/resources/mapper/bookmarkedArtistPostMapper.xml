@@ -19,4 +19,9 @@
         WHERE POST_ID = #{postId}
           AND MEMBER_ID = #{memberId}
     </delete>
+
+    <delete id="deletePost">
+        DELETE FROM TBL_BOOKMARKED_ARTIST_POST
+        WHERE POST_ID = #{postId}
+    </delete>
 </mapper>
