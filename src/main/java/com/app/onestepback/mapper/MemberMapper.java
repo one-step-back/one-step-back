@@ -32,6 +32,9 @@ public interface MemberMapper {
     //    카카오 연동하기
     public void updateBySync(MemberVO memberVO);
 
+    //    마이페이지(프로필) 수정(닉네임, 자기소개서)
+    public void updateNicknameIntroduction(MemberVO memberVO);
+
     //    회원 삭제
     public void delete(Long id);
 }
