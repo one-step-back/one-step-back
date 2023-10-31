@@ -55,7 +55,7 @@ public class MemberController {
             if (memberService.checkArtist(foundMember.get().getId()).isPresent()){
                 session.setAttribute("artistId", foundMember.get().getId());
             }
-            return new RedirectView("/my-page/my-page");
+            return new RedirectView("/");
         }
         redirectAttributes.addFlashAttribute("login", "fail");
         return new RedirectView("/member/login-email");

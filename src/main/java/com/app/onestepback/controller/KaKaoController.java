@@ -30,7 +30,6 @@ public class KaKaoController {
                 id = ((MemberVO)session.getAttribute("member")).getId();
             }
             memberService.join(foundInfo.get(), id);
-//          여기 지금 findByEmail().get() 이 null 이라고 함 -> 이메일로 검색이 안 됨, join이 제대로 안 됐음.
             MemberVO memberVO = memberService.findByEmail(foundInfo.get().getMemberEmail()).get();
             if ("DISABLE".equals(memberVO.getMemberStatus())) {
                 memberService.cancelWithdraw(memberVO.getId());
@@ -41,7 +40,7 @@ public class KaKaoController {
             if (memberService.checkArtist(memberVO.getId()).isPresent()){
                 session.setAttribute("artistId", memberVO.getId());
             }
-            return new RedirectView("/my-page/my-page");
+            return new RedirectView("/");
         }
         return new RedirectView("/member/login");
     }
