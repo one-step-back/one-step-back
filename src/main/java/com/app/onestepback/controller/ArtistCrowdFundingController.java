@@ -1,5 +1,6 @@
 package com.app.onestepback.controller;
 
+import com.app.onestepback.domain.CrowdFundingVO;
 import com.app.onestepback.domain.FundingRequestVO;
 import com.app.onestepback.domain.MemberVO;
 import com.app.onestepback.domain.Pagination;
@@ -48,7 +49,7 @@ public class ArtistCrowdFundingController {
 
     //    펀딩 요청 목록 & 작성 으로 이동
     @GetMapping("request")
-    public void goToRequest(FundingRequestVO fundingRequestVO, @RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
+    public void goToRequest(FundingRequestVO fundingRequestVO, CrowdFundingVO crowdFundingVO, @RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
         model.addAttribute("artist", artistService.getArtist(memberId).get());
         pagination.setTotal(artistCrowdFundingService.getCountOfFR(memberId));
         pagination.setPage(page);
@@ -58,6 +59,7 @@ public class ArtistCrowdFundingController {
         model.addAttribute("crowdFundingRequests", artistCrowdFundingService.getAllRequests(memberId, pagination));
     }
 
+    //    펀딩 요청 작성
     @PostMapping("request")
     // RequestParam
     public RedirectView request(FundingRequestVO fundingRequestVO, @RequestParam("memberId") Long memberId, HttpSession session){
@@ -66,6 +68,20 @@ public class ArtistCrowdFundingController {
         fundingRequestVO.setMemberId(memberId);
         fundingRequestVO.setWriterId(((MemberVO)session.getAttribute("member")).getId());
         artistCrowdFundingService.requestFunding(fundingRequestVO);
+        return new RedirectView("/artist/crowd-funding/request?memberId=" + memberId);
+    }
+
+    //    펀딩 요청 수락
+    @PostMapping("accept")
+    public RedirectView accept(CrowdFundingVO crowdFundingVO){
+        artistCrowdFundingService.acceptCrowdFundingRequest(crowdFundingVO);
+        return new RedirectView("/artist/crowd-funding/request?memberId=" + crowdFundingVO.getMemberId());
+    }
+
+    //    펀딩 요청 거절
+    @GetMapping("reject")
+    public RedirectView reject(Long id, Long memberId){
+        artistCrowdFundingService.rejectFundingRequest(id);
         return new RedirectView("/artist/crowd-funding/request?memberId=" + memberId);
     }
 

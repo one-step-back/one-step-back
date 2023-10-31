@@ -65,7 +65,7 @@ public class ArtistCrowdFundingServiceImpl implements ArtistCrowdFundingService 
     public void acceptCrowdFundingRequest(CrowdFundingVO crowdFundingVO) {
         artistCrowdFundingDAO.acceptCrowdFundingRequest(crowdFundingVO);
         //    펀딩 요청 테이블 수정
-        acceptFundingRequest(crowdFundingVO.getId());
+        acceptFundingRequest(crowdFundingVO.getMemberId());
     }
 
     //    크라우드 펀딩 수락시 펀딩 요청 테이블 수정
