@@ -56,7 +56,7 @@
     <select id="selectRequest" resultType="fundingRequestDTO">
         SELECT FR.ID, MEMBER_ID, WRITER_ID, FUNDING_REQUEST_TITLE, FUNDING_REQUEST_CONTENT, FUNDING_REQUEST_STATUS, M.ID AS "WRITER_MEMBER_ID", MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH
         FROM TBL_FUNDING_REQUEST FR JOIN TBL_MEMBER M
-                                         ON WRITER_ID = M.ID AND MEMBER_ID = #{memberId}
+                                         ON WRITER_ID = M.ID AND MEMBER_ID = #{memberId} AND FUNDING_REQUEST_STATUS = 'REQUESTED'
     </select>
 
     <insert id="insertRequest">

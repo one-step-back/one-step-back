@@ -85,7 +85,9 @@ public class ArtistCrowdFundingController {
         return new RedirectView("/artist/crowd-funding/request?memberId=" + memberId);
     }
 
-    //    펀딩 결제로 이동
+    //    펀딩 결제로 이동 - 제한
     @GetMapping("pay")
-    public void goToPay(){;}
+    public void goToPay(@RequestParam("memberId") Long memberId, Model model){
+        model.addAttribute("memberId", memberId);
+    }
 }
