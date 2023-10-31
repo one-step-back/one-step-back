@@ -56,6 +56,12 @@
         WHERE ID = #{id}
     </update>
 
+    <update id="updateNicknameIntroduction">
+        UPDATE TBL_MEMBER
+        SET MEMBER_NICKNAME = #{memberNickname}, MEMBER_INTRODUCTION = #{memberIntroduction}
+        WHERE ID = #{id}
+    </update>
+
     <delete id="delete">
         DELETE FROM TBL_MEMBER
         WHERE ID = #{id}

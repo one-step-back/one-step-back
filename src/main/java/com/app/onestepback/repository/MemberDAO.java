@@ -57,4 +57,9 @@ public class MemberDAO {
         memberMapper.delete(id);
     }
 
+    //    마이페이지(프로필) 수정(닉네임, 자기소개서)
+    public void updateByNicknameIntroduction(MemberVO memberVO){
+        memberMapper.updateNicknameIntroduction(memberVO);
+    }
+
 }

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일 변경</title>
-    <link rel="stylesheet" href="../../../root.css">
-    <link rel="stylesheet" href="../my-page.css">
+    <link rel="stylesheet" th:href="@{/css/main/root.css}">
+    <link rel="stylesheet" th:href="@{/css/my-page/my-page.css}">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
           onload="this.rel='stylesheet'">
@@ -19,10 +19,10 @@
         <div class="web-grid sub-header-container">
             <ul class="sub-header-navs">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">계정</a>
+                    <a class="nav-link" th:href="@{/my-page/my-page}">계정</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">프로필</a>
+                    <a class="nav-link" th:href="@{/my-page/profile}">프로필</a>
                 </li>
                 <h1 class="setting-font">
                     <a href="#">설정</a>
@@ -83,5 +83,5 @@
 </body>
 <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="../../static/js/my-page/email.js"></script>
+<script th:src="@{/js/my-page/email.js}"></script>
 </html>
