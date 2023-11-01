@@ -75,7 +75,7 @@ public class ArtistCrowdFundingController {
     @PostMapping("accept")
     public RedirectView accept(CrowdFundingVO crowdFundingVO){
         artistCrowdFundingService.acceptCrowdFundingRequest(crowdFundingVO);
-        return new RedirectView("/artist/crowd-funding/request?memberId=" + crowdFundingVO.getMemberId());
+        return new RedirectView("/artist/crowd-funding/list?memberId=" + crowdFundingVO.getMemberId());
     }
 
     //    펀딩 요청 거절
