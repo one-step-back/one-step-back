@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<header th:replace="~{/artist/blog-header::blog-header}"></header>
+<header th:replace="~{artist/blog-header::blog-header}"></header>
 <header style="z-index: 1000">
     <div class="h-blog-grid">
 
@@ -87,11 +87,16 @@
                                 </span>
                             </div>
                             <th:block th:if="${session.member != null}">
-                                <a th:if="${post.memberId == session.member.id}"
-                                   th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
-                                    게시글 수정
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </a>
+                                <div th:if="${post.memberId == session.member.id}" class="action-container">
+                                    <a th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
+                                        게시글 수정
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </a>
+                                    <button type="button" id="delete-btn">
+                                        <span>게시글 삭제</span>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </th:block>
                         </div>
 
@@ -347,7 +352,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/post/detail.js"></script>
 <script th:inline="javascript">
-    console.log([[${nextPost}]]);
+    console.log([[${post}]]);
 
     // 세션 값
     const session = /*[[${session.member}]]*/ null;
@@ -781,6 +786,20 @@
         bookmarkService.updateBookmarkPost(bookmarkStatus, bookmarkService.updateStatus);
     });
 
+    $("#delete-btn").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/artist/video/delete",
+            data: { id: [[${post.id}]] },
+            success: function () {
+                window.history.back();
+            },
+            error: function () {
+                // 삭제에 실패한 경우 에러 처리
+                console.log("포스트 삭제 실패");
+            }
+        });
+    });
 
 
 </script>

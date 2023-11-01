@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<header th:replace="~{/artist/blog-header::blog-header}"></header>
+<header th:replace="~{artist/blog-header::blog-header}"></header>
 <header style="z-index: 1000">
     <div class="h-blog-grid">
 
@@ -88,9 +88,8 @@
                                 </span>
                             </div>
                             <th:block th:if="${session.member != null}">
-                                <div class="action-container">
-                                    <a th:if="${post.memberId == session.member.id}"
-                                       th:href="@{/artist/post/edit(id=${post.id})}" class="edit-container">
+                                <div th:if="${post.memberId == session.member.id}" class="action-container">
+                                    <a th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
                                         게시글 수정
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>

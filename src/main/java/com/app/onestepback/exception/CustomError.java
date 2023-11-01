@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CustomError implements ErrorController {
     @GetMapping("/error")
     public String handleError(){
-        return "/error/error";
+        return "error/error";
     }
 
     @GetMapping("no-artist")
     public String noArtist(){
-        return "/error/no-artist";
+        return "error/no-artist";
     }
 }

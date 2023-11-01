@@ -11,7 +11,7 @@
     <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<header th:replace="~{/artist/blog-header::blog-header}"></header>
+<header th:replace="~{artist/blog-header::blog-header}"></header>
 
 <div id="blog"
      class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline">
@@ -27,10 +27,6 @@
                        th:unless="${artist.blogImgName == null}"
                        th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
                     <div class="action-group">
-                        <a class="btn btn-icon btn-share" href="https://u-t-wp.postype.com" aria-label="공유" title="공유"
-                           data-share-url="https://u-t-wp.postype.com">
-                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
-                        </a>
                         <button th:if="${session.member != null and artist.memberId != session.member.id}"
                                 class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
                                 data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">

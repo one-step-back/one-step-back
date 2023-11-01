@@ -59,14 +59,14 @@
                                                    th:if="*{tag5 != null}" th:text="*{tag5}"
                                                    class="general-tag"></a>
                                             </div>
-                                            <a th:href="${bannerPost.videoLink == null ? '/artist/post/detail?id=' + bannerPost.id : '/artist/video/detail?id=' + bannerPost.id}">
+                                            <a th:href="${bannerPost.videoLink == null ? 'artist/post/detail?id=' + bannerPost.id : 'artist/video/detail?id=' + bannerPost.id}">
                                                 <div class="contents-wrapper">
                                                     <div th:text="*{postTitle}" class="title"></div>
                                                     <div th:text="*{postContent}" class="contents"></div>
                                                 </div>
                                             </a>
                                         </div>
-                                        <a class="contents-bottom" th:href="@{/artist/main(memberId=*{memberId})}">
+                                        <a class="contents-bottom" th:href="@{artist/main(memberId=*{memberId})}">
                                             <div th:text="*{postCategory + ' · ' + memberNickname}"></div>
                                         </a>
                                     </div>
@@ -106,22 +106,22 @@
                         <th:block th:each="post:${posts}">
                             <div th:object="${post}" class="pool-post-container">
                                 <div class="post-contents">
-                                    <a class="post-data home-main" th:href="@{/artist/post/detail(id=*{id})}">
+                                    <a class="post-data home-main" th:href="@{artist/post/detail(id=*{id})}">
                                         <h3 th:text="*{postTitle}" class="title"></h3>
                                         <div th:text="*{postContent}" class="contents"></div>
                                     </a>
                                     <div class="post-data-thumbnail">
-                                        <a th:href="@{/artist/post/detail(id=*{id})}">
+                                        <a th:href="@{artist/post/detail(id=*{id})}">
                                             <img th:if="*{fileName == null}" src="/images/no-img.png" alt="">
                                             <img th:if="*{fileName != null}"
-                                                 th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
+                                                 th:src="@{file/display(fileName=*{filePath} + '/t_' + *{fileName})}"
                                                  th:alt="*{postTitle}">
                                         </a>
                                     </div>
                                 </div>
                                 <div class="post-contents-bottom">
                                     <div class="post-author">
-                                        <a class="user-profile-avatar" th:href="@{/artist/main(memberId=*{memberId})}">
+                                        <a class="user-profile-avatar" th:href="@{artist/main(memberId=*{memberId})}">
                                             <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
                                                  src="/images/none-avatar.svg">
                                             <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
@@ -130,7 +130,7 @@
                                         <div class="footer-info">
                                             <div class="user-profile-nickname text-truncate">
                                                 <a th:text="*{memberNickname}"
-                                                   th:href="@{/artist/main(memberId=*{memberId})}"></a>
+                                                   th:href="@{artist/main(memberId=*{memberId})}"></a>
                                             </div>
                                             <div class="post-meta text-alpha-black-47">
                                                 <time class="meta-item">2주 전</time>
@@ -179,17 +179,17 @@
                         <th:block th:each="crowdFunding:${crowdFundings}">
                             <div th:object="${crowdFunding}" class="component-goods">
                                 <div class="goods-data-thumbnail">
-                                    <a th:href="@{/artist/crowd-funding/list(memberId=*{memberId})}">
+                                    <a th:href="@{artist/crowd-funding/list(memberId=*{memberId})}">
                                         <div class="grid-image-wrapper ">
                                             <img th:if="*{fundingImgName == null}" src="/images/no-img.png" alt="">
                                             <img th:if="*{fundingImgName != null}"
-                                                 th:src="@{/file/display(fileName=*{fundingImgPath} + '/t_' + *{fundingImgName})}"
+                                                 th:src="@{file/display(fileName=*{fundingImgPath} + '/t_' + *{fundingImgName})}"
                                                  th:alt="*{fundingTitle}">
                                         </div>
                                     </a>
                                 </div>
                                 <div class="goods-data">
-                                    <a th:href="@{/artist/crowd-funding/list(memberId=*{memberId})}"
+                                    <a th:href="@{artist/crowd-funding/list(memberId=*{memberId})}"
                                        th:text="*{fundingTitle}" class="goods-item-title"></a>
                                     <div class="goods-author">
                                         <a class="user-profile-avatar" href="https://www.postype.com/profile/@9wppzx">
@@ -200,7 +200,7 @@
                                         </a>
                                         <div class="footer-info">
                                             <div class="user-profile-nickname text-truncate">
-                                                <a th:href="@{/artist/main(memberId=*{memberId})}"
+                                                <a th:href="@{artist/main(memberId=*{memberId})}"
                                                    th:text="*{memberNickname}"
                                                    rel="author"></a>
                                             </div>
@@ -275,7 +275,7 @@
         function getSubscribedArtist(callback) {
             $.ajax({
                 type: "GET",
-                url: `/subscription/bring-all-artists?memberId=${session.id}`,
+                url: `subscription/bring-all-artists?memberId=${session.id}`,
 
                 success: function (datas) {
                     console.log(datas)
@@ -293,7 +293,7 @@
             datas.forEach((data) => {
                 $.ajax({
                     type: "GET",
-                    url: `/subscription/get-one-post?memberId=${data.artistId}`,
+                    url: `subscription/get-one-post?memberId=${data.artistId}`,
 
                     success: function (post) {
                         console.log(post)
@@ -317,7 +317,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <a href="${post.videoLink == null ? `/artist/post/detail?id=${post.id}` : `/artist/video/detail?id=${post.id}`}" class="content-container">
+                                                <a href="${post.videoLink == null ? `artist/post/detail?id=${post.id}` : `artist/video/detail?id=${post.id}`}" class="content-container">
                                                     <div class="content-body">
                                                         <div class="content-head"><b>${data.memberNickname}</b>의 최근 게시물</div>
                                                         <div class="content-title">${post.postTitle}</div>

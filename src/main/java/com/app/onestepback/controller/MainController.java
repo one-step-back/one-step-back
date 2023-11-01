@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
+@RequestMapping
 @RequiredArgsConstructor
 public class MainController {
     private final MainService mainService;
