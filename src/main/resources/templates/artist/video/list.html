@@ -207,6 +207,8 @@
 
     const session = /*[[${session.member}]]*/ null;
     const bookmarkBtn = $(".bookmark-btn");
+    let subscriptionStatus = null;
+    let subscriberCount = null
 
     // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
     function getCounts(artistId) {
@@ -215,6 +217,7 @@
             url: "/getCounts?id=" + artistId,
             success: function (data) {
                 $("#subscriberCount").text(data[0]);
+                subscriberCount = data[0];
                 $("#allPostsCount").text(data[1] + data[2]);
                 $("#postsCount").text(data[2] + "개의 영상")
             },
@@ -355,6 +358,80 @@
         return {checkPost: checkPost, updateStatus: updateStatus, updateBookmarkPost: updateBookmarkPost}
     })();
 
+    const subscriptionService = (function () {
+        function checkSubscription(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/subscription/check-subscription",
+                data: {
+                    artistId: [[${artist.memberId}]],
+                    memberId: session.id
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateSubscription(callback, callback2) {
+            $.ajax({
+                type: "GET",
+                url: "/subscription/update-subscription",
+                data: {
+                    subscriptionStatus: subscriptionStatus,
+                    artistId: [[${artist.memberId}]],
+                    memberId: session.id
+                },
+                success: function (data) {
+                    if (callback) {
+                        callback(data)
+                    }
+                    if (callback2){
+                        callback2(data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
+                }
+            });
+        }
+
+        function updateStatus(data) {
+            if (data) {
+                subscriptionStatus = data
+                $(".btn-subscribe").addClass("active")
+            } else {
+                subscriptionStatus = data
+                $(".btn-subscribe").removeClass("active")
+            }
+        }
+
+        function updateCount(data) {
+            if (data){
+                subscriberCount ++;
+                $("#subscriberCount").text(subscriberCount);
+            } else {
+                subscriberCount --;
+                $("#subscriberCount").text(subscriberCount);
+            }
+        }
+
+
+        return {
+            checkSubscription: checkSubscription,
+            updateSubscription: updateSubscription,
+            updateStatus: updateStatus,
+            updateCount: updateCount
+        }
+    })()
+
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
         getCounts([[${artist.memberId}]]);
@@ -368,7 +445,12 @@
                 let postId = $(this).data('post-id');
                 bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
             })
+            subscriptionService.checkSubscription(subscriptionService.updateStatus);
         }
+    })
+
+    $(".btn-subscribe").click(()=>{
+        subscriptionService.updateSubscription(subscriptionService.updateStatus, subscriptionService.updateCount);
     })
 
     bookmarkBtn.click(function () {
