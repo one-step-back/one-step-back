@@ -4,7 +4,7 @@
     <select id="selectCountOfVideo" resultType="int">
         SELECT COUNT(MEMBER_ID)
         FROM VIEW_VIDEO_POST
-        WHERE MEMBER_ID = #{memberId}
+        WHERE MEMBER_ID = #{memberId} AND POST_READABLE &lt;> 'DISABLE'
     </select>
 
     <select id="select3Videos" resultType="VideoPostDTO">
@@ -39,6 +39,7 @@
               FROM VIEW_VIDEO_POST V
                        JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
               WHERE V.MEMBER_ID = #{memberId}
+                AND V.POST_READABLE != 'DISABLE'
               ORDER BY V.POST_WRITE_TIME DESC)
         WHERE ROWNUM &lt;= 3
     </select>
@@ -80,6 +81,7 @@
                     FROM VIEW_VIDEO_POST V
                              JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
                     WHERE MEMBER_ID = #{memberId}
+                      AND V.POST_READABLE != 'DISABLE'
                     ORDER BY V.POST_WRITE_TIME DESC) P1
               WHERE ROWNUM &lt;= #{pagination.endRow}) P2
         WHERE R >= #{pagination.startRow}
@@ -121,6 +123,7 @@
         FROM VIEW_VIDEO_POST V
                  JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
         WHERE V.ID = #{id}
+          AND V.POST_READABLE != 'DISABLE'
     </select>
 
     <select id="selectPrevPost" resultType="videoPostDTO">
@@ -132,6 +135,7 @@
               WHERE POST_WRITE_TIME &lt; #{postWriteTime}
                 AND ID != #{id}
                 AND MEMBER_ID = #{memberId}
+                AND POST_READABLE != 'DISABLE'
               ORDER BY POST_WRITE_TIME DESC)
         WHERE ROWNUM = 1
     </select>
@@ -145,15 +149,16 @@
               WHERE POST_WRITE_TIME > #{postWriteTime}
                 AND ID != #{id}
                 AND MEMBER_ID = #{memberId}
+                AND POST_READABLE != 'DISABLE'
               ORDER BY POST_WRITE_TIME)
         WHERE ROWNUM = 1
     </select>
 
     <update id="update">
         UPDATE TBL_POST
-        SET POST_TITLE = #{postTitle},
-            POST_CONTENT = #{postContent},
-            POST_CATEGORY = #{postCategory},
+        SET POST_TITLE       = #{postTitle},
+            POST_CONTENT     = #{postContent},
+            POST_CATEGORY    = #{postCategory},
             POST_UPDATE_TIME = CURRENT_TIMESTAMP
         WHERE ID = #{id}
     </update>

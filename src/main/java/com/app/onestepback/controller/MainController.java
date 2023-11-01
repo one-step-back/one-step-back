@@ -14,18 +14,18 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/")
+@RequestMapping
 @RequiredArgsConstructor
 public class MainController {
     private final MainService mainService;
 
     // 메인 페이지
-    @GetMapping
+    @GetMapping("/")
     public String goToMainForm(Model model) {
 
         model.addAttribute("bannerPosts", mainService.getElementsOfBanners());
         model.addAttribute("posts", mainService.getPostsForCards());
         model.addAttribute("crowdFundings", mainService.getCrowdfundingsForCards());
-        return "/main/main";
+        return "main/main";
     }
 }

@@ -22,7 +22,7 @@
 <body class="h-full overflow-x-hidden">
 <div class="__next">
     <div class="flex flex-col h-screen">
-        <header th:replace="~{/artist/blog-header::blog-header}"></header>
+        <header th:replace="~{artist/blog-header::blog-header}"></header>
 
         <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0; height: 3px;"></div>
         <form id="summit-form" class="mt-[32px]" th:action="@{/artist/post/write}" method="post"

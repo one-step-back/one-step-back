@@ -26,4 +26,7 @@ public interface VideoPostService {
     public void editVideoPost(VideoPostDTO videoPostDTO, int numberOfTags);
 
     public void viewCountUp(Long id);
+
+    public void erasePost(Long id);
+
 }

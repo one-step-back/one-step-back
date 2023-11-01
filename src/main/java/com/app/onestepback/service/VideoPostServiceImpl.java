@@ -146,4 +146,9 @@ public class VideoPostServiceImpl implements VideoPostService {
     public void viewCountUp(Long id) {
         postDAO.viewCountUp(id);
     }
+
+    @Override
+    public void erasePost(Long id) {
+        postDAO.erasePost(id);
+    }
 }

@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -76,5 +73,15 @@ public class VideoPostController {
         videoPostService.editVideoPost(videoPostDTO, numberOfTags);
 
         return new RedirectView("/artist/video/detail?id=" + videoPostDTO.getId());
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public RedirectView erasePost(@RequestParam("id") Long id, HttpSession session){
+        videoPostService.erasePost(id);
+
+        MemberVO member = (MemberVO) session.getAttribute("member");
+
+        return new RedirectView("/artist/post/list?memberId=" + member.getId());
     }
 }

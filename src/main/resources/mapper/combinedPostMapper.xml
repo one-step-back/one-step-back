@@ -31,6 +31,7 @@
                        LEFT JOIN TBL_ARTIST_POST A ON P.ID = A.POST_ID
                        LEFT JOIN TBL_VIDEO_POST V ON P.ID = V.POST_ID
                        JOIN TBL_MEMBER M ON P.MEMBER_ID = M.ID
+              WHERE POST_READABLE &lt;> 'DISABLE'
               ORDER BY LIKE_COUNT DESC, P.POST_VIEW_COUNT DESC, REPLY_COUNT DESC, P.ID DESC)
         WHERE ROWNUM &lt;= 5
     </select>
@@ -65,6 +66,7 @@
               FROM VIEW_ARTIST_POST A
                        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
               WHERE A.POST_WRITE_TIME >= ADD_MONTHS(SYSDATE, -1)
+                AND POST_READABLE &lt;> 'DISABLE'
               ORDER BY POST_VIEW_COUNT DESC, LIKE_COUNT DESC, REPLY_COUNT DESC, ID DESC)
         WHERE ROWNUM &lt;= 4
     </select>
