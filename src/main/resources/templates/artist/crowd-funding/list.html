@@ -15,8 +15,6 @@
 </head>
 <body>
 <div class="page-wrap">
-<<<<<<< HEAD
-=======
     <div id="b-modal">
         <div id="b-modal-link-container">
             <div class="b-modal-header">
@@ -38,13 +36,12 @@
             </div>
         </div>
     </div>
->>>>>>> d4718e54fd650fbe3ab391c7ceef4e4255155331
     <header th:replace="~{artist/blog-header::blog-header}"></header>
     <main style="padding-top: 60px;">
         <div class="blog-grid">
             <div class="blog-header">
                 <a class="blog-img" th:if="${artist.blogImgName == null}"
-                    style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4">
+                   style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4">
                 </a>
                 <a class="blog-img" th:unless="${artist.blogImgName == null}"
                    th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'">
@@ -102,21 +99,23 @@
                     <a th:if="${session.member == null}" th:href="@{'/member/login'}">
                         <button class="go-to-write">크라우드 펀딩 요청하기</button>
                     </a>
-                    <a th:if="${session.member != null}" th:href="@{/artist/crowd-funding/request(memberId=${artist.memberId})}">
+                    <a th:if="${session.member != null}"
+                       th:href="@{/artist/crowd-funding/request(memberId=${artist.memberId})}">
                         <button class="go-to-write">크라우드 펀딩 요청하기</button>
                     </a>
                 </div>
                 <th:block th:if="${#lists.size(crowdFundings) != 0}">
                     <div th:block th:each="crowdFunding:${crowdFundings}" class="crowd-funding-container">
-                        <article th:if="${artist.memberId == crowdFunding.writerId}" th:object="${crowdFunding}" class="crowd-funding-content">
+                        <article th:if="${artist.memberId == crowdFunding.writerId}" th:object="${crowdFunding}"
+                                 class="crowd-funding-content">
                             <div class="post">
                                 <div class="post-content">
                                     <h3 th:text="*{fundingTitle}" class="post-data-title">크라우드 펀딩 제목 테스트</h3>
-                                    <p th:text="*{fundingContent}" class="post-data-content" >크라우드 펀딩 내용 테스트</p>
+                                    <p th:text="*{fundingContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
                                 </div>
-    <!--                            <div th:block th:unless="*{fileName == null}" class="post-image-container">-->
-    <!--                                <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">-->
-    <!--                            </div>-->
+                                <!--                            <div th:block th:unless="*{fileName == null}" class="post-image-container">-->
+                                <!--                                <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">-->
+                                <!--                            </div>-->
                             </div>
                             <div class="join-btn-container">
                                 <button class="join-crowd-funding-btn">
@@ -126,11 +125,13 @@
                                 </button>
                             </div>
                             <div class="progress-percentage">
-                                <span th:text="(*{fundingSumCollected} / *{fundingTargetAmount}) * 100" class="percentage-font"></span>
+                                <span th:text="(*{fundingSumCollected} / *{fundingTargetAmount}) * 100"
+                                      class="percentage-font"></span>
                                 <span class="percentage-mark">%</span>
                             </div>
                             <div class="progress-total">
-                                <div th:style="'width:' + ((*{fundingSumCollected} / *{fundingTargetAmount}) * 100) + '%;'" class="progress-bar" role="progressbar"></div>
+                                <div th:style="'width:' + ((*{fundingSumCollected} / *{fundingTargetAmount}) * 100) + '%;'"
+                                     class="progress-bar" role="progressbar"></div>
                             </div>
                             <div class="funding-container">
                                 <div class="funding">
@@ -143,7 +144,8 @@
                                 </div>
                             </div>
                         </article>
-                        <article th:unless="${artist.memberId == crowdFunding.writerId}" th:object="${crowdFunding}" class="crowd-funding-content">
+                        <article th:unless="${artist.memberId == crowdFunding.writerId}" th:object="${crowdFunding}"
+                                 class="crowd-funding-content">
                             <div class="post">
                                 <div class="post-content">
                                     <h3 class="post-data-title">
@@ -152,17 +154,20 @@
                                             <span style="color: hotpink">팬 요청</span>
                                             <hr class="title-divider">
                                             <div class="post-request-user">
-                                                <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}" class="user-avatar-container">
+                                                <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}"
+                                                   class="user-avatar-container">
                                                     <img th:if="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl != null)}"
                                                          th:src="${crowdFunding.memberKakaoProfileUrl}">
                                                     <img th:if="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl == null) && (crowdFunding.memberProfilePath !=null)}"
                                                          th:src="@{/file/display(fileName=${crowdFunding.memberProfilePath} + '/' + ${crowdFunding.memberProfileName})}">
                                                     <img th:unless="${(artist.memberId != crowdFunding.writerId) && (crowdFunding.memberKakaoProfileUrl == null) && (crowdFunding.memberProfilePath !=null)}"
-                                                         class="no-avatar" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
+                                                         class="no-avatar"
+                                                         src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
                                                 </a>
                                                 <div class="artist-body">
                                                     <a th:href="@{/artist/main(memberId=${crowdFunding.writerId})}">
-                                                        <h3 th:text="${crowdFunding.memberNickname}" class="artist-nickname">테스트 요청자 유저</h3>
+                                                        <h3 th:text="${crowdFunding.memberNickname}"
+                                                            class="artist-nickname">테스트 요청자 유저</h3>
                                                     </a>
                                                 </div>
                                             </div>
@@ -179,11 +184,13 @@
                                 </button>
                             </div>
                             <div class="progress-percentage">
-                                <span th:text="(*{fundingSumCollected} / *{fundingTargetAmount}) * 100" class="percentage-font"></span>
+                                <span th:text="(*{fundingSumCollected} / *{fundingTargetAmount}) * 100"
+                                      class="percentage-font"></span>
                                 <span class="percentage-mark">%</span>
                             </div>
                             <div class="progress-total">
-                                <div th:style="'width:' + ((*{fundingSumCollected} / *{fundingTargetAmount}) * 100) + '%;'" class="progress-bar" role="progressbar"></div>
+                                <div th:style="'width:' + ((*{fundingSumCollected} / *{fundingTargetAmount}) * 100) + '%;'"
+                                     class="progress-bar" role="progressbar"></div>
                             </div>
                             <div class="funding-container">
                                 <div class="funding">
@@ -198,9 +205,9 @@
                         </article>
                     </div>
                 </th:block>
-<!--                <th:block th:unless="${#lists.size(crowdFundings) != 0}">-->
-<!--                    <div class="content-none">진행중인 크라우드 펀딩이 없습니다</div>-->
-<!--                </th:block>-->
+                <!--                <th:block th:unless="${#lists.size(crowdFundings) != 0}">-->
+                <!--                    <div class="content-none">진행중인 크라우드 펀딩이 없습니다</div>-->
+                <!--                </th:block>-->
                 <div id="page-wrap"></div>
             </div>
         </div>
@@ -249,7 +256,7 @@
     }
 
     // 크라우드 펀딩 갯수를 가져오는 ajax 모듈
-    function getCFCount(artistId){
+    function getCFCount(artistId) {
         $.ajax({
             type: "GET",
             url: "/artist/crowd-funding/getCFCount?memberId=" + artistId,

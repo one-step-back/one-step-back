@@ -89,7 +89,7 @@
                             </div>
                             <th:block th:if="${session.member != null}">
                                 <div th:if="${post.memberId == session.member.id}" class="action-container">
-                                    <a th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
+                                    <a th:href="@{/artist/post/edit(id=${post.id})}" class="edit-container">
                                         게시글 수정
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>

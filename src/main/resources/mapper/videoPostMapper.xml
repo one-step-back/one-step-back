@@ -132,10 +132,9 @@
                      POST_TITLE,
                      VIDEO_LINK
               FROM VIEW_VIDEO_POST
-              WHERE POST_WRITE_TIME &lt; #{postWriteTime}
-                AND ID != #{id}
-                AND MEMBER_ID = #{memberId}
+              WHERE MEMBER_ID = #{memberId}
                 AND POST_READABLE != 'DISABLE'
+                AND ID &lt; #{id}
               ORDER BY POST_WRITE_TIME DESC)
         WHERE ROWNUM = 1
     </select>
@@ -146,10 +145,9 @@
                      POST_TITLE,
                      VIDEO_LINK
               FROM VIEW_VIDEO_POST
-              WHERE POST_WRITE_TIME > #{postWriteTime}
-                AND ID != #{id}
-                AND MEMBER_ID = #{memberId}
+              WHERE MEMBER_ID = #{memberId}
                 AND POST_READABLE != 'DISABLE'
+                AND ID > #{id}
               ORDER BY POST_WRITE_TIME)
         WHERE ROWNUM = 1
     </select>

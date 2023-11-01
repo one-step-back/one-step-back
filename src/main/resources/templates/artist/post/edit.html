@@ -79,7 +79,7 @@
                                 <div class="tox-editor-container">
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
-                                            <textarea id="postContent" th:field="*{postContent}"
+                                            <textarea id="post-content" th:field="*{postContent}"
                                                       class="placeholder:font_body_regular_md"
                                                       cols="30" rows="10" placeholder="내용을 입력해주세요."></textarea>
                                         </div>
@@ -251,7 +251,7 @@
         $("#id").val(post.id);
         $("#postTitle").val(post.postTitle);
         $("#postSubtitle").val(post.postSubtitle);
-        $("#postContent").val(post.postContent);
+        $("#post-content").val(post.postContent);
         $("#postCategory").val(post.postCategory);
 
         for (let i = 1; i <= 5; i++) {
