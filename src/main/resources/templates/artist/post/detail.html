@@ -89,14 +89,16 @@
                             </div>
                             <th:block th:if="${session.member != null}">
                                 <div th:if="${post.memberId == session.member.id}" class="action-container">
-                                    <a th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
+                                    <a th:href="@{/artist/post/edit(id=${post.id})}" class="edit-container">
                                         게시글 수정
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-                                    <button type="button" id="delete-btn">
-                                        <span>게시글 삭제</span>
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
+                                    <form th:action="@{/artist/post/delete(id=${post.id})}" method="post">
+                                        <button type="submit" id="delete-btn">
+                                            <span>게시글 삭제</span>
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </th:block>
                         </div>

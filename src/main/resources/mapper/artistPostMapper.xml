@@ -4,7 +4,8 @@
     <select id="selectCountOfPost" resultType="int">
         SELECT COUNT(MEMBER_ID)
         FROM VIEW_ARTIST_POST
-        WHERE MEMBER_ID = #{memberId} AND POST_READABLE &lt;> 'DISABLE'
+        WHERE MEMBER_ID = #{memberId}
+          AND POST_READABLE &lt;> 'DISABLE'
     </select>
 
     <select id="select3Posts" resultType="artistPostDTO">
@@ -36,7 +37,8 @@
                         AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
               FROM VIEW_ARTIST_POST A
                        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
-              WHERE MEMBER_ID = #{memberId} AND A.POST_READABLE != 'DISABLE'
+              WHERE MEMBER_ID = #{memberId}
+                AND A.POST_READABLE != 'DISABLE'
               ORDER BY POST_WRITE_TIME DESC)
         WHERE ROWNUM &lt;= 3
     </select>
@@ -87,7 +89,8 @@
                               AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
                     FROM VIEW_ARTIST_POST A
                              JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
-                    WHERE MEMBER_ID = #{memberId} AND A.POST_READABLE != 'DISABLE'
+                    WHERE MEMBER_ID = #{memberId}
+                      AND A.POST_READABLE != 'DISABLE'
                     ORDER BY POST_WRITE_TIME DESC) P1
               WHERE ROWNUM &lt;= #{pagination.endRow}) P2
         WHERE P2.R >= #{pagination.startRow}
@@ -145,11 +148,11 @@
                       WHERE F.POST_ID = A.ID
                         AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
               FROM VIEW_ARTIST_POST A
-              WHERE POST_WRITE_TIME &lt; #{postWriteTime}
-                AND ID != #{id}
-                AND MEMBER_ID = #{memberId}
+              WHERE MEMBER_ID = #{memberId}
                 AND A.POST_READABLE != 'DISABLE'
-              ORDER BY POST_WRITE_TIME DESC)
+                AND ID &lt; #{id}
+              ORDER BY ID
+             )
         WHERE ROWNUM = 1
     </select>
 
@@ -167,20 +170,20 @@
                       WHERE F.POST_ID = A.ID
                         AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
               FROM VIEW_ARTIST_POST A
-              WHERE POST_WRITE_TIME > #{postWriteTime}
-                AND ID != #{id}
-                AND MEMBER_ID = #{memberId}
+              WHERE MEMBER_ID = #{memberId}
                 AND A.POST_READABLE != 'DISABLE'
-              ORDER BY POST_WRITE_TIME)
+                AND ID > #{id}
+              ORDER BY ID
+             )
         WHERE ROWNUM = 1
     </select>
 
     <update id="update">
         UPDATE TBL_POST
-        SET POST_TITLE = #{postTitle},
-            POST_SUBTITLE = #{postSubtitle},
-            POST_CONTENT = #{postContent},
-            POST_CATEGORY = #{postCategory},
+        SET POST_TITLE       = #{postTitle},
+            POST_SUBTITLE    = #{postSubtitle},
+            POST_CONTENT     = #{postContent},
+            POST_CATEGORY    = #{postCategory},
             POST_UPDATE_TIME = CURRENT_TIMESTAMP
         WHERE ID = #{id}
     </update>
