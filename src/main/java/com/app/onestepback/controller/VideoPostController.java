@@ -76,12 +76,11 @@ public class VideoPostController {
     }
 
     @PostMapping("delete")
-    @ResponseBody
     public RedirectView erasePost(@RequestParam("id") Long id, HttpSession session){
         videoPostService.erasePost(id);
 
         MemberVO member = (MemberVO) session.getAttribute("member");
 
-        return new RedirectView("/artist/post/list?memberId=" + member.getId());
+        return new RedirectView("/artist/video/list?memberId=" + member.getId());
     }
 }

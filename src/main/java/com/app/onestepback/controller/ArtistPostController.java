@@ -85,7 +85,6 @@ public class ArtistPostController {
     }
 
     @PostMapping("delete")
-    @ResponseBody
     public RedirectView erasePost(@RequestParam("id") Long id, HttpSession session){
         artistPostService.erasePost(id);
 
