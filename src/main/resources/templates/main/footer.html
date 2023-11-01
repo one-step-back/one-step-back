@@ -16,26 +16,36 @@
                 <li class="list-inline-item">
                     <a href="/"><b>홈</b></a>
                 </li>
+<!--                <li class="list-inline-item">-->
+<!--                    <a href="#">추천 아티스트</a>-->
+<!--                </li>-->
+<!--                <li class="list-inline-item">-->
+<!--                    <a href="#">아티스트 펀딩</a>-->
+<!--                </li>-->
                 <li class="list-inline-item">
-                    <a href="#">추천 아티스트</a>
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">내 채널</a>
+                    <th:block th:unless="${session.member == null}">
+                        <a th:if="${session.member != null and artistId != null}" th:href="@{/artist/main(memberId=${session.member.id})}">내 채널</a>
+                        <a th:unless="${session.member != null and artistId != null}" th:href="@{/my-page/my-page}">내 채널</a>
+                    </th:block>
                 </li>
                 <li class="list-inline-item">
-                    <a href="#">아티스트 펀딩</a>
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">마이 아티스트</a>
+                    <th:block th:unless="${session.member == null}">
+                        <a th:if="${session.member != null and artistId != null}" th:href="@{/artist/list(memberId=${session.member.id})}">마이 아티스트</a>
+                        <a th:unless="${session.member != null and artistId != null}" th:href="@{/my-page/my-page}">마이 아티스트</a>
+                    </th:block>
+                </li>
+<!--                <li class="list-inline-item">-->
+<!--                    <a href="#">보관함</a>-->
+<!--                </li>-->
+                <li class="list-inline-item">
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">마이 페이지</a>
+                    <a th:unless="${session.member == null}" href="/my-page/my-page">마이 페이지</a>
                 </li>
                 <li class="list-inline-item">
-                    <a href="#">내 채널</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">마이 아티스트</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">보관함</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">마이 페이지</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">도움 센터</a>
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">도움 센터</a>
+                    <a th:unless="${session.member == null}" href="/inquiry/write">도움 센터</a>
                 </li>
                 <li class="list-inline-item copyright">© OneStep, Inc.</li>
             </ul>

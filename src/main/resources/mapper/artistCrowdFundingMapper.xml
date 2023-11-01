@@ -66,7 +66,7 @@
 
     <insert id="insert">
         INSERT INTO TBL_CROWDFUNDING (ID, MEMBER_ID, WRITER_ID, FUNDING_TITLE, FUNDING_CONTENT, FUNDING_TARGET_AMOUNT, FUNDING_WRITE_TIME, FUNDING_TIME_LIMIT)
-        VALUES (SEQ_CROWDFUNDING.NEXTVAL, #{memberId}, #{writerId}, #{fundingTitle}, #{fundingContent}, #{fundingTargetAmount}, CURRENT_TIMESTAMP, #{fundingTimeLimit})
+        VALUES (SEQ_CROWDFUNDING.NEXTVAL, #{memberId}, #{writerId}, #{fundingTitle}, #{fundingContent}, #{fundingTargetAmount}, SYSDATE, TO_DATE(#{fundingTimeLimit}, 'YYYY-MM-DD'))
     </insert>
 
     <update id="updateToAccepted">
@@ -83,7 +83,7 @@
 
     <update id="updateToEnded">
         UPDATE TBL_CROWDFUNDING
-        SET FUNDING_CONTENT = 'ENDED', FUNDING_UPDATE_TIME = CURRENT_TIMESTAMP
+        SET FUNDING_CONTENT = 'ENDED', FUNDING_UPDATE_TIME = SYSDATE
         WHERE ID = #{id}
     </update>
 
