@@ -69,6 +69,6 @@ public class MemberController {
     @GetMapping("logout")
     public RedirectView logout(HttpSession session) {
         session.invalidate();
-        return new RedirectView("/member/login");
+        return new RedirectView("/");
     }
 }
