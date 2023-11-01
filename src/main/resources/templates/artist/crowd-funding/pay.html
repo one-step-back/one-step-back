@@ -84,4 +84,10 @@
 <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/crowd-funding/pay.js"></script>
+<script th:inline="javascript">
+    const memberId = [[${memberId}]];
+    alert('준비중인 서비스입니다.');
+    // 로그인 페이지로 이동
+    window.location.href = "list?memberId=" + memberId;
+</script>
 </html>

@@ -63,9 +63,11 @@ public class ArtistCrowdFundingServiceImpl implements ArtistCrowdFundingService 
     //    크라우드 펀딩 수락
     @Override
     public void acceptCrowdFundingRequest(CrowdFundingVO crowdFundingVO) {
+        //    crowdFundingVO에 FundingRequest의 id 값을 담은채로 넘겨옴
+        //    매퍼에서는 SEQ_CROWDFUNDING.NEXTVAL로 새로운 id를 부여하기 때문에 잘못된 id 사용 없음.
         artistCrowdFundingDAO.acceptCrowdFundingRequest(crowdFundingVO);
-        //    펀딩 요청 테이블 수정
-        acceptFundingRequest(crowdFundingVO.getMemberId());
+        //    펀딩 요청 테이블 수정 - 담아온 id 값을 사용
+        acceptFundingRequest(crowdFundingVO.getId());
     }
 
     //    크라우드 펀딩 수락시 펀딩 요청 테이블 수정

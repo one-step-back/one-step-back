@@ -28,7 +28,9 @@ public class MemberController {
 
     // 회원가입 페이지로 이동
     @GetMapping("join")
-    public void goToJoinForm(MemberVO memberVO){;}
+    public String goToJoinForm(MemberVO memberVO){
+        return "member/join";
+    }
 
     // 회원가입
     @PostMapping("join")
@@ -39,13 +41,15 @@ public class MemberController {
 
     // 로그인 페이지로 이동
     @GetMapping("login")
-    public void goToLoginForm(MemberVO memberVO) {
-        ;
+    public String goToLoginForm(MemberVO memberVO) {
+        return "member/login";
     }
 
     // 이메일 로그인 페이지로 이동
     @GetMapping("login-email")
-    public void goToLoginEmailForm(MemberVO memberVO){;}
+    public String goToLoginEmailForm(MemberVO memberVO){
+        return "member/login-email";
+    }
     @PostMapping("login-email")
     public RedirectView login(MemberVO memberVO, HttpSession session, RedirectAttributes redirectAttributes){
         log.info(memberVO.toString());
@@ -55,7 +59,7 @@ public class MemberController {
             if (memberService.checkArtist(foundMember.get().getId()).isPresent()){
                 session.setAttribute("artistId", foundMember.get().getId());
             }
-            return new RedirectView("/my-page/my-page");
+            return new RedirectView("/");
         }
         redirectAttributes.addFlashAttribute("login", "fail");
         return new RedirectView("/member/login-email");
