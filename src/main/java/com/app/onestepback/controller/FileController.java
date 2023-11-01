@@ -50,7 +50,7 @@ public class FileController {
 
     @GetMapping("display")
     public byte[] display(String fileName) throws IOException{
-        return FileCopyUtils.copyToByteArray(new File("/usr/upload", fileName));
+        return FileCopyUtils.copyToByteArray(new File("/usr/upload/", fileName));
     }
 
     @PostMapping("delete")

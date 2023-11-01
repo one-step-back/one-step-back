@@ -15,7 +15,7 @@
 </head>
 <div class="page-wrap">
     <header th:replace="~{artist/blog-header::blog-header}"></header>
-    <main style="padding-top: 60px;">
+    <main style="padding-top: 60px; min-height: 96vh;">
         <div class="blog-grid">
             <div class="crowd-funding-wrap">
                 <div class="crowd-funding-head">
@@ -54,8 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">                            -->
-                            <div class="btn-wrap">
+                            <div th:if="${session.member != null and artist.memberId == session.member.id}" class="btn-wrap">
                                 <button class="accept-btn">수락하기</button>
                                 <a th:href="@{'/artist/crowd-funding/reject?id=' + ${crowdFundingRequest.id} + '&memberId=' + ${crowdFundingRequest.memberId}}">
                                     <button class="refuse-btn">취소하기</button>
@@ -108,8 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                                <!--                            <div th:if="${session.member != null and artist.memberId != session.member.id}" class="btn-wrap">-->
-                            <div class="btn-wrap">
+                            <div th:if="${session.member != null and crowdFundingRequest.memberId == session.member.id}" class="btn-wrap">
                                 <button class="accept-btn">수락하기</button>
                                 <a th:href="@{'/artist/crowd-funding/reject?id=' + ${crowdFundingRequest.id} + '&memberId=' + ${crowdFundingRequest.memberId}}">
                                     <button class="refuse-btn">취소하기</button>

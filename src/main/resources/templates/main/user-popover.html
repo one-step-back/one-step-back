@@ -29,7 +29,7 @@
         <div class="dropdown-menu" id="profile-list" x-placement="top-start"
              style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-4px, 4px, 0px);">
             <h6 class="dropdown-header">마이페이지</h6>
-            <a class="dropdown-item" href="Namho/my-page/my-page.html">
+            <a class="dropdown-item" href="/my-page/my-page">
                 <div class="profile-avatar avatar-24">
                     <img th:if="${session.member.memberKakaoProfileUrl == null and session.member.memberProfileName == null}"
                          class="profile-img" src="/images/none-avatar.svg" alt="">
@@ -50,12 +50,12 @@
             <a class="dropdown-item" href="/my-page/profile">내 프로필</a>
         </div>
     </div>
-    <a class="dropdown-item" href="/">홈</a>
+<!--    <a class="dropdown-item" href="/">홈</a>-->
     <th:block th:if="${session.artistId != null}">
         <a class="dropdown-item" th:href="@{/artist/main(memberId=${session.member.id})}">내 블로그</a>
-        <a class="dropdown-item" th:href="@{/artist/main(memberId=${session.member.id})}">내 크라우드 펀딩</a>
+        <a class="dropdown-item" th:href="@{/artist/list(memberId=${session.member.id})}">내 크라우드 펀딩</a>
+        <div class="dropdown-divider"></div>
     </th:block>
-    <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="/inquiry/write">문의</a>
     <a id="dropdown-item-logout" class="dropdown-item" href="/member/logout">로그아웃</a>
 </nav>

@@ -37,7 +37,7 @@
         </div>
     </div>
     <header th:replace="~{artist/blog-header::blog-header}"></header>
-    <main style="padding-top: 60px;">
+    <main style="padding-top: 60px; min-height: 95vh;">
         <div class="blog-grid">
             <div class="blog-header">
                 <a class="blog-img" th:if="${artist.blogImgName == null}"
@@ -93,7 +93,7 @@
             </div>
             <div class="crowd-funding-wrap">
                 <div class="crowd-funding-head">
-                    <div style="display: flex; flex-wrap: wrap">
+                    <div style="display: flex; flex-wrap: wrap;">
                         <span id="crowdFundingCount"></span>개의 크라우드 펀딩이 진행 중 입니다.
                     </div>
                     <a th:if="${session.member == null}" th:href="@{'/member/login'}">
@@ -205,13 +205,13 @@
                         </article>
                     </div>
                 </th:block>
-                <!--                <th:block th:unless="${#lists.size(crowdFundings) != 0}">-->
-                <!--                    <div class="content-none">진행중인 크라우드 펀딩이 없습니다</div>-->
-                <!--                </th:block>-->
-                <div id="page-wrap"></div>
+<!--                <th:block th:unless="${#lists.size(crowdFundings) != 0}">-->
+<!--                    <div class="content-none">진행중인 크라우드 펀딩이 없습니다</div>-->
+<!--                </th:block>-->
             </div>
         </div>
     </main>
+    <div id="page-wrap" style="position: relative;"></div>
 </div>
 </body>
 <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
