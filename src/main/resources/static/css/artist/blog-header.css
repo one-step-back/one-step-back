@@ -271,3 +271,9 @@ header {
 .h-popover-menu-item:hover {
     background-color: #f8f8f8;
 }
+
+.h-inactive {
+    color: #808080 !important;
+    background: transparent !important;
+    cursor: default !important;
+}
