@@ -2416,3 +2416,9 @@ address {
         }
     }
 }
+
+.h-inactive {
+    color: #808080 !important;
+    background: transparent !important;
+    cursor: default !important;
+}

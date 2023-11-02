@@ -56,7 +56,7 @@
                                 <a class="active">영상</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}">커뮤니티</a>
+                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}" class="inactive">커뮤니티</a>
                             </li>
                             <li>
                                 <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
@@ -86,7 +86,7 @@
                                         <a class="profile-img-link profile-avatar avatar-36"
                                            th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
                                             <img class="profile-img"
-                                                 src="/images/none-avatar.svg">
+                                                 src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
                                         </a>
                                         <div class="media-body profile-title-box">
                                             <span class="profile-title">
