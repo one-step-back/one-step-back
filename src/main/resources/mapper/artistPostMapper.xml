@@ -9,7 +9,22 @@
     </select>
 
     <select id="select3Posts" resultType="artistPostDTO">
-        SELECT *
+        SELECT ID,
+               MEMBER_ID,
+               POST_TITLE,
+               POST_SUBTITLE,
+               POST_CONTENT,
+               POST_CATEGORY,
+               POST_VIEW_COUNT,
+               POST_WRITE_TIME,
+               MEMBER_NICKNAME,
+               MEMBER_KAKAO_PROFILE_URL,
+               MEMBER_PROFILE_NAME,
+               MEMBER_PROFILE_PATH,
+               LIKE_COUNT,
+               REPLY_COUNT,
+               FILE_NAME,
+               FILE_PATH
         FROM (SELECT A.ID,
                      A.MEMBER_ID,
                      A.POST_TITLE,
@@ -18,7 +33,6 @@
                      A.POST_CATEGORY,
                      A.POST_VIEW_COUNT,
                      A.POST_WRITE_TIME,
-                     A.POST_UPDATE_TIME,
                      M.MEMBER_NICKNAME,
                      M.MEMBER_KAKAO_PROFILE_URL,
                      M.MEMBER_PROFILE_NAME,
@@ -60,7 +74,23 @@
                REPLY_COUNT,
                FILE_NAME,
                FILE_PATH
-        FROM (SELECT ROWNUM R, P1.*
+        FROM (SELECT ROWNUM R,
+                     P1.ID,
+                     P1.MEMBER_ID,
+                     P1.POST_TITLE,
+                     P1.POST_SUBTITLE,
+                     P1.POST_CONTENT,
+                     P1.POST_CATEGORY,
+                     P1.POST_VIEW_COUNT,
+                     P1.POST_WRITE_TIME,
+                     P1.MEMBER_NICKNAME,
+                     P1.MEMBER_KAKAO_PROFILE_URL,
+                     P1.MEMBER_PROFILE_NAME,
+                     P1.MEMBER_PROFILE_PATH,
+                     P1.LIKE_COUNT,
+                     P1.REPLY_COUNT,
+                     P1.FILE_NAME,
+                     P1.FILE_PATH
               FROM (SELECT A.ID,
                            A.MEMBER_ID,
                            A.POST_TITLE,
@@ -135,7 +165,7 @@
     </select>
 
     <select id="selectPrevPost" resultType="artistPostDTO">
-        SELECT *
+        SELECT ID, POST_TITLE, POST_SUBTITLE, FILE_NAME, FILE_PATH
         FROM (SELECT ID,
                      POST_TITLE,
                      POST_SUBTITLE,
@@ -151,13 +181,12 @@
               WHERE MEMBER_ID = #{memberId}
                 AND A.POST_READABLE != 'DISABLE'
                 AND ID &lt; #{id}
-              ORDER BY ID
-             )
+              ORDER BY ID)
         WHERE ROWNUM = 1
     </select>
 
     <select id="selectNextPost" resultType="artistPostDTO">
-        SELECT *
+        SELECT ID, POST_TITLE, POST_SUBTITLE, FILE_NAME, FILE_PATH
         FROM (SELECT ID,
                      POST_TITLE,
                      POST_SUBTITLE,
@@ -173,8 +202,7 @@
               WHERE MEMBER_ID = #{memberId}
                 AND A.POST_READABLE != 'DISABLE'
                 AND ID > #{id}
-              ORDER BY ID
-             )
+              ORDER BY ID)
         WHERE ROWNUM = 1
     </select>
 

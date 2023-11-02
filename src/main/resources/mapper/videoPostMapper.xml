@@ -4,11 +4,28 @@
     <select id="selectCountOfVideo" resultType="int">
         SELECT COUNT(MEMBER_ID)
         FROM VIEW_VIDEO_POST
-        WHERE MEMBER_ID = #{memberId} AND POST_READABLE &lt;> 'DISABLE'
+        WHERE MEMBER_ID = #{memberId}
+          AND POST_READABLE &lt;> 'DISABLE'
     </select>
 
     <select id="select3Videos" resultType="VideoPostDTO">
-        SELECT *
+        SELECT ID,
+               MEMBER_ID,
+               POST_TITLE,
+               POST_SUBTITLE,
+               POST_CONTENT,
+               POST_CATEGORY,
+               POST_VIEW_COUNT,
+               POST_WRITE_TIME,
+               VIDEO_LINK,
+               MEMBER_NICKNAME,
+               MEMBER_KAKAO_PROFILE_URL,
+               MEMBER_PROFILE_NAME,
+               MEMBER_PROFILE_PATH,
+               LIKE_COUNT,
+               REPLY_COUNT,
+               FILE_NAME,
+               FILE_PATH
         FROM (SELECT V.ID,
                      V.MEMBER_ID,
                      V.POST_TITLE,
@@ -59,7 +76,21 @@
                P2.MEMBER_PROFILE_PATH,
                P2.LIKE_COUNT,
                P2.REPLY_COUNT
-        FROM (SELECT ROWNUM R, P1.*
+        FROM (SELECT ROWNUM R,
+                     P1.ID,
+                     P1.MEMBER_ID,
+                     P1.POST_TITLE,
+                     P1.POST_CONTENT,
+                     P1.POST_CATEGORY,
+                     P1.POST_VIEW_COUNT,
+                     P1.POST_WRITE_TIME,
+                     P1.VIDEO_LINK,
+                     P1.MEMBER_NICKNAME,
+                     P1.MEMBER_KAKAO_PROFILE_URL,
+                     P1.MEMBER_PROFILE_NAME,
+                     P1.MEMBER_PROFILE_PATH,
+                     P1.LIKE_COUNT,
+                     P1.REPLY_COUNT
               FROM (SELECT V.ID,
                            V.MEMBER_ID,
                            V.POST_TITLE,
@@ -127,7 +158,7 @@
     </select>
 
     <select id="selectPrevPost" resultType="videoPostDTO">
-        SELECT *
+        SELECT ID, POST_TITLE, VIDEO_LINK
         FROM (SELECT ID,
                      POST_TITLE,
                      VIDEO_LINK
@@ -140,7 +171,7 @@
     </select>
 
     <select id="selectNextPost" resultType="videoPostDTO">
-        SELECT *
+        SELECT ID, POST_TITLE, VIDEO_LINK
         FROM (SELECT ID,
                      POST_TITLE,
                      VIDEO_LINK
