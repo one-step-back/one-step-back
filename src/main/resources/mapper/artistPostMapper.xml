@@ -181,7 +181,7 @@
               WHERE MEMBER_ID = #{memberId}
                 AND A.POST_READABLE != 'DISABLE'
                 AND ID &lt; #{id}
-              ORDER BY ID)
+              ORDER BY ID DESC)
         WHERE ROWNUM = 1
     </select>
 

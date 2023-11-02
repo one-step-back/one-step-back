@@ -166,7 +166,7 @@
               WHERE MEMBER_ID = #{memberId}
                 AND POST_READABLE != 'DISABLE'
                 AND ID &lt; #{id}
-              ORDER BY POST_WRITE_TIME DESC)
+              ORDER BY ID DESC)
         WHERE ROWNUM = 1
     </select>
 
@@ -179,7 +179,7 @@
               WHERE MEMBER_ID = #{memberId}
                 AND POST_READABLE != 'DISABLE'
                 AND ID > #{id}
-              ORDER BY POST_WRITE_TIME)
+              ORDER BY ID)
         WHERE ROWNUM = 1
     </select>
 
