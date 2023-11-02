@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,10 +24,12 @@ public class InquiryController {
     public void goToWriteForm(InquiryVO inquiryVO, HttpSession session){;}
 
     @PostMapping("write")
-    public void saveInquiry(InquiryVO inquiryVO, HttpSession session){
+    public RedirectView saveInquiry(InquiryVO inquiryVO, HttpSession session){
         MemberVO foundMember = (MemberVO) session.getAttribute("member");
 
         inquiryVO.setMemberId(foundMember.getId());
         inquiryService.saveInquiry(inquiryVO);
+
+        return new RedirectView("/");
     }
 }

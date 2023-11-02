@@ -16,7 +16,7 @@
         <a class="btn btn-change-profile" href="#" aria-haspopup="true" aria-expanded="false" title="프로필 전환">
             <div class="profile-avatar my-menu-profile-avatar avatar-24">
                 <img th:if="${session.member.memberKakaoProfileUrl == null and session.member.memberProfileName == null}"
-                     class="profile-img" src="/images/none-avatar.svg" alt="">
+                     class="profile-img" src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png" alt="">
                 <img th:if="${session.member.memberKakaoProfileUrl != null and session.member.memberProfileName == null}"
                      class="profile-img" th:src="${session.member.memberKakaoProfileUrl}" alt="">
             </div>
@@ -29,7 +29,7 @@
         <div class="dropdown-menu" id="profile-list" x-placement="top-start"
              style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-4px, 4px, 0px);">
             <h6 class="dropdown-header">마이페이지</h6>
-            <a class="dropdown-item" href="/my-page/my-page">
+            <a class="dropdown-item h-inactive">
                 <div class="profile-avatar avatar-24">
                     <img th:if="${session.member.memberKakaoProfileUrl == null and session.member.memberProfileName == null}"
                          class="profile-img" src="/images/none-avatar.svg" alt="">
@@ -47,7 +47,7 @@
             <!--                새 프로필 만들기-->
             <!--            </a>-->
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/my-page/profile">내 프로필</a>
+            <a class="dropdown-item h-inactive">내 프로필</a>
         </div>
     </div>
 <!--    <a class="dropdown-item" href="/">홈</a>-->
