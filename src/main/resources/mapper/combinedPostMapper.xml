@@ -129,6 +129,7 @@
                        LEFT JOIN TBL_ARTIST_POST A ON P.ID = A.POST_ID
                        LEFT JOIN TBL_VIDEO_POST V ON P.ID = V.POST_ID
               WHERE P.MEMBER_ID = #{memberId}
+                AND P.POST_READABLE != 'DISABLE'
               ORDER BY P.ID DESC)
         WHERE ROWNUM = 1
     </select>
