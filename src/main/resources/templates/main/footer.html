@@ -25,12 +25,15 @@
                 <li class="list-inline-item">
                     <a th:if="${session.member == null}" th:href="@{'/member/login'}">내 채널</a>
                     <th:block th:unless="${session.member == null}">
-                        <a th:if="${session.member != null and artistId != null}" th:href="@{/artist/main(memberId=${session.member.id})}">내 채널</a>
-                        <a th:unless="${session.member != null and artistId != null}" th:href="@{/my-page/my-page}">내 채널</a>
+                        <a th:if="${session.artistId != null}" th:href="@{/artist/main(memberId=${session.member.id})}">내 채널</a>
+                        <a th:unless="${session.artistId != null}" th:href="@{/my-page/my-page}">내 채널</a>
                     </th:block>
                 </li>
                 <li class="list-inline-item h-inactive">
-                    <a>마이 아티스트</a>
+                    <a th:if="${session.member == null}" th:href="@{'/member/login'}">마이 아티스트</a>
+                    <th:block th:unless="${session.member == null}">
+                        <a th:href="@{/my-artist/list}">마이 아티스트</a>
+                    </th:block>
                 </li>
 <!--                <li class="list-inline-item">-->
 <!--                    <a href="#">보관함</a>-->
