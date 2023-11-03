@@ -112,6 +112,7 @@
                                 <div class="post-content">
                                     <h3 th:text="*{fundingTitle}" class="post-data-title">크라우드 펀딩 제목 테스트</h3>
                                     <p th:text="*{fundingContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
+                                    <p th:text="'종료일: '+ *{#strings.substring(fundingTimeLimit, 0, 10)}" class="post-data-content">크라우드 펀딩 종료 날짜 테스트</p>
                                 </div>
                                 <!--                            <div th:block th:unless="*{fileName == null}" class="post-image-container">-->
                                 <!--                                <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">-->
@@ -174,6 +175,7 @@
                                         </span>
                                     </h3>
                                     <p th:text="*{fundingContent}" class="post-data-content">크라우드 펀딩 내용 테스트</p>
+                                    <p th:text="'종료일: '+ *{#strings.substring(fundingTimeLimit, 0, 10)}" class="post-data-content">크라우드 펀딩 종료 날짜 테스트</p>
                                 </div>
                             </div>
                             <div class="join-btn-container">
