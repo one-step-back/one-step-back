@@ -29,4 +29,5 @@ public interface VideoPostMapper {
 
     public Optional<VideoPostDTO> selectNextPost(VideoPostDTO videoPostDTO);
 
+    public List<VideoPostDTO> select6Videos();
 }

@@ -25,6 +25,7 @@ public class MainController {
 
         model.addAttribute("bannerPosts", mainService.getElementsOfBanners());
         model.addAttribute("posts", mainService.getPostsForCards());
+        model.addAttribute("videos", mainService.getVideosForCards());
         model.addAttribute("crowdFundings", mainService.getCrowdfundingsForCards());
         return "main/main";
     }
