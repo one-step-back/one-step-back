@@ -619,3 +619,7 @@
         margin-top: 20px;
     }
 }
+
+.inactive {
+    display: none !important;
+}
