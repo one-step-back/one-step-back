@@ -438,6 +438,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
     color: rgba(0, 0, 0, .47);
 }
 
