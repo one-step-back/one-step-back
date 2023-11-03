@@ -34,8 +34,8 @@
                             <span class="active-text">구독중</span>
                         </button>
                     </div>
-                    <span class="channel-meta">구독자 <span class="count"></span>명 · 포스트 <span
-                            class="count"></span>개</span>
+                    <span class="channel-meta">구독자 <span id="subscriberCount"></span>명 · 포스트 <span
+                            id="postCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
                             <a th:text="${artist.artistBlogName}"
@@ -156,7 +156,22 @@
 <script src="https://js.bootpay.co.kr/bootpay-4.3.3.min.js" type="application/javascript"></script>
 <script th:inline="javascript">
 
-    const user = [[${session.member}]];
+    function getCounts(artistId) {
+        // 아약스 문법은 j쿼리 버전의 페치임
+        $.ajax({
+            type: "GET",
+            url: "/getCounts?id=" + artistId,
+            success: function (data) {
+                // data는 2칸의 배열을 반납, 0은 구독자 수, 1은 비디오 포스트와 일반 포스트의 합산
+                // 현재 구독자수 전역변수에 구독자 수 삽입
+                $("#subscriberCount").text(data[0]);
+                $("#postCount").text(data[1] + data[2]);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
 
     function payment(amountOfMoney, name, email, tel) {
         // Bootpay.requestPayment 함수를 호출하고 입력란의 값으로 price 필드를 설정합니다.
@@ -208,6 +223,10 @@
 
         payment(amountOfMoney, name, email, tel);
     });
+
+    $(function (){
+        getCounts([[${artist.memberId}]]);
+    })
 
 </script>
 </html>
