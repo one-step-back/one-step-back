@@ -197,4 +197,46 @@
         SET VIDEO_LINK = #{videoLink}
         WHERE POST_ID = #{id}
     </update>
+
+    <select id="select6Videos" resultType="videoPostDTO">
+        SELECT ID,
+               MEMBER_ID,
+               POST_TITLE,
+               POST_SUBTITLE,
+               POST_CONTENT,
+               POST_CATEGORY,
+               POST_VIEW_COUNT,
+               POST_WRITE_TIME,
+               VIDEO_LINK,
+               MEMBER_NICKNAME,
+               MEMBER_KAKAO_PROFILE_URL,
+               MEMBER_PROFILE_NAME,
+               MEMBER_PROFILE_PATH,
+               LIKE_COUNT,
+               REPLY_COUNT
+        FROM (SELECT V.ID,
+                     V.MEMBER_ID,
+                     V.POST_TITLE,
+                     V.POST_SUBTITLE,
+                     V.POST_CONTENT,
+                     V.POST_CATEGORY,
+                     V.POST_VIEW_COUNT,
+                     V.POST_WRITE_TIME,
+                     V.VIDEO_LINK,
+                     M.MEMBER_NICKNAME,
+                     M.MEMBER_KAKAO_PROFILE_URL,
+                     M.MEMBER_PROFILE_NAME,
+                     M.MEMBER_PROFILE_PATH,
+                     (SELECT COUNT(L.POST_ID)
+                      FROM TBL_POST_LIKE L
+                      WHERE L.POST_ID = V.ID) AS LIKE_COUNT,
+                     (SELECT COUNT(R.POST_ID)
+                      FROM TBL_POST_REPLY R
+                      WHERE R.POST_ID = V.ID) AS REPLY_COUNT
+              FROM VIEW_VIDEO_POST V
+                       LEFT JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
+              WHERE V.POST_READABLE != 'DISABLE'
+              ORDER BY POST_VIEW_COUNT DESC, LIKE_COUNT DESC, REPLY_COUNT DESC, V.ID DESC)
+        WHERE ROWNUM &lt;= 6
+    </select>
 </mapper>

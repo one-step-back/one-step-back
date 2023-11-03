@@ -44,4 +44,8 @@ public class VideoPostDAO {
     public void editVideoLink(VideoPostDTO videoPostDTO){
         videoPostMapper.updateVideoLink(videoPostDTO);
     }
+
+    public List<VideoPostDTO> get6VideoPosts(){
+        return videoPostMapper.select6Videos();
+    }
 }

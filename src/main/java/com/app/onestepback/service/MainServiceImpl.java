@@ -1,10 +1,7 @@
 package com.app.onestepback.service;
 
 import com.app.onestepback.domain.*;
-import com.app.onestepback.repository.ArtistCrowdFundingDAO;
-import com.app.onestepback.repository.CombinedPostDAO;
-import com.app.onestepback.repository.PostTagDAO;
-import com.app.onestepback.repository.SubscriptionDAO;
+import com.app.onestepback.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +13,7 @@ import java.util.Optional;
 public class MainServiceImpl implements MainService {
     private final CombinedPostDAO combinedPostDAO;
     private final PostTagDAO postTagDAO;
+    private final VideoPostDAO videoPostDAO;
     private final ArtistCrowdFundingDAO artistCrowdFundingDAO;
 
     @Override
@@ -48,6 +46,11 @@ public class MainServiceImpl implements MainService {
     @Override
     public List<CombinedPostDTO> getPostsForCards() {
         return combinedPostDAO.get4Posts();
+    }
+
+    @Override
+    public List<VideoPostDTO> getVideosForCards() {
+        return videoPostDAO.get6VideoPosts();
     }
 
     @Override
