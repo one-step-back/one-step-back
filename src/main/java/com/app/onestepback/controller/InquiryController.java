@@ -21,7 +21,10 @@ import javax.servlet.http.HttpSession;
 public class InquiryController {
     private final InquiryService inquiryService;
     @GetMapping("write")
-    public void goToWriteForm(InquiryVO inquiryVO, HttpSession session){;}
+    public void goToWriteForm(InquiryVO inquiryVO, HttpSession session, Model model){
+        MemberVO memberVO = (MemberVO) session.getAttribute("member");
+        model.addAttribute("memberId", memberVO.getId());
+    }
 
     @PostMapping("write")
     public RedirectView saveInquiry(InquiryVO inquiryVO, HttpSession session){
