@@ -18,7 +18,35 @@
 4. 사회 문화활동을 더욱 장려 함으로서 전반적인 문화수준을 한층 더 끌어올릴 수 있음
 
 ## 3. 프로젝트 사용 툴
+<img src="https://github.com/DevNathan/one-step-back/assets/142222091/04826042-2a54-4b4b-b4ec-5f69ab731943">
+<img src="https://github.com/DevNathan/one-step-back/assets/142222091/d4884c1a-5772-4357-862c-478197a879d3">
+
+<br>
+- Java<br>
+- Java Script<br>
+- tomcat<br>
+- jQuery<br>
+- MyBatis<br>
+- Spring Boot<br>
+- Oracle<br>
+- Visual Studio Code<br>
+- InteliJ<br>
+- DBeaver<br>
+- Sourcetree<br>
+- git, github<br>
+- JSON<br>
+- Ajax<br>
+- JDK 11.0.15<br>
+- Kakao DEVELOPER API<br>
+- BootPay API
+<br><br>
+For Communication,<br>
+- Slack<br>
+- Discord<br>
 
 ## 4. ERD
+<img src="https://github.com/DevNathan/one-step-back/assets/142222091/c58118ad-0059-44d7-996e-dbddad982cf8">
+https://www.erdcloud.com/d/nW9kiBxhw3HMtfbgE
+
 
 ## 5. 담당업무
