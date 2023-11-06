@@ -50,5 +50,39 @@ ErdCloud : https://www.erdcloud.com/d/nW9kiBxhw3HMtfbgE
 
 
 ## 5. 담당업무
+### 5-1 웹 퍼블리싱
+<img width="1166" alt="OneStep퍼블리싱" src="https://github.com/DevNathan/one-step-back/assets/142222091/0ed7f338-6f54-4303-8b1f-f3c155983bff">
+23.09.11 ~ 23.09.25 진행됨<br><br>
+1. 나의 아티스트<br>
+2. 내 보관함<br>
+  - 영상 보관함<br>
+  - 게시글 보관함<br>
+3. 통합 검색창
+  - 게시글 검색결과<br>
+  - 영상 검색결과<br>
+  - 아티스트 검색결과<br>
+4. 크라우드 펀딩<br>
+5. 크라우드 펀딩 결제<br>
+6. 크라우드 펀딩 이벤트 요청 및 수락 페이지<br>
+7. 마이페이지<br>
+8. 팬 커뮤니티
+
+### 5-2 백엔드 및 프론트엔드
+<img width="1080" alt="OneStep백엔드" src="https://github.com/DevNathan/one-step-back/assets/142222091/76923db5-4fc0-49fa-908c-d8470244701a">
+23.10.12 ~ 23.10.30 진행됨<br><br>
+1. 메인페이지<br>
+2. 예술가 메인페이지<br>
+3. 예술가 게시글 페이지<br>
+- 게시글 리스트<br>
+- 게시글 상세<br>
+- 게시글 작성<br>
+- 게시글 수정<br>
+4. 예술가 영상 페이지<br>
+- 영상 리스트<br>
+- 영상 상세<br>
+- 영상 작성<br>
+- 영상 수정<br>
+5. 문의 작성페이지<br>
+6. 예술가 후원 페이지
 
 ## 6. 느낀점
