@@ -46,7 +46,9 @@ For Communication,<br>
 
 ## 4. ERD
 <img src="https://github.com/DevNathan/one-step-back/assets/142222091/c58118ad-0059-44d7-996e-dbddad982cf8">
-https://www.erdcloud.com/d/nW9kiBxhw3HMtfbgE
+ErdCloud : https://www.erdcloud.com/d/nW9kiBxhw3HMtfbgE
 
 
 ## 5. 담당업무
+
+## 6. 느낀점
