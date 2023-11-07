@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.mapper.ArtistCommunityMapper">
+
+<select id="countCommunity" resultType="int">
+    SELECT COUNT(POST_ID)
+    FROM TBL_COMMUNITY_POST
+</select>
+
+
+<select id="selectAllCommunity" resultType="artistPostDTO">
+    SELECT ID,
+    MEMBER_ID,
+    POST_TITLE,
+    POST_SUBTITLE,
+    POST_CONTENT,
+    POST_CATEGORY,
+    POST_VIEW_COUNT,
+    POST_WRITE_TIME,
+    MEMBER_NICKNAME,
+    MEMBER_KAKAO_PROFILE_URL,
+    MEMBER_PROFILE_NAME,
+    MEMBER_PROFILE_PATH,
+    LIKE_COUNT,
+    REPLY_COUNT,
+    FILE_NAME,
+    FILE_PATH
+    FROM (SELECT ROWNUM R, P1.*
+    FROM (SELECT A.ID,
+    A.MEMBER_ID,
+    A.POST_TITLE,
+    A.POST_SUBTITLE,
+    A.POST_CONTENT,
+    A.POST_CATEGORY,
+    A.POST_VIEW_COUNT,
+    A.POST_WRITE_TIME,
+    M.MEMBER_NICKNAME,
+    M.MEMBER_KAKAO_PROFILE_URL,
+    M.MEMBER_PROFILE_NAME,
+    M.MEMBER_PROFILE_PATH,
+    (SELECT COUNT(L.POST_ID)
+    FROM TBL_POST_LIKE L
+    WHERE L.POST_ID = A.ID)                                                AS LIKE_COUNT,
+    (SELECT COUNT(R.POST_ID)
+    FROM TBL_POST_REPLY R
+    WHERE R.POST_ID = A.ID)                                                AS REPLY_COUNT,
+    (SELECT F.FILE_NAME
+    FROM TBL_POST_FILE F
+    WHERE F.POST_ID = A.ID
+    AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_NAME,
+    (SELECT F.FILE_PATH
+    FROM TBL_POST_FILE F
+    WHERE F.POST_ID = A.ID
+    AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
+    FROM VIEW_ARTIST_POST A
+    JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+    WHERE MEMBER_ID = #{memberId}
+    ORDER BY POST_WRITE_TIME DESC) P1
+    WHERE ROWNUM &lt;= #{pagination.endRow}) P2
+    WHERE P2.R >= #{pagination.startRow}
+</select>
+
+</mapper>
