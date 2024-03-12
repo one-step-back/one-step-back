@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.PostTagVO;
+import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.mapper.PostTagMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

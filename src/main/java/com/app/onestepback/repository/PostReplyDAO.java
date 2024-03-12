@@ -1,8 +1,8 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.PostReplyDTO;
-import com.app.onestepback.domain.PostReplyVO;
+import com.app.onestepback.domain.vo.Pagination;
+import com.app.onestepback.domain.dto.PostReplyDTO;
+import com.app.onestepback.domain.vo.PostReplyVO;
 import com.app.onestepback.mapper.PostReplyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

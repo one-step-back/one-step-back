@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.CombinedPostDTO;
+import com.app.onestepback.domain.dto.CombinedPostDTO;
 import com.app.onestepback.mapper.CombinedPostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

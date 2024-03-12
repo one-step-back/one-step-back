@@ -1,6 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.ArtistDTO;
+import com.app.onestepback.domain.dto.ArtistDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

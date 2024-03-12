@@ -1,12 +1,13 @@
 package com.app.onestepback.service;
 
-import com.app.onestepback.domain.*;
+import com.app.onestepback.domain.dto.CombinedPostDTO;
+import com.app.onestepback.domain.dto.CrowdFundingDTO;
+import com.app.onestepback.domain.dto.VideoPostDTO;
 import com.app.onestepback.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

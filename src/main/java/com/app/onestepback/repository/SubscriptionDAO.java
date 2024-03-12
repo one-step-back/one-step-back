@@ -1,7 +1,7 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.SubscriptionDTO;
-import com.app.onestepback.domain.SubscriptionVO;
+import com.app.onestepback.domain.dto.SubscriptionDTO;
+import com.app.onestepback.domain.vo.SubscriptionVO;
 import com.app.onestepback.mapper.SubscriptionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

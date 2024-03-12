@@ -1,6 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.MemberVO;
+import com.app.onestepback.domain.vo.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

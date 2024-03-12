@@ -1,9 +1,7 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.ArtistPostDTO;
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.PostFileVO;
-import com.app.onestepback.domain.PostTagVO;
+import com.app.onestepback.domain.dto.ArtistPostDTO;
+import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

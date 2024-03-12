@@ -1,7 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.CombinedPostDTO;
-import com.app.onestepback.domain.SubscriptionDTO;
+import com.app.onestepback.domain.dto.CombinedPostDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

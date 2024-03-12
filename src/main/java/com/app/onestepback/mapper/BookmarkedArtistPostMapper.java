@@ -1,7 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.BookmarkedArtistPostVO;
-import com.app.onestepback.domain.LibraryVO;
+import com.app.onestepback.domain.vo.BookmarkedArtistPostVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

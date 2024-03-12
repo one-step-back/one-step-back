@@ -1,12 +1,9 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.ArtistPostDTO;
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.PostFileVO;
-import com.app.onestepback.domain.PostTagVO;
+import com.app.onestepback.domain.dto.ArtistPostDTO;
+import com.app.onestepback.domain.vo.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

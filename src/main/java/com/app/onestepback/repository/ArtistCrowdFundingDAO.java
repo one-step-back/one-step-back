@@ -1,6 +1,10 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.*;
+import com.app.onestepback.domain.dto.CrowdFundingDTO;
+import com.app.onestepback.domain.dto.FundingRequestDTO;
+import com.app.onestepback.domain.vo.CrowdFundingVO;
+import com.app.onestepback.domain.vo.FundingRequestVO;
+import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistCrowdFundingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

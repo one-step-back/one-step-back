@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.InquiryVO;
+import com.app.onestepback.domain.vo.InquiryVO;
 import com.app.onestepback.mapper.InquiryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

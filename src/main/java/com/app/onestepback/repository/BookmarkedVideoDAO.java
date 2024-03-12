@@ -1,9 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.BookmarkedArtistPostVO;
-import com.app.onestepback.domain.BookmarkedPostVO;
-import com.app.onestepback.domain.BookmarkedVideoVO;
-import com.app.onestepback.mapper.BookmarkedArtistPostMapper;
+import com.app.onestepback.domain.vo.BookmarkedVideoVO;
 import com.app.onestepback.mapper.BookmarkedVideoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

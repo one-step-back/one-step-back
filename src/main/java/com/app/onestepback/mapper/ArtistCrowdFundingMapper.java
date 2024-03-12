@@ -1,6 +1,10 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.*;
+import com.app.onestepback.domain.dto.CrowdFundingDTO;
+import com.app.onestepback.domain.dto.FundingRequestDTO;
+import com.app.onestepback.domain.vo.CrowdFundingVO;
+import com.app.onestepback.domain.vo.FundingRequestVO;
+import com.app.onestepback.domain.vo.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
