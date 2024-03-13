@@ -26,7 +26,7 @@ public class ArtistController {
     private final ArtistService artistService;
     private final ArtistPostService artistPostService;
 
-    @GetMapping("/{artistId}/main")
+    @GetMapping("/{artistId}")
     public String goToMainForm(@PathVariable("artistId") Long artistId, Model model) {
         if (artistId == null) {
             throw new CustomException("존재하지 않는 아티스트");
@@ -57,7 +57,6 @@ public class ArtistController {
 //        pagination.progress();
         // 생성자로 간결화 처리.
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
-        pagination.progress();
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("posts", artistPostService.getAllPosts(artistId, pagination));
