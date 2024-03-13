@@ -1,6 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.PostLikeVO;
+import com.app.onestepback.domain.vo.PostLikeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.SponsorshipVO;
+import com.app.onestepback.domain.vo.SponsorshipVO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

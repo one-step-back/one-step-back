@@ -1,13 +1,11 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.ArtistDTO;
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.PostReplyDTO;
-import com.app.onestepback.domain.PostReplyVO;
+import com.app.onestepback.domain.vo.Pagination;
+import com.app.onestepback.domain.dto.PostReplyDTO;
+import com.app.onestepback.domain.vo.PostReplyVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface PostReplyMapper {

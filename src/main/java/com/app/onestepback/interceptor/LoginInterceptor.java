@@ -1,9 +1,8 @@
 package com.app.onestepback.interceptor;
 
-import com.app.onestepback.domain.MemberVO;
+import com.app.onestepback.domain.vo.MemberVO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
 package com.app.onestepback.artist;
 
-import com.app.onestepback.domain.CombinedPostDTO;
+import com.app.onestepback.domain.dto.CombinedPostDTO;
 import com.app.onestepback.mapper.CombinedPostMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

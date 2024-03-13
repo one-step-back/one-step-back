@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.ArtistDTO;
+import com.app.onestepback.domain.dto.ArtistDTO;
 import com.app.onestepback.mapper.ArtistMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

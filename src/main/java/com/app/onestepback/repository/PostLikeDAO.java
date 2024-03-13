@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.PostLikeVO;
+import com.app.onestepback.domain.vo.PostLikeVO;
 import com.app.onestepback.mapper.PostLikeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

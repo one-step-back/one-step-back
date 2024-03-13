@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.SponsorshipVO;
+import com.app.onestepback.domain.vo.SponsorshipVO;
 import com.app.onestepback.mapper.SponsorshipMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

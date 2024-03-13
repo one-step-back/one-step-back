@@ -1,6 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.MemberVO;
+import com.app.onestepback.domain.vo.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

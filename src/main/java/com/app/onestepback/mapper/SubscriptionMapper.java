@@ -1,7 +1,7 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.SubscriptionDTO;
-import com.app.onestepback.domain.SubscriptionVO;
+import com.app.onestepback.domain.dto.SubscriptionDTO;
+import com.app.onestepback.domain.vo.SubscriptionVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

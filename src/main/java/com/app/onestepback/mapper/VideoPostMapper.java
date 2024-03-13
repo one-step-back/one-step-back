@@ -1,7 +1,7 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.VideoPostDTO;
+import com.app.onestepback.domain.vo.Pagination;
+import com.app.onestepback.domain.dto.VideoPostDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

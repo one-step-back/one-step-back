@@ -1,6 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.PostFileVO;
+import com.app.onestepback.domain.vo.PostFileVO;
 import com.app.onestepback.mapper.PostFileMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

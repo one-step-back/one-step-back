@@ -1,7 +1,7 @@
 package com.app.onestepback.artist;
 
-import com.app.onestepback.domain.Pagination;
-import com.app.onestepback.domain.VideoPostDTO;
+import com.app.onestepback.domain.vo.Pagination;
+import com.app.onestepback.domain.dto.VideoPostDTO;
 import com.app.onestepback.mapper.VideoPostMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
