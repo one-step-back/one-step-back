@@ -15,6 +15,12 @@ public class Pagination {
     private boolean prev, next;
     private int total;
 
+    public Pagination(Integer page, int rowCount, int total) {
+        this.page = page;
+        this.rowCount = rowCount;
+        this.total = total;
+    }
+
     public void progress() {
         this.page = page == null ? 1 : page;
         this.pageCount = 5;

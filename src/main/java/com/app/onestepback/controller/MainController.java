@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
-@RequestMapping
 @RequiredArgsConstructor
 public class MainController {
     private final MainService mainService;
