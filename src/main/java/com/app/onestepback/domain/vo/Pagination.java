@@ -19,6 +19,7 @@ public class Pagination {
         this.page = page;
         this.rowCount = rowCount;
         this.total = total;
+        this.progress();
     }
 
     public void progress() {
