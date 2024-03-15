@@ -1,6 +1,6 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.ArtistDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 

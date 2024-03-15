@@ -1,11 +1,13 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.ArtistDTO;
-import com.app.onestepback.domain.dto.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostFileVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public interface ArtistPostService {
 
     public List<String> getAllTags(Long postId);
 
-    public void savePost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles);
+    public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException;
 
     public ArtistPostDTO getPost(Long id);
 

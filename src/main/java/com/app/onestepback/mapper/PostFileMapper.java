@@ -9,6 +9,8 @@ import java.util.List;
 public interface PostFileMapper {
     public void insert(PostFileVO postFileVO);
 
+    void insertAll(List<PostFileVO> postFileVOList);
+
     public List<PostFileVO> selectAll(Long postId);
 
     public void delete(Long id);

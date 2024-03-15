@@ -1,6 +1,7 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.dto.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class ArtistPostDAO {
 
     public List<ArtistPostDTO> getAllPosts(Long memberId, Pagination pagination){return artistPostMapper.selectAll(memberId, pagination);}
 
-    public void savePost(ArtistPostDTO artistPostDTO){artistPostMapper.insertPost(artistPostDTO);}
+    public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO){artistPostMapper.insertPost(artistPostRegisterDTO);}
 
     public void saveArtistPost(Long postId){artistPostMapper.insertArtistPost(postId);}
 

@@ -3,20 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>원스텝 | 포스트 작성</title>
-    <link rel="icon" href="/images/icon.svg">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" href="/css/artist/blog-header.css">
-    <link rel="stylesheet" href="/css/artist/blog-modal.css">
-    <link rel="stylesheet" href="/css/manage/announcement-write.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
-          onload="this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+    <link href="/images/icon.svg" rel="icon">
+    <link href="/css/main/root.css" rel="stylesheet">
+    <link href="/css/artist/blog-header.css" rel="stylesheet">
+    <link href="/css/artist/blog-modal.css" rel="stylesheet">
+    <link href="/css/manage/announcement-write.css" rel="stylesheet">
+    <link as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+          onload="this.rel='stylesheet'" rel="stylesheet"
+          type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
 </head>
 
 <body class="h-full overflow-x-hidden">
@@ -25,44 +25,43 @@
         <header th:replace="~{artist/blog-header::blog-header}"></header>
 
         <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0; height: 3px;"></div>
-        <form id="summit-form" class="mt-[32px]" th:action="@{/artist/post/write}" method="post"
-              enctype="multipart/form-data"
-              th:object="${artistPostDTO}">
-            <input id="id" th:field="*{memberId}" type="hidden">
-            <input id="numberOfTags" type="hidden" name="numberOfTags">
+        <!--/*@thymesVar id="artistPostRegisterDTO" type=""*/-->
+        <form class="mt-[32px]" enctype="multipart/form-data" id="summit-form" method="post"
+              th:action="@{/artist/post/write}"
+              th:object="${artistPostRegisterDTO}">
             <div id="tags"></div>
             <div class="grid grid-cols-15 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto">
                 <section class="col-span-10">
                     <div class="mb-[14px]">
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input th:field="*{postTitle}" type="text"
-                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
-                                   placeholder="제목을 입력해 주세요." value>
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity" placeholder="제목을 입력해 주세요."
+                                   th:field="*{title}"
+                                   type="text" value>
                         </label>
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input th:field="*{postSubtitle}" type="text"
-                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
-                                   placeholder="부제목을 입력해 주세요." value>
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity" placeholder="부제목을 입력해 주세요."
+                                   th:field="*{subtitle}"
+                                   type="text" value>
                         </label>
                     </div>
                     <div class="mb-[14px]"></div>
 
                     <div class="mb-[48px]">
                         <div class="border border-[#e6e6e7] p-0">
-                            <div role="application" class="tox tox-tinymce" style="visibility: hidden; height: 474px;">
+                            <div class="tox tox-tinymce" role="application" style="visibility: hidden; height: 474px;">
                                 <div class="tox-editor-container">
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
 
-                                            <textarea th:field="*{postContent}" name="" id="post-content"
-                                                      class="placeholder:font_body_regular_md"
-                                                      cols="30" rows="10" placeholder="내용을 입력해주세요."></textarea>
+                                            <textarea class="placeholder:font_body_regular_md" cols="30" id="post-content"
+                                                      name=""
+                                                      placeholder="내용을 입력해주세요." rows="10" th:field="*{content}"></textarea>
 
                                         </div>
                                     </div>
                                 </div>
 
-                                <button type="button" id="popover-on-btn">
+                                <button id="popover-on-btn" type="button">
                                     <span>작성하기</span>
                                 </button>
                             </div>
@@ -79,9 +78,9 @@
                         </div>
                         <div class="px-[20px]">
                             <label style="padding: 20px">
-                                <input th:field="*{postCategory}" type="text" placeholder="카테고리를 작성해주세요"
-                                       maxlength="6"
-                                       class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary" maxlength="6" placeholder="카테고리를 작성해주세요"
+                                       th:field="*{category}"
+                                       type="text"
                                        value="">
                             </label>
                         </div>
@@ -94,9 +93,9 @@
                             <div class="flex gap-x-[12px]">
                                 <div class="w-full">
                                     <label class="tag-label surface_primary rounded-[8px] h-[48px] flex items-center cursor-pointer border border_black_opacity pl-[20px] pr-[16px] focus-within:border-2 focus-within:border_accent_active focus-within:pl-[19px] focus-within:pr-[15px]">
-                                        <input id="tag-input" type="text" placeholder="태그는 최대 5개 까지 작성가능합니다"
-                                               maxlength="10"
-                                               class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                        <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary" id="tag-input" maxlength="10"
+                                               placeholder="태그는 최대 5개 까지 작성가능합니다"
+                                               type="text"
                                                value="">
                                     </label>
                                 </div>
@@ -110,8 +109,8 @@
                                     이미지
                                 </strong>
                             </div>
-                            <label for="img-input" style="margin: 0 20px 0 0"
-                                   class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled">
+                            <label class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled" for="img-input"
+                                   style="margin: 0 20px 0 0">
                                 업로드
                             </label>
                             <div id="erase-imgs">
@@ -119,16 +118,16 @@
                             </div>
                         </div>
                         <div id="img-container">
-                            <input id="img-input" type="file" multiple name="uploadFile"
-                                   accept="image/jpg,image/png,image/jpeg,image/gif"
-                                   style="display: none">
+                            <input accept="image/jpg,image/png,image/jpeg,image/gif" id="img-input" multiple style="display: none"
+                                   th:field="*{files}"
+                                   type="file">
                         </div>
                         <div class="px-[20px]">
-                            <div id="show-images" class="h-[88px] justify-center items-center">
+                            <div class="h-[88px] justify-center items-center" id="show-images">
                                 <div id="image-wrap">
                                     <div class="image-item"></div>
                                 </div>
-                                <span id="no-image" class="content_disabled font_body_regular_md">
+                                <span class="content_disabled font_body_regular_md" id="no-image">
                                     첨부된 이미지가 없습니다.
                                 </span>
                             </div>
@@ -137,22 +136,22 @@
                 </section>
             </div>
         </form>
-        <div id="modal"
-             class="z-50 fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center min-w-[360px] p-[32px] border box-border rounded-[16px] border_primary surface_primary shadow-s">
+        <div class="z-50 fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center min-w-[360px] p-[32px] border box-border rounded-[16px] border_primary surface_primary shadow-s"
+             id="modal">
             <h4 class="font_headline_bold_sm mb-[12px] content_primary">게시글 등록</h4>
             <div class="font_body_regular_lg max-w-[300px] text-center content_secondary">
                 게시글을 등록하시겠습니까?
             </div>
             <div class="flex items-center justify-between w-full mt-[24px]">
                 <div class="flex-1">
-                    <button type="button" id="modal-cancel"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled" id="modal-cancel"
+                            type="button">
                         취소
                     </button>
                 </div>
                 <div class="ml-[16px] flex-1">
-                    <button type="button" id="summit-btn"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled" id="summit-btn"
+                            type="button">
                         확인
                     </button>
                 </div>
@@ -166,13 +165,8 @@
 <script src="/js/artist/blog-header.js"></script>
 <script th:inline="javascript">
     $(function () {
-        const noImg = `<span id="no-image" class="content_disabled font_body_regular_md">
-                                    첨부된 이미지가 없습니다.
-                                </span>`;
-
         let numberOfTags = 0;
         const modal = $("#modal");
-        $("#numberOfTags").val(numberOfTags);
 
         $("#id").val([[${memberId}]]);
 
@@ -243,15 +237,14 @@
                         return;
                     }
 
-                    numberOfTags++;
 
                     let tagContainer = `<div class="tag-container">${tagValue}<i class="fa-solid fa-x"></i></div>`;
-                    let tagInput = `<input type="hidden" name="tag${numberOfTags}" value="${tagValue}">`;
+                    let tagInput = `<input type="hidden" name="tags" value="${tagValue}">`;
+
+                    numberOfTags++;
 
                     tagWrap.append(tagContainer);
                     tags.append(tagInput);
-
-                    $("#numberOfTags").val(numberOfTags);
 
                     $(this).val("");
                 }
@@ -262,78 +255,91 @@
             const deletedTag = $(this).parent().text().trim();
             $(this).parent().remove();
             numberOfTags--;
-            $("#numberOfTags").val(numberOfTags);
 
             $("#tags input").each(function () {
-                if ($(this).val() === deletedTag) {
-                    $(this).remove();
+                const tagIndex = parseInt($(this).attr("name").match(/\[(\d+)\]/)[1]);
+                if (tagIndex > deletedTagIndex) {
+                    $(this).attr("name", `tags[${tagIndex - 1}]`);
                 }
             });
         });
 
-        $("#img-input").on("change", function () {
-            const imageWrap = $("#image-wrap")
+        $("#img-input").on("change", function (e) {
             let formData = new FormData();
-            let files = $(this)[0].files;
-            for (var i = 0; i < files.length; i++) {
-                formData.append("uploadFile", files[i]);
-            }
+            let files = Array.from(e.target.files);
 
-            imageWrap.empty();
+            $("#image-wrap").empty();
 
-            $.ajax({
-                type: "POST",
-                url: "/file/upload",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (uuids) {
-                    // 비동기 테스트
-                    console.log(uuids);
+            files.forEach(file => {
+                let reader = new FileReader();
 
-                    let imageHtml = null;
+                reader.onload = (e) => {
+                    let imageHtml =
+                        `<div class="image-item">
+                            <img src="${e.target.result}">
+                         </div>`;
 
-                    let now = new Date();
-                    let year = now.getFullYear();
-                    let month = now.getMonth() + 1;
-                    let date = now.getDate();
-                    month = month < 10 ? '0' + month : month;
-                    date = date < 10 ? '0' + date : date;
-
-                    for (let i = 0; i < uuids.length; i++) {
-                        let uuidInput = document.createElement("input");
-                        uuidInput.type = "hidden";
-                        uuidInput.name = "uuid";
-                        uuidInput.value = uuids[i];
-
-                        let fileName = `${year}/${month}/${date}/t_${uuids[i]}_${files[i].name}`;
-
-                        imageHtml = `<div class="image-item">
-                                        <img src="/file/display?fileName=${fileName}">
-                                     </div>`;
-
-                        $("#image-wrap").append(imageHtml);
-                        $("#img-container").append(uuidInput);
-                        $("#no-image").remove();
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("업로드 실패: " + error);
+                    $("#image-wrap").append(imageHtml);
                 }
+                reader.readAsDataURL(file);
             });
+
+            $("#no-image").addClass('none');
+
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/file/upload",
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
+            //     success: function (uuids) {
+            //         // 비동기 테스트
+            //         console.log(uuids);
+            //
+            //         let imageHtml = null;
+            //
+            //         let now = new Date();
+            //         let year = now.getFullYear();
+            //         let month = now.getMonth() + 1;
+            //         let date = now.getDate();
+            //         month = month < 10 ? '0' + month : month;
+            //         date = date < 10 ? '0' + date : date;
+            //
+            //         for (let i = 0; i < uuids.length; i++) {
+            //             let uuidInput = document.createElement("input");
+            //             uuidInput.type = "hidden";
+            //             uuidInput.name = "uuid";
+            //             uuidInput.value = uuids[i];
+            //
+            //             let fileName = `${year}/${month}/${date}/t_${uuids[i]}_${files[i].name}`;
+            //
+            //             imageHtml = `<div class="image-item">
+            //                             <img src="/file/display?fileName=${fileName}">
+            //                          </div>`;
+            //
+            //             $("#image-wrap").append(imageHtml);
+            //             $("#img-container").append(uuidInput);
+            //             $("#no-image").remove();
+            //         }
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.log("업로드 실패: " + error);
+            //     }
+            // });
         })
 
         $("#erase-imgs").click(() => {
             $("#image-wrap").empty();
             $("#img-container input[name='uuid']").remove();
-            $("#show-images").append(noImg);
+            $("#no-image").removeClass('none');
         })
 
         let doubleSubmitFlag = false;
-        function doubleSubmitCheck(){
-            if(doubleSubmitFlag){
+
+        function doubleSubmitCheck() {
+            if (doubleSubmitFlag) {
                 return doubleSubmitFlag;
-            }else{
+            } else {
                 doubleSubmitFlag = true;
                 return false;
             }

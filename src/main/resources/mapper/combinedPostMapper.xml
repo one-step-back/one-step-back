@@ -90,8 +90,8 @@
                         AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
               FROM VIEW_ARTIST_POST A
                        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
-              WHERE A.POST_WRITE_TIME >= ADD_MONTHS(SYSDATE, -1)
-                AND POST_READABLE &lt;> 'DISABLE'
+--               WHERE A.POST_WRITE_TIME >= ADD_MONTHS(SYSDATE, -1)
+-- --                 AND POST_READABLE &lt;> 'DISABLE'
               ORDER BY POST_VIEW_COUNT DESC, LIKE_COUNT DESC, REPLY_COUNT DESC, ID DESC)
         WHERE ROWNUM &lt;= 4
     </select>

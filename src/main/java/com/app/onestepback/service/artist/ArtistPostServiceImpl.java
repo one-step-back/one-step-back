@@ -1,22 +1,27 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.ArtistDTO;
-import com.app.onestepback.domain.dto.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostFileVO;
 import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.repository.*;
+import com.app.onestepback.service.file.PostFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -27,6 +32,8 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final PostTagDAO postTagDAO;
     private final PostFileDAO postFileDAO;
     private final PostDAO postDAO;
+
+    private final PostFileService postFileService;
 
     @Override
     public Optional<ArtistDTO> getArtist(Long memberId) {
@@ -71,37 +78,24 @@ public class ArtistPostServiceImpl implements ArtistPostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void savePost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles) {
-        artistPostDAO.savePost(artistPostDTO);
-        artistPostDAO.saveArtistPost(artistPostDTO.getId());
+    public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException {
+        // 포스트 저장
+        artistPostDAO.savePost(artistPostRegisterDTO);
+        artistPostDAO.saveArtistPost(artistPostRegisterDTO.getPostId());
 
-        for (int i = 1; i <= numberOfTags; i++) {
-            try {
-                PostTagVO postTagVO = new PostTagVO();
+        // 포스트 태그 저장
+        List<PostTagVO> postTags = artistPostRegisterDTO.getTags().stream()
+                .map(tagName -> PostTagVO.builder()
+                        .postId(artistPostRegisterDTO.getPostId())
+                        .postTagName(tagName)
+                        .build())
+                .collect(Collectors.toList());
+        System.out.println("postTags = " + postTags);
+        postTagDAO.saveAllTags(postTags);
 
-                String tagName = "tag" + i;
-                Field field = artistPostDTO.getClass().getDeclaredField(tagName);
-                field.setAccessible(true);
-
-                postTagVO.setPostId(artistPostDTO.getId());
-                postTagVO.setPostTagName((String) field.get(artistPostDTO));
-
-                postTagDAO.savePostTag(postTagVO);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (uuids != null) {
-            for (int i = 0; i < uploadFiles.size(); i++) {
-                PostFileVO postFileVO = new PostFileVO();
-
-                postFileVO.setPostId(artistPostDTO.getId());
-                postFileVO.setFileName(uuids.get(i) + "_" + uploadFiles.get(i).getOriginalFilename());
-                postFileVO.setFilePath(getPath());
-
-                postFileDAO.saveFile(postFileVO);
-            }
+        // 파일 저장 (파일 등록을 했을경우에만 실행)
+        if (artistPostRegisterDTO.getFiles().stream().anyMatch(file -> file.getSize() > 0)) {
+            postFileService.registerFiles(artistPostRegisterDTO.getFiles(), artistPostRegisterDTO.getPostId());
         }
     }
 
@@ -146,34 +140,34 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     public void editPost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles) {
         artistPostDAO.editPost(artistPostDTO);
 
-        postTagDAO.deletePostTag(artistPostDTO.getId());
-        for (int i = 1; i <= numberOfTags; i++) {
-            try {
-                PostTagVO postTagVO = new PostTagVO();
-
-                String tagName = "tag" + i;
-                Field field = artistPostDTO.getClass().getDeclaredField(tagName);
-                field.setAccessible(true);
-
-                postTagVO.setPostId(artistPostDTO.getId());
-                postTagVO.setPostTagName((String) field.get(artistPostDTO));
-
-                postTagDAO.savePostTag(postTagVO);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        if (uuids != null) {
-            for (int i = 0; i < uploadFiles.size(); i++) {
-                PostFileVO postFileVO = new PostFileVO();
-
-                postFileVO.setPostId(artistPostDTO.getId());
-                postFileVO.setFileName(uuids.get(i) + "_" + uploadFiles.get(i).getOriginalFilename());
-                postFileVO.setFilePath(getPath());
-
-                postFileDAO.saveFile(postFileVO);
-            }
-        }
+//        postTagDAO.deletePostTag(artistPostDTO.getId());
+//        for (int i = 1; i <= numberOfTags; i++) {
+//            try {
+//                PostTagVO postTagVO = new PostTagVO();
+//
+//                String tagName = "tag" + i;
+//                Field field = artistPostDTO.getClass().getDeclaredField(tagName);
+//                field.setAccessible(true);
+//
+//                postTagVO.setPostId(artistPostDTO.getId());
+//                postTagVO.setPostTagName((String) field.get(artistPostDTO));
+//
+//                postTagDAO.savePostTag(postTagVO);
+//            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if (uuids != null) {
+//            for (int i = 0; i < uploadFiles.size(); i++) {
+//                PostFileVO postFileVO = new PostFileVO();
+//
+//                postFileVO.setPostId(artistPostDTO.getId());
+//                postFileVO.setFileName(uuids.get(i) + "_" + uploadFiles.get(i).getOriginalFilename());
+//                postFileVO.setFilePath(getPath());
+//
+//                postFileDAO.saveFile(postFileVO);
+//            }
+//        }
     }
 
     @Override

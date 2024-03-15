@@ -103,7 +103,7 @@
                             </div>
                             <th:block th:if="${session.member != null}">
                                 <a th:if="${artist.memberId == session.member.id}" class="write-btn"
-                                   href="/artist/post/write">작성하기</a>
+                                   th:href="@{/artist/{artistId}/post/write(artistId=${artist.memberId})}">작성하기</a>
                             </th:block>
                         </section>
                     </div>

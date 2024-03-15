@@ -126,12 +126,12 @@
         WHERE P2.R >= #{pagination.startRow}
     </select>
 
-    <insert id="insertPost">
-        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+    <insert id="insertPost" parameterType="artistPostRegisterDTO">
+        <selectKey keyProperty="postId" order="BEFORE" resultType="Long">
             SELECT SEQ_POST.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO TBL_POST(ID, MEMBER_ID, POST_TITLE, POST_SUBTITLE, POST_CONTENT, POST_CATEGORY, POST_WRITE_TIME)
-        VALUES (#{id}, #{memberId}, #{postTitle}, #{postSubtitle}, #{postContent}, #{postCategory}, CURRENT_TIMESTAMP)
+        VALUES (#{postId}, #{memberId}, #{title}, #{subtitle}, #{content}, #{category}, CURRENT_TIMESTAMP)
     </insert>
 
     <insert id="insertArtistPost">

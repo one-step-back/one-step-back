@@ -13,7 +13,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/subscription/*")
-public class SubscriptionController {
+public class SubscriptionRestController {
     private final SubscriptionService subscriptionService;
 
     @GetMapping("check-subscription")
