@@ -1,6 +1,7 @@
 package com.app.onestepback.mapper;
 
 import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -26,8 +27,9 @@ public interface ArtistPostMapper {
     //    포스트 종류 추가(아티스트 포스트)
     public void insertArtistPost(Long postId);
 
+//    public ArtistPostDTO select(Long id);
 
-    public ArtistPostDTO select(Long id);
+    Optional<ArtistPostDetailDTO> select(Long memberId, Long postId);
 
     public Optional<ArtistPostDTO> selectPrevPost(ArtistPostDTO artistPostDTO);
 

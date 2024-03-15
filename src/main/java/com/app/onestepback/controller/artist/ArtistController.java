@@ -1,6 +1,7 @@
 package com.app.onestepback.controller.artist;
 
 import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.MemberVO;
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -61,10 +61,10 @@ public class ArtistController {
 //        pagination.progress();
         // 생성자로 간결화 처리.
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
-        List<ArtistPostListDTO> artistPostsPage = artistPostService.getArtistPostsPage(artistId, pagination);
+        List<ArtistPostListDTO> contents = artistPostService.getArtistPostsPage(artistId, pagination);
 
         model.addAttribute("pagination", pagination);
-        model.addAttribute("posts", artistPostsPage );
+        model.addAttribute("posts", contents);
         return "artist/post/list";
     }
 
@@ -98,28 +98,21 @@ public class ArtistController {
     }
 
     @GetMapping("/{artistId}/post/detail/{postId}")
-    public String goToPostDetailForm(@PathVariable String artistId,
-                                     @PathVariable String postId,
+    public String goToPostDetailForm(@PathVariable Long artistId,
+                                     @PathVariable Long postId,
                                      Model model) {
+        ArtistPostDetailDTO content = artistPostService.getPostDetail(artistId, postId);
 
-        // todo: 총체적으로 관리할 수있는 dto로 만들고 서비스 단에서 합칠 수 있도록 구조 재편 필요, 가능하다면 다중 쿼리문은 회피할 것.
-//        ArtistPostDTO nowPost = artistPostService.getPost();
-//
-//        Optional<ArtistPostDTO> prevPost = artistPostService.getPrevPost(nowPost);
-//        Optional<ArtistPostDTO> nextPost = artistPostService.getNextPost(nowPost);
-//
-//        model.addAttribute("prevPost", prevPost.orElse(null));
-//        model.addAttribute("nextPost", nextPost.orElse(null));
-//        model.addAttribute("artist", artistPostService.getArtist(nowPost.getMemberId()).get());
-//        model.addAttribute("post", nowPost);
-//        model.addAttribute("images", artistPostService.getAllFiles(id));
+        System.out.println("content = " + content);
+
+        model.addAttribute("post", content);
         return "artist/post/detail";
     }
 
     @GetMapping("/{artistId}/post/edit")
     public String goToPostEditForm(@RequestParam("id") Long id, ArtistPostDTO artistPostDTO, Model model) {
-        model.addAttribute("post", artistPostService.getPost(id));
-        model.addAttribute("files", artistPostService.getAllFiles(id));
+//        model.addAttribute("post", artistPostService.getPost(id));
+//        model.addAttribute("files", artistPostService.getAllFiles(id));
         return "artist/post/edit";
     }
 

@@ -45,20 +45,6 @@ public class ArtistPostMapperTest {
     }
 
     @Test
-    public void selectPrevPost(){
-        ArtistPostDTO artistPostDTO = artistPostMapper.select(141L);
-
-        log.info(String.valueOf(artistPostMapper.selectPrevPost(artistPostDTO)));
-    }
-
-    @Test
-    public void selectNextPost(){
-        ArtistPostDTO artistPostDTO = artistPostMapper.select(137L);
-
-        log.info(String.valueOf(artistPostMapper.selectNextPost(artistPostDTO)));
-    }
-
-    @Test
     public void updatePostTest(){
         ArtistPostDTO artistPostDTO = new ArtistPostDTO();
 

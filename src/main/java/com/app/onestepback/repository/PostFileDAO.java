@@ -1,5 +1,6 @@
 package com.app.onestepback.repository;
 
+import com.app.onestepback.domain.dto.postElements.PostFileDTO;
 import com.app.onestepback.domain.vo.PostFileVO;
 import com.app.onestepback.mapper.PostFileMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class PostFileDAO {
         postFileMapper.insertAll(postFileVOList);
     }
 
-    public List<PostFileVO> getAllFiles(Long postId) {
+    public List<PostFileDTO> getAllFiles(Long postId) {
         return postFileMapper.selectAll(postId);
     }
 
