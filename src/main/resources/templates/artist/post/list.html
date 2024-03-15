@@ -2,34 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>원스텝 - 아티스트 페이지</title>
-    <link rel="icon" href="/images/icon.svg">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" href="/css/artist/blog-header.css">
-    <link rel="stylesheet" href="/css/artist/main.css">
-    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+    <link href="/images/icon.svg" rel="icon">
+    <link href="/css/main/root.css" rel="stylesheet">
+    <link href="/css/artist/blog-header.css" rel="stylesheet">
+    <link href="/css/artist/main.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
 </head>
 <body>
 <header th:replace="~{artist/blog-header::blog-header}"></header>
 
-<div id="blog"
-     class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline">
-    <a id="skip" class="sr-only" href="#main">주요 내용으로 건너뛰기</a>
-    <div id="header" class="header bg-gray-0" role="banner">
-        <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
+<div class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline"
+     id="blog">
+    <a class="sr-only" href="#main" id="skip">주요 내용으로 건너뛰기</a>
+    <div class="header bg-gray-0" id="header" role="banner">
+        <div class="header-custom bg-gray-0 disabled-on-preview " id="header-custom">
             <div class="container">
-                <div id="masthead" class="masthead d-flex">
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
-                       th:if="${artist.blogImgName == null}"
-                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
-                       th:unless="${artist.blogImgName == null}"
-                       th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
+                <div class="masthead d-flex" id="masthead">
+                    <a class="channel-avatar"
+                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"
+                       th:href="@{/artist/main(id=${artist.memberId})}"
+                       th:if="${artist.blogImgName == null}"></a>
+                    <a class="channel-avatar" th:href="@{/artist/main(id=${artist.memberId})}"
+                       th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"
+                       th:unless="${artist.blogImgName == null}"></a>
                     <div class="action-group">
-                        <button th:if="${session.member != null and artist.memberId != session.member.id}"
-                                class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
-                                data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">
+                        <button aria-label="구독하기"
+                                aria-pressed="false" class="btn btn-strong btn-strong-pill btn-subscribe"
+                                data-blog-id="1287845"
+                                th:if="${session.member != null and artist.memberId != session.member.id}"
+                                type="button">
                             <span class="default-text">구독하기</span>
                             <span class="active-text">구독중</span>
                         </button>
@@ -38,12 +41,12 @@
                             class="count" id="allPostsCount"></span>개</span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
+                            <a th:href="@{/artist/main(id=${artist.memberId})}" th:text="${artist.artistBlogName}"></a>
                         </div>
                     </h1>
                 </div>
                 <div class="divider"></div>
-                <div id="gnb-nav" class="gnb-nav">
+                <div class="gnb-nav" id="gnb-nav">
                     <nav>
                         <ul>
                             <ul>
@@ -57,7 +60,8 @@
                                     <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/artist/community/list(memberId=${artist.memberId})}" class="inactive">커뮤니티</a>
+                                    <a class="inactive"
+                                       th:href="@{/artist/community/list(memberId=${artist.memberId})}">커뮤니티</a>
                                 </li>
                                 <li>
                                     <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
@@ -73,8 +77,8 @@
             </div>
         </div>
     </div>
-    <main id="main" class="main body-custom" role="main">
-        <div id="content" class="content">
+    <main class="main body-custom" id="main" role="main">
+        <div class="content" id="content">
             <article class="ch-home">
                 <div class="ch-home-aside">
                     <div class="sticky-top">
@@ -86,24 +90,25 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
+                                           rel="author" th:href="@{/artist/main(memberId=${artist.memberId})}">
                                             <img class="profile-img"
                                                  src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
                                         </a>
                                         <div class="media-body profile-title-box">
                                             <span class="profile-title">
-                                                <a th:text="${artist.memberNickname}"
+                                                <a rel="author"
                                                    th:href="@{/artist/main(memberId=${artist.memberId})}"
-                                                   rel="author"></a>
+                                                   th:text="${artist.memberNickname}"></a>
                                             </span>
                                         </div>
                                     </div>
-                                    <p th:text="${artist.artistDescription}" class="text-alpha-black-60 mb-0"></p>
+                                    <p class="text-alpha-black-60 mb-0" th:text="${artist.artistDescription}"></p>
                                 </div>
                             </div>
                             <th:block th:if="${session.member != null}">
-                                <a th:if="${artist.memberId == session.member.id}" class="write-btn"
-                                   th:href="@{/artist/{artistId}/post/write(artistId=${artist.memberId})}">작성하기</a>
+                                <a class="write-btn"
+                                   th:href="@{/artist/{artistId}/post/write(artistId=${artist.memberId})}"
+                                   th:if="${artist.memberId == session.member.id}">작성하기</a>
                             </th:block>
                         </section>
                     </div>
@@ -121,78 +126,74 @@
                         </div>
                         <th:block th:if="${#lists.size(posts) != 0}">
                             <th:block th:each="post:${posts}">
-                                <div th:object="${post}" class="article-list post-list channel-home-post-list">
+                                <div class="article-list post-list channel-home-post-list" th:object="${post}">
                                     <div class="component-post list">
                                         <div>
                                             <div class="post">
                                                 <div class="post-data">
-                                                    <a th:href="@{/artist/post/detail(id=${post.id})}">
+                                                    <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{memberId}, postId=*{postId})}">
                                                         <h3 class="ellipsis-2 text-color-black"></h3>
                                                         <div class="ellipsis-2 text-alpha-black-47">
-                                                            <h3 th:text="*{postTitle}"
-                                                                class="ellipsis-2 text-color-black"></h3>
-                                                            <h4 th:text="*{postSubtitle}"></h4>
+                                                            <h3 class="ellipsis-2 text-color-black"
+                                                                th:text="*{title}"></h3>
+                                                            <h4 th:text="*{subtitle}"></h4>
                                                             <div class="divider"></div>
-                                                            <p th:text="*{postContent}" class="post-content"></p>
+                                                            <p class="post-content" th:text="*{content}"></p>
                                                         </div>
                                                     </a>
-                                                    <div th:if="*{tag1 != null}" class="post-tags">
-                                                        <a href="#"
-                                                           th:text="*{tag1}" class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag2 != null}" th:text="*{tag2}"
-                                                           class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag3 != null}" th:text="*{tag3}"
-                                                           class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag4 != null}" th:text="*{tag4}"
-                                                           class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag5 != null}" th:text="*{tag5}"
-                                                           class="general-tag"></a>
+                                                    <div class="post-tags" th:unless="*{tags.size() == 0}">
+                                                        <a class="general-tag" href="#"
+                                                           th:each="tag : *{tags}" th:text="${tag}"></a>
                                                     </div>
                                                 </div>
                                                 <th:block th:unless="*{fileName == null}">
                                                     <div class="post-data-thumbnail">
-                                                        <a th:href="@{/artist/post/detail(id=${post.id})}">
-                                                            <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">
+                                                        <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{memberId}, postId=*{postId})}">
+                                                            <img th:src="|/file/display?fileName=*{filePath}/t_*{fileName}|">
                                                         </a>
                                                     </div>
                                                 </th:block>
                                             </div>
                                             <div class="post-info">
-                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}"
-                                                   class="user-profile-avatar avatar-32">
-                                                    <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"
-                                                         src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
-                                                    <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"
-                                                         th:src="*{memberKakaoProfileUrl}">
+                                                <a class="user-profile-avatar avatar-32"
+                                                   th:href="@{/artist/{artistId}(artistId=*{memberId})}">
+                                                    <img src="/images/profile/avatar_blank.png"
+                                                         th:if="*{kakaoProfileUrl == null and profileName == null}">
+                                                    <img th:if="*{kakaoProfileUrl != null and profileName == null}"
+                                                         th:src="*{kakaoProfileUrl}">
+                                                    <img th:if="*{profileName != null}"
+                                                         th:src="|/file/display?fileName=*{profilePath}/t_*{profileName}|">
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}"
-                                                           th:text="*{memberNickname}"></a>
+                                                        <a th:href="@{/artist/{artistId}(artistId=*{memberId})}"
+                                                           th:text="*{nickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
-                                                        <span class="meta-item" title="조회수">
-                                                            <i class="ic ic-eye" aria-label="조회수"></i>
-                                                            <span th:text="*{postViewCount}" class="stats-count"></span>
+                                                        <span class="meta-item"
+                                                              title="조회수">
+                                                            <i aria-label="조회수"
+                                                               class="ic ic-eye"></i>
+                                                            <span class="stats-count"
+                                                                  th:text="*{viewCount}"></span>
                                                         </span>
                                                         <span class="meta-item" title="좋아요">
-                                                            <i class="far fa-heart" aria-label="좋아요"></i>
-                                                            <span th:text="*{likeCount}" class="stats-count"></span>
+                                                            <i aria-label="좋아요"
+                                                               class="far fa-heart"></i>
+                                                            <span class="stats-count"
+                                                                  th:text="*{likeCount}"></span>
                                                         </span>
                                                         <span class="meta-item" title="댓글">
                                                             <i class="far fa-comment-dots"></i>
-                                                            <span th:text="*{replyCount}" class="stats-count"></span>
+                                                            <span class="stats-count"
+                                                                  th:text="*{replyCount}"></span>
                                                         </span>
                                                         <time class="meta-item time"
-                                                              th:data-post-time="*{postWriteTime}"></time>
+                                                              th:data-time="*{writeTime}"></time>
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon bookmark-btn b" th:data-post-id="*{id}">
+                                                    <a class="btn btn-icon bookmark-btn b">
                                                         <i class="far fa-bookmark default-bookmark"></i>
                                                         <i class="fas fa-bookmark active-bookmark"></i>
                                                     </a>
@@ -207,7 +208,22 @@
                         <th:block th:unless="${#lists.size(posts) != 0}">
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
-                        <div id="page-wrap"></div>
+                        <div id="page-wrap" th:object="${pagination}">
+                            <a class="change-page"
+                               th:href="|/artist/${artistId}/post/list?page=*{startPage - 1}|"
+                               th:if="*{startPage > 1}">이전</a>
+
+                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                <a th:class="${i == pagination.page ? 'active' : ''}"
+                                   th:href="|/artist/${artistId}/post/list?page=${i}|">
+                                    <span class="button-highlight" th:text="${i}"></span>
+                                </a>
+                            </th:block>
+
+                            <a class="change-page"
+                               th:href="|/artist/${artistId}/post/list?page=${pagination.endPage + 1}|"
+                               th:if="*{endPage < realEnd}">다음</a>
+                        </div>
                     </section>
                 </div>
             </article>
@@ -244,56 +260,37 @@
     }
 
     function updateTimeGaps() {
-        let currentTime = new Date();
-
         const timeElements = document.querySelectorAll('.meta-item.time');
         timeElements.forEach(function (element) {
-            let postTime = new Date(element.getAttribute('data-post-time'));
-            element.textContent = getTimeGap(currentTime, postTime);
+            let postTime = new Date(element.getAttribute('data-time'));
+            element.textContent = getTimeGap(postTime);
         });
     }
 
     // 시간차이 계산 함수
-    function getTimeGap(currentTime, postTime) {
+    function getTimeGap(postTime) {
+        const currentTime = new Date();
+
         let timeDiff = Math.floor((currentTime - postTime) / 1000); // 초 단위로 시간 차이 계산
 
         if (timeDiff < 60) {
             return "방금 전";
         } else if (timeDiff < 3600) {
-            var minutes = Math.floor(timeDiff / 60);
+            let minutes = Math.floor(timeDiff / 60);
             return minutes + "분 전";
         } else if (timeDiff < 86400) {
-            var hours = Math.floor(timeDiff / 3600);
+            let hours = Math.floor(timeDiff / 3600);
             return hours + "시간 전";
         } else if (timeDiff < 2678400) {
-            var days = Math.floor(timeDiff / 86400);
+            let days = Math.floor(timeDiff / 86400);
             return days + "일 전";
         } else if (timeDiff < 32140800) {
-            var months = Math.floor(timeDiff / 2678400);
+            let months = Math.floor(timeDiff / 2678400);
             return months + "개월 전";
         } else {
-            var years = Math.floor(timeDiff / 32140800);
+            let years = Math.floor(timeDiff / 32140800);
             return years + "년 전";
         }
-    }
-
-    function getPageBtn() {
-        const pageWrap = $("#page-wrap");
-        const pagination = [[${pagination}]];
-        let pagingText = ``;
-
-        if (pagination.startPage > 1) {
-            pagingText += `<a class="change-page" href="/artist/post/list?memberId=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
-        }
-        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-            let isActive = i === pagination.page ? 'active' : '';
-            pagingText += `<a href="/artist/post/list?memberId=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
-        }
-        if (pagination.endPage < pagination.realEnd) {
-            pagingText += `<a class="change-page" href="/artist/post/list?memberId=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
-        }
-
-        pageWrap.html(pagingText);
     }
 
     const bookmarkService = (function () {
@@ -431,16 +428,6 @@
     $(document).ready(function () {
         getCounts([[${artist.memberId}]]);
         updateTimeGaps();
-        getPageBtn();
-        if (session != null) {
-            bookmarkBtn.each(function () {
-                let btn = $(this);
-                console.log(btn);
-                let postId = $(this).data('post-id');
-                bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
-                subscriptionService.checkSubscription(subscriptionService.updateStatus);
-            })
-        }
     })
 
     $(".btn-subscribe").click(() => {

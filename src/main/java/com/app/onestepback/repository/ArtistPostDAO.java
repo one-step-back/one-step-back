@@ -1,6 +1,7 @@
 package com.app.onestepback.repository;
 
 import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
@@ -19,7 +20,7 @@ public class ArtistPostDAO {
 
     public List<ArtistPostDTO> get3Posts(Long memberId){return artistPostMapper.select3Posts(memberId);}
 
-    public List<ArtistPostDTO> getAllPosts(Long memberId, Pagination pagination){return artistPostMapper.selectAll(memberId, pagination);}
+    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Pagination pagination){return artistPostMapper.selectAll(memberId, pagination);}
 
     public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO){artistPostMapper.insertPost(artistPostRegisterDTO);}
 

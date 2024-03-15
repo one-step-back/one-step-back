@@ -2,6 +2,7 @@ package com.app.onestepback.service.artist;
 
 import com.app.onestepback.domain.dto.artist.ArtistDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostFileVO;
@@ -46,29 +47,8 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    public List<ArtistPostDTO> getAllPosts(Long memberId, Pagination pagination) {
-        List<ArtistPostDTO> posts = artistPostDAO.getAllPosts(memberId, pagination);
-
-        for (ArtistPostDTO post : posts) {
-            List<String> tags = postTagDAO.getAllTags(post.getId());
-
-            if (!tags.isEmpty()) {
-                post.setTag1(tags.get(0));
-            }
-            if (tags.size() >= 2) {
-                post.setTag2(tags.get(1));
-            }
-            if (tags.size() >= 3) {
-                post.setTag3(tags.get(2));
-            }
-            if (tags.size() >= 4) {
-                post.setTag4(tags.get(3));
-            }
-            if (tags.size() >= 5) {
-                post.setTag5(tags.get(4));
-            }
-        }
-        return posts;
+    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Pagination pagination) {
+        return artistPostDAO.getArtistPostsPage(memberId, pagination);
     }
 
     @Override
@@ -90,7 +70,6 @@ public class ArtistPostServiceImpl implements ArtistPostService {
                         .postTagName(tagName)
                         .build())
                 .collect(Collectors.toList());
-        System.out.println("postTags = " + postTags);
         postTagDAO.saveAllTags(postTags);
 
         // 파일 저장 (파일 등록을 했을경우에만 실행)

@@ -1,6 +1,7 @@
 package com.app.onestepback.controller.artist;
 
 import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -60,9 +61,10 @@ public class ArtistController {
 //        pagination.progress();
         // 생성자로 간결화 처리.
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
+        List<ArtistPostListDTO> artistPostsPage = artistPostService.getArtistPostsPage(artistId, pagination);
 
         model.addAttribute("pagination", pagination);
-        model.addAttribute("posts", artistPostService.getAllPosts(artistId, pagination));
+        model.addAttribute("posts", artistPostsPage );
         return "artist/post/list";
     }
 
@@ -95,20 +97,22 @@ public class ArtistController {
         return "redirect:/artist/" + memberSession.getId() + "/post/list";
     }
 
-    @GetMapping("/{artistId}/post/detail")
-    public String goToPostDetailForm(@RequestParam("id") Long id, Model model) {
+    @GetMapping("/{artistId}/post/detail/{postId}")
+    public String goToPostDetailForm(@PathVariable String artistId,
+                                     @PathVariable String postId,
+                                     Model model) {
 
         // todo: 총체적으로 관리할 수있는 dto로 만들고 서비스 단에서 합칠 수 있도록 구조 재편 필요, 가능하다면 다중 쿼리문은 회피할 것.
-        ArtistPostDTO nowPost = artistPostService.getPost(id);
-
-        Optional<ArtistPostDTO> prevPost = artistPostService.getPrevPost(nowPost);
-        Optional<ArtistPostDTO> nextPost = artistPostService.getNextPost(nowPost);
-
-        model.addAttribute("prevPost", prevPost.orElse(null));
-        model.addAttribute("nextPost", nextPost.orElse(null));
-        model.addAttribute("artist", artistPostService.getArtist(nowPost.getMemberId()).get());
-        model.addAttribute("post", nowPost);
-        model.addAttribute("images", artistPostService.getAllFiles(id));
+//        ArtistPostDTO nowPost = artistPostService.getPost();
+//
+//        Optional<ArtistPostDTO> prevPost = artistPostService.getPrevPost(nowPost);
+//        Optional<ArtistPostDTO> nextPost = artistPostService.getNextPost(nowPost);
+//
+//        model.addAttribute("prevPost", prevPost.orElse(null));
+//        model.addAttribute("nextPost", nextPost.orElse(null));
+//        model.addAttribute("artist", artistPostService.getArtist(nowPost.getMemberId()).get());
+//        model.addAttribute("post", nowPost);
+//        model.addAttribute("images", artistPostService.getAllFiles(id));
         return "artist/post/detail";
     }
 

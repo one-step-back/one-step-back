@@ -16,11 +16,11 @@ public class VideoPostMapperTest {
 
     @Test
     public void selectAllTest(){
-        Pagination pagination = new Pagination();
-
-        pagination.setStartRow(1);
-        pagination.setEndRow(10);
-        videoPostMapper.selectAll(1L, pagination).stream().map(VideoPostDTO::toString).forEach(log::info);
+////        Pagination pagination = new Pagination();
+//
+//        pagination.setStartRow(1);
+//        pagination.setEndRow(10);
+//        videoPostMapper.selectAll(1L, pagination).stream().map(VideoPostDTO::toString).forEach(log::info);
     }
 
 

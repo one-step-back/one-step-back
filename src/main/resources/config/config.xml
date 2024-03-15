@@ -4,6 +4,7 @@
     <typeAliases>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistPostVO" alias="artistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO" alias="artistPostRegisterDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostListDTO" alias="artistPostListDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistVO" alias="artistVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>

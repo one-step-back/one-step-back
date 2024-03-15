@@ -79,7 +79,7 @@ public class PostFileServiceImpl implements PostFileService {
 
         return PostFileVO.builder()
                 .filePath(date)
-                .fileName(originalName)
+                .fileName(originalFile)
                 .build();
     }
 

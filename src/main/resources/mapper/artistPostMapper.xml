@@ -57,72 +57,172 @@
         WHERE ROWNUM &lt;= 3
     </select>
 
-    <select id="selectAll" resultType="artistPostDTO">
-        SELECT ID,
-               MEMBER_ID,
-               POST_TITLE,
-               POST_SUBTITLE,
-               POST_CONTENT,
-               POST_CATEGORY,
-               POST_VIEW_COUNT,
-               POST_WRITE_TIME,
-               MEMBER_NICKNAME,
-               MEMBER_KAKAO_PROFILE_URL,
-               MEMBER_PROFILE_NAME,
-               MEMBER_PROFILE_PATH,
-               LIKE_COUNT,
-               REPLY_COUNT,
-               FILE_NAME,
-               FILE_PATH
+<!--    <select id="selectAll" resultType="artistPostDTO">-->
+<!--        SELECT ID,-->
+<!--               MEMBER_ID,-->
+<!--               POST_TITLE,-->
+<!--               POST_SUBTITLE,-->
+<!--               POST_CONTENT,-->
+<!--               POST_CATEGORY,-->
+<!--               POST_VIEW_COUNT,-->
+<!--               POST_WRITE_TIME,-->
+<!--               MEMBER_NICKNAME,-->
+<!--               MEMBER_KAKAO_PROFILE_URL,-->
+<!--               MEMBER_PROFILE_NAME,-->
+<!--               MEMBER_PROFILE_PATH,-->
+<!--               LIKE_COUNT,-->
+<!--               REPLY_COUNT,-->
+<!--               FILE_NAME,-->
+<!--               FILE_PATH-->
+<!--        FROM (SELECT ROWNUM R,-->
+<!--                     P1.ID,-->
+<!--                     P1.MEMBER_ID,-->
+<!--                     P1.POST_TITLE,-->
+<!--                     P1.POST_SUBTITLE,-->
+<!--                     P1.POST_CONTENT,-->
+<!--                     P1.POST_CATEGORY,-->
+<!--                     P1.POST_VIEW_COUNT,-->
+<!--                     P1.POST_WRITE_TIME,-->
+<!--                     P1.MEMBER_NICKNAME,-->
+<!--                     P1.MEMBER_KAKAO_PROFILE_URL,-->
+<!--                     P1.MEMBER_PROFILE_NAME,-->
+<!--                     P1.MEMBER_PROFILE_PATH,-->
+<!--                     P1.LIKE_COUNT,-->
+<!--                     P1.REPLY_COUNT,-->
+<!--                     P1.FILE_NAME,-->
+<!--                     P1.FILE_PATH-->
+<!--              FROM (SELECT A.ID,-->
+<!--                           A.MEMBER_ID,-->
+<!--                           A.POST_TITLE,-->
+<!--                           A.POST_SUBTITLE,-->
+<!--                           A.POST_CONTENT,-->
+<!--                           A.POST_CATEGORY,-->
+<!--                           A.POST_VIEW_COUNT,-->
+<!--                           A.POST_WRITE_TIME,-->
+<!--                           M.MEMBER_NICKNAME,-->
+<!--                           M.MEMBER_KAKAO_PROFILE_URL,-->
+<!--                           M.MEMBER_PROFILE_NAME,-->
+<!--                           M.MEMBER_PROFILE_PATH,-->
+<!--                           (SELECT COUNT(L.POST_ID)-->
+<!--                            FROM TBL_POST_LIKE L-->
+<!--                            WHERE L.POST_ID = A.ID)                                                AS LIKE_COUNT,-->
+<!--                           (SELECT COUNT(R.POST_ID)-->
+<!--                            FROM TBL_POST_REPLY R-->
+<!--                            WHERE R.POST_ID = A.ID)                                                AS REPLY_COUNT,-->
+<!--                           (SELECT F.FILE_NAME-->
+<!--                            FROM TBL_POST_FILE F-->
+<!--                            WHERE F.POST_ID = A.ID-->
+<!--                              AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_NAME,-->
+<!--                           (SELECT F.FILE_PATH-->
+<!--                            FROM TBL_POST_FILE F-->
+<!--                            WHERE F.POST_ID = A.ID-->
+<!--                              AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH-->
+<!--                    FROM VIEW_ARTIST_POST A-->
+<!--                             JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID-->
+<!--                    WHERE MEMBER_ID = #{memberId}-->
+<!--                      AND A.POST_READABLE != 'DISABLE'-->
+<!--                    ORDER BY POST_WRITE_TIME DESC) P1-->
+<!--              WHERE ROWNUM &lt;= #{pagination.endRow}) P2-->
+<!--        WHERE P2.R >= #{pagination.startRow}-->
+<!--    </select>-->
+
+    <resultMap id="artistPostListResult" type="ArtistPostListDTO">
+        <id property="postId" column="ID"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="title" column="POST_TITLE"/>
+        <result property="subtitle" column="POST_SUBTITLE"/>
+        <result property="content" column="POST_CONTENT"/>
+        <result property="category" column="POST_CATEGORY"/>
+        <result property="writeTime" column="POST_WRITE_TIME"/>
+        <result property="fileName" column="FILE_NAME"/>
+        <result property="filePath" column="FILE_PATH"/>
+        <result property="nickname" column="MEMBER_NICKNAME"/>
+        <result property="kakaoProfileUrl" column="MEMBER_KAKAO_PROFILE_URL"/>
+        <result property="profileName" column="MEMBER_PROFILE_NAME"/>
+        <result property="profilePath" column="MEMBER_PROFILE_PATH"/>
+        <result property="viewCount" column="POST_VIEW_COUNT"/>
+        <result property="likeCount" column="LIKE_COUNT"/>
+        <result property="replyCount" column="REPLY_COUNT"/>
+        <result property="isBookmarked" column="IS_BOOKMARKED"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result column="POST_TAG_NAME"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAll" resultMap="artistPostListResult">
+        SELECT P2.ID,
+        P2.MEMBER_ID,
+        P2.POST_TITLE,
+        P2.POST_SUBTITLE,
+        P2.POST_CONTENT,
+        P2.POST_CATEGORY,
+        P2.POST_WRITE_TIME,
+        P2.FILE_NAME,
+        P2.FILE_PATH,
+        T.POST_TAG_NAME,
+        P2.MEMBER_NICKNAME,
+        P2.MEMBER_KAKAO_PROFILE_URL,
+        P2.MEMBER_PROFILE_NAME,
+        P2.MEMBER_PROFILE_PATH,
+        P2.POST_VIEW_COUNT,
+        P2.LIKE_COUNT,
+        P2.REPLY_COUNT,
+        P2.IS_BOOKMARKED
         FROM (SELECT ROWNUM R,
-                     P1.ID,
-                     P1.MEMBER_ID,
-                     P1.POST_TITLE,
-                     P1.POST_SUBTITLE,
-                     P1.POST_CONTENT,
-                     P1.POST_CATEGORY,
-                     P1.POST_VIEW_COUNT,
-                     P1.POST_WRITE_TIME,
-                     P1.MEMBER_NICKNAME,
-                     P1.MEMBER_KAKAO_PROFILE_URL,
-                     P1.MEMBER_PROFILE_NAME,
-                     P1.MEMBER_PROFILE_PATH,
-                     P1.LIKE_COUNT,
-                     P1.REPLY_COUNT,
-                     P1.FILE_NAME,
-                     P1.FILE_PATH
-              FROM (SELECT A.ID,
-                           A.MEMBER_ID,
-                           A.POST_TITLE,
-                           A.POST_SUBTITLE,
-                           A.POST_CONTENT,
-                           A.POST_CATEGORY,
-                           A.POST_VIEW_COUNT,
-                           A.POST_WRITE_TIME,
-                           M.MEMBER_NICKNAME,
-                           M.MEMBER_KAKAO_PROFILE_URL,
-                           M.MEMBER_PROFILE_NAME,
-                           M.MEMBER_PROFILE_PATH,
-                           (SELECT COUNT(L.POST_ID)
-                            FROM TBL_POST_LIKE L
-                            WHERE L.POST_ID = A.ID)                                                AS LIKE_COUNT,
-                           (SELECT COUNT(R.POST_ID)
-                            FROM TBL_POST_REPLY R
-                            WHERE R.POST_ID = A.ID)                                                AS REPLY_COUNT,
-                           (SELECT F.FILE_NAME
-                            FROM TBL_POST_FILE F
-                            WHERE F.POST_ID = A.ID
-                              AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_NAME,
-                           (SELECT F.FILE_PATH
-                            FROM TBL_POST_FILE F
-                            WHERE F.POST_ID = A.ID
-                              AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
-                    FROM VIEW_ARTIST_POST A
-                             JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
-                    WHERE MEMBER_ID = #{memberId}
-                      AND A.POST_READABLE != 'DISABLE'
-                    ORDER BY POST_WRITE_TIME DESC) P1
-              WHERE ROWNUM &lt;= #{pagination.endRow}) P2
+        P1.ID,
+        P1.MEMBER_ID,
+        P1.POST_TITLE,
+        P1.POST_SUBTITLE,
+        P1.POST_CONTENT,
+        P1.POST_CATEGORY,
+        P1.POST_WRITE_TIME,
+        P1.FILE_NAME,
+        P1.FILE_PATH,
+        P1.MEMBER_NICKNAME,
+        P1.MEMBER_KAKAO_PROFILE_URL,
+        P1.MEMBER_PROFILE_NAME,
+        P1.MEMBER_PROFILE_PATH,
+        P1.POST_VIEW_COUNT,
+        P1.LIKE_COUNT,
+        P1.REPLY_COUNT,
+        P1.IS_BOOKMARKED
+        FROM (SELECT AP.ID,
+        AP.MEMBER_ID,
+        AP.POST_TITLE,
+        AP.POST_SUBTITLE,
+        AP.POST_CONTENT,
+        AP.POST_CATEGORY,
+        AP.POST_WRITE_TIME,
+        COALESCE(F.FILE_NAME, '')                                               AS FILE_NAME,
+        COALESCE(F.FILE_PATH, '')                                               AS FILE_PATH,
+        M.MEMBER_NICKNAME,
+        M.MEMBER_KAKAO_PROFILE_URL,
+        M.MEMBER_PROFILE_NAME,
+        M.MEMBER_PROFILE_PATH,
+        AP.POST_VIEW_COUNT,
+        (SELECT COUNT(L.POST_ID) FROM TBL_POST_LIKE L WHERE L.POST_ID = AP.ID)  AS LIKE_COUNT,
+        (SELECT COUNT(R.POST_ID) FROM TBL_POST_REPLY R WHERE R.POST_ID = AP.ID) AS REPLY_COUNT,
+        CASE
+        WHEN EXISTS(SELECT 1
+        FROM TBL_BOOKMARKED_ARTIST_POST B
+        WHERE B.MEMBER_ID = 1
+        AND B.POST_ID = AP.ID) THEN 1
+        ELSE 0
+        END                                                                 AS IS_BOOKMARKED
+        FROM VIEW_ARTIST_POST AP
+        JOIN
+        TBL_MEMBER M ON M.ID = AP.MEMBER_ID
+        LEFT JOIN
+        TBL_POST_FILE F ON F.POST_ID = AP.ID
+        WHERE AP.MEMBER_ID = #{memberId}
+        AND AP.POST_READABLE &lt;> 'DISABLE'
+        AND (F.ID = (SELECT MIN(F2.ID)
+        FROM TBL_POST_FILE F2
+        WHERE F2.POST_ID = AP.ID)
+        OR F.ID IS NULL)
+        ORDER BY AP.ID DESC) P1
+        WHERE ROWNUM &lt;= #{pagination.endRow}) P2
+        LEFT JOIN TBL_POST_TAG T ON T.POST_ID = P2.ID
         WHERE P2.R >= #{pagination.startRow}
     </select>
 
