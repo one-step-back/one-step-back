@@ -8,7 +8,7 @@ spring:
     hikari:
       driver-class-name: oracle.jdbc.OracleDriver
       jdbc-url: jdbc:oracle:thin:@localhost:1521:XE
-      username: hr
+      username: onestep
       password: 1234
 
   mvc:

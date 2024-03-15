@@ -636,6 +636,10 @@ h1 {
     fill: #b9b9bb;
 }
 
+.none {
+    display: none;
+}
+
 .surface_disabled {
     background-color: #f3f3f4;
 }

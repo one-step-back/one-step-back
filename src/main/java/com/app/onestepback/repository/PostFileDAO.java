@@ -16,6 +16,10 @@ public class PostFileDAO {
         postFileMapper.insert(postFileVO);
     }
 
+    public void saveAllFiles(List<PostFileVO> postFileVOList) {
+        postFileMapper.insertAll(postFileVOList);
+    }
+
     public List<PostFileVO> getAllFiles(Long postId) {
         return postFileMapper.selectAll(postId);
     }

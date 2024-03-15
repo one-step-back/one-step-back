@@ -6,6 +6,14 @@
         VALUES (SEQ_POST_FILE.NEXTVAL, #{postId}, #{fileName}, #{filePath})
     </insert>
 
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="postFile" separator=" ">
+            INTO TBL_POST_FILE(ID, POST_ID, FILE_NAME, FILE_PATH) VALUES (GET_SEQ_POST_FILE(), #{postFile.postId}, #{postFile.fileName}, #{postFile.filePath})
+        </foreach>
+        SELECT * FROM DUAL
+    </insert>
+
     <select id="selectAll" resultType="postFileVO">
         SELECT ID, POST_ID, FILE_NAME, FILE_PATH
         FROM TBL_POST_FILE

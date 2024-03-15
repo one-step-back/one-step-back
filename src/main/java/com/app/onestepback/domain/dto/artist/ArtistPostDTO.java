@@ -1,4 +1,4 @@
-package com.app.onestepback.domain.dto;
+package com.app.onestepback.domain.dto.artist;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

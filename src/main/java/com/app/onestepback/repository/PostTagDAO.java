@@ -16,5 +16,9 @@ public class PostTagDAO {
 
     public void savePostTag(PostTagVO postTagVO){postTagMapper.insert(postTagVO);}
 
+    public void saveAllTags(List<PostTagVO> postTagVOList) {
+        postTagMapper.insertAll(postTagVOList);
+    }
+
     public void deletePostTag(Long postId){postTagMapper.delete(postId);}
 }

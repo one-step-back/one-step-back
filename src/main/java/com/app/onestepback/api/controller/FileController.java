@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @RestController
 @Slf4j
-@RequestMapping("/file/*")
+@RequestMapping("/file")
 @RequiredArgsConstructor
 public class FileController {
     private final PostFileService postFileService;
@@ -30,7 +30,7 @@ public class FileController {
     private String ROOT_PATH;
 
     //    파일 업로드
-    @PostMapping("upload")
+    @PostMapping("/upload")
     public List<String> upload(@RequestParam("uploadFile") List<MultipartFile> uploadFiles) throws IOException {
         List<String> uuids = new ArrayList<>();
         File file = new File(ROOT_PATH);
@@ -51,12 +51,12 @@ public class FileController {
         return uuids;
     }
 
-    @GetMapping("display")
-    public byte[] display(String fileName) throws IOException {
-        return FileCopyUtils.copyToByteArray(new File("/usr/upload/", fileName));
+    @GetMapping("/display")
+    public byte[] display(@RequestParam("fileName") String fileName) throws IOException {
+        return FileCopyUtils.copyToByteArray(new File(ROOT_PATH, fileName));
     }
 
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public Long eraseFile(@RequestParam("fileId") Long fileId) {
         log.info(fileId.toString());
 

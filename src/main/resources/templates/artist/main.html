@@ -73,10 +73,10 @@
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/post/list(memberId=${artist.memberId})}">게시글</a>
+                                <a th:href="@{/artist/{artistId}/post/list(artistId = ${artist.memberId})}">게시글</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
+                                <a th:href="@{/artist/{artistId}/video/list(artistId = ${artist.memberId})}">영상</a>
                             </li>
                             <li>
                                 <a th:href="@{/artist/community/list(memberId=${artist.memberId})}" class="inactive">커뮤니티</a>

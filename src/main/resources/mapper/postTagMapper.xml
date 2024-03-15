@@ -12,6 +12,14 @@
         VALUES (#{postId}, #{postTagName})
     </insert>
 
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO TBL_POST_TAG(POST_ID, POST_TAG_NAME)
+        <foreach collection="list" item="postTag" separator="UNION ALL">
+            SELECT #{postTag.postId}, #{postTag.postTagName} FROM DUAL
+        </foreach>
+    </insert>
+
+
     <delete id="delete">
         DELETE
         FROM TBL_POST_TAG

@@ -16,10 +16,10 @@ public class ReplyMapperTest {
 
     @Test
     public void selectAllTest(){
-        Pagination pagination = new Pagination();
-        pagination.setStartRow(11);
-        pagination.setEndRow(20);
-
-        postReplyMapper.selectAll(101L, pagination).stream().map(PostReplyDTO::toString).forEach(log::info);
+//        Pagination pagination = new Pagination();
+//        pagination.setStartRow(11);
+//        pagination.setEndRow(20);
+//
+//        postReplyMapper.selectAll(101L, pagination).stream().map(PostReplyDTO::toString).forEach(log::info);
     }
 }

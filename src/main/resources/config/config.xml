@@ -3,6 +3,8 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistPostVO" alias="artistPostVO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO" alias="artistPostRegisterDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostListDTO" alias="artistPostListDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistVO" alias="artistVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>
@@ -20,8 +22,8 @@
         <typeAlias type="com.app.onestepback.domain.vo.PostLikeVO" alias="postLikeVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.SponsorshipVO" alias="sponsorshipVO"/>
         <typeAlias type="com.app.onestepback.domain.dto.CombinedPostDTO" alias="combinedPostDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.ArtistDTO" alias="artistDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.ArtistPostDTO" alias="artistPostDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistDTO" alias="artistDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostDTO" alias="artistPostDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.SubscriptionDTO" alias="subscriptionDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.VideoPostDTO" alias="videoPostDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.PostReplyDTO" alias="postReplyDTO"/>

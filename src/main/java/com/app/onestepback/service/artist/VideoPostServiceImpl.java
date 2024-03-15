@@ -1,6 +1,6 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.ArtistDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDTO;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostTagVO;
@@ -66,22 +66,22 @@ public class VideoPostServiceImpl implements VideoPostService {
         videoPostDAO.savePost(videoPostDTO);
         videoPostDAO.saveVideoPost(videoPostDTO);
 
-        for (int i = 1; i <= numberOfTags; i++) {
-            try {
-                PostTagVO postTagVO = new PostTagVO();
-
-                String tagName = "tag" + i;
-                Field field = videoPostDTO.getClass().getDeclaredField(tagName);
-                field.setAccessible(true);
-
-                postTagVO.setPostId(videoPostDTO.getId());
-                postTagVO.setPostTagName((String) field.get(videoPostDTO));
-
-                postTagDAO.savePostTag(postTagVO);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int i = 1; i <= numberOfTags; i++) {
+//            try {
+//                PostTagVO postTagVO = new PostTagVO();
+//
+//                String tagName = "tag" + i;
+//                Field field = videoPostDTO.getClass().getDeclaredField(tagName);
+//                field.setAccessible(true);
+//
+//                postTagVO.setPostId(videoPostDTO.getId());
+//                postTagVO.setPostTagName((String) field.get(videoPostDTO));
+//
+//                postTagDAO.savePostTag(postTagVO);
+//            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -127,22 +127,22 @@ public class VideoPostServiceImpl implements VideoPostService {
         videoPostDAO.editVideoLink(videoPostDTO);
 
         postTagDAO.deletePostTag(videoPostDTO.getId());
-        for (int i = 1; i <= numberOfTags; i++) {
-            try {
-                PostTagVO postTagVO = new PostTagVO();
-
-                String tagName = "tag" + i;
-                Field field = videoPostDTO.getClass().getDeclaredField(tagName);
-                field.setAccessible(true);
-
-                postTagVO.setPostId(videoPostDTO.getId());
-                postTagVO.setPostTagName((String) field.get(videoPostDTO));
-
-                postTagDAO.savePostTag(postTagVO);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int i = 1; i <= numberOfTags; i++) {
+//            try {
+//                PostTagVO postTagVO = new PostTagVO();
+//
+//                String tagName = "tag" + i;
+//                Field field = videoPostDTO.getClass().getDeclaredField(tagName);
+//                field.setAccessible(true);
+//
+//                postTagVO.setPostId(videoPostDTO.getId());
+//                postTagVO.setPostTagName((String) field.get(videoPostDTO));
+//
+//                postTagDAO.savePostTag(postTagVO);
+//            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override

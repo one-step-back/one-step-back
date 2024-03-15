@@ -11,5 +11,7 @@ public interface PostTagMapper {
 
     public void insert(PostTagVO postTagVO);
 
+    void insertAll(List<PostTagVO> postTagVOList);
+
     public void delete(Long postId);
 }
