@@ -46,8 +46,8 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Pagination pagination) {
-        return artistPostDAO.getArtistPostsPage(memberId, pagination);
+    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination) {
+        return artistPostDAO.getArtistPostsPage(memberId, viewerId, pagination);
     }
 
     @Override
@@ -80,10 +80,10 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     @Override
     public ArtistPostDetailDTO getPostDetail(Long artistId, Long postId) {
         // tag들은 leftJoin의 결과물로 가져왔지만 postFile까지 leftJoin하게 될 경우 카르테시안곱에 의해
-        // 결과가 배로 늘어날 수 있다.
+        // 결과가 배로 늘어날 수 있다. 이는 성능 결과에 매우 치명적일 수 있음.
         // todo : 두개의 독립 쿼리를 날리는 것과 결과가 많이 나타나는 카르테시안곱 중 어떤 것이 더욱 효과적일지 테스트 할 필요성이 있음.
         ArtistPostDetailDTO content = artistPostDAO.getPost(artistId, postId).orElseThrow(
-                NoSuchElementException::new
+                () -> new NoSuchElementException("게시글을 찾을 수 없음")
         );
 
         List<PostFileDTO> imgFiles = postFileDAO.getAllFiles(content.getPostId());

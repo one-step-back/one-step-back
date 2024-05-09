@@ -20,7 +20,7 @@ public class Member extends Period {
     private String nickname;
     @Column(name = "MEMBER_KAKAO_PROFILE_URL")
     private String kakaoProfileUrl;
-    @Column(name = "MEMBER_PROFILE_URL")
+    @Column(name = "MEMBER_PROFILE_NAME")
     private String profileName;
     @Column(name = "MEMBER_PROFILE_PATH")
     private String profilePath;

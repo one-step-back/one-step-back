@@ -1,9 +1,6 @@
 package com.app.onestepback.controller.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.exception.CustomException;
@@ -32,27 +29,31 @@ public class ArtistController {
 
     @GetMapping("/{artistId}")
     public String goToMainForm(@PathVariable("artistId") Long artistId, Model model) {
-        if (artistId == null) {
-            throw new CustomException("존재하지 않는 아티스트");
-        }
-        model.addAttribute("artist", artistService.getArtist(artistId).get());
-        model.addAttribute("posts", artistService.get3Posts(artistId));
-        model.addAttribute("videos", artistService.get3Videos(artistId));
+        ArtistDTO artist = artistService.getArtist(artistId);
+
+        model.addAttribute("artist", artist);
+//        model.addAttribute("posts", artistService.get3Posts(artistId));
+//        model.addAttribute("videos", artistService.get3Videos(artistId));
         return "artist/main";
     }
 
     @GetMapping("/{artistId}/sponsor")
     public String goToSponsorPage(@PathVariable("artistId") Long artistId, Model model) {
-        model.addAttribute("artist", artistService.getArtist(artistId).get());
+        model.addAttribute("artist", artistService.getArtist(artistId));
 
         return "artist/sponsor";
     }
 
     /////////////////////////////////////////////////// post /////////////////////////////////////////////////////////
-    @GetMapping("/{artistId}/post/list")
+    @GetMapping("/{artistId}/posts")
     public String goToPostList(@PathVariable("artistId") Long artistId,
                                @RequestParam(value = "page", required = false) Integer page,
+                               HttpSession session,
                                Model model) {
+        MemberVO memberSession = (MemberVO) session.getAttribute("member");
+        Long viewerId = memberSession != null ? memberSession.getId() : 0;
+        System.out.println("viewerId = " + viewerId);
+
         model.addAttribute("artist", artistPostService.getArtist(artistId).get());
 
 //        pagination.setTotal(artistPostService.getPostCount(artistId));
@@ -61,16 +62,17 @@ public class ArtistController {
 //        pagination.progress();
         // 생성자로 간결화 처리.
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
-        List<ArtistPostListDTO> contents = artistPostService.getArtistPostsPage(artistId, pagination);
+        List<ArtistPostListDTO> contents = artistPostService.getArtistPostsPage(artistId, viewerId, pagination);
+
+        System.out.println("contents = " + contents);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("posts", contents);
         return "artist/post/list";
     }
 
-    @GetMapping("/{artistId}/post/write")
-    public String goToPostWriteForm(@PathVariable String artistId,
-                                    @ModelAttribute ArtistPostRegisterDTO artistPostRegisterDTO,
+    @GetMapping("/post/write")
+    public String goToPostWriteForm(@ModelAttribute ArtistPostRegisterDTO artistPostRegisterDTO,
                                     HttpSession session,
                                     Model model) {
         MemberVO memberSession = (MemberVO) session.getAttribute("member");
@@ -86,18 +88,17 @@ public class ArtistController {
         MemberVO memberSession = (MemberVO) session.getAttribute("member");
         artistPostRegisterDTO.setMemberId(memberSession.getId());
 
-
         try {
             artistPostService.savePost(artistPostRegisterDTO);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("아티스트 {}, 게시글 작성 오류 : {}", memberSession.getId(), e.getMessage());
+            return "/artist/" + memberSession.getId() + "/post/write";
         }
 
-
-        return "redirect:/artist/" + memberSession.getId() + "/post/list";
+        return "redirect:/artist/" + memberSession.getId() + "/post/" + artistPostRegisterDTO.getPostId();
     }
 
-    @GetMapping("/{artistId}/post/detail/{postId}")
+    @GetMapping("/{artistId}/post/{postId}")
     public String goToPostDetailForm(@PathVariable Long artistId,
                                      @PathVariable Long postId,
                                      Model model) {

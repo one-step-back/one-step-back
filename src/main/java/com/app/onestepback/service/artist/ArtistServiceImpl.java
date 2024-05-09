@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +22,10 @@ public class ArtistServiceImpl implements ArtistService {
 
 //    아티스트 정보 가져오기
     @Override
-    public Optional<ArtistDTO> getArtist(Long memberId) {
-        return artistDAO.getArtist(memberId);
+    public ArtistDTO getArtist(Long memberId) {
+        return artistDAO.getArtist(memberId).orElseThrow(
+                () -> new NoSuchElementException("존재하지 않는 아티스트")
+        );
     }
 
 

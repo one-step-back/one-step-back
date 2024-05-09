@@ -14,11 +14,11 @@ public interface ArtistPostService {
 
     public int getPostCount(Long memberId);
 
-    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Pagination pagination);
+    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination);
 
     public List<String> getAllTags(Long postId);
 
-    public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException;
+    void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException;
 
     ArtistPostDetailDTO getPostDetail(Long artistId, Long postId);
 

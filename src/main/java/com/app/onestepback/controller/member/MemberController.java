@@ -15,42 +15,42 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/member/*")
+@RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
 
     //    아이디 중복검사
-    @GetMapping("check-email/{memberEmail}")
+    @GetMapping("/check-email/{memberEmail}")
     @ResponseBody
     public boolean checkId(@PathVariable String memberEmail){
         return memberService.findByEmail(memberEmail).isPresent();
     }
 
     // 회원가입 페이지로 이동
-    @GetMapping("join")
+    @GetMapping("/join")
     public String goToJoinForm(MemberVO memberVO){
         return "member/join";
     }
 
     // 회원가입
-    @PostMapping("join")
+    @PostMapping("/join")
     public RedirectView join(MemberVO memberVO){
         memberService.join(memberVO, null);
         return new RedirectView("/member/login");
     }
 
     // 로그인 페이지로 이동
-    @GetMapping("login")
+    @GetMapping("/login")
     public String goToLoginForm(MemberVO memberVO) {
         return "member/login";
     }
 
     // 이메일 로그인 페이지로 이동
-    @GetMapping("login-email")
+    @GetMapping("/login-email")
     public String goToLoginEmailForm(MemberVO memberVO){
         return "member/login-email";
     }
-    @PostMapping("login-email")
+    @PostMapping("/login-email")
     public RedirectView login(MemberVO memberVO, HttpSession session, RedirectAttributes redirectAttributes){
         log.info(memberVO.toString());
         Optional<MemberVO> foundMember = memberService.loginByEmail(memberVO);
@@ -66,7 +66,7 @@ public class MemberController {
     }
 
     // 로그아웃
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public RedirectView logout(HttpSession session) {
         session.invalidate();
         return new RedirectView("/");
