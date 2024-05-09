@@ -27,5 +27,15 @@ spring:
       max-file-size: 40MB
       file-size-threshold: 100MB
 
+  # 오로지 테이블 생성용으로 jpa를 사용함
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        use_sql_comments: true
+#    open-in-view: false
+
 root:
   dir: C:/onestep/uploadFiles/
