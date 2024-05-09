@@ -1,9 +1,7 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.*;
+import com.app.onestepback.domain.dto.postElements.PostFileDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostFileVO;
 import com.app.onestepback.domain.vo.PostTagVO;
@@ -21,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -79,39 +78,18 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    public ArtistPostDTO getPost(Long id) {
-        postDAO.viewCountUp(id);
-        ArtistPostDTO post = artistPostDAO.getPost(id);
+    public ArtistPostDetailDTO getPostDetail(Long artistId, Long postId) {
+        // tag들은 leftJoin의 결과물로 가져왔지만 postFile까지 leftJoin하게 될 경우 카르테시안곱에 의해
+        // 결과가 배로 늘어날 수 있다.
+        // todo : 두개의 독립 쿼리를 날리는 것과 결과가 많이 나타나는 카르테시안곱 중 어떤 것이 더욱 효과적일지 테스트 할 필요성이 있음.
+        ArtistPostDetailDTO content = artistPostDAO.getPost(artistId, postId).orElseThrow(
+                NoSuchElementException::new
+        );
 
-        List<String> tags = postTagDAO.getAllTags(post.getId());
+        List<PostFileDTO> imgFiles = postFileDAO.getAllFiles(content.getPostId());
+        content.setImgFiles(imgFiles);
 
-        if (!tags.isEmpty()) {
-            post.setTag1(tags.get(0));
-        }
-        if (tags.size() >= 2) {
-            post.setTag2(tags.get(1));
-        }
-        if (tags.size() >= 3) {
-            post.setTag3(tags.get(2));
-        }
-        if (tags.size() >= 4) {
-            post.setTag4(tags.get(3));
-        }
-        if (tags.size() >= 5) {
-            post.setTag5(tags.get(4));
-        }
-
-        return post;
-    }
-
-    @Override
-    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO) {
-        return artistPostDAO.getPrevPost(artistPostDTO);
-    }
-
-    @Override
-    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO) {
-        return artistPostDAO.getNextPost(artistPostDTO);
+        return content;
     }
 
     @Override
@@ -147,11 +125,6 @@ public class ArtistPostServiceImpl implements ArtistPostService {
 //                postFileDAO.saveFile(postFileVO);
 //            }
 //        }
-    }
-
-    @Override
-    public List<PostFileVO> getAllFiles(Long postId) {
-        return postFileDAO.getAllFiles(postId);
     }
 
     @Override

@@ -14,8 +14,10 @@
         SELECT * FROM DUAL
     </insert>
 
-    <select id="selectAll" resultType="postFileVO">
-        SELECT ID, POST_ID, FILE_NAME, FILE_PATH
+    <select id="selectAll" resultType="postFileDTO">
+        SELECT ID AS FILE_ID,
+        FILE_NAME,
+        FILE_PATH
         FROM TBL_POST_FILE
         WHERE POST_ID = #{postId}
         ORDER BY ID

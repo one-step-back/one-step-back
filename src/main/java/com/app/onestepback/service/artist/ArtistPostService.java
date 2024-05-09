@@ -1,9 +1,6 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostFileVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,15 +20,9 @@ public interface ArtistPostService {
 
     public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException;
 
-    public ArtistPostDTO getPost(Long id);
-
-    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO);
-
-    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO);
+    ArtistPostDetailDTO getPostDetail(Long artistId, Long postId);
 
     public void editPost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles);
-
-    public List<PostFileVO> getAllFiles(Long postId);
 
     public void erasePost(Long id);
 }

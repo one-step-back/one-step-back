@@ -5,6 +5,7 @@
         <typeAlias type="com.app.onestepback.domain.vo.ArtistPostVO" alias="artistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO" alias="artistPostRegisterDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostListDTO" alias="artistPostListDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO" alias="artistPostDetailDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistVO" alias="artistVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>
@@ -19,6 +20,7 @@
         <typeAlias type="com.app.onestepback.domain.vo.SubscriptionVO" alias="subscriptionVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.VideoPostVO" alias="videoPostVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.PostFileVO" alias="postFileVO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.postElements.PostFileDTO" alias="postFileDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.PostLikeVO" alias="postLikeVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.SponsorshipVO" alias="sponsorshipVO"/>
         <typeAlias type="com.app.onestepback.domain.dto.CombinedPostDTO" alias="combinedPostDTO"/>

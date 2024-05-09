@@ -1,5 +1,6 @@
 package com.app.onestepback.mapper;
 
+import com.app.onestepback.domain.dto.postElements.PostFileDTO;
 import com.app.onestepback.domain.vo.PostFileVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +12,7 @@ public interface PostFileMapper {
 
     void insertAll(List<PostFileVO> postFileVOList);
 
-    public List<PostFileVO> selectAll(Long postId);
+    List<PostFileDTO> selectAll(Long postId);
 
     public void delete(Long id);
 }
