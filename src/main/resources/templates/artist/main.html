@@ -2,90 +2,97 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>원스텝 - 아티스트 페이지</title>
-    <link rel="icon" href="/images/icon.svg">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" href="/css/artist/blog-header.css">
-    <link rel="stylesheet" href="/css/artist/main.css">
-    <link rel="stylesheet" href="/css/artist/blog-modal.css">
-    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+    <link href="/images/icon.svg" rel="icon">
+    <link href="/css/main/root.css" rel="stylesheet">
+    <link href="/css/artist/blog-header.css" rel="stylesheet">
+    <link href="/css/artist/main.css" rel="stylesheet">
+    <link href="/css/artist/blog-modal.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
 </head>
 <body>
 <div id="b-modal">
     <div id="b-modal-link-container">
         <div class="b-modal-header">
-            <h5 id="b-modal-label" class="modal-title">공유하기</h5>
-            <button type="button" class="btn b-btn-icon b-btn-close">
+            <h5 class="modal-title" id="b-modal-label">공유하기</h5>
+            <button class="btn b-btn-icon b-btn-close" type="button">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <div class="b-modal-body">
             <div class="b-link-container">
-                <input type="text" class="b-input" readonly>
+                <input class="b-input" readonly type="text">
                 <span class="b-copy">
                     <button class="btn b-btn-clipboard" type="button">URL 복사</button>
                 </span>
             </div>
         </div>
         <div class="b-modal-footer">
-            <button type="button" class="b-modal-btn">확인</button>
+            <button class="b-modal-btn" type="button">확인</button>
         </div>
     </div>
 </div>
 <header th:replace="~{artist/blog-header::blog-header}"></header>
 
-<div id="blog"
-     class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline">
-    <a id="skip" class="sr-only" href="#main">주요 내용으로 건너뛰기</a>
-    <div id="header" class="header bg-gray-0" role="banner">
-        <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
-            <div class="container">
-                <div id="masthead" class="masthead d-flex">
-                    <a class="channel-avatar" th:if="${artist.blogImgName == null}"
-                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
+<div class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline"
+     id="blog">
+    <a class="sr-only" href="#main" id="skip">주요 내용으로 건너뛰기</a>
+    <div class="header bg-gray-0" id="header" role="banner">
+        <div class="header-custom bg-gray-0 disabled-on-preview " id="header-custom">
+            <div class="container" th:object="${content.artist}">
+                <div class="masthead d-flex" id="masthead">
+                    <a class="channel-avatar"
+                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"
+                       th:if="*{blogImgName == null}"></a>
 
-                    <a class="channel-avatar" th:unless="${artist.blogImgName == null}"
-                       th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
+                    <a class="channel-avatar"
+                       th:style="'background-image: url(' + @{/file/display(fileName=*{blogImgPath} + '/' + *{blogImgName})} + ');'"
+                       th:unless="*{blogImgName == null}"></a>
                     <div class="action-group">
                         <a class="btn btn-icon btn-share">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
-                        <button th:if="${session.member != null and artist.memberId != session.member.id}"
-                                id="subscription-btn" class="btn btn-strong btn-strong-pill btn-subscribe active"
+                        <button class="btn btn-strong btn-strong-pill btn-subscribe active"
+                                id="subscription-btn"
+                                th:if="${session.member != null and artistId != session.member.id}"
                                 type="button">
                         </button>
                     </div>
-                    <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
-                            class="count" id="postCount"></span>개</span>
+                    <span class="channel-meta">
+                        구독자
+                        <span class="count" id="subscriberCount" th:text="*{subscriptionCount}"/>
+                        명 · 포스트
+                        <span class="count" th:text="*{postCount}"/>개
+                    </span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}"
-                               th:href="@{/artist/main(memberId=${artist.memberId})}"></a>
+                            <a th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                               th:text="*{blogName}"></a>
                         </div>
                     </h1>
                 </div>
                 <div class="divider"></div>
-                <div id="gnb-nav" class="gnb-nav">
+                <div class="gnb-nav" id="gnb-nav">
                     <nav>
                         <ul>
                             <li>
                                 <a class="active">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/{artistId}/post/list(artistId = ${artist.memberId})}">게시글</a>
+                                <a th:href="@{/artist/{artistId}/posts(artistId=*{artistId})}">게시글</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/{artistId}/video/list(artistId = ${artist.memberId})}">영상</a>
+                                <a th:href="@{/artist/{artistId}/video/list(artistId=*{artistId})}">영상</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}" class="inactive">커뮤니티</a>
+                                <a class="inactive" th:href="@{/artist/community/list(memberId=*{artistId})}">커뮤니티</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
+                                <a th:href="@{/artist/sponsor(memberId=*{artistId})}">후원</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/crowd-funding/list(memberId=${artist.memberId})}">크라우드 펀딩</a>
+                                <a th:href="@{/artist/crowd-funding/list(memberId=*{artistId})}">크라우드 펀딩</a>
                             </li>
                         </ul>
                     </nav>
@@ -93,12 +100,12 @@
             </div>
         </div>
     </div>
-    <main id="main" class="main body-custom" role="main">
-        <div id="content" class="content">
+    <main class="main body-custom" id="main" role="main">
+        <div class="content" id="content">
             <article class="ch-home">
                 <div class="ch-home-aside">
                     <div class="sticky-top">
-                        <section class="ch-home-author-bio">
+                        <section class="ch-home-author-bio" th:object="${content.artist}">
                             <div class="ch-section-header">
                                 <h4>아티스트</h4>
                             </div>
@@ -106,19 +113,19 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
+                                           rel="author" th:href="@{/artist/{artistId}(artistId=*{artistId})}">
                                             <img class="profile-img"
                                                  src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
                                         </a>
                                         <div class="media-body profile-title-box">
-                                            <span class="profile-title">
-                                                <a th:text="${artist.memberNickname}"
-                                                   th:href="@{/artist/main(memberId=${artist.memberId})}"
-                                                   rel="author"></a>
-                                            </span>
+                                                <span class="profile-title">
+                                                    <a rel="author"
+                                                       th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                                                       th:text="*{nickname}"></a>
+                                                </span>
                                         </div>
                                     </div>
-                                    <p th:text="${artist.artistDescription}" class="text-alpha-black-60 mb-0"></p>
+                                    <p class="text-alpha-black-60 mb-0" th:text="*{description}"></p>
                                 </div>
                             </div>
                         </section>
@@ -134,193 +141,191 @@
                     <section class="ch-home-post">
                         <div class="ch-section-header">
                             <h4><a href="/posts">게시글</a></h4>
-                            <a class="btn-icon" th:href="@{/artist/post/list(memberId=${artist.memberId})}">
+                            <a class="btn-icon"
+                               th:href="@{/artist/{artistId}/posts(artistId=${content.artist.artistId})}">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
-<!--                        <th:block th:if="${#lists.size(posts) != 0}">-->
-<!--                            <th:block th:each="post:${posts}">-->
-<!--                                <div th:object="${post}" class="article-list post-list channel-home-post-list">-->
-<!--                                    <div class="component-post list">-->
-<!--                                        <div>-->
-<!--                                            <div class="post">-->
-<!--                                                <div class="post-data">-->
-<!--                                                    <a th:href="@{/artist/post/detail(id=*{id})}">-->
-<!--                                                        <h3 class="ellipsis-2 text-color-black"></h3>-->
-<!--                                                        <div class="ellipsis-2 text-alpha-black-47">-->
-<!--                                                            <h3 th:text="*{postTitle}"-->
-<!--                                                                class="ellipsis-2 text-color-black"></h3>-->
-<!--                                                            <h4 th:text="*{postSubtitle}"></h4>-->
-<!--                                                            <div class="divider"></div>-->
-<!--                                                            <p th:text="*{postContent}" class="post-content"></p>-->
-<!--                                                        </div>-->
-<!--                                                    </a>-->
-<!--                                                    <div th:if="*{tag1 != null}" class="post-tags">-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:text="*{tag1}" class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag2 != null}" th:text="*{tag2}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag3 != null}" th:text="*{tag3}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag4 != null}" th:text="*{tag4}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag5 != null}" th:text="*{tag5}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                <th:block th:unless="*{fileName == null}">-->
-<!--                                                    <div class="post-data-thumbnail">-->
-<!--                                                        <a th:href="@{/artist/post/detail(id=*{id})}">-->
-<!--                                                            <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">-->
-<!--                                                        </a>-->
-<!--                                                    </div>-->
-<!--                                                </th:block>-->
-<!--                                            </div>-->
-<!--                                            <div class="post-info">-->
-<!--                                                <a th:href="@{/artist/main(memberId=${artist.memberId})}"-->
-<!--                                                   class="user-profile-avatar avatar-32"-->
-<!--                                                   href="">-->
-<!--                                                    <img th:if="*{memberKakaoProfileUrl == null and memberProfileName == null}"-->
-<!--                                                         src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">-->
-<!--                                                    <img th:if="*{memberKakaoProfileUrl != null and memberProfileName == null}"-->
-<!--                                                         th:src="*{memberKakaoProfileUrl}">-->
-<!--                                                </a>-->
-<!--                                                <div class="post-info-body">-->
-<!--                                                    <div class="user-profile-nickname text-truncate">-->
-<!--                                                        <a th:href="@{/artist/main(memberId=${artist.memberId})}"-->
-<!--                                                           th:text="*{memberNickname}"></a>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="post-meta text-alpha-black-47">-->
-<!--                                                        <span class="meta-item" title="조회수">-->
-<!--                                                            <i class="ic ic-eye" aria-label="조회수"></i>-->
-<!--                                                            <span th:text="*{postViewCount}" class="stats-count"></span>-->
-<!--                                                        </span>-->
-<!--                                                        <span class="meta-item" title="좋아요">-->
-<!--                                                            <i class="far fa-heart" aria-label="좋아요"></i>-->
-<!--                                                            <span th:text="*{likeCount}" class="stats-count"></span>-->
-<!--                                                        </span>-->
-<!--                                                        <span class="meta-item" title="댓글">-->
-<!--                                                            <i class="far fa-comment-dots"></i>-->
-<!--                                                            <span th:text="*{replyCount}" class="stats-count"></span>-->
-<!--                                                        </span>-->
-<!--                                                        <time class="meta-item time"-->
-<!--                                                              th:data-post-time="*{postWriteTime}"></time>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                <div class="post-action">-->
-<!--                                                    <a class="btn btn-icon bookmark-btn" th:data-post-id="*{id}">-->
-<!--                                                        <i class="far fa-bookmark default-bookmark"></i>-->
-<!--                                                        <i class="fas fa-bookmark active-bookmark"></i>-->
-<!--                                                    </a>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="component-post-divider"></div>-->
-<!--                                </div>-->
-<!--                            </th:block>-->
-<!--                        </th:block>-->
-<!--                        <th:block th:unless="${#lists.size(posts) != 0}">-->
-<!--                            <div class="content-none">게시글이 없습니다</div>-->
-<!--                        </th:block>-->
+                        <th:block th:if="${#lists.size(content.artistPosts) != 0}">
+                            <th:block th:each="post:${content.artistPosts}">
+                                <div class="article-list post-list channel-home-post-list" th:object="${post}">
+                                    <div class="component-post list">
+                                        <div>
+                                            <div class="post">
+                                                <div class="post-data">
+                                                    <a th:href="@{/artist/{artistId}/post/{postId}(artistId=*{artistId}, id=*{postId})}">
+                                                        <h3 class="ellipsis-2 text-color-black"></h3>
+                                                        <div class="ellipsis-2 text-alpha-black-47">
+                                                            <h3 class="ellipsis-2 text-color-black"
+                                                                th:text="*{title}"></h3>
+                                                            <h4 th:text="*{subtitle}"></h4>
+                                                            <div class="divider"></div>
+                                                            <p class="post-content" th:text="*{content}"></p>
+                                                        </div>
+                                                    </a>
+                                                    <div class="post-tags">
+                                                        <a class="general-tag"
+                                                           href="#" th:each="tag : ${post.tags}" th:text="${tag}"/>
+                                                    </div>
+                                                </div>
+                                                <th:block th:unless="*{fileName == null}">
+                                                    <div class="post-data-thumbnail">
+                                                        <a th:href="@{/artist/{artistId}/post/{postId}(artistId=*{artistId}, id=*{postId})}">
+                                                            <img th:src="@{/file/display(fileName=*{filePath} + '/t_' + *{fileName})}">
+                                                        </a>
+                                                    </div>
+                                                </th:block>
+                                            </div>
+                                            <div class="post-info">
+                                                <a class="user-profile-avatar avatar-32"
+                                                   href=""
+                                                   th:href="@{/artist/{artistId}(artistId=*{artistId})}">
+                                                    <img src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png"
+                                                         th:if="*{kakaoProfileUrl == null and profileName == null}">
+                                                    <img th:if="*{kakaoProfileUrl != null and profileName == null}"
+                                                         th:src="*{kakaoProfileUrl}">
+                                                </a>
+                                                <div class="post-info-body">
+                                                    <div class="user-profile-nickname text-truncate">
+                                                        <a th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                                                           th:text="*{nickname}"></a>
+                                                    </div>
+                                                    <div class="post-meta text-alpha-black-47">
+                                                                                <span class="meta-item" title="조회수">
+                                                                                    <i aria-label="조회수"
+                                                                                       class="ic ic-eye"></i>
+                                                                                    <span class="stats-count"
+                                                                                          th:text="*{viewCount}"></span>
+                                                                                </span>
+                                                        <span class="meta-item" title="좋아요">
+                                                                                    <i aria-label="좋아요"
+                                                                                       class="far fa-heart"></i>
+                                                                                    <span class="stats-count"
+                                                                                          th:text="*{likeCount}"></span>
+                                                                                </span>
+                                                        <span class="meta-item" title="댓글">
+                                                                                    <i class="far fa-comment-dots"></i>
+                                                                                    <span class="stats-count"
+                                                                                          th:text="*{replyCount}"></span>
+                                                                                </span>
+                                                        <time class="meta-item time"
+                                                              th:data-post-time="*{writeTime}"></time>
+                                                    </div>
+                                                </div>
+                                                <div class="post-action">
+                                                    <a class="btn btn-icon bookmark-btn" th:data-post-id="*{postId}">
+                                                        <i class="far fa-bookmark default-bookmark"></i>
+                                                        <i class="fas fa-bookmark active-bookmark"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="component-post-divider"></div>
+                                </div>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${#lists.size(content.artistPosts) != 0}">
+                            <div class="content-none">게시글이 없습니다</div>
+                        </th:block>
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/post/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체
+                            <a class="btn btn-secondary"
+                               th:href="@{/artist/{artistId}/posts(artistId=${content.artist.artistId})}">전체
                                 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
                     </section>
-                    <div id="store-section-insert-point" data-is-adult=""></div>
+                    <div data-is-adult="" id="store-section-insert-point"></div>
                     <section class="ch-home-series">
                         <div class="ch-section-header">
-                            <h4><a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a></h4>
-                            <a class="btn-icon" th:href="@{/artist/video/list(memberId=${artist.memberId})}">
+                            <h4><a th:href="@{/artist/{artistId}/videos(artistId=${content.artist.artistId})}">영상</a>
+                            </h4>
+                            <a class="btn-icon"
+                               th:href="@{/artist/{artistId}/videos(artistId=${content.artist.artistId})}">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
-<!--                        <th:block th:if="${#lists.size(videos) != 0}">-->
-<!--                            <th:block th:each="video:${videos}">-->
-<!--                                <div th:object="${video}" id="videos-container"-->
-<!--                                     class="article-list series-list channel-home-series-list">-->
-<!--                                    <div class="component-series list">-->
-<!--                                        <div class="series-data-thumbnail">-->
-<!--                                            <a th:href="@{/artist/video/detail(id=*{id})}">-->
-<!--                                                <img class="video-thumbnails" th:videoLink="*{videoLink}">-->
-<!--                                            </a>-->
-<!--                                        </div>-->
-<!--                                        <div class="series">-->
-<!--                                            <div class="series-inner">-->
-<!--                                                <h3 class="text-truncate">-->
-<!--                                                    <a th:text="*{postTitle}"-->
-<!--                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>-->
-<!--                                                </h3>-->
-<!--                                                <div class="series-meta-wrapper">-->
-<!--                                                    <div class="user-profile-nickname text-truncate">-->
-<!--                                                        <a class="text-color-black" th:text="*{memberNickname}"-->
-<!--                                                           href="#"-->
-<!--                                                           rel="author"></a>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="series-meta text-alpha-black-47">-->
-<!--                                                        <span class="meta-item" title="조회수">-->
-<!--                                                            <i class="ic ic-eye" aria-label="조회수"></i>-->
-<!--                                                            <span th:text="*{postViewCount}" class="stats-count"></span>-->
-<!--                                                        </span>-->
-<!--                                                        <span class="meta-item" title="좋아요">-->
-<!--                                                            <i class="far fa-heart" aria-label="좋아요"></i>-->
-<!--                                                            <span th:text="*{likeCount}" class="stats-count"></span>-->
-<!--                                                        </span>-->
-<!--                                                        <span class="meta-item" title="댓글">-->
-<!--                                                            <i class="far fa-comment-dots"></i>-->
-<!--                                                            <span th:text="*{replyCount}" class="stats-count"></span>-->
-<!--                                                        </span>-->
-<!--                                                        <time class="meta-item time"-->
-<!--                                                              th:data-post-time="*{postWriteTime}"></time>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                <p class="ellipsis-2">-->
-<!--                                                    <a th:text="*{postContent}"-->
-<!--                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>-->
-<!--                                                </p>-->
-<!--                                            </div>-->
-<!--                                            <div class="bottom-container">-->
-<!--                                                <div class="series-tags">-->
-<!--                                                    <th:block th:if="*{tag1 != null}">-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:text="*{tag1}" class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag2 != null}" th:text="*{tag2}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag3 != null}" th:text="*{tag3}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag4 != null}" th:text="*{tag4}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                        <a href="#"-->
-<!--                                                           th:if="*{tag5 != null}" th:text="*{tag5}"-->
-<!--                                                           class="general-tag"></a>-->
-<!--                                                    </th:block>-->
-<!--                                                </div>-->
-<!--                                                <div class="bookmark-video-btn" th:data-post-id="*{id}">-->
-<!--                                                    <i class="fa-regular fa-bookmark default-bookmark"></i>-->
-<!--                                                    <i class="fa-solid fa-bookmark active-bookmark"></i>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="component-series-divider"></div>-->
-<!--                                </div>-->
-<!--                            </th:block>-->
-<!--                        </th:block>-->
-<!--                        <th:block th:unless="${#lists.size(videos) != 0}">-->
-<!--                            <div class="content-none">영상이 없습니다</div>-->
-<!--                        </th:block>-->
+                        <!--                        <th:block th:if="${#lists.size(videos) != 0}">-->
+                        <!--                            <th:block th:each="video:${videos}">-->
+                        <!--                                <div th:object="${video}" id="videos-container"-->
+                        <!--                                     class="article-list series-list channel-home-series-list">-->
+                        <!--                                    <div class="component-series list">-->
+                        <!--                                        <div class="series-data-thumbnail">-->
+                        <!--                                            <a th:href="@{/artist/video/detail(id=*{id})}">-->
+                        <!--                                                <img class="video-thumbnails" th:videoLink="*{videoLink}">-->
+                        <!--                                            </a>-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="series">-->
+                        <!--                                            <div class="series-inner">-->
+                        <!--                                                <h3 class="text-truncate">-->
+                        <!--                                                    <a th:text="*{postTitle}"-->
+                        <!--                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>-->
+                        <!--                                                </h3>-->
+                        <!--                                                <div class="series-meta-wrapper">-->
+                        <!--                                                    <div class="user-profile-nickname text-truncate">-->
+                        <!--                                                        <a class="text-color-black" th:text="*{memberNickname}"-->
+                        <!--                                                           href="#"-->
+                        <!--                                                           rel="author"></a>-->
+                        <!--                                                    </div>-->
+                        <!--                                                    <div class="series-meta text-alpha-black-47">-->
+                        <!--                                                        <span class="meta-item" title="조회수">-->
+                        <!--                                                            <i class="ic ic-eye" aria-label="조회수"></i>-->
+                        <!--                                                            <span th:text="*{postViewCount}" class="stats-count"></span>-->
+                        <!--                                                        </span>-->
+                        <!--                                                        <span class="meta-item" title="좋아요">-->
+                        <!--                                                            <i class="far fa-heart" aria-label="좋아요"></i>-->
+                        <!--                                                            <span th:text="*{likeCount}" class="stats-count"></span>-->
+                        <!--                                                        </span>-->
+                        <!--                                                        <span class="meta-item" title="댓글">-->
+                        <!--                                                            <i class="far fa-comment-dots"></i>-->
+                        <!--                                                            <span th:text="*{replyCount}" class="stats-count"></span>-->
+                        <!--                                                        </span>-->
+                        <!--                                                        <time class="meta-item time"-->
+                        <!--                                                              th:data-post-time="*{postWriteTime}"></time>-->
+                        <!--                                                    </div>-->
+                        <!--                                                </div>-->
+                        <!--                                                <p class="ellipsis-2">-->
+                        <!--                                                    <a th:text="*{postContent}"-->
+                        <!--                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>-->
+                        <!--                                                </p>-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="bottom-container">-->
+                        <!--                                                <div class="series-tags">-->
+                        <!--                                                    <th:block th:if="*{tag1 != null}">-->
+                        <!--                                                        <a href="#"-->
+                        <!--                                                           th:text="*{tag1}" class="general-tag"></a>-->
+                        <!--                                                        <a href="#"-->
+                        <!--                                                           th:if="*{tag2 != null}" th:text="*{tag2}"-->
+                        <!--                                                           class="general-tag"></a>-->
+                        <!--                                                        <a href="#"-->
+                        <!--                                                           th:if="*{tag3 != null}" th:text="*{tag3}"-->
+                        <!--                                                           class="general-tag"></a>-->
+                        <!--                                                        <a href="#"-->
+                        <!--                                                           th:if="*{tag4 != null}" th:text="*{tag4}"-->
+                        <!--                                                           class="general-tag"></a>-->
+                        <!--                                                        <a href="#"-->
+                        <!--                                                           th:if="*{tag5 != null}" th:text="*{tag5}"-->
+                        <!--                                                           class="general-tag"></a>-->
+                        <!--                                                    </th:block>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="bookmark-video-btn" th:data-post-id="*{id}">-->
+                        <!--                                                    <i class="fa-regular fa-bookmark default-bookmark"></i>-->
+                        <!--                                                    <i class="fa-solid fa-bookmark active-bookmark"></i>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="component-series-divider"></div>-->
+                        <!--                                </div>-->
+                        <!--                            </th:block>-->
+                        <!--                        </th:block>-->
+                        <!--                        <th:block th:unless="${#lists.size(videos) != 0}">-->
+                        <!--                            <div class="content-none">영상이 없습니다</div>-->
+                        <!--                        </th:block>-->
                         <div class="ch-section-footer">
-                            <a th:href="@{/artist/video/list(memberId=${artist.memberId})}" class="btn btn-secondary">전체
+                            <a class="btn btn-secondary"
+                               th:href="@{/artist/{artistId}/videos(artistId=${content.artist.artistId})}">전체
                                 보기
                                 <i class="fas fa-chevron-right ml-2"></i>
                             </a>
@@ -336,10 +341,12 @@
 <script src="/js/artist/blog-modal.js"></script>
 <script th:inline="javascript">
 
+    console.log([[${content}]])
+
     // 세션 값
     const session = /*[[${session.member}]]*/ null;
     // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
-    const artistId = [[${artist.memberId}]]
+    const artistId = [[${content.artist.artistId}]]
     // 구독버튼
     const subscriptionBtn = $("#subscription-btn");
     // 구독자 수 인디케이터

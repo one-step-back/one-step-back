@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -28,12 +29,18 @@ public class ArtistController {
     private final VideoPostService videoPostService;
 
     @GetMapping("/{artistId}")
-    public String goToMainForm(@PathVariable("artistId") Long artistId, Model model) {
-        ArtistDTO artist = artistService.getArtist(artistId);
+    public String goToMainForm(@PathVariable("artistId") Long artistId,
+                               HttpSession session,
+                               Model model) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        Long viewerId = member != null ? member.getId() : 0;
+        Pagination pagination = new Pagination(1, 3, 3);
+        HashMap<String, Object> content = new HashMap<>();
 
-        model.addAttribute("artist", artist);
-//        model.addAttribute("posts", artistService.get3Posts(artistId));
-//        model.addAttribute("videos", artistService.get3Videos(artistId));
+        content.put("artist", artistService.getArtist(artistId));
+        content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
+
+        model.addAttribute("content", content);
         return "artist/main";
     }
 
@@ -52,22 +59,15 @@ public class ArtistController {
                                Model model) {
         MemberVO memberSession = (MemberVO) session.getAttribute("member");
         Long viewerId = memberSession != null ? memberSession.getId() : 0;
-        System.out.println("viewerId = " + viewerId);
-
-        model.addAttribute("artist", artistPostService.getArtist(artistId).get());
-
-//        pagination.setTotal(artistPostService.getPostCount(artistId));
-//        pagination.setPage(page);
-//        pagination.setRowCount(10);
-//        pagination.progress();
-        // 생성자로 간결화 처리.
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
-        List<ArtistPostListDTO> contents = artistPostService.getArtistPostsPage(artistId, viewerId, pagination);
+        HashMap<String, Object> content = new HashMap<>();
 
-        System.out.println("contents = " + contents);
+        content.put("artist", artistService.getArtist(artistId));
+        content.put("posts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
+        content.put("pagination", pagination);
+        System.out.println("content = " + content);
 
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("posts", contents);
+        model.addAttribute("content", content);
         return "artist/post/list";
     }
 
@@ -141,7 +141,7 @@ public class ArtistController {
     public void goToVideoList(@PathVariable("artistId") Long artistId,
                               @RequestParam(value = "page", required = false) Integer page,
                               Model model) {
-        model.addAttribute("artist", videoPostService.getArtist(artistId).get());
+        model.addAttribute("artist", videoPostService.getArtist(artistId));
 
         Pagination pagination = new Pagination(page, 10, videoPostService.getPostCount(artistId));
         model.addAttribute("pagination", pagination);

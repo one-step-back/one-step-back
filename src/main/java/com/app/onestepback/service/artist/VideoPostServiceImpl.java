@@ -1,9 +1,8 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistDTO;
 import com.app.onestepback.domain.dto.VideoPostDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDetailDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.repository.ArtistDAO;
 import com.app.onestepback.repository.PostDAO;
 import com.app.onestepback.repository.PostTagDAO;
@@ -12,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Field;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,8 +24,10 @@ public class VideoPostServiceImpl implements VideoPostService {
     private final PostDAO postDAO;
 
     @Override
-    public Optional<ArtistDTO> getArtist(Long memberId) {
-        return artistDAO.getArtist(memberId);
+    public ArtistDetailDTO getArtist(Long memberId) {
+        return artistDAO.getArtist(memberId).orElseThrow(
+                () -> new NoSuchElementException("아티스트 정보를 찾을 수 없음")
+        );
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.app.onestepback.service.artist;
 import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.dto.postElements.PostFileDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.vo.PostFileVO;
 import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.repository.*;
 import com.app.onestepback.service.file.PostFileService;
@@ -14,13 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +32,10 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final PostFileService postFileService;
 
     @Override
-    public Optional<ArtistDTO> getArtist(Long memberId) {
-        return artistDAO.getArtist(memberId);
+    public ArtistDetailDTO getArtist(Long memberId) {
+        return artistDAO.getArtist(memberId).orElseThrow(
+                () -> new NoSuchElementException("아티스트 정보를 찾을 수 없음.")
+        );
     }
 
     @Override
@@ -46,8 +44,8 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination) {
-        return artistPostDAO.getArtistPostsPage(memberId, viewerId, pagination);
+    public List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination) {
+        return artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination);
     }
 
     @Override

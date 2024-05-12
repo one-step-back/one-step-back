@@ -2,19 +2,17 @@ package com.app.onestepback.service.artist;
 
 import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.vo.PostFileVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface ArtistPostService {
-    public Optional<ArtistDTO> getArtist(Long memberId);
+    ArtistDetailDTO getArtist(Long memberId);
 
-    public int getPostCount(Long memberId);
+    int getPostCount(Long memberId);
 
-    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination);
+    List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination);
 
     public List<String> getAllTags(Long postId);
 

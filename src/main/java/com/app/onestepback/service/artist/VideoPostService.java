@@ -1,6 +1,6 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDetailDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface VideoPostService {
 
-    public Optional<ArtistDTO> getArtist(Long memberId);
+    ArtistDetailDTO getArtist(Long memberId);
 
     public int getPostCount(Long memberId);
 
