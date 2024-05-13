@@ -94,7 +94,7 @@
                     FROM VIEW_ARTIST_POST AP
                              JOIN TBL_MEMBER M ON M.ID = AP.MEMBER_ID
                              LEFT JOIN TBL_POST_FILE F ON F.POST_ID = AP.ID
-                    WHERE AP.MEMBER_ID = #{memberId}
+                    WHERE AP.MEMBER_ID = #{artistId}
                       AND AP.POST_STATUS = 'READABLE'
                       AND (F.ID = (SELECT MIN(F2.ID)
                                    FROM TBL_POST_FILE F2

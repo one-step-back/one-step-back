@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/artist/crowd-funding/*")
+@RequestMapping("/artist/{artistId}/crowd-funding/*")
 public class ArtistCrowdFundingController {
     private final ArtistService artistService;
     private final ArtistCrowdFundingService artistCrowdFundingService;
