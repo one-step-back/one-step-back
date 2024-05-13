@@ -19,7 +19,7 @@ public interface ArtistPostMapper {
     public List<ArtistPostDTO> select3Posts(Long memberId);
 
     //    포스트 리스트 출력 (페이지네이션)
-    public List<ArtistPostListDTO> selectAll(Long memberId, Pagination pagination);
+    public List<ArtistPostListDTO> selectAll(Long memberId, Long viewerId, Pagination pagination);
 
     //    포스트 작성
     public void insertPost(ArtistPostRegisterDTO artistPostRegisterDTO);

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ArtistPostListDTO {
     private Long postId;
-    private Long memberId;
+    private Long artistId;
     private String title;
     private String subtitle;
     private String content;

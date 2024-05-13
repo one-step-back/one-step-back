@@ -1,6 +1,6 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistDTO;
+import com.app.onestepback.domain.dto.artist.ArtistDetailDTO;
 import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 import com.app.onestepback.repository.*;
@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +22,10 @@ public class ArtistServiceImpl implements ArtistService {
 
 //    아티스트 정보 가져오기
     @Override
-    public Optional<ArtistDTO> getArtist(Long memberId) {
-        return artistDAO.getArtist(memberId);
+    public ArtistDetailDTO getArtist(Long artistId) {
+        return artistDAO.getArtist(artistId).orElseThrow(
+                () -> new NoSuchElementException("존재하지 않는 아티스트")
+        );
     }
 
 

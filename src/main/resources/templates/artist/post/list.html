@@ -18,30 +18,35 @@
     <a class="sr-only" href="#main" id="skip">주요 내용으로 건너뛰기</a>
     <div class="header bg-gray-0" id="header" role="banner">
         <div class="header-custom bg-gray-0 disabled-on-preview " id="header-custom">
-            <div class="container">
+            <div class="container" th:object="${content.artist}">
                 <div class="masthead d-flex" id="masthead">
                     <a class="channel-avatar"
                        style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"
-                       th:href="@{/artist/main(id=${artist.memberId})}"
-                       th:if="${artist.blogImgName == null}"></a>
-                    <a class="channel-avatar" th:href="@{/artist/main(id=${artist.memberId})}"
-                       th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"
-                       th:unless="${artist.blogImgName == null}"></a>
+                       th:if="*{blogImgName == null}"></a>
+
+                    <a class="channel-avatar"
+                       th:style="'background-image: url(' + @{/file/display(fileName=*{blogImgPath} + '/' + *{blogImgName})} + ');'"
+                       th:unless="*{blogImgName == null}"></a>
                     <div class="action-group">
-                        <button aria-label="구독하기"
-                                aria-pressed="false" class="btn btn-strong btn-strong-pill btn-subscribe"
-                                data-blog-id="1287845"
-                                th:if="${session.member != null and artist.memberId != session.member.id}"
+                        <a class="btn btn-icon btn-share">
+                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                        </a>
+                        <button class="btn btn-strong btn-strong-pill btn-subscribe active"
+                                id="subscription-btn"
+                                th:if="${session.member != null and artistId != session.member.id}"
                                 type="button">
-                            <span class="default-text">구독하기</span>
-                            <span class="active-text">구독중</span>
                         </button>
                     </div>
-                    <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
-                            class="count" id="allPostsCount"></span>개</span>
+                    <span class="channel-meta">
+                        구독자
+                        <span class="count" id="subscriberCount" th:text="*{subscriptionCount}"/>
+                        명 · 포스트
+                        <span class="count" th:text="*{postCount}"/>개
+                    </span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:href="@{/artist/main(id=${artist.memberId})}" th:text="${artist.artistBlogName}"></a>
+                            <a th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                               th:text="*{blogName}"></a>
                         </div>
                     </h1>
                 </div>
@@ -49,28 +54,24 @@
                 <div class="gnb-nav" id="gnb-nav">
                     <nav>
                         <ul>
-                            <ul>
-                                <li>
-                                    <a th:href="@{/artist/main(memberId=${artist.memberId})}">홈</a>
-                                </li>
-                                <li>
-                                    <a class="active">게시글</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/artist/video/list(memberId=${artist.memberId})}">영상</a>
-                                </li>
-                                <li>
-                                    <a class="inactive"
-                                       th:href="@{/artist/community/list(memberId=${artist.memberId})}">커뮤니티</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/artist/crowd-funding/list(memberId=${artist.memberId})}">크라우드
-                                        펀딩</a>
-                                </li>
-                            </ul>
+                            <li>
+                                <a th:href="@{/artist/{artistId}(artistId=*{artistId})}">홈</a>
+                            </li>
+                            <li>
+                                <a class="active">게시글</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/artist/{artistId}/video/list(artistId=*{artistId})}">영상</a>
+                            </li>
+                            <li>
+                                <a class="inactive" th:href="@{/artist/community/list(memberId=*{artistId})}">커뮤니티</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/artist/sponsor(memberId=*{artistId})}">후원</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/artist/crowd-funding/list(memberId=*{artistId})}">크라우드 펀딩</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -82,7 +83,7 @@
             <article class="ch-home">
                 <div class="ch-home-aside">
                     <div class="sticky-top">
-                        <section class="ch-home-author-bio">
+                        <section class="ch-home-author-bio" th:object="${content.artist}">
                             <div class="ch-section-header">
                                 <h4>아티스트</h4>
                             </div>
@@ -90,26 +91,21 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           rel="author" th:href="@{/artist/main(memberId=${artist.memberId})}">
+                                           rel="author" th:href="@{/artist/{artistId}(artistId=*{artistId})}">
                                             <img class="profile-img"
                                                  src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
                                         </a>
                                         <div class="media-body profile-title-box">
-                                            <span class="profile-title">
-                                                <a rel="author"
-                                                   th:href="@{/artist/main(memberId=${artist.memberId})}"
-                                                   th:text="${artist.memberNickname}"></a>
-                                            </span>
+                                                <span class="profile-title">
+                                                    <a rel="author"
+                                                       th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                                                       th:text="*{nickname}"></a>
+                                                </span>
                                         </div>
                                     </div>
-                                    <p class="text-alpha-black-60 mb-0" th:text="${artist.artistDescription}"></p>
+                                    <p class="text-alpha-black-60 mb-0" th:text="*{description}"></p>
                                 </div>
                             </div>
-                            <th:block th:if="${session.member != null}">
-                                <a class="write-btn"
-                                   th:href="@{/artist/{artistId}/post/write(artistId=${artist.memberId})}"
-                                   th:if="${artist.memberId == session.member.id}">작성하기</a>
-                            </th:block>
                         </section>
                     </div>
                 </div>
@@ -124,14 +120,14 @@
                         <div class="ch-section-header">
                             <h4 id="postsCount"></h4>
                         </div>
-                        <th:block th:if="${#lists.size(posts) != 0}">
-                            <th:block th:each="post:${posts}">
+                        <th:block th:if="${#lists.size(content.posts) != 0}">
+                            <th:block th:each="post:${content.posts}">
                                 <div class="article-list post-list channel-home-post-list" th:object="${post}">
                                     <div class="component-post list">
                                         <div>
                                             <div class="post">
                                                 <div class="post-data">
-                                                    <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{memberId}, postId=*{postId})}">
+                                                    <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{artistId}, postId=*{postId})}">
                                                         <h3 class="ellipsis-2 text-color-black"></h3>
                                                         <div class="ellipsis-2 text-alpha-black-47">
                                                             <h3 class="ellipsis-2 text-color-black"
@@ -148,7 +144,7 @@
                                                 </div>
                                                 <th:block th:unless="*{fileName == null}">
                                                     <div class="post-data-thumbnail">
-                                                        <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{memberId}, postId=*{postId})}">
+                                                        <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{artistId}, postId=*{postId})}">
                                                             <img th:src="|/file/display?fileName=*{filePath}/t_*{fileName}|">
                                                         </a>
                                                     </div>
@@ -156,7 +152,7 @@
                                             </div>
                                             <div class="post-info">
                                                 <a class="user-profile-avatar avatar-32"
-                                                   th:href="@{/artist/{artistId}(artistId=*{memberId})}">
+                                                   th:href="@{/artist/{artistId}(artistId=*{artistId})}">
                                                     <img src="/images/profile/avatar_blank.png"
                                                          th:if="*{kakaoProfileUrl == null and profileName == null}">
                                                     <img th:if="*{kakaoProfileUrl != null and profileName == null}"
@@ -166,7 +162,7 @@
                                                 </a>
                                                 <div class="post-info-body">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a th:href="@{/artist/{artistId}(artistId=*{memberId})}"
+                                                        <a th:href="@{/artist/{artistId}(artistId=*{artistId})}"
                                                            th:text="*{nickname}"></a>
                                                     </div>
                                                     <div class="post-meta text-alpha-black-47">
@@ -205,23 +201,24 @@
                                 </div>
                             </th:block>
                         </th:block>
-                        <th:block th:unless="${#lists.size(posts) != 0}">
+                        <th:block th:unless="${#lists.size(content.posts) != 0}">
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
-                        <div id="page-wrap" th:object="${pagination}">
+
+                        <div id="page-wrap" th:object="${content.pagination}">
                             <a class="change-page"
-                               th:href="|/artist/${artistId}/post/list?page=*{startPage - 1}|"
+                               th:href="|/artist/${artistId}/posts?page=*{startPage - 1}|"
                                th:if="*{startPage > 1}">이전</a>
 
                             <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-                                <a th:class="${i == pagination.page ? 'active' : ''}"
-                                   th:href="|/artist/${artistId}/post/list?page=${i}|">
+                                <a th:class="${i == content.pagination.page ? 'active' : ''}"
+                                   th:href="|/artist/${artistId}/posts?page=${i}|">
                                     <span class="button-highlight" th:text="${i}"></span>
                                 </a>
                             </th:block>
 
                             <a class="change-page"
-                               th:href="|/artist/${artistId}/post/list?page=${pagination.endPage + 1}|"
+                               th:href="|/artist/${artistId}/posts?page=*{endPage + 1}|"
                                th:if="*{endPage < realEnd}">다음</a>
                         </div>
                     </section>
@@ -356,7 +353,7 @@
                 type: "GET",
                 url: "/subscription/check-subscription",
                 data: {
-                    artistId: [[${artist.memberId}]],
+                    artistId: [[${content.artist.artistId}]],
                     memberId: session.id
                 },
                 success: function (data) {
@@ -377,7 +374,7 @@
                 url: "/subscription/update-subscription",
                 data: {
                     subscriptionStatus: subscriptionStatus,
-                    artistId: [[${artist.memberId}]],
+                    artistId: [[${content.artist.artistId}]],
                     memberId: session.id
                 },
                 success: function (data) {
@@ -426,7 +423,7 @@
 
     // 페이지 로드시 비동기 불러옴
     $(document).ready(function () {
-        getCounts([[${artist.memberId}]]);
+        getCounts([[${content.artist.artistId}]]);
         updateTimeGaps();
     })
 

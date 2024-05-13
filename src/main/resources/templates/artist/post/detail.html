@@ -23,7 +23,7 @@
         <div class="navbar-container">
             <div class="navbar-left">
                 <a class="btn-back" id="post-viewer-header-btn-back"
-                   th:href="|/artist/*{memberId}/post/detail/*{previousPostId}|"
+                   th:href="|/artist/*{memberId}/post/*{previousPostId}|"
                    th:if="*{previousPostId != null}">
                     <i class="fa-chevron-left"></i>
                 </a>
@@ -40,7 +40,7 @@
             </div>
             <div class="navbar-right">
                 <a class="btn-back" id="post-viewer-header-btn-next"
-                   th:href="|/artist/*{memberId}/post/detail/*{nextPostId}|"
+                   th:href="|/artist/*{memberId}/post/*{nextPostId}|"
                    th:if="*{nextPostId != null}">
                     <i class="fa-chevron-right"></i>
                 </a>
@@ -91,11 +91,11 @@
                             </div>
                             <th:block th:if="${session.member != null}">
                                 <div class="action-container" th:if="${post.memberId == session.member.id}">
-                                    <a class="edit-container" th:href="@{/artist/post/edit(id=${post.id})}">
+                                    <a class="edit-container" th:href="@{/artist/post/edit(id=${post.postId})}">
                                         게시글 수정
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-                                    <form method="post" th:action="@{/artist/post/delete(id=${post.id})}">
+                                    <form method="post" th:action="@{/artist/post/delete(id=${post.postId})}">
                                         <button id="delete-btn" type="submit">
                                             <span>게시글 삭제</span>
                                             <i class="fa-solid fa-trash"></i>
@@ -140,7 +140,7 @@
 
                             <th:block th:if="*{previousPostId != null}">
                                 <article class="pager-item1">
-                                    <a class="flex-middle" th:href="|/artist/*{memberId}/post/detail/*{previousPostId}|">
+                                    <a class="flex-middle" th:href="|/artist/*{memberId}/post/*{previousPostId}|">
                                         <div class="pager-label">이전글</div>
                                         <div class="media-body7">
                                             <h5 class="pager-title" th:text="*{previousPostTitle}"></h5>
@@ -152,7 +152,7 @@
 
                             <th:block th:if="*{nextPostId != null}">
                                 <article class="pager-item2">
-                                    <a class="flex-middle" th:href="|/artist/*{memberId}/post/detail/*{nextPostId}|">
+                                    <a class="flex-middle" th:href="|/artist/*{memberId}/post/*{nextPostId}|">
                                         <div class="pager-label">다음글</div>
                                         <div class="media-body7">
                                             <h5 class="pager-title" th:text="*{nextPostTitle}"></h5>
@@ -193,7 +193,7 @@
                         <section class="response3">
                             <div class="container44">
                                 <header class="section-head6">
-                                    <h3 class="comment-section-title" th:text="*{replyCount + '개의 댓글'}"></h3>
+                                    <h3 class="comment-section-title" th:text="*{replyCount + '개의 댓글'}" />
                                 </header>
                                 <div class="comment-list">
                                     <div class="comments">
@@ -212,137 +212,6 @@
                                 </div>
                             </div>
                         </section>
-<!--                                                <section class="related-post">-->
-<!--                                                    <div class="container445">-->
-<!--                                                        <header class="section-head8">-->
-<!--                                                            <h3 class="comment-section-title44">추천 포스트</h3>-->
-<!--                                                        </header>-->
-<!--                                                        <div class="related-post-list">-->
-<!--                                                            <div class="promotion-banner12">-->
-<!--                                                                <a class="promotion-banner77" data-promotion-id="1584"-->
-<!--                                                                   href="https://blog.postype.com/post/14151405"-->
-<!--                                                                   style="background-color: #007aff;">-->
-<!--                                                                    <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/12/16/19/63a7b41007a9a92b829f9c6739c58ab6.png?w=640&amp;q=65"-->
-<!--                                                                         class="promotion-banner-img" alt="포스타입 크리에이터 첫 걸음 가이드">-->
-<!--                                                                </a>-->
-<!--                                                            </div>-->
-<!--                                                            <div class="component-post-list">-->
-<!--                                                                <div class="component33">-->
-<!--                                                                    <div class="post21">-->
-<!--                                                                        <div class="post-date">-->
-<!--                                                                            <a href="https://blog.postype.com/post/15293000">-->
-<!--                                                                                <h3 class="ellipsis-26">포스타입 X CU 편의점 택배 제휴 이벤트</h3>-->
-<!--                                                                                <div class="ellipsis-2 text-alpha-black-47">-->
-<!--                                                                                    <h4 class="discount4">택배비, 최대 반값 할인 제공!</h4>-->
-<!--                                                                                    <div class="divider"></div>-->
-<!--                                                                                    <p class="mes-postype">포스타입</p>-->
-<!--                                                                                </div>-->
-<!--                                                                            </a>-->
-<!--                                                                            <div class="post-tags">-->
-<!--                                                                                <a href="https://blog.postype.com/post/14838413"-->
-<!--                                                                                   class="tag-promotion">프로모션</a>-->
-<!--                                                                            </div>-->
-<!--                                                                        </div>-->
-<!--                                                                        <div class="post-data-thumbnail">-->
-<!--                                                                            <a class="pro1613" href="https://blog.postype.com/post/15293000">-->
-<!--                                                                                <img class="img-098"-->
-<!--                                                                                     src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/21/14/25/25c8a58c938440372ba4a7f4171c5391.png?w=240&amp;h=180&amp;q=65"-->
-<!--                                                                                     alt="포스타입 X CU 편의점 택배 제휴 이벤트">-->
-<!--                                                                            </a>-->
-<!--                                                                        </div>-->
-<!--                                                                    </div>-->
-<!--                                                                    <div class="post-info43">-->
-<!--                                                                        <a class="user-profile-avatar avatar-32"-->
-<!--                                                                           href="https://www.postype.com/profile/@postype">-->
-<!--                                                                            <img class="user-profile-avatar-img"-->
-<!--                                                                                 src="https://d3mcojo3jv0dbr.cloudfront.net/2022/10/14/09/27/66fc5bd61c3d9969c7e6cb8845fb3e3e.png?w=64&amp;h=64&amp;q=65"-->
-<!--                                                                                 alt="포스타입">-->
-<!--                                                                        </a>-->
-<!--                                                                        <div class="post-info43-body">-->
-<!--                                                                            <div class="user-profile-nickname text-truncate">-->
-<!--                                                                                <a href="https://www.postype.com/profile/@postype" rel="author">포스타입</a>-->
-<!--                                                                            </div>-->
-<!--                                                                            <div class="post-meta1">-->
-<!--                                                                                <span class="meta-item6" title="조회수">-->
-<!--                                                                                    <i class="ic ic-eye" aria-label="조회수"></i>-->
-<!--                                                                                    <span class="stats-count22">1.1천</span>-->
-<!--                                                                                </span>-->
-<!--                                                                                <span class="meta-item6" title="좋아요">-->
-<!--                                                                                    <i id="hart" class="fal fa-heart" aria-label="좋아요"></i>-->
-<!--                                                                                    <span class="stats-count">4</span>-->
-<!--                                                                                </span>-->
-<!--                                                                                <time class="meta-item">1일 전</time>-->
-<!--                                                                            </div>-->
-<!--                                                                        </div>-->
-<!--                                                                        <div class="post-action7">-->
-<!--                                                                            <a href="#" class="btn btn-icon btn-scrap" data-post-id="15293000">-->
-<!--                                                                                <i id="de23" class="fal fa-bookmark default-text"></i>-->
-<!--                                                                                <i id="de24" class="fas fa-bookmark active-text"></i>-->
-<!--                                                                            </a>-->
-<!--                                                                        </div>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                            <div class="component-post-list3">-->
-<!--                                                                <div class="component331">-->
-<!--                                                                    <div class="post21">-->
-<!--                                                                        <div class="post-date">-->
-<!--                                                                            <a href="https://blog.postype.com/post/14528797">-->
-<!--                                                                                <h3 class="ellipsis-26">"딱 3일만 무료!" 틈새 시장 공략하는 일러스트 연재 팁</h3>-->
-<!--                                                                                <div class="ellipsis-2 text-alpha-black-47">-->
-<!--                                                                                    <h4 class="discount4">크리에이터 인터뷰 창작소재편</h4>-->
-<!--                                                                                    <div class="divider"></div>-->
-<!--                                                                                    <p class="mes-postype">오얼모얼님, 독사님</p>-->
-<!--                                                                                </div>-->
-<!--                                                                            </a>-->
-<!--                                                                            <div class="post-tags">-->
-<!--                                                                                <a href="https://blog.postype.com/post/14838413"-->
-<!--                                                                                   class="tag-promotion">프로모션</a>-->
-<!--                                                                            </div>-->
-<!--                                                                        </div>-->
-<!--                                                                        <div class="post-data-thumbnail">-->
-<!--                                                                            <a class="pro1613" href="https://blog.postype.com/post/14528797">-->
-<!--                                                                                <img class="img-098"-->
-<!--                                                                                     src="https://d3mcojo3jv0dbr.cloudfront.net/2023/07/20/12/42/ef0b4df41a26febfcc12546b6c976139.png?w=240&amp;h=180&amp;q=65"-->
-<!--                                                                                     alt="&quot;딱 3일만 무료!&quot; 틈새 시장 공략하는 일러스트 연재 팁">-->
-<!--                                                                            </a>-->
-<!--                                                                        </div>-->
-<!--                                                                    </div>-->
-<!--                                                                    <div class="post-info43">-->
-<!--                                                                        <a class="user-profile-avatar avatar-32"-->
-<!--                                                                           href="https://www.postype.com/profile/@postype">-->
-<!--                                                                            <img class="user-profile-avatar-img"-->
-<!--                                                                                 src="https://d3mcojo3jv0dbr.cloudfront.net/2022/10/14/09/27/66fc5bd61c3d9969c7e6cb8845fb3e3e.png?w=64&amp;h=64&amp;q=65"-->
-<!--                                                                                 alt="포스타입">-->
-<!--                                                                        </a>-->
-<!--                                                                        <div class="post-info43-body">-->
-<!--                                                                            <div class="user-profile-nickname text-truncate">-->
-<!--                                                                                <a href="https://www.postype.com/profile/@postype" rel="author">포스타입</a>-->
-<!--                                                                            </div>-->
-<!--                                                                            <div class="post-meta1">-->
-<!--                                                                                <span class="meta-item6" title="조회수">-->
-<!--                                                                                    <i class="ic ic-eye" aria-label="조회수"></i>-->
-<!--                                                                                    <span class="stats-count22">1만</span>-->
-<!--                                                                                </span>-->
-<!--                                                                                <span class="meta-item6" title="좋아요">-->
-<!--                                                                                    <i id="hart2" class="fal fa-heart" aria-label="좋아요"></i>-->
-<!--                                                                                    <span class="stats-count">117</span>-->
-<!--                                                                                </span>-->
-<!--                                                                                <time class="meta-item">2023.08.23</time>-->
-<!--                                                                            </div>-->
-<!--                                                                        </div>-->
-<!--                                                                        <div class="post-action7">-->
-<!--                                                                            <a href="#" class="btn btn-icon btn-scrap" data-post-id="15293000">-->
-<!--                                                                                <i id="de231" class="fal fa-bookmark default-text"></i>-->
-<!--                                                                                <i id="de241" class="fas fa-bookmark active-text"></i>-->
-<!--                                                                            </a>-->
-<!--                                                                        </div>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </section>-->
                     </div>
                 </div>
             </div>
@@ -351,10 +220,11 @@
 </main>
 
 </body>
-<script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="/js/artist/post/detail.js"></script>
 <script th:inline="javascript">
     console.log([[${post}]]);
 </script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="/js/artist/post/detail.js"></script>
+
 </html>
