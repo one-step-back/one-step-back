@@ -1,6 +1,7 @@
 package com.app.onestepback.domain.entity.post;
 
 import com.app.onestepback.domain.base.Period;
+import com.app.onestepback.domain.entity.member.Artist;
 import com.app.onestepback.domain.entity.member.Member;
 import com.app.onestepback.domain.type.post.PostStatus;
 import lombok.AccessLevel;
@@ -33,6 +34,6 @@ public abstract class Post extends Period {
     private PostStatus status = PostStatus.READABLE;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+    @JoinColumn(name = "ARTIST_ID")
+    private Artist artist;
 }

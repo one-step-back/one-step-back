@@ -210,48 +210,6 @@
                 AND AP.ID = #{postId}) S
     </select>
 
-    <select id="selectPrevPost" resultType="artistPostDTO">
-        SELECT ID, POST_TITLE, POST_SUBTITLE, FILE_NAME, FILE_PATH
-        FROM (SELECT ID,
-                     POST_TITLE,
-                     POST_SUBTITLE,
-                     (SELECT F.FILE_NAME
-                      FROM TBL_POST_FILE F
-                      WHERE F.POST_ID = A.ID
-                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_NAME,
-                     (SELECT F.FILE_PATH
-                      FROM TBL_POST_FILE F
-                      WHERE F.POST_ID = A.ID
-                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
-              FROM VIEW_ARTIST_POST A
-              WHERE MEMBER_ID = #{memberId}
-                AND A.POST_READABLE != 'DISABLE'
-                AND ID &lt; #{id}
-              ORDER BY ID DESC)
-        WHERE ROWNUM = 1
-    </select>
-
-    <select id="selectNextPost" resultType="artistPostDTO">
-        SELECT ID, POST_TITLE, POST_SUBTITLE, FILE_NAME, FILE_PATH
-        FROM (SELECT ID,
-                     POST_TITLE,
-                     POST_SUBTITLE,
-                     (SELECT F.FILE_NAME
-                      FROM TBL_POST_FILE F
-                      WHERE F.POST_ID = A.ID
-                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_NAME,
-                     (SELECT F.FILE_PATH
-                      FROM TBL_POST_FILE F
-                      WHERE F.POST_ID = A.ID
-                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = A.ID)) AS FILE_PATH
-              FROM VIEW_ARTIST_POST A
-              WHERE MEMBER_ID = #{memberId}
-                AND A.POST_READABLE != 'DISABLE'
-                AND ID > #{id}
-              ORDER BY ID)
-        WHERE ROWNUM = 1
-    </select>
-
     <update id="update">
         UPDATE TBL_POST
         SET POST_TITLE       = #{postTitle},
