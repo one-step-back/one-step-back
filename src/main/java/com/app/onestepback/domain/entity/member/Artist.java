@@ -12,12 +12,12 @@ import javax.persistence.*;
 @Getter @ToString @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Artist extends Period {
     @Id
-    @Column(name = "MEMBER_ID")
-    private Long memberId;
+    @Column(name = "ARTIST_ID")
+    private Long artistId;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "ARTIST_ID", referencedColumnName = "ID")
     private Member member;
     @Column(nullable = false, name = "ARTIST_BLOG_NAME", length = 100)
     private String blogName;
