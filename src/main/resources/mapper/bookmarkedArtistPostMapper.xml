@@ -9,8 +9,8 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO TBL_BOOKMARKED_ARTIST_POST(POST_ID, MEMBER_ID, BOOKMARK_ADDED_TIME)
-        VALUES (#{postId}, #{memberId}, CURRENT_TIMESTAMP)
+        INSERT INTO TBL_BOOKMARKED_ARTIST_POST(POST_ID, MEMBER_ID)
+        VALUES (#{postId}, #{memberId})
     </insert>
 
     <delete id="delete">
@@ -21,7 +21,8 @@
     </delete>
 
     <delete id="deletePost">
-        DELETE FROM TBL_BOOKMARKED_ARTIST_POST
+        DELETE
+        FROM TBL_BOOKMARKED_ARTIST_POST
         WHERE POST_ID = #{postId}
     </delete>
 </mapper>

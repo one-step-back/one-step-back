@@ -18,18 +18,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final CombinedPostDAO combinedPostDAO;
 
     @Override
-    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO) {
-        return subscriptionDAO.checkSubscription(subscriptionVO);
-    }
-
-    @Override
-    public void saveSubscription(SubscriptionVO subscriptionVO) {
-        subscriptionDAO.saveSubscription(subscriptionVO);
-    }
-
-    @Override
-    public void cancelSubscription(SubscriptionVO subscriptionVO) {
-        subscriptionDAO.cancelSubscription(subscriptionVO);
+    public boolean doSubscribe(Long artistId, Long memberId, boolean status) {
+        if (!status) {
+            subscriptionDAO.saveSubscription(artistId, memberId);
+            return true;
+        } else {
+            subscriptionDAO.cancelSubscription(artistId, memberId);
+            return false;
+        }
     }
 
     @Override

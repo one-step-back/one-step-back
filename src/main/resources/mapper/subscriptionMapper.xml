@@ -10,7 +10,8 @@
     <select id="select" resultType="subscriptionVO">
         SELECT ARTIST_ID, MEMBER_ID
         FROM TBL_SUBSCRIPTION
-        WHERE ARTIST_ID = #{artistId} AND MEMBER_ID = #{memberId}
+        WHERE ARTIST_ID = #{artistId}
+          AND MEMBER_ID = #{memberId}
     </select>
 
     <insert id="insert">

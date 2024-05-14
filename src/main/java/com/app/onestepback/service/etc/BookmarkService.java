@@ -6,11 +6,9 @@ import com.app.onestepback.domain.vo.BookmarkedVideoVO;
 import java.util.Optional;
 
 public interface BookmarkService {
-    public Optional<BookmarkedArtistPostVO> checkArtistPostBookmarkInfo(BookmarkedArtistPostVO bookmarkedArtistPostVO);
+    Optional<BookmarkedArtistPostVO> checkArtistPostBookmarkInfo(BookmarkedArtistPostVO bookmarkedArtistPostVO);
 
-    public void doBookmarkArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO);
-
-    public void eraseBookmarkedArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO);
+    boolean doBookmarkArtistPost(Long postId, Long memberId, boolean status);
 
     public Optional<BookmarkedVideoVO> checkVideoBookmarkInfo(BookmarkedVideoVO bookmarkedVideoVO);
 

@@ -7,7 +7,9 @@ import java.util.Optional;
 
 @Mapper
 public interface BookmarkedArtistPostMapper {
-    public Optional<BookmarkedArtistPostVO> select(BookmarkedArtistPostVO bookmarkedArtistPostVO);
-    public void insert(BookmarkedArtistPostVO bookmarkedArtistPostVO);
-    public void delete(BookmarkedArtistPostVO bookmarkedArtistPostVO);
+    Optional<BookmarkedArtistPostVO> select(BookmarkedArtistPostVO bookmarkedArtistPostVO);
+
+    void insert(Long postId, Long memberId);
+
+    void delete(Long postId, Long memberId);
 }
