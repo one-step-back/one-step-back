@@ -220,10 +220,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon bookmark-btn b">
-                                                        <i class="far fa-bookmark default-bookmark"></i>
-                                                        <i class="fas fa-bookmark active-bookmark"></i>
-                                                    </a>
+                                                    <button class="btn btn-icon bookmark-btn" th:data-post-id="*{postId}" th:data-status="*{bookmarked}">
+                                                        <i class="far fa-bookmark" th:classappend="*{bookmarked} ? '': 'active'"></i>
+                                                        <i class="fas fa-bookmark" th:classappend="*{bookmarked} ? 'active': ''"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -256,6 +256,7 @@
             </article>
         </div>
     </main>
+    <input id="loggedIn" th:value="${session.member != null}" type="hidden">
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -477,4 +478,5 @@
 <script th:src="@{/js/artist/blog-modal.js}"></script>
 <script src="/js/artist/blog-header.js"></script>
 <script th:src="@{/js/artist/subscribe.js}" type="module"></script>
+<script th:src="@{/js/artist/bookmark.js}" type="module"></script>
 </html>

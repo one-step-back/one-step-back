@@ -1,5 +1,4 @@
 import {subscriptionService} from "../service/subscription/subscriptionService.js";
-import {bookmarkService} from "../service/bookmark/bookmarkService.js";
 
 const $subscriberCount = $('#subscriberCount');
 

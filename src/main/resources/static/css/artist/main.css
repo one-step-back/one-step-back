@@ -1384,12 +1384,12 @@ p {
     margin-right: 16px;
 }
 
-.bookmark-btn:not(.active) .active-bookmark {
+.bookmark-btn > i {
     display: none;
 }
 
-.bookmark-btn.active .default-bookmark {
-    display: none;
+.bookmark-btn > .active {
+    display: block;
 }
 
 .bookmark-video-btn {
