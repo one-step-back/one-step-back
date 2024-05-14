@@ -18,8 +18,8 @@ public class ArtistDAO {
     }
 
 //    아티스트 불러옴 -> 블로그 출력
-    public Optional<ArtistDetailDTO> getArtistDetail(Long artistId){
-        return artistMapper.selectDetail(artistId);
+    public Optional<ArtistDetailDTO> getArtistDetail(Long artistId, Long viewerId){
+        return artistMapper.selectDetail(artistId, viewerId);
     }
 
     public Optional<Long> checkArtist(Long memberId){return artistMapper.selectId(memberId);}

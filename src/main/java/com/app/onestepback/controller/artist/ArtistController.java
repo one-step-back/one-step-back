@@ -36,7 +36,7 @@ public class ArtistController {
         Pagination pagination = new Pagination(1, 3, 3);
         HashMap<String, Object> content = new HashMap<>();
 
-        content.put("artist", artistService.getArtistDetail(artistId));
+        content.put("artist", artistService.getArtistDetail(artistId, viewerId));
         content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
 
         model.addAttribute("content", content);
@@ -45,7 +45,7 @@ public class ArtistController {
 
     @GetMapping("/{artistId}/sponsor")
     public String goToSponsorPage(@PathVariable("artistId") Long artistId, Model model) {
-        model.addAttribute("artist", artistService.getArtistDetail(artistId));
+//        model.addAttribute("artist", artistService.getArtistDetail(artistId, ));
 
         return "artist/sponsor";
     }
@@ -61,7 +61,7 @@ public class ArtistController {
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
         HashMap<String, Object> content = new HashMap<>();
 
-        content.put("artist", artistService.getArtistDetail(artistId));
+        content.put("artist", artistService.getArtistDetail(artistId, viewerId));
         content.put("posts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
         content.put("pagination", pagination);
 

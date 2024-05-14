@@ -18,17 +18,15 @@ public class SubscriptionDAO {
         return subscriptionMapper.selectCountOfSubscriber(artistId);
     }
 
-    public Optional<SubscriptionVO> checkSubscription(SubscriptionVO subscriptionVO){return subscriptionMapper.select(subscriptionVO);}
-
-    public void saveSubscription(SubscriptionVO subscriptionVO){
-        subscriptionMapper.insert(subscriptionVO);
+    public void saveSubscription(Long artistId, Long memberId) {
+        subscriptionMapper.insert(artistId, memberId);
     }
 
-    public void cancelSubscription(SubscriptionVO subscriptionVO){
-        subscriptionMapper.delete(subscriptionVO);
+    public void cancelSubscription(Long artistId, Long memberId) {
+        subscriptionMapper.delete(artistId, memberId);
     }
 
-    public List<SubscriptionDTO> getAllSubscribedArtist(Long memberId){
+    public List<SubscriptionDTO> getAllSubscribedArtist(Long memberId) {
         return subscriptionMapper.selectAll(memberId);
     }
 }

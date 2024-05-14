@@ -1,41 +1,30 @@
-package com.app.onestepback.api.controller;
+package com.app.onestepback.api.controller.bookmark;
 
+import com.app.onestepback.domain.entity.member.Member;
 import com.app.onestepback.domain.vo.BookmarkedArtistPostVO;
 import com.app.onestepback.domain.vo.BookmarkedVideoVO;
+import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.service.etc.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @Slf4j
-@RequestMapping("/bookmark/*")
+@RequestMapping("/api/bookmark")
 @RequiredArgsConstructor
 public class BookmarkController {
     private final BookmarkService bookmarkService;
 
-    @GetMapping("check-post")
-    public boolean checkLibrary(@RequestParam("postId") Long postId, @RequestParam("memberId") Long memberId) {
-        BookmarkedArtistPostVO bookmarkedArtistPostVO = new BookmarkedArtistPostVO();
-        bookmarkedArtistPostVO.setPostId(postId);
-        bookmarkedArtistPostVO.setMemberId(memberId);
+    @PatchMapping("/post")
+    public boolean checkLibrary(@RequestParam("postId") Long postId,
+                                @RequestParam("status") boolean status,
+                                HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
 
-        return bookmarkService.checkArtistPostBookmarkInfo(bookmarkedArtistPostVO).isPresent();
-    }
-
-    @PostMapping("update-post")
-    public boolean saveToLibrary(@RequestParam("postId") Long postId, @RequestParam("memberId") Long memberId, @RequestParam("bookmarkStatus") boolean bookmarkStatus) {
-        BookmarkedArtistPostVO bookmarkedArtistPostVO = new BookmarkedArtistPostVO();
-        bookmarkedArtistPostVO.setPostId(postId);
-        bookmarkedArtistPostVO.setMemberId(memberId);
-
-        if (!bookmarkStatus) {
-            bookmarkService.doBookmarkArtistPost(bookmarkedArtistPostVO);
-            return true;
-        } else {
-            bookmarkService.eraseBookmarkedArtistPost(bookmarkedArtistPostVO);
-            return false;
-        }
+        return bookmarkService.doBookmarkArtistPost(postId, member.getId(), status);
     }
 
     @GetMapping("check-video")

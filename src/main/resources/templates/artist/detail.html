@@ -388,7 +388,7 @@
 <!--    // // let likeCount = [[${post.likeCount}]];-->
 <!--    //-->
 <!--    // // 로그인이 되어있을 시 클라이언트가 아티스트의 구독자인지 아닌지 구분하는 함수-->
-<!--    // function checkSubscription(artistId, memberId, callback) {-->
+<!--    // function doSubscribe(artistId, memberId, callback) {-->
 <!--    //     $.ajax({-->
 <!--    //         type: "GET",-->
 <!--    //         url: "/subscription/check-subscription?artistId=" + artistId + "&memberId=" + memberId,-->
@@ -705,7 +705,7 @@
 <!--    // // 페이지 로드 시-->
 <!--    // $(function () {-->
 <!--    //     if (session != null) {-->
-<!--    //         checkSubscription(artistId, session.id, didISubscribe);-->
+<!--    //         doSubscribe(artistId, session.id, didISubscribe);-->
 <!--    //         likeService.checkLike(likeService.updateStatus);-->
 <!--    //         bookmarkService.checkPost(bookmarkService.updateStatus);-->
 <!--    //     }-->

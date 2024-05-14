@@ -32,7 +32,7 @@ public class ArtistCrowdFundingController {
     //    크라우드 펀딩 목록으로 이동
     @GetMapping("list")
     public void goToList(@RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
-        model.addAttribute("artist", artistService.getArtistDetail(memberId));
+//        model.addAttribute("artist", artistService.getArtistDetail(memberId, ));
         pagination.setTotal(artistCrowdFundingService.getCountOfCF(memberId));
         pagination.setPage(page);
         pagination.setRowCount(5);
@@ -50,7 +50,7 @@ public class ArtistCrowdFundingController {
     //    펀딩 요청 목록 & 작성 으로 이동
     @GetMapping("request")
     public void goToRequest(FundingRequestVO fundingRequestVO, CrowdFundingVO crowdFundingVO, @RequestParam("memberId") Long memberId, @RequestParam(value = "page", required = false) Integer page, Model model, Pagination pagination){
-        model.addAttribute("artist", artistService.getArtistDetail(memberId));
+//        model.addAttribute("artist", artistService.getArtistDetail(memberId, ));
         pagination.setTotal(artistCrowdFundingService.getCountOfFR(memberId));
         pagination.setPage(page);
         pagination.setRowCount(5);

@@ -21,13 +21,14 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public void doBookmarkArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO) {
-        bookmarkedArtistPostDAO.doBookmarkArtistPost(bookmarkedArtistPostVO);
-    }
-
-    @Override
-    public void eraseBookmarkedArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO) {
-        bookmarkedArtistPostDAO.eraseBookmarkedArtistPost(bookmarkedArtistPostVO);
+    public boolean doBookmarkArtistPost(Long postId, Long memberId, boolean status) {
+        if (!status) {
+            bookmarkedArtistPostDAO.doBookmarkArtistPost(postId, memberId);
+            return true;
+        } else {
+            bookmarkedArtistPostDAO.eraseBookmarkedArtistPost(postId, memberId);
+            return false;
+        }
     }
 
     @Override

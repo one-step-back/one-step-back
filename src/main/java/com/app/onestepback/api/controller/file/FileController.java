@@ -1,4 +1,4 @@
-package com.app.onestepback.api.controller;
+package com.app.onestepback.api.controller.file;
 
 import com.app.onestepback.service.file.PostFileService;
 import lombok.RequiredArgsConstructor;

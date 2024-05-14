@@ -17,4 +17,5 @@ public class ArtistDetailDTO {
     private String blogImgPath;
     private Long subscriptionCount;
     private Long postCount;
+    private boolean isSubscribed;
 }

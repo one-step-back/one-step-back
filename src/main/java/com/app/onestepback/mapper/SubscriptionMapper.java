@@ -9,13 +9,13 @@ import java.util.Optional;
 
 @Mapper
 public interface SubscriptionMapper {
-    public int selectCountOfSubscriber(Long artistId);
+    int selectCountOfSubscriber(Long artistId);
 
-    public Optional<SubscriptionVO> select(SubscriptionVO subscriptionVO);
+    Optional<SubscriptionVO> select(SubscriptionVO subscriptionVO);
 
-    public void insert(SubscriptionVO subscriptionVO);
+    void insert(Long artistId, Long memberId);
 
-    public void delete(SubscriptionVO subscriptionVO);
+    void delete(Long artistId, Long memberId);
 
     public List<SubscriptionDTO> selectAll(Long memberId);
 }

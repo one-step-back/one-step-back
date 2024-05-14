@@ -12,13 +12,15 @@ import java.util.Optional;
 public class BookmarkedArtistPostDAO {
     private final BookmarkedArtistPostMapper bookmarkedArtistPostMapper;
 
-    public Optional<BookmarkedArtistPostVO> getArtistPostBookmarkInfo(BookmarkedArtistPostVO bookmarkedArtistPostVO){return bookmarkedArtistPostMapper.select(bookmarkedArtistPostVO);}
-
-    public void doBookmarkArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO){
-        bookmarkedArtistPostMapper.insert(bookmarkedArtistPostVO);
+    public Optional<BookmarkedArtistPostVO> getArtistPostBookmarkInfo(BookmarkedArtistPostVO bookmarkedArtistPostVO) {
+        return bookmarkedArtistPostMapper.select(bookmarkedArtistPostVO);
     }
 
-    public void eraseBookmarkedArtistPost(BookmarkedArtistPostVO bookmarkedArtistPostVO){
-        bookmarkedArtistPostMapper.delete(bookmarkedArtistPostVO);
+    public void doBookmarkArtistPost(Long postId, Long memberId) {
+        bookmarkedArtistPostMapper.insert(postId, memberId);
+    }
+
+    public void eraseBookmarkedArtistPost(Long postId, Long memberId) {
+        bookmarkedArtistPostMapper.delete(postId, memberId);
     }
 }

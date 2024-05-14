@@ -29,7 +29,15 @@
                (SELECT COUNT(P.ID)
                 FROM TBL_POST P
                 WHERE P.ARTIST_ID = A.ARTIST_ID
-                  AND P.POST_STATUS = 'READABLE') AS POST_COUNT
+                  AND P.POST_STATUS = 'READABLE') AS POST_COUNT,
+               (CASE
+                    WHEN #{viewerId} IS NULL THEN 0
+                    WHEN EXISTS (SELECT 1
+                                 FROM TBL_SUBSCRIPTION S
+                                 WHERE S.MEMBER_ID = #{viewerId}
+                                   AND S.ARTIST_ID = A.ARTIST_ID) THEN 1
+                    ELSE 0
+                   END)                           AS IS_SUBSCRIBED
         FROM TBL_MEMBER M
                  JOIN TBL_ARTIST A on M.ID = A.ARTIST_ID
         WHERE A.ARTIST_ID = #{artistId}

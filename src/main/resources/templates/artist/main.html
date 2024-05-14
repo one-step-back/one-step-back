@@ -53,10 +53,15 @@
                         <a class="btn btn-icon btn-share">
                             <i class="fas fa-sign-out-alt fa-rotate-270"></i>
                         </a>
-                        <button class="btn btn-strong btn-strong-pill btn-subscribe active"
-                                id="subscription-btn"
+                        <button class="btn btn-strong btn-strong-pill btn-subscribe"
+                                id="subscribeBtn"
+                                th:classappend="*{subscribed ? 'active' : ''}"
+                                th:data-artistId="*{artistId}"
+                                th:data-status="*{subscribed}"
                                 th:if="${session.member != null and artistId != session.member.id}"
                                 type="button">
+                            <span th:class="*{subscribed ? 'active-text' : 'default-text'}"
+                                  th:text="*{subscribed ? '구독중': '구독하기'}"></span>
                         </button>
                     </div>
                     <span class="channel-meta">
@@ -213,10 +218,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
-                                                    <a class="btn btn-icon bookmark-btn" th:data-post-id="*{postId}">
-                                                        <i class="far fa-bookmark default-bookmark"></i>
-                                                        <i class="fas fa-bookmark active-bookmark"></i>
-                                                    </a>
+                                                    <button class="btn btn-icon bookmark-btn" th:data-post-id="*{postId}" th:data-status="*{bookmarked}">
+                                                        <i class="far fa-bookmark" th:classappend="*{bookmarked} ? '': 'active'"></i>
+                                                        <i class="fas fa-bookmark" th:classappend="*{bookmarked} ? 'active': ''"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -335,117 +340,15 @@
             </article>
         </div>
     </main>
+    <input id="loggedIn" th:value="${session.member != null}" type="hidden">
 </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="/js/artist/blog-modal.js"></script>
+<script th:src="@{/js/artist/blog-modal.js}"></script>
 <script th:inline="javascript">
 
     console.log([[${content}]])
-
-    // 세션 값
-    const session = /*[[${session.member}]]*/ null;
-    // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
-    const artistId = [[${content.artist.artistId}]]
-    // 구독버튼
-    const subscriptionBtn = $("#subscription-btn");
-    // 구독자 수 인디케이터
-    const subscriberCount = $("#subscriberCount");
-    // 구독자 수 (구독 버튼을 누르면 구독자수가 얼마인지 다시 조사하는 쿼리는 비효율적이므로 화면상에서만 변경처리)
-    let currentCount = null;
-    // 현재 구독상태인지 아닌지를 분별하기 위한 전역 변수
-    let subscriptionStatus = null;
-    // 북마크 버튼
-    const bookmarkPostBtn = $(".bookmark-btn");
-    const bookmarkVideoBtn = $(".bookmark-video-btn");
-
-
-    // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
-    function getCounts(artistId) {
-        // 아약스 문법은 j쿼리 버전의 페치임
-        $.ajax({
-            type: "GET",
-            url: "/getCounts?id=" + artistId,
-            success: function (data) {
-                // data는 2칸의 배열을 반납, 0은 구독자 수, 1은 비디오 포스트와 일반 포스트의 합산
-                // 현재 구독자수 전역변수에 구독자 수 삽입
-                currentCount = data[0];
-                subscriberCount.text(data[0]);
-                $("#postCount").text(data[1] + data[2]);
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
-
-    // 로그인이 되어있을 시 클라이언트가 아티스트의 구독자인지 아닌지 구분하는 함수
-    function checkSubscription(artistId, memberId, callback) {
-        $.ajax({
-            type: "GET",
-            url: "/subscription/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
-
-            success: function (data) {
-                // 불린타입으로 반납된 결과 값을 전역 변수에 대입
-                subscriptionStatus = data;
-                if (callback) {
-                    callback(data)
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
-
-    // 구독버튼을 누를시.
-    function updateSubscription(artistId, memberId, callback, callback2) {
-        $.ajax({
-            type: "GET",
-            url: "/subscription/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
-
-            success: function (data) {
-                subscriptionStatus = data;
-                if (callback) {
-                    callback(data)
-                }
-                if (callback2) {
-                    callback2(data)
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        })
-    }
-
-    // data 값에 따라 구독버튼에 html 삽입
-    function didISubscribe(data) {
-        let subscriptionHtml = null;
-        subscriptionBtn.empty();
-
-        if (!data) {
-            subscriptionHtml = `<span class="default-text">구독하기</span>`;
-            subscriptionBtn.removeClass("active");
-            subscriptionBtn.append(subscriptionHtml);
-        } else if (data) {
-            subscriptionHtml = `<span class="active-text">구독중</span>`;
-            subscriptionBtn.addClass("active");
-            subscriptionBtn.append(subscriptionHtml);
-        }
-    }
-
-    // 화면상의 구독자 수 업데이트
-    function updateSubscriberCount(data) {
-        if (!data) {
-            currentCount -= 1;
-            subscriberCount.text(currentCount)
-        } else {
-            currentCount += 1;
-            subscriberCount.text(currentCount)
-        }
-    }
 
     // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
     function postVideoThumbnail() {
@@ -476,29 +379,6 @@
         });
     }
 
-    // 시간차이 계산 함수
-    function getTimeGap(currentTime, postTime) {
-        let timeDiff = Math.floor((currentTime - postTime) / 1000); // 초 단위로 시간 차이 계산
-
-        if (timeDiff < 60) {
-            return "방금 전";
-        } else if (timeDiff < 3600) {
-            var minutes = Math.floor(timeDiff / 60);
-            return minutes + "분 전";
-        } else if (timeDiff < 86400) {
-            var hours = Math.floor(timeDiff / 3600);
-            return hours + "시간 전";
-        } else if (timeDiff < 2678400) {
-            var days = Math.floor(timeDiff / 86400);
-            return days + "일 전";
-        } else if (timeDiff < 32140800) {
-            var months = Math.floor(timeDiff / 2678400);
-            return months + "개월 전";
-        } else {
-            var years = Math.floor(timeDiff / 32140800);
-            return years + "년 전";
-        }
-    }
 
     const bookmarkService = (function () {
         function checkPost(postId, btn, callback) {
@@ -605,61 +485,8 @@
         }
     })();
 
-    // 페이지 로드시 비동기 불러옴
-    $(function () {
-        getCounts(artistId);
-        if (session != null) {
-            checkSubscription(artistId, session.id, didISubscribe);
-        }
-        if (session != null) {
-            bookmarkPostBtn.each(function () {
-                let btn = $(this);
-                console.log(btn);
-                let postId = $(this).data('post-id');
-                bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
-            })
-            bookmarkVideoBtn.each(function () {
-                let btn = $(this);
-                console.log(btn);
-                let postId = $(this).data('post-id');
-                bookmarkService.checkVideo(postId, btn, bookmarkService.updateStatus);
-            })
-        }
-        postVideoThumbnail();
-        updateTimeGaps();
-    });
-
-    // 구독 버튼 누를시 작동되는 함수
-    subscriptionBtn.click(() => {
-        updateSubscription(artistId, session.id, didISubscribe, updateSubscriberCount);
-    })
-
-
-    bookmarkPostBtn.click(function () {
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            return;
-        }
-        let btn = $(this);
-        let postId = $(this).data('post-id');
-        let bookmarkStatus = btn.data('bookmark-status');
-
-        bookmarkService.updateBookmarkPost(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
-    });
-
-    bookmarkVideoBtn.click(function () {
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            return;
-        }
-        let btn = $(this);
-        let postId = $(this).data('post-id');
-        let bookmarkStatus = btn.data('bookmark-status');
-
-        bookmarkService.updateVideoBookmark(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
-    });
-
 </script>
 <script src="/js/artist/blog-header.js"></script>
-<script src="/js/artist/main.js"></script>
+<script th:src="@{/js/artist/subscribe.js}" type="module"></script>
+<script th:src="@{/js/artist/bookmark.js}" type="module"></script>
 </html>
