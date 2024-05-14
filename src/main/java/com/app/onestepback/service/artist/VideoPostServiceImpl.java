@@ -146,6 +146,6 @@ public class VideoPostServiceImpl implements VideoPostService {
 
     @Override
     public void erasePost(Long id) {
-        postDAO.erasePost(id);
+//        postDAO.erasePost(id);
     }
 }

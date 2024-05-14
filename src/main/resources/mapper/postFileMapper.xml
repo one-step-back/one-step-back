@@ -27,4 +27,12 @@
         DELETE FROM TBL_POST_FILE
         WHERE ID = #{id}
     </delete>
+
+    <delete id="deleteAll" parameterType="java.util.List">
+        DELETE FROM TBL_POST_FILE
+        WHERE ID IN
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

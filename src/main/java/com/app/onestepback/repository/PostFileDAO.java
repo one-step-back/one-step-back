@@ -28,4 +28,8 @@ public class PostFileDAO {
     public void eraseFile(Long id) {
         postFileMapper.delete(id);
     }
+
+    public void deleteAllFile(List<Long> fileIds) {
+        postFileMapper.deleteAll(fileIds);
+    }
 }

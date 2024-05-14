@@ -1,9 +1,6 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +34,11 @@ public class ArtistPostDAO {
         return artistPostMapper.select(artistId, postId);
     }
 
-    public void editPost(ArtistPostDTO artistPostDTO) {
-        artistPostMapper.update(artistPostDTO);
+    public Optional<ArtistPostEditDTO> getEditPost(Long artistId, Long postId) {
+        return artistPostMapper.selectToEditDTO(artistId, postId);
+    }
+
+    public void editPost(ArtistPostEditDTO artistPostEditDTO) {
+        artistPostMapper.update(artistPostEditDTO);
     }
 }

@@ -12,13 +12,23 @@ import java.util.List;
 public class PostTagDAO {
     private final PostTagMapper postTagMapper;
 
-    public List<String> getAllTags(Long postId){return postTagMapper.selectAll(postId);}
+    public List<String> getAllTags(Long postId) {
+        return postTagMapper.selectAll(postId);
+    }
 
-    public void savePostTag(PostTagVO postTagVO){postTagMapper.insert(postTagVO);}
+    public void savePostTag(PostTagVO postTagVO) {
+        postTagMapper.insert(postTagVO);
+    }
 
     public void saveAllTags(List<PostTagVO> postTagVOList) {
         postTagMapper.insertAll(postTagVOList);
     }
 
-    public void deletePostTag(Long postId){postTagMapper.delete(postId);}
+    public void deletePostTag(Long postId) {
+        postTagMapper.delete(postId);
+    }
+
+    public void deleteAllTags(List<PostTagVO> postTagVOList) {
+        postTagMapper.deleteAll(postTagVOList);
+    }
 }

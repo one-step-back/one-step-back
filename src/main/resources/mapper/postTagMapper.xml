@@ -25,4 +25,12 @@
         FROM TBL_POST_TAG
         WHERE POST_ID = #{postId}
     </delete>
+
+    <delete id="deleteAll" parameterType="java.util.List">
+        DELETE FROM TBL_POST_TAG
+        WHERE (POST_ID, POST_TAG_NAME) IN
+        <foreach collection="list" item="postTag" separator="," open="(" close=")">
+            (#{postTag.postId}, #{postTag.postTagName})
+        </foreach>
+    </delete>
 </mapper>

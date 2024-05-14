@@ -1,9 +1,6 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.vo.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,5 +23,7 @@ public interface ArtistPostMapper {
 
     Optional<ArtistPostDetailDTO> select(Long artistId, Long postId);
 
-    void update(ArtistPostDTO artistPostDTO);
+    Optional<ArtistPostEditDTO> selectToEditDTO(Long artistId, Long postId);
+
+    void update(ArtistPostEditDTO artistPostEditDTO);
 }

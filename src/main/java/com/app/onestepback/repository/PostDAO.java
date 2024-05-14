@@ -13,7 +13,7 @@ public class PostDAO {
         postMapper.updateViewCount(id);
     }
 
-    public void erasePost(Long id){
-        postMapper.updateToDelete(id);
+    public void erasePost(Long postId, Long artistId){
+        postMapper.softDelete(postId, artistId);
     }
 }

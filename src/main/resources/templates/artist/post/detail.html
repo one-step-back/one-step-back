@@ -95,7 +95,7 @@
                                         게시글 수정
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-                                    <form method="post" th:action="@{/artist/post/delete(id=${post.postId})}">
+                                    <form method="post" th:action="@{/artist/post/delete(postId=${post.postId})}">
                                         <button id="delete-btn" type="submit">
                                             <span>게시글 삭제</span>
                                             <i class="fa-solid fa-trash"></i>
