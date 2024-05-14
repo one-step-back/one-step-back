@@ -8,11 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface PostFileMapper {
-    public void insert(PostFileVO postFileVO);
+    void insert(PostFileVO postFileVO);
 
     void insertAll(List<PostFileVO> postFileVOList);
 
     List<PostFileDTO> selectAll(Long postId);
 
-    public void delete(Long id);
+    void delete(Long id);
+
+    void deleteAll(List<Long> fileIds);
 }

@@ -285,47 +285,6 @@
             });
 
             $("#no-image").addClass('none');
-
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/file/upload",
-            //     data: formData,
-            //     processData: false,
-            //     contentType: false,
-            //     success: function (uuids) {
-            //         // 비동기 테스트
-            //         console.log(uuids);
-            //
-            //         let imageHtml = null;
-            //
-            //         let now = new Date();
-            //         let year = now.getFullYear();
-            //         let month = now.getMonth() + 1;
-            //         let date = now.getDate();
-            //         month = month < 10 ? '0' + month : month;
-            //         date = date < 10 ? '0' + date : date;
-            //
-            //         for (let i = 0; i < uuids.length; i++) {
-            //             let uuidInput = document.createElement("input");
-            //             uuidInput.type = "hidden";
-            //             uuidInput.name = "uuid";
-            //             uuidInput.value = uuids[i];
-            //
-            //             let fileName = `${year}/${month}/${date}/t_${uuids[i]}_${files[i].name}`;
-            //
-            //             imageHtml = `<div class="image-item">
-            //                             <img src="/file/display?fileName=${fileName}">
-            //                          </div>`;
-            //
-            //             $("#image-wrap").append(imageHtml);
-            //             $("#img-container").append(uuidInput);
-            //             $("#no-image").remove();
-            //         }
-            //     },
-            //     error: function (xhr, status, error) {
-            //         console.log("업로드 실패: " + error);
-            //     }
-            // });
         })
 
         $("#erase-imgs").click(() => {

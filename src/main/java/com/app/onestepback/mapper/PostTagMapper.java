@@ -7,11 +7,13 @@ import java.util.List;
 
 @Mapper
 public interface PostTagMapper {
-    public List<String> selectAll(Long postId);
+    List<String> selectAll(Long postId);
 
-    public void insert(PostTagVO postTagVO);
+    void insert(PostTagVO postTagVO);
 
     void insertAll(List<PostTagVO> postTagVOList);
 
-    public void delete(Long postId);
+    void delete(Long postId);
+
+    void deleteAll(List<PostTagVO> postTagVOList);
 }

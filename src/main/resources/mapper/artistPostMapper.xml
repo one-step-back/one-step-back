@@ -110,9 +110,10 @@
         <selectKey keyProperty="postId" order="BEFORE" resultType="Long">
             SELECT SEQ_POST.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO TBL_POST(ID, ARTIST_ID, POST_TITLE, POST_SUBTITLE, POST_CONTENT, POST_CATEGORY, POST_STATUS,
-        CREATED_TIME)
-        VALUES (#{postId}, #{artistId}, #{title}, #{subtitle}, #{content}, #{category}, 'READABLE', CURRENT_TIMESTAMP)
+        INSERT INTO TBL_POST(ID, ARTIST_ID, POST_TITLE, POST_SUBTITLE, POST_CONTENT, POST_CATEGORY,
+        POST_VIEW_COUNT,POST_STATUS,CREATED_TIME)
+        VALUES (#{postId}, #{artistId}, #{title}, #{subtitle}, #{content}, #{category}, #{viewCount}, 'READABLE',
+        CURRENT_TIMESTAMP)
     </insert>
 
     <insert id="insertArtistPost">
@@ -210,13 +211,41 @@
                 AND AP.ID = #{postId}) S
     </select>
 
+    <resultMap id="artistPostEditMap" type="ArtistPostEditDTO">
+        <id property="postId" column="ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
+        <result property="title" column="POST_TITLE"/>
+        <result property="subtitle" column="POST_SUBTITLE"/>
+        <result property="content" column="POST_CONTENT"/>
+        <result property="category" column="POST_CATEGORY"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result column="POST_TAG_NAME"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectToEditDTO" resultMap="artistPostEditMap">
+        SELECT AP.ID,
+               AP.ARTIST_ID,
+               AP.POST_TITLE,
+               AP.POST_SUBTITLE,
+               AP.POST_CONTENT,
+               AP.POST_CATEGORY,
+               T.POST_TAG_NAME
+        FROM VIEW_ARTIST_POST AP
+                 LEFT JOIN TBL_POST_TAG T ON T.POST_ID = AP.ID
+        WHERE AP.POST_STATUS = 'READABLE'
+          AND AP.ARTIST_ID = #{artistId}
+          AND AP.ID = #{postId}
+    </select>
+
     <update id="update">
         UPDATE TBL_POST
-        SET POST_TITLE       = #{postTitle},
-            POST_SUBTITLE    = #{postSubtitle},
-            POST_CONTENT     = #{postContent},
-            POST_CATEGORY    = #{postCategory},
-            POST_UPDATE_TIME = CURRENT_TIMESTAMP
-        WHERE ID = #{id}
+        SET POST_TITLE    = #{title},
+            POST_SUBTITLE = #{subtitle},
+            POST_CONTENT  = #{content},
+            POST_CATEGORY = #{category},
+            MODIFIED_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{postId}
+          AND ARTIST_ID = #{artistId}
     </update>
 </mapper>

@@ -28,7 +28,7 @@
                 WHERE S.ARTIST_ID = A.ARTIST_ID)  AS SUBSCRIPTION_COUNT,
                (SELECT COUNT(P.ID)
                 FROM TBL_POST P
-                WHERE P.ID = A.ARTIST_ID
+                WHERE P.ARTIST_ID = A.ARTIST_ID
                   AND P.POST_STATUS = 'READABLE') AS POST_COUNT
         FROM TBL_MEMBER M
                  JOIN TBL_ARTIST A on M.ID = A.ARTIST_ID

@@ -3,7 +3,6 @@ package com.app.onestepback.controller.artist;
 import com.app.onestepback.domain.dto.artist.*;
 import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.exception.CustomException;
 import com.app.onestepback.service.artist.ArtistPostService;
 import com.app.onestepback.service.artist.ArtistService;
 import com.app.onestepback.service.artist.VideoPostService;
@@ -12,12 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -108,38 +106,42 @@ public class ArtistController {
                                      Model model) {
         ArtistPostDetailDTO content = artistPostService.getPostDetail(artistId, postId);
 
-        System.out.println("content = " + content);
-
         model.addAttribute("post", content);
         return "artist/post/detail";
     }
 
     @GetMapping("/post/edit")
     public String goToPostEditForm(@RequestParam("postId") Long postId,
-                                   ArtistPostDTO artistPostDTO,
+                                   HttpSession session,
                                    Model model) {
-//        model.addAttribute("post", artistPostService.getPost(id));
-//        model.addAttribute("files", artistPostService.getAllFiles(id));
+        MemberVO member = (MemberVO) session.getAttribute("member");
+
+        model.addAttribute("post", artistPostService.getEditPost(member.getId(), postId));
         return "artist/post/edit";
     }
 
-    @PostMapping("edit")
-    public RedirectView postEditForm(ArtistPostDTO artistPostDTO,
-                                     @RequestParam("numberOfTags") int numberOfTags,
-                                     @RequestParam(value = "uuid", required = false) List<String> uuids,
-                                     @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles) {
-        artistPostService.editPost(artistPostDTO, numberOfTags, uuids, uploadFiles);
+    @PostMapping("/post/edit")
+    public RedirectView postEditForm(ArtistPostEditDTO artistPostEditDTO,
+                                     HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        artistPostEditDTO.setArtistId(member.getId());
 
-        return new RedirectView("/artist/post/detail?id=" + artistPostDTO.getId());
+        try {
+            artistPostService.editPost(artistPostEditDTO);
+        } catch (IOException e) {
+            log.error("아티스트 : {}, 수정오류 발생 : {}", member.getId(), e.getMessage());
+        }
+
+        return new RedirectView("/artist/" + artistPostEditDTO.getArtistId() + "/post/" + artistPostEditDTO.getPostId());
     }
 
-    @PostMapping("delete")
-    public RedirectView erasePost(@RequestParam("id") Long id, HttpSession session) {
-        artistPostService.erasePost(id);
-
+    @PostMapping("/post/delete")
+    public RedirectView erasePost(@RequestParam("postId") Long postId,
+                                  HttpSession session) {
         MemberVO member = (MemberVO) session.getAttribute("member");
 
-        return new RedirectView("/artist/post/list?memberId=" + member.getId());
+        artistPostService.erasePost(postId, member.getId());
+        return new RedirectView("/artist/" + member.getId() +"/posts");
     }
 
     /////////////////////////////////////////////////// video /////////////////////////////////////////////////////////

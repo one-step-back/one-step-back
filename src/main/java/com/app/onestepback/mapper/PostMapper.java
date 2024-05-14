@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PostMapper {
-    public void updateViewCount(Long id);
+    void updateViewCount(Long id);
 
-    public void updateToDelete(Long id);
+    void softDelete(Long postId, Long artistId);
 }

@@ -10,11 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class ArtistPostServiceImpl implements ArtistPostService {
-    private final ArtistDAO artistDAO;
     private final ArtistPostDAO artistPostDAO;
     private final PostTagDAO postTagDAO;
     private final PostFileDAO postFileDAO;
@@ -39,11 +36,6 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     @Override
     public List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination) {
         return artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination);
-    }
-
-    @Override
-    public List<String> getAllTags(Long postId) {
-        return postTagDAO.getAllTags(postId);
     }
 
     @Override
@@ -84,47 +76,73 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void editPost(ArtistPostDTO artistPostDTO, int numberOfTags, List<String> uuids, List<MultipartFile> uploadFiles) {
-        artistPostDAO.editPost(artistPostDTO);
+    public ArtistPostEditDTO getEditPost(Long artistId, Long postId) {
+        ArtistPostEditDTO content = artistPostDAO.getEditPost(artistId, postId).orElseThrow(
+                () -> new NoSuchElementException("해당 게시글을 조회할 수 없음.")
+        );
 
-//        postTagDAO.deletePostTag(artistPostDTO.getId());
-//        for (int i = 1; i <= numberOfTags; i++) {
-//            try {
-//                PostTagVO postTagVO = new PostTagVO();
-//
-//                String tagName = "tag" + i;
-//                Field field = artistPostDTO.getClass().getDeclaredField(tagName);
-//                field.setAccessible(true);
-//
-//                postTagVO.setPostId(artistPostDTO.getId());
-//                postTagVO.setPostTagName((String) field.get(artistPostDTO));
-//
-//                postTagDAO.savePostTag(postTagVO);
-//            } catch (NoSuchFieldException | IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if (uuids != null) {
-//            for (int i = 0; i < uploadFiles.size(); i++) {
-//                PostFileVO postFileVO = new PostFileVO();
-//
-//                postFileVO.setPostId(artistPostDTO.getId());
-//                postFileVO.setFileName(uuids.get(i) + "_" + uploadFiles.get(i).getOriginalFilename());
-//                postFileVO.setFilePath(getPath());
-//
-//                postFileDAO.saveFile(postFileVO);
-//            }
-//        }
+        List<PostFileDTO> imgFiles = postFileDAO.getAllFiles(content.getPostId());
+        content.setFiles(imgFiles);
+
+        return content;
     }
 
     @Override
-    public void erasePost(Long id) {
-        postDAO.erasePost(id);
+    @Transactional(rollbackFor = Exception.class)
+    public void editPost(ArtistPostEditDTO artistPostEditDTO) throws IOException {
+        // post 수정
+        artistPostDAO.editPost(artistPostEditDTO);
+
+        List<String> savedTags = postTagDAO.getAllTags(artistPostEditDTO.getPostId());
+        List<String> tags = artistPostEditDTO.getTags();
+
+        // 새로운 태그 insert
+        List<String> newTags = new ArrayList<>(tags);
+        newTags.removeAll(savedTags);
+
+        List<PostTagVO> saveTagsList = new ArrayList<>();
+
+        for (String newTag : newTags) {
+            PostTagVO postTagVO = PostTagVO.builder()
+                    .postId(artistPostEditDTO.getPostId())
+                    .postTagName(newTag)
+                    .build();
+            saveTagsList.add(postTagVO);
+        }
+        if (!saveTagsList.isEmpty()) {
+            postTagDAO.saveAllTags(saveTagsList);
+        }
+
+        // 삭제되어야 하는 태그 delete
+        List<String> deletedTags = new ArrayList<>(savedTags);
+        deletedTags.removeAll(tags);
+
+        List<PostTagVO> deleteTagList = new ArrayList<>();
+
+        for (String deleteTag : deletedTags) {
+            PostTagVO postTagVO = PostTagVO.builder()
+                    .postId(artistPostEditDTO.getPostId())
+                    .postTagName(deleteTag)
+                    .build();
+            deleteTagList.add(postTagVO);
+        }
+        if (!deleteTagList.isEmpty()) {
+            postTagDAO.deleteAllTags(deleteTagList);
+        }
+
+        // 파일 삭제
+        if (artistPostEditDTO.getDeletedFiles() != null) {
+            postFileDAO.deleteAllFile(artistPostEditDTO.getDeletedFiles());
+        }
+
+        // 파일 추가
+        if (artistPostEditDTO.getNewFiles().stream().anyMatch(file -> file.getSize() > 0)) {
+            postFileService.registerFiles(artistPostEditDTO.getNewFiles(), artistPostEditDTO.getPostId());
+        }
     }
 
-
-    private String getPath() {
-        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    @Override
+    public void erasePost(Long postId, Long artistId) {
+        postDAO.erasePost(postId, artistId);
     }
 }

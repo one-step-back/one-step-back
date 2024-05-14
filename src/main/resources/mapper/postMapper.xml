@@ -7,10 +7,11 @@
         WHERE ID = #{id}
     </update>
 
-    <update id="updateToDelete">
+    <update id="softDelete">
         UPDATE TBL_POST
-        SET POST_READABLE    = 'DISABLE',
-            POST_DELETE_TIME = CURRENT_TIMESTAMP
-        WHERE ID = #{id}
+        SET POST_STATUS   = 'DELETED',
+            MODIFIED_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{postId}
+          AND ARTIST_ID = #{artistId}
     </update>
 </mapper>

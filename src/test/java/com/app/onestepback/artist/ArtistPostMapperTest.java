@@ -13,10 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ArtistPostMapperTest {
     @Autowired
     private ArtistPostMapper artistPostMapper;
-    @Test
-    public void selectAllTest(){
-        artistPostMapper.select3Posts(1L).stream().map(ArtistPostDTO::toString).forEach(log::info);
-    }
 
 //    @Test
 //    public void paginationTest(){
@@ -44,16 +40,4 @@ public class ArtistPostMapperTest {
         artistPostMapper.insertArtistPost(122L);
     }
 
-    @Test
-    public void updatePostTest(){
-        ArtistPostDTO artistPostDTO = new ArtistPostDTO();
-
-        artistPostDTO.setId(141L);
-        artistPostDTO.setPostTitle("게시글 테스트");
-        artistPostDTO.setPostSubtitle("수정을해볼까?");
-        artistPostDTO.setPostContent("수정이 될까?");
-        artistPostDTO.setPostCategory("테스트");
-
-        artistPostMapper.update(artistPostDTO);
-    }
 }
