@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.onestepback.mapper.ArtistPostMapper">
     <select id="selectCountOfPost" resultType="int">
-        SELECT COUNT(MEMBER_ID)
+        SELECT COUNT(ARTIST_ID)
         FROM VIEW_ARTIST_POST
-        WHERE MEMBER_ID = #{memberId}
+        WHERE ARTIST_ID = #{artistId}
           AND POST_STATUS = 'READABLE'
     </select>
 
     <resultMap id="artistPostListResult" type="ArtistPostListDTO">
         <id property="postId" column="ID"/>
-        <result property="artistId" column="MEMBER_ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
         <result property="title" column="POST_TITLE"/>
         <result property="subtitle" column="POST_SUBTITLE"/>
         <result property="content" column="POST_CONTENT"/>
@@ -33,7 +33,7 @@
 
     <select id="selectAll" resultMap="artistPostListResult">
         SELECT P2.ID,
-               P2.MEMBER_ID,
+               P2.ARTIST_ID,
                P2.POST_TITLE,
                P2.POST_SUBTITLE,
                P2.POST_CONTENT,
@@ -52,7 +52,7 @@
                P2.IS_BOOKMARKED
         FROM (SELECT ROWNUM R,
                      P1.ID,
-                     P1.MEMBER_ID,
+                     P1.ARTIST_ID,
                      P1.POST_TITLE,
                      P1.POST_SUBTITLE,
                      P1.POST_CONTENT,
@@ -69,7 +69,7 @@
                      P1.REPLY_COUNT,
                      P1.IS_BOOKMARKED
               FROM (SELECT AP.ID,
-                           AP.MEMBER_ID,
+                           AP.ARTIST_ID,
                            AP.POST_TITLE,
                            AP.POST_SUBTITLE,
                            AP.POST_CONTENT,
@@ -92,9 +92,9 @@
                                ELSE 0
                                END                                                                 AS IS_BOOKMARKED
                     FROM VIEW_ARTIST_POST AP
-                             JOIN TBL_MEMBER M ON M.ID = AP.MEMBER_ID
+                             JOIN TBL_MEMBER M ON M.ID = AP.ARTIST_ID
                              LEFT JOIN TBL_POST_FILE F ON F.POST_ID = AP.ID
-                    WHERE AP.MEMBER_ID = #{artistId}
+                    WHERE AP.ARTIST_ID = #{artistId}
                       AND AP.POST_STATUS = 'READABLE'
                       AND (F.ID = (SELECT MIN(F2.ID)
                                    FROM TBL_POST_FILE F2
@@ -110,9 +110,9 @@
         <selectKey keyProperty="postId" order="BEFORE" resultType="Long">
             SELECT SEQ_POST.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO TBL_POST(ID, MEMBER_ID, POST_TITLE, POST_SUBTITLE, POST_CONTENT, POST_CATEGORY, POST_STATUS,
+        INSERT INTO TBL_POST(ID, ARTIST_ID, POST_TITLE, POST_SUBTITLE, POST_CONTENT, POST_CATEGORY, POST_STATUS,
         CREATED_TIME)
-        VALUES (#{postId}, #{memberId}, #{title}, #{subtitle}, #{content}, #{category}, 'READABLE', CURRENT_TIMESTAMP)
+        VALUES (#{postId}, #{artistId}, #{title}, #{subtitle}, #{content}, #{category}, 'READABLE', CURRENT_TIMESTAMP)
     </insert>
 
     <insert id="insertArtistPost">
@@ -122,7 +122,7 @@
 
     <resultMap id="artistPostDetailMap" type="ArtistPostDetailDTO">
         <id property="postId" column="ID"/>
-        <result property="memberId" column="MEMBER_ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
         <result property="title" column="POST_TITLE"/>
         <result property="subTitle" column="POST_SUBTITLE"/>
         <result property="content" column="POST_CONTENT"/>
@@ -148,7 +148,7 @@
 
     <select id="select" resultMap="artistPostDetailMap">
         SELECT S.ID,
-               S.MEMBER_ID,
+               S.ARTIST_ID,
                S.POST_TITLE,
                S.POST_SUBTITLE,
                S.POST_CONTENT,
@@ -173,7 +173,7 @@
                 FROM VIEW_ARTIST_POST
                 WHERE ID = S.NEXT_POST_ID)     AS NEXT_POST_TITLE
         FROM (SELECT AP.ID,
-                     AP.MEMBER_ID,
+                     AP.ARTIST_ID,
                      AP.POST_TITLE,
                      AP.POST_SUBTITLE,
                      AP.POST_CONTENT,
@@ -187,26 +187,26 @@
                      A.ARTIST_BLOG_NAME,
                      (SELECT COUNT(S.ARTIST_ID)
                       FROM TBL_SUBSCRIPTION S
-                      WHERE S.ARTIST_ID = AP.MEMBER_ID)                                      AS SUBSCRIPTION_COUNT,
+                      WHERE S.ARTIST_ID = AP.ARTIST_ID)                                      AS SUBSCRIPTION_COUNT,
                      AP.POST_VIEW_COUNT,
                      (SELECT COUNT(L.POST_ID) FROM TBL_POST_LIKE L WHERE L.POST_ID = AP.ID)  AS LIKE_COUNT,
                      (SELECT COUNT(R.POST_ID) FROM TBL_POST_REPLY R WHERE R.POST_ID = AP.ID) AS REPLY_COUNT,
                      (SELECT MAX(AP1.ID)
                       FROM VIEW_ARTIST_POST AP1
-                      WHERE AP1.MEMBER_ID = AP.MEMBER_ID
+                      WHERE AP1.ARTIST_ID = AP.ARTIST_ID
                         AND AP1.ID &lt; AP.ID
                         AND AP1.POST_STATUS = 'READABLE')                                    AS PREVIOUS_POST_ID,
                      (SELECT MIN(AP2.ID)
                       FROM VIEW_ARTIST_POST AP2
-                      WHERE AP2.MEMBER_ID = AP.MEMBER_ID
+                      WHERE AP2.ARTIST_ID = AP.ARTIST_ID
                         AND AP2.ID > AP.ID
                         AND AP2.POST_STATUS = 'READABLE')                                    AS NEXT_POST_ID
               FROM VIEW_ARTIST_POST AP
-                       JOIN TBL_MEMBER M ON M.ID = AP.MEMBER_ID
-                       JOIN TBL_ARTIST A ON A.MEMBER_ID = AP.MEMBER_ID
+                       JOIN TBL_MEMBER M ON M.ID = AP.ARTIST_ID
+                       JOIN TBL_ARTIST A ON A.ARTIST_ID = AP.ARTIST_ID
                        LEFT JOIN TBL_POST_TAG T ON T.POST_ID = AP.ID
               WHERE AP.POST_STATUS = 'READABLE'
-                AND AP.MEMBER_ID = #{memberId}
+                AND AP.ARTIST_ID = #{artistId}
                 AND AP.ID = #{postId}) S
     </select>
 

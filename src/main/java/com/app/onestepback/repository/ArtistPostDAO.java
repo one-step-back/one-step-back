@@ -17,12 +17,8 @@ import java.util.Optional;
 public class ArtistPostDAO {
     private final ArtistPostMapper artistPostMapper;
 
-    public int getCountOfPost(Long memberId) {
-        return artistPostMapper.selectCountOfPost(memberId);
-    }
-
-    public List<ArtistPostDTO> get3Posts(Long memberId) {
-        return artistPostMapper.select3Posts(memberId);
+    public int getCountOfPost(Long artistId) {
+        return artistPostMapper.selectCountOfPost(artistId);
     }
 
     public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination) {
@@ -39,14 +35,6 @@ public class ArtistPostDAO {
 
     public Optional<ArtistPostDetailDTO> getPost(Long artistId, Long postId) {
         return artistPostMapper.select(artistId, postId);
-    }
-
-    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO) {
-        return artistPostMapper.selectPrevPost(artistPostDTO);
-    }
-
-    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO) {
-        return artistPostMapper.selectNextPost(artistPostDTO);
     }
 
     public void editPost(ArtistPostDTO artistPostDTO) {

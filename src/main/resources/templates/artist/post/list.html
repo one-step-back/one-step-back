@@ -106,6 +106,10 @@
                                     <p class="text-alpha-black-60 mb-0" th:text="*{description}"></p>
                                 </div>
                             </div>
+                            <th:block th:if="${session.member != null}">
+                                <a th:if="${content.artist.artistId == session.member.id}" class="write-btn"
+                                   href="/artist/post/write">작성하기</a>
+                            </th:block>
                         </section>
                     </div>
                 </div>
@@ -127,7 +131,7 @@
                                         <div>
                                             <div class="post">
                                                 <div class="post-data">
-                                                    <a th:href="@{/artist/{artistId}/post/detail/{postId}(artistId=*{artistId}, postId=*{postId})}">
+                                                    <a th:href="@{/artist/{artistId}/post/{postId}(artistId=*{artistId}, postId=*{postId})}">
                                                         <h3 class="ellipsis-2 text-color-black"></h3>
                                                         <div class="ellipsis-2 text-alpha-black-47">
                                                             <h3 class="ellipsis-2 text-color-black"
@@ -209,7 +213,6 @@
                             <a class="change-page"
                                th:href="|/artist/${artistId}/posts?page=*{startPage - 1}|"
                                th:if="*{startPage > 1}">이전</a>
-                            <a href="" th:text="${...../status.displayName}"></a>
                             <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
                                 <a th:class="${i == content.pagination.page ? 'active' : ''}"
                                    th:href="|/artist/${artistId}/posts?page=${i}|">

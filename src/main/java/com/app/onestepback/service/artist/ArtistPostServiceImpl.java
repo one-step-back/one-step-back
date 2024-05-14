@@ -32,13 +32,6 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final PostFileService postFileService;
 
     @Override
-    public ArtistDetailDTO getArtist(Long memberId) {
-        return artistDAO.getArtist(memberId).orElseThrow(
-                () -> new NoSuchElementException("아티스트 정보를 찾을 수 없음.")
-        );
-    }
-
-    @Override
     public int getPostCount(Long memberId) {
         return artistPostDAO.getCountOfPost(memberId);
     }

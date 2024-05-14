@@ -23,7 +23,7 @@
         <div class="navbar-container">
             <div class="navbar-left">
                 <a class="btn-back" id="post-viewer-header-btn-back"
-                   th:href="|/artist/*{memberId}/post/*{previousPostId}|"
+                   th:href="|/artist/*{artistId}/post/*{previousPostId}|"
                    th:if="*{previousPostId != null}">
                     <i class="fa-chevron-left"></i>
                 </a>
@@ -40,7 +40,7 @@
             </div>
             <div class="navbar-right">
                 <a class="btn-back" id="post-viewer-header-btn-next"
-                   th:href="|/artist/*{memberId}/post/*{nextPostId}|"
+                   th:href="|/artist/*{artistId}/post/*{nextPostId}|"
                    th:if="*{nextPostId != null}">
                     <i class="fa-chevron-right"></i>
                 </a>
@@ -61,7 +61,7 @@
                         <h2 class="post-subtitle6" th:text="*{subTitle}"></h2>
                     </div>
                     <div class="post-meta3">
-                        <a class="profile-avatar" rel="author" th:href="@{/artist/{artistId}(artistId=*{memberId})}">
+                        <a class="profile-avatar" rel="author" th:href="@{/artist/{artistId}(artistId=*{artistId})}">
                             <img class="profile-img6" src="/images/profile/avatar_blank.png"
                                  th:if="*{kakaoProfileUrl == null and profileName == null}">
                             <img class="profile-img6" th:if="*{kakaoProfileUrl != null and profileName == null}"
@@ -72,7 +72,7 @@
                         <div class="media-body">
                             <div class="article-author">
                                 <a class="gray-990 disabled-on-preview" rel="author"
-                                   th:href="@{/artist/{artistId}(artistId=*{memberId})}"
+                                   th:href="@{/artist/{artistId}(artistId=*{artistId})}"
                                    th:text="*{nickname}"></a>
                             </div>
                             <div class="text-gray">
@@ -90,8 +90,8 @@
                                 </span>
                             </div>
                             <th:block th:if="${session.member != null}">
-                                <div class="action-container" th:if="${post.memberId == session.member.id}">
-                                    <a class="edit-container" th:href="@{/artist/post/edit(id=${post.postId})}">
+                                <div class="action-container" th:if="${post.artistId == session.member.id}">
+                                    <a class="edit-container" th:href="@{/artist/post/edit(postId=${post.postId})}">
                                         게시글 수정
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
@@ -140,7 +140,7 @@
 
                             <th:block th:if="*{previousPostId != null}">
                                 <article class="pager-item1">
-                                    <a class="flex-middle" th:href="|/artist/*{memberId}/post/*{previousPostId}|">
+                                    <a class="flex-middle" th:href="|/artist/*{artistId}/post/*{previousPostId}|">
                                         <div class="pager-label">이전글</div>
                                         <div class="media-body7">
                                             <h5 class="pager-title" th:text="*{previousPostTitle}"></h5>
@@ -152,7 +152,7 @@
 
                             <th:block th:if="*{nextPostId != null}">
                                 <article class="pager-item2">
-                                    <a class="flex-middle" th:href="|/artist/*{memberId}/post/*{nextPostId}|">
+                                    <a class="flex-middle" th:href="|/artist/*{artistId}/post/*{nextPostId}|">
                                         <div class="pager-label">다음글</div>
                                         <div class="media-body7">
                                             <h5 class="pager-title" th:text="*{nextPostTitle}"></h5>
@@ -171,7 +171,7 @@
                                     </a>
                                     <div class="media-body">
                                         <h5 class="profile-title98">
-                                            <a class="rich2" th:href="@{/artist/{artistId}(artistId=*{memberId})}"
+                                            <a class="rich2" th:href="@{/artist/{artistId}(artistId=*{artistId})}"
                                                th:text="*{blogName}"></a>
                                         </h5>
                                         <div class="profile-subtitle-gray-600">
@@ -181,7 +181,7 @@
                                         </div>
                                     </div>
                                     <div class="action-group">
-                                        <th:block th:unless="${post.memberId == session.member?.id}">
+                                        <th:block th:unless="${post.artistId == session.member?.id}">
                                             <button class="subscribe4" id="subscription-btn">
                                                 <span class="default-text">구독하기</span>
                                             </button>
