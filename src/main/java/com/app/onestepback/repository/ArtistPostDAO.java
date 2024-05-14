@@ -37,14 +37,6 @@ public class ArtistPostDAO {
         return artistPostMapper.select(artistId, postId);
     }
 
-    public Optional<ArtistPostDTO> getPrevPost(ArtistPostDTO artistPostDTO) {
-        return artistPostMapper.selectPrevPost(artistPostDTO);
-    }
-
-    public Optional<ArtistPostDTO> getNextPost(ArtistPostDTO artistPostDTO) {
-        return artistPostMapper.selectNextPost(artistPostDTO);
-    }
-
     public void editPost(ArtistPostDTO artistPostDTO) {
         artistPostMapper.update(artistPostDTO);
     }

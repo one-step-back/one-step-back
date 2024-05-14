@@ -122,7 +122,7 @@
 
     <resultMap id="artistPostDetailMap" type="ArtistPostDetailDTO">
         <id property="postId" column="ID"/>
-        <result property="memberId" column="MEMBER_ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
         <result property="title" column="POST_TITLE"/>
         <result property="subTitle" column="POST_SUBTITLE"/>
         <result property="content" column="POST_CONTENT"/>
@@ -148,7 +148,7 @@
 
     <select id="select" resultMap="artistPostDetailMap">
         SELECT S.ID,
-               S.MEMBER_ID,
+               S.ARTIST_ID,
                S.POST_TITLE,
                S.POST_SUBTITLE,
                S.POST_CONTENT,
@@ -173,7 +173,7 @@
                 FROM VIEW_ARTIST_POST
                 WHERE ID = S.NEXT_POST_ID)     AS NEXT_POST_TITLE
         FROM (SELECT AP.ID,
-                     AP.MEMBER_ID,
+                     AP.ARTIST_ID,
                      AP.POST_TITLE,
                      AP.POST_SUBTITLE,
                      AP.POST_CONTENT,
@@ -187,26 +187,26 @@
                      A.ARTIST_BLOG_NAME,
                      (SELECT COUNT(S.ARTIST_ID)
                       FROM TBL_SUBSCRIPTION S
-                      WHERE S.ARTIST_ID = AP.MEMBER_ID)                                      AS SUBSCRIPTION_COUNT,
+                      WHERE S.ARTIST_ID = AP.ARTIST_ID)                                      AS SUBSCRIPTION_COUNT,
                      AP.POST_VIEW_COUNT,
                      (SELECT COUNT(L.POST_ID) FROM TBL_POST_LIKE L WHERE L.POST_ID = AP.ID)  AS LIKE_COUNT,
                      (SELECT COUNT(R.POST_ID) FROM TBL_POST_REPLY R WHERE R.POST_ID = AP.ID) AS REPLY_COUNT,
                      (SELECT MAX(AP1.ID)
                       FROM VIEW_ARTIST_POST AP1
-                      WHERE AP1.MEMBER_ID = AP.MEMBER_ID
+                      WHERE AP1.ARTIST_ID = AP.ARTIST_ID
                         AND AP1.ID &lt; AP.ID
                         AND AP1.POST_STATUS = 'READABLE')                                    AS PREVIOUS_POST_ID,
                      (SELECT MIN(AP2.ID)
                       FROM VIEW_ARTIST_POST AP2
-                      WHERE AP2.MEMBER_ID = AP.MEMBER_ID
+                      WHERE AP2.ARTIST_ID = AP.ARTIST_ID
                         AND AP2.ID > AP.ID
                         AND AP2.POST_STATUS = 'READABLE')                                    AS NEXT_POST_ID
               FROM VIEW_ARTIST_POST AP
-                       JOIN TBL_MEMBER M ON M.ID = AP.MEMBER_ID
-                       JOIN TBL_ARTIST A ON A.MEMBER_ID = AP.MEMBER_ID
+                       JOIN TBL_MEMBER M ON M.ID = AP.ARTIST_ID
+                       JOIN TBL_ARTIST A ON A.ARTIST_ID = AP.ARTIST_ID
                        LEFT JOIN TBL_POST_TAG T ON T.POST_ID = AP.ID
               WHERE AP.POST_STATUS = 'READABLE'
-                AND AP.MEMBER_ID = #{memberId}
+                AND AP.ARTIST_ID = #{artistId}
                 AND AP.ID = #{postId}) S
     </select>
 

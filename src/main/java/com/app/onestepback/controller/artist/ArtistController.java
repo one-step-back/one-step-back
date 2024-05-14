@@ -67,6 +67,8 @@ public class ArtistController {
         content.put("posts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
         content.put("pagination", pagination);
 
+        System.out.println("content = " + content);
+
         model.addAttribute("content", content);
         return "artist/post/list";
     }
@@ -112,8 +114,10 @@ public class ArtistController {
         return "artist/post/detail";
     }
 
-    @GetMapping("/{artistId}/post/edit")
-    public String goToPostEditForm(@RequestParam("id") Long id, ArtistPostDTO artistPostDTO, Model model) {
+    @GetMapping("/post/edit")
+    public String goToPostEditForm(@RequestParam("postId") Long postId,
+                                   ArtistPostDTO artistPostDTO,
+                                   Model model) {
 //        model.addAttribute("post", artistPostService.getPost(id));
 //        model.addAttribute("files", artistPostService.getAllFiles(id));
         return "artist/post/edit";

@@ -16,7 +16,7 @@ public interface ArtistPostMapper {
     int selectCountOfPost(Long artistId);
 
     //    포스트 리스트 출력 (페이지네이션)
-    public List<ArtistPostListDTO> selectAll(Long artistId, Long viewerId, Pagination pagination);
+    List<ArtistPostListDTO> selectAll(Long artistId, Long viewerId, Pagination pagination);
 
     //    포스트 작성
     void insertPost(ArtistPostRegisterDTO artistPostRegisterDTO);
@@ -24,13 +24,7 @@ public interface ArtistPostMapper {
     //    포스트 종류 추가(아티스트 포스트)
     void insertArtistPost(Long postId);
 
-//    public ArtistPostDTO select(Long id);
+    Optional<ArtistPostDetailDTO> select(Long artistId, Long postId);
 
-    Optional<ArtistPostDetailDTO> select(Long memberId, Long postId);
-
-    public Optional<ArtistPostDTO> selectPrevPost(ArtistPostDTO artistPostDTO);
-
-    public Optional<ArtistPostDTO> selectNextPost(ArtistPostDTO artistPostDTO);
-
-    public void update(ArtistPostDTO artistPostDTO);
+    void update(ArtistPostDTO artistPostDTO);
 }

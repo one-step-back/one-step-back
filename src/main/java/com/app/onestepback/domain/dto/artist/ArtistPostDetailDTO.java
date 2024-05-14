@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ArtistPostDetailDTO {
     private Long postId;
-    private Long memberId;
+    private Long artistId;
     private String title;
     private String subTitle;
     private String content;
