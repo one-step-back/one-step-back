@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface VideoPostService {
 
-    ArtistDetailDTO getArtist(Long memberId);
-
     public int getPostCount(Long memberId);
 
     public List<VideoPostDTO> getAllVideos(Long memberId, Pagination pagination);

@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.onestepback.mapper.ArtistMapper">
-    <select id="select" resultType="artistDetailDTO">
-        SELECT A.MEMBER_ID                        AS ARTIST_ID,
+    <select id="selectById" resultType="artistVO">
+        SELECT ARTIST_ID,
+               ARTIST_BLOG_NAME,
+               ARTIST_DESCRIPTION,
+               BLOG_IMG_NAME,
+               BLOG_IMG_PATH,
+               CREATED_TIME,
+               MODIFIED_TIME
+        FROM TBL_ARTIST
+        WHERE ARTIST_ID = #{artistId}
+    </select>
+
+    <select id="selectDetail" resultType="artistDetailDTO">
+        SELECT A.ARTIST_ID,
                M.MEMBER_NICKNAME                  AS NICKNAME,
                M.MEMBER_KAKAO_PROFILE_URL         AS KAKAO_PROFILE_URL,
                M.MEMBER_PROFILE_NAME              AS PROFILE_NAME,
@@ -13,14 +25,14 @@
                A.BLOG_IMG_PATH,
                (SELECT COUNT(S.ARTIST_ID)
                 FROM TBL_SUBSCRIPTION S
-                WHERE S.ARTIST_ID = A.MEMBER_ID)  AS SUBSCRIPTION_COUNT,
+                WHERE S.ARTIST_ID = A.ARTIST_ID)  AS SUBSCRIPTION_COUNT,
                (SELECT COUNT(P.ID)
                 FROM TBL_POST P
-                WHERE P.ID = A.MEMBER_ID
+                WHERE P.ID = A.ARTIST_ID
                   AND P.POST_STATUS = 'READABLE') AS POST_COUNT
         FROM TBL_MEMBER M
-                 JOIN TBL_ARTIST A on M.ID = A.MEMBER_ID
-        WHERE A.MEMBER_ID = #{artistId}
+                 JOIN TBL_ARTIST A on M.ID = A.ARTIST_ID
+        WHERE A.ARTIST_ID = #{artistId}
     </select>
 
     <select id="selectId" resultType="Long">

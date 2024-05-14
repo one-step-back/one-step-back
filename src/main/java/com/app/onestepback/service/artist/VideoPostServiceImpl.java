@@ -24,13 +24,6 @@ public class VideoPostServiceImpl implements VideoPostService {
     private final PostDAO postDAO;
 
     @Override
-    public ArtistDetailDTO getArtist(Long memberId) {
-        return artistDAO.getArtist(memberId).orElseThrow(
-                () -> new NoSuchElementException("아티스트 정보를 찾을 수 없음")
-        );
-    }
-
-    @Override
     public int getPostCount(Long memberId) {
         return videoPostDAO.getCountOfVideo(memberId);
     }

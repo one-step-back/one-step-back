@@ -17,12 +17,8 @@ import java.util.Optional;
 public class ArtistPostDAO {
     private final ArtistPostMapper artistPostMapper;
 
-    public int getCountOfPost(Long memberId) {
-        return artistPostMapper.selectCountOfPost(memberId);
-    }
-
-    public List<ArtistPostDTO> get3Posts(Long memberId) {
-        return artistPostMapper.select3Posts(memberId);
+    public int getCountOfPost(Long artistId) {
+        return artistPostMapper.selectCountOfPost(artistId);
     }
 
     public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination) {

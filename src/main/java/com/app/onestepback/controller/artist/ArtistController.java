@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @Slf4j
@@ -37,7 +38,7 @@ public class ArtistController {
         Pagination pagination = new Pagination(1, 3, 3);
         HashMap<String, Object> content = new HashMap<>();
 
-        content.put("artist", artistService.getArtist(artistId));
+        content.put("artist", artistService.getArtistDetail(artistId));
         content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
 
         model.addAttribute("content", content);
@@ -46,7 +47,7 @@ public class ArtistController {
 
     @GetMapping("/{artistId}/sponsor")
     public String goToSponsorPage(@PathVariable("artistId") Long artistId, Model model) {
-        model.addAttribute("artist", artistService.getArtist(artistId));
+        model.addAttribute("artist", artistService.getArtistDetail(artistId));
 
         return "artist/sponsor";
     }
@@ -57,15 +58,14 @@ public class ArtistController {
                                @RequestParam(value = "page", required = false) Integer page,
                                HttpSession session,
                                Model model) {
-        MemberVO memberSession = (MemberVO) session.getAttribute("member");
-        Long viewerId = memberSession != null ? memberSession.getId() : 0;
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        Long viewerId = member != null ? member.getId() : 0;
         Pagination pagination = new Pagination(page, 10, artistPostService.getPostCount(artistId));
         HashMap<String, Object> content = new HashMap<>();
 
-        content.put("artist", artistService.getArtist(artistId));
+        content.put("artist", artistService.getArtistDetail(artistId));
         content.put("posts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
         content.put("pagination", pagination);
-        System.out.println("content = " + content);
 
         model.addAttribute("content", content);
         return "artist/post/list";
@@ -75,27 +75,29 @@ public class ArtistController {
     public String goToPostWriteForm(@ModelAttribute ArtistPostRegisterDTO artistPostRegisterDTO,
                                     HttpSession session,
                                     Model model) {
-        MemberVO memberSession = (MemberVO) session.getAttribute("member");
+        MemberVO member = (MemberVO) session.getAttribute("member");
 
-        model.addAttribute("memberId", memberSession.getId());
+        if (!artistService.checkArtistExist(member.getId())) {
+            throw new NoSuchElementException("해당 유저는 아티스트임을 조회 할 수 없음");
+        }
+
         return "/artist/post/write";
     }
 
     @PostMapping("/post/write")
     public String saveArtistPost(ArtistPostRegisterDTO artistPostRegisterDTO,
                                  HttpSession session) {
-
-        MemberVO memberSession = (MemberVO) session.getAttribute("member");
-        artistPostRegisterDTO.setMemberId(memberSession.getId());
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        artistPostRegisterDTO.setArtistId(member.getId());
 
         try {
             artistPostService.savePost(artistPostRegisterDTO);
         } catch (Exception e) {
-            log.error("아티스트 {}, 게시글 작성 오류 : {}", memberSession.getId(), e.getMessage());
-            return "/artist/" + memberSession.getId() + "/post/write";
+            log.error("아티스트 {}, 게시글 작성 오류 : {}", member.getId(), e.getMessage());
+            return "/artist/" + member.getId() + "/post/write";
         }
 
-        return "redirect:/artist/" + memberSession.getId() + "/post/" + artistPostRegisterDTO.getPostId();
+        return "redirect:/artist/" + member.getId() + "/post/" + artistPostRegisterDTO.getPostId();
     }
 
     @GetMapping("/{artistId}/post/{postId}")
@@ -141,7 +143,7 @@ public class ArtistController {
     public void goToVideoList(@PathVariable("artistId") Long artistId,
                               @RequestParam(value = "page", required = false) Integer page,
                               Model model) {
-        model.addAttribute("artist", videoPostService.getArtist(artistId));
+//        model.addAttribute("artist", videoPostService.getArtist(artistId));
 
         Pagination pagination = new Pagination(page, 10, videoPostService.getPostCount(artistId));
         model.addAttribute("pagination", pagination);

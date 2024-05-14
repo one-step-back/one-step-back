@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ArtistPostService {
-    ArtistDetailDTO getArtist(Long memberId);
-
     int getPostCount(Long memberId);
 
     List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination);
