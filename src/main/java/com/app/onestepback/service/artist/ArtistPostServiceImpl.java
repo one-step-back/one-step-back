@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -35,7 +37,13 @@ public class ArtistPostServiceImpl implements ArtistPostService {
 
     @Override
     public List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination) {
-        return artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination);
+        List<ArtistPostListDTO> contents = artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination);
+
+        contents.forEach(content -> {
+             content.setTimeGap(getTimeGap(content.getWriteTime()));
+        });
+
+        return contents;
     }
 
     @Override
@@ -61,11 +69,11 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    public ArtistPostDetailDTO getPostDetail(Long artistId, Long postId) {
+    public ArtistPostDetailDTO getPostDetail(Long artistId, Long postId, Long viewerId) {
         // tag들은 leftJoin의 결과물로 가져왔지만 postFile까지 leftJoin하게 될 경우 카르테시안곱에 의해
         // 결과가 배로 늘어날 수 있다. 이는 성능 결과에 매우 치명적일 수 있음.
         // todo : 두개의 독립 쿼리를 날리는 것과 결과가 많이 나타나는 카르테시안곱 중 어떤 것이 더욱 효과적일지 테스트 할 필요성이 있음.
-        ArtistPostDetailDTO content = artistPostDAO.getPost(artistId, postId).orElseThrow(
+        ArtistPostDetailDTO content = artistPostDAO.getPost(artistId, postId, viewerId).orElseThrow(
                 () -> new NoSuchElementException("게시글을 찾을 수 없음")
         );
 
@@ -144,5 +152,27 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     @Override
     public void erasePost(Long postId, Long artistId) {
         postDAO.erasePost(postId, artistId);
+    }
+
+    private String getTimeGap(LocalDateTime time) {
+        LocalDateTime now = LocalDateTime.now();
+        long gap = ChronoUnit.SECONDS.between(time, now);
+
+        if (gap < 60) {
+            return "방금 전";
+        }
+        if (gap < 3600) {
+            return String.format("%d분 전", gap / 60);
+        }
+        if (gap < 86400) {
+            return String.format("%d시간 전", gap / 3600);
+        }
+        if (gap < 2678400) {
+            return String.format("%d일 전", gap / 86400);
+        }
+        if (gap < 32140800) {
+            return String.format("%d개월 전", gap / 2678400);
+        }
+        return String.format("%d년 전", gap / 32140800);
     }
 }

@@ -11,7 +11,7 @@ public interface MemberService {
     public void join(MemberVO memberVO, Long id);
 
     //    ID로 계정 조회
-    public MemberVO findById(Long id);
+    MemberVO findById(Long id);
 
     //    이메일로 계정 조회
     public Optional<MemberVO> findByEmail(String memberEmail);

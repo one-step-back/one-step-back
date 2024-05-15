@@ -735,7 +735,12 @@
     margin-right: 16px;
 }
 
-.active-like {
+.like-btn > i {
+    display: none;
+}
+
+.like-btn > .active {
+    display: block;
     color: #ff3445;
 }
 
@@ -743,25 +748,17 @@
     color: #3478ff;
 }
 
-.like-btn:not(.active) .active-like {
-    display: none;
-}
-
-.like-btn.active .default-like {
-    display: none;
-}
-
 .bookmark-btn {
     cursor: pointer;
     margin-right: 16px;
 }
 
-.bookmark-btn:not(.active) .active-bookmark {
+.bookmark-btn > i {
     display: none;
 }
 
-.bookmark-btn.active .default-bookmark {
-    display: none;
+.bookmark-btn > .active {
+    display: block;
 }
 
 .img-list {

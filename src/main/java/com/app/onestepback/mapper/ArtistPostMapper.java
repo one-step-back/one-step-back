@@ -21,7 +21,7 @@ public interface ArtistPostMapper {
     //    포스트 종류 추가(아티스트 포스트)
     void insertArtistPost(Long postId);
 
-    Optional<ArtistPostDetailDTO> select(Long artistId, Long postId);
+    Optional<ArtistPostDetailDTO> select(Long artistId, Long postId, Long viewerId);
 
     Optional<ArtistPostEditDTO> selectToEditDTO(Long artistId, Long postId);
 

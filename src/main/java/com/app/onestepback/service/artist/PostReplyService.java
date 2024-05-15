@@ -1,15 +1,17 @@
 package com.app.onestepback.service.artist;
 
+import com.app.onestepback.domain.dto.reply.PostReplyDTO;
+import com.app.onestepback.domain.dto.reply.PostReplyWriteDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.dto.PostReplyDTO;
 import com.app.onestepback.domain.vo.PostReplyVO;
 
 import java.util.List;
 
 public interface PostReplyService {
 
-    public int getReplyCount(Long postId);
-    public List<PostReplyDTO> getAllReplies(Long postId, Pagination pagination);
+    int getReplyCount(Long postId);
 
-    public void saveReply(PostReplyVO postReplyVO);
+    List<PostReplyDTO> getAllReplies(Long postId, Pagination pagination);
+
+    void saveReply(PostReplyWriteDTO postReplyWriteDTO);
 }

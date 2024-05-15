@@ -16,11 +16,11 @@ public class PostLikeDAO {
         return postLikeMapper.select(postLikeVO);
     }
 
-    public void saveLike(PostLikeVO postLikeVO){
-        postLikeMapper.insert(postLikeVO);
+    public void saveLike(Long postId, Long memberId){
+        postLikeMapper.insert(postId, memberId);
     }
 
-    public void eraseLike(PostLikeVO postLikeVO){
-        postLikeMapper.delete(postLikeVO);
+    public void eraseLike(Long postId, Long memberId){
+        postLikeMapper.delete(postId, memberId);
     }
 }

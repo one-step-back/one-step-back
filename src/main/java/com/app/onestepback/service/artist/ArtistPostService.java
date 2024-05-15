@@ -14,7 +14,7 @@ public interface ArtistPostService {
 
     void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException;
 
-    ArtistPostDetailDTO getPostDetail(Long artistId, Long postId);
+    ArtistPostDetailDTO getPostDetail(Long artistId, Long postId, Long viewerId);
 
     ArtistPostEditDTO getEditPost(Long artistId, Long postId);
 

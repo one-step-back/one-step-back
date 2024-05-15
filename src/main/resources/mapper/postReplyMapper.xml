@@ -8,36 +8,41 @@
     </select>
 
     <select id="selectAll" resultType="postReplyDTO">
-        SELECT P2.POST_ID,
+        SELECT P2.REPLY_ID,
                P2.MEMBER_ID,
-               P2.REPLY_CONTENT,
-               P2.REPLY_WRITE_TIME,
-               P2.REPLY_UPDATE_TIME,
-               P2.MEMBER_NICKNAME,
-               P2.MEMBER_KAKAO_PROFILE_URL,
-               P2.MEMBER_PROFILE_NAME,
-               P2.MEMBER_PROFILE_PATH
-        FROM (SELECT ROWNUM R, P1.*
-              FROM (SELECT R.ID,
-                           R.POST_ID,
-                           R.MEMBER_ID,
-                           R.REPLY_CONTENT,
-                           R.REPLY_WRITE_TIME,
-                           R.REPLY_UPDATE_TIME,
-                           M.MEMBER_NICKNAME,
-                           M.MEMBER_KAKAO_PROFILE_URL,
-                           M.MEMBER_PROFILE_NAME,
-                           M.MEMBER_PROFILE_PATH
+               P2.CONTENT,
+               P2.CREATED_TIME,
+               P2.NICKNAME,
+               P2.KAKAO_PROFILE_URL,
+               P2.PROFILE_NAME,
+               P2.PROFILE_PATH
+        FROM (SELECT ROWNUM R,
+                     P1.REPLY_ID,
+                     P1.MEMBER_ID,
+                     P1.CONTENT,
+                     P1.CREATED_TIME,
+                     P1.NICKNAME,
+                     P1.KAKAO_PROFILE_URL,
+                     P1.PROFILE_NAME,
+                     P1.PROFILE_PATH
+              FROM (SELECT R.ID                       AS REPLY_ID,
+                           R.MEMBER_ID                AS MEMBER_ID,
+                           R.REPLY_CONTENT            AS CONTENT,
+                           R.CREATED_TIME             AS CREATED_TIME,
+                           M.MEMBER_NICKNAME          AS NICKNAME,
+                           M.MEMBER_KAKAO_PROFILE_URL AS KAKAO_PROFILE_URL,
+                           M.MEMBER_PROFILE_NAME      AS PROFILE_NAME,
+                           M.MEMBER_PROFILE_PATH      AS PROFILE_PATH
                     FROM TBL_POST_REPLY R
                              JOIN TBL_MEMBER M ON R.MEMBER_ID = M.ID
                     WHERE POST_ID = #{postId}
-                    ORDER BY REPLY_WRITE_TIME DESC) P1
+                    ORDER BY CREATED_TIME DESC) P1
               WHERE ROWNUM &lt;= #{pagination.endRow}) P2
         WHERE P2.R >= #{pagination.startRow}
     </select>
 
     <insert id="insert">
-        INSERT INTO TBL_POST_REPLY(ID, POST_ID, MEMBER_ID, REPLY_CONTENT, REPLY_WRITE_TIME)
-        VALUES (SEQ_REPLY.NEXTVAL, #{postId}, #{memberId}, #{replyContent}, CURRENT_TIMESTAMP)
+        INSERT INTO TBL_POST_REPLY(ID, POST_ID, MEMBER_ID, REPLY_CONTENT, CREATED_TIME)
+        VALUES (SEQ_POST_REPLY.NEXTVAL, #{postId}, #{memberId}, #{content}, CURRENT_TIMESTAMP)
     </insert>
 </mapper>

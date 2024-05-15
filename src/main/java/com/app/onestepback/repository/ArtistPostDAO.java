@@ -30,8 +30,8 @@ public class ArtistPostDAO {
         artistPostMapper.insertArtistPost(postId);
     }
 
-    public Optional<ArtistPostDetailDTO> getPost(Long artistId, Long postId) {
-        return artistPostMapper.select(artistId, postId);
+    public Optional<ArtistPostDetailDTO> getPost(Long artistId, Long postId, Long viewerId) {
+        return artistPostMapper.select(artistId, postId, viewerId);
     }
 
     public Optional<ArtistPostEditDTO> getEditPost(Long artistId, Long postId) {

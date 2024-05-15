@@ -30,6 +30,6 @@
         <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistPostEditDTO" alias="artistPostEditDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.SubscriptionDTO" alias="subscriptionDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.VideoPostDTO" alias="videoPostDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.PostReplyDTO" alias="postReplyDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.reply.PostReplyDTO" alias="postReplyDTO"/>
     </typeAliases>
 </configuration>

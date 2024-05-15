@@ -1,7 +1,8 @@
 package com.app.onestepback.repository;
 
+import com.app.onestepback.domain.dto.reply.PostReplyDTO;
+import com.app.onestepback.domain.dto.reply.PostReplyWriteDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.dto.PostReplyDTO;
 import com.app.onestepback.domain.vo.PostReplyVO;
 import com.app.onestepback.mapper.PostReplyMapper;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +15,15 @@ import java.util.List;
 public class PostReplyDAO {
     private final PostReplyMapper postReplyMapper;
 
-    public int getReplyCount(Long postId){
+    public int getReplyCount(Long postId) {
         return postReplyMapper.selectCountOfReplies(postId);
     }
 
-    public List<PostReplyDTO> getAllReplies(Long postId, Pagination pagination){
+    public List<PostReplyDTO> getAllReplies(Long postId, Pagination pagination) {
         return postReplyMapper.selectAll(postId, pagination);
     }
 
-    public void saveReply(PostReplyVO postReplyVO){
-        postReplyMapper.insert(postReplyVO);
+    public void saveReply(PostReplyWriteDTO postReplyWriteDTO) {
+        postReplyMapper.insert(postReplyWriteDTO);
     }
 }

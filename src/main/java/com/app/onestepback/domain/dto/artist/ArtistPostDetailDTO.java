@@ -32,6 +32,10 @@ public class ArtistPostDetailDTO {
     private int likeCount;
     private int replyCount;
 
+    private boolean isSubscribed;
+    private boolean isLiked;
+    private boolean isBookmarked;
+
     private Long previousPostId;
     private String previousPostTitle;
     private Long nextPostId;

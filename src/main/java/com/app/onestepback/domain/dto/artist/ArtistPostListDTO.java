@@ -18,6 +18,7 @@ public class ArtistPostListDTO {
     private String content;
     private String category;
     private LocalDateTime writeTime;
+    private String timeGap;
 
     // 사진은 ID순 맨 첫번째꺼 하나
     private String fileName;

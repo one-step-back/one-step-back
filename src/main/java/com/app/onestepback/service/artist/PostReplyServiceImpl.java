@@ -1,13 +1,14 @@
 package com.app.onestepback.service.artist;
 
+import com.app.onestepback.domain.dto.reply.PostReplyDTO;
+import com.app.onestepback.domain.dto.reply.PostReplyWriteDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.dto.PostReplyDTO;
-import com.app.onestepback.domain.vo.PostReplyVO;
 import com.app.onestepback.repository.PostReplyDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostReplyServiceImpl implements PostReplyService {
@@ -24,7 +25,7 @@ public class PostReplyServiceImpl implements PostReplyService {
     }
 
     @Override
-    public void saveReply(PostReplyVO postReplyVO) {
-        postReplyDAO.saveReply(postReplyVO);
+    public void saveReply(PostReplyWriteDTO postReplyWriteDTO) {
+        postReplyDAO.saveReply(postReplyWriteDTO);
     }
 }
