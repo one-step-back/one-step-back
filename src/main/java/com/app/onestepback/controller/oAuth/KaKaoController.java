@@ -31,11 +31,12 @@ public class KaKaoController {
             }
             memberService.join(foundInfo.get(), id);
             MemberVO memberVO = memberService.findByEmail(foundInfo.get().getMemberEmail()).get();
-            if ("DISABLE".equals(memberVO.getMemberStatus())) {
-                memberService.cancelWithdraw(memberVO.getId());
-                memberVO.setMemberStatus("ACTIVE");
-                redirectAttributes.addFlashAttribute("withdraw", false);
-            }
+            // 멤버스테이터스 검증 부분 수정해주셔야 합니다.
+//            if ("DISABLE".equals(memberVO.getMemberStatus())) {
+//                memberService.cancelWithdraw(memberVO.getId());
+//                memberVO.setMemberStatus("ACTIVE");
+//                redirectAttributes.addFlashAttribute("withdraw", false);
+//            }
             session.setAttribute("member", memberVO);
             if (memberService.checkArtist(memberVO.getId()).isPresent()){
                 session.setAttribute("artistId", memberVO.getId());

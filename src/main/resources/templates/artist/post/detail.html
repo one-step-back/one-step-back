@@ -212,16 +212,16 @@
                                     <div class="comment-list">
                                         <div class="comments">
                                             <div class="comment-customize-form">
-                                                <textarea class="form-control autosize" id="reply" name="text"
+                                                <textarea class="form-control autosize" id="replyTextarea"
                                                           style="overflow: hidden; overflow-wrap: break-word; height: 40px; resize: none; overflow-y: auto"></textarea>
                                                 <div class="brand-icons">
                                                     <button class="btn btn-strong btn-login btn-create-comment"
-                                                            id="send">댓글
-                                                        남기기
+                                                            id="submitReply">
+                                                        댓글 남기기
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div id="reply-wrap"></div>
+                                            <div id="replyWrap"></div>
                                             <button class="more-btn" type="button">댓글 더보기</button>
                                         </div>
                                     </div>
@@ -237,13 +237,15 @@
 </div>
 </body>
 <script th:inline="javascript">
-    console.log([[${post}]]);
+    const postId = parseInt([[${post.postId}]]);
+    const replyCount = parseInt([[${post.replyCount}]]);
 </script>
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script th:src="@{/js/artist/post/detail.js}"></script>
 <script th:src="@{/js/artist/subscribe.js}" type="module"></script>
 <script th:src="@{/js/artist/like.js}" type="module"></script>
 <script th:src="@{/js/artist/post/bookmark.js}" type="module"></script>
+<script th:src="@{/js/artist/replyLoader.js}" type="module"></script>
+<script th:src="@{/js/artist/replyRegister.js}" type="module"></script>
 
 </html>
