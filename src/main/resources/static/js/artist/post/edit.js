@@ -87,7 +87,6 @@ $("#summit-deletion").click(() => {
 });
 
 $("#img-input").on("change", function (e) {
-    let formData = new FormData();
     let files = Array.from(e.target.files);
 
     $("#image-wrap").empty();

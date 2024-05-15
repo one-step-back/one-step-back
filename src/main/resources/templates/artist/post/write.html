@@ -29,7 +29,7 @@
         <form class="mt-[32px]" enctype="multipart/form-data" id="summit-form" method="post"
               th:action="@{/artist/post/write}"
               th:object="${artistPostRegisterDTO}">
-            <div id="tags"></div>
+            <div id="tagInputs"></div>
             <div class="grid grid-cols-15 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto">
                 <section class="col-span-10">
                     <div class="mb-[14px]">
@@ -53,7 +53,7 @@
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
 
-                                            <textarea class="placeholder:font_body_regular_md" cols="30" id="post-content"
+                                            <textarea class="placeholder:font_body_regular_md" cols="30" id="content"
                                                       name=""
                                                       placeholder="내용을 입력해주세요." rows="10" th:field="*{content}"></textarea>
 
@@ -162,157 +162,7 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="/js/artist/blog-header.js"></script>
-<script th:inline="javascript">
-    $(function () {
-        let numberOfTags = 0;
-        const modal = $("#modal");
+<script th:src="@{/js/artist/blog-header.js}"></script>
+<script th:src="@{/js/artist/post/write.js}"></script>
 
-        $("#id").val([[${memberId}]]);
-
-        $("#popover-on-btn").click(() => {
-            // 제목, 부제목, 내용, 카테고리 input 요소에 접근
-            var postTitleInput = $("#postTitle");
-            var postSubtitleInput = $("#postSubtitle");
-            var postContentInput = $("#post-content");
-            var postCategoryInput = $("#postCategory");
-
-            // 값이 비어있는지 확인
-            if (postTitleInput.val() === "") {
-                alert("제목을 입력해 주세요.");
-                return;
-            }
-            if (postSubtitleInput.val() === "") {
-                alert("부제목을 입력해 주세요.");
-                return;
-            }
-            if (postContentInput.val() === "") {
-                alert("내용을 입력해 주세요.");
-                return;
-            }
-            if (postCategoryInput.val() === "") {
-                alert("카테고리를 입력해 주세요.");
-                return;
-            }
-
-            modal.css("display", "block");
-        });
-
-        $("#modal-cancel").click(() => {
-            modal.css("display", "none")
-        })
-
-        $("#tag-input").on("input", function () {
-            const inputValue = $(this).val();
-            const sanitizedValue = sanitizeInput(inputValue);
-            $(this).val(sanitizedValue);
-        });
-
-
-        $("#tag-input").on("keydown", function (event) {
-            if (event.key === "Enter") {
-                let tagValue = $(this).val().trim();
-                const tagWrap = $("#tag-wrap");
-                const tags = $("#tags");
-
-                if (tagValue !== "") {
-                    const tagCount = tagWrap.find(".tag-container").length;
-                    if (tagCount >= 5) {
-                        alert("태그는 최대 5개까지 작성 가능합니다.");
-                        return;
-                    }
-
-                    tagValue = tagValue.replace(/ /g, "_");
-
-                    let isDuplicate = false;
-                    tagWrap.find(".tag-container").each(function () {
-                        if ($(this).text() === tagValue) {
-                            isDuplicate = true;
-                            return false;
-                        }
-                    });
-
-                    if (isDuplicate) {
-                        alert("이미 추가된 태그입니다.");
-                        return;
-                    }
-
-
-                    let tagContainer = `<div class="tag-container">${tagValue}<i class="fa-solid fa-x"></i></div>`;
-                    let tagInput = `<input type="hidden" name="tags" value="${tagValue}">`;
-
-                    numberOfTags++;
-
-                    tagWrap.append(tagContainer);
-                    tags.append(tagInput);
-
-                    $(this).val("");
-                }
-            }
-        });
-
-        $("#tag-wrap").on("click", ".tag-container i", function () {
-            const deletedTag = $(this).parent().text().trim();
-            $(this).parent().remove();
-            numberOfTags--;
-
-            $("#tags input").each(function () {
-                const tagIndex = parseInt($(this).attr("name").match(/\[(\d+)\]/)[1]);
-                if (tagIndex > deletedTagIndex) {
-                    $(this).attr("name", `tags[${tagIndex - 1}]`);
-                }
-            });
-        });
-
-        $("#img-input").on("change", function (e) {
-            let formData = new FormData();
-            let files = Array.from(e.target.files);
-
-            $("#image-wrap").empty();
-
-            files.forEach(file => {
-                let reader = new FileReader();
-
-                reader.onload = (e) => {
-                    let imageHtml =
-                        `<div class="image-item">
-                            <img src="${e.target.result}">
-                         </div>`;
-
-                    $("#image-wrap").append(imageHtml);
-                }
-                reader.readAsDataURL(file);
-            });
-
-            $("#no-image").addClass('none');
-        })
-
-        $("#erase-imgs").click(() => {
-            $("#image-wrap").empty();
-            $("#img-container input[name='uuid']").remove();
-            $("#no-image").removeClass('none');
-        })
-
-        let doubleSubmitFlag = false;
-
-        function doubleSubmitCheck() {
-            if (doubleSubmitFlag) {
-                return doubleSubmitFlag;
-            } else {
-                doubleSubmitFlag = true;
-                return false;
-            }
-        }
-
-        $("#summit-btn").click(() => {
-            if (doubleSubmitCheck()) return;
-            $("#summit-form").submit();
-        });
-    });
-
-    function sanitizeInput(input) {
-        return input.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/g, "");
-    }
-
-</script>
 </html>

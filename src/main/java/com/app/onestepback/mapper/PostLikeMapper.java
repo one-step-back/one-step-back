@@ -7,9 +7,9 @@ import java.util.Optional;
 
 @Mapper
 public interface PostLikeMapper {
-    public Optional<PostLikeVO> select(PostLikeVO postLikeVO);
+    Optional<PostLikeVO> select(PostLikeVO postLikeVO);
 
-    public void insert(PostLikeVO postLikeVO);
+    void insert(Long postId, Long memberId);
 
-    public void delete(PostLikeVO postLikeVO);
+    void delete(Long postId, Long memberId);
 }

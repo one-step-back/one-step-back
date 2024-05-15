@@ -255,70 +255,7 @@
     let tagCount = [[${post.tags}]].length;
 </script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="/js/artist/blog-header.js"></script>
+<script th:src="@{/js/artist/blog-header.js}"></script>
 <script th:src="@{/js/artist/post/edit.js}" type="module"></script>
-<!--<script th:inline="javascript">-->
-<!--    const imageWrap = $("#image-wrap")-->
-<!--    const tagWrap = $("#tag-wrap");-->
-<!--    const tags = $("#tags");-->
-<!--    let numberOfTags = 0;-->
 
-<!--    $(function () {-->
-<!--        const modal = $("#modal");-->
-<!--        const postForm = $("#post-form");-->
-<!--        const reCheckForm = $("#re-check-form")-->
-
-<!--        $(".saved-img-delete-btn").click(function () {-->
-<!--            let fileId = $(this).find("input[type='hidden']").val();-->
-
-<!--            $("#re-check-form input[name='fileId']").val(fileId);-->
-
-<!--            modal.show();-->
-<!--            reCheckForm.show();-->
-<!--        });-->
-
-<!--        $("#summit-deletion").click(() => {-->
-<!--            fileService.deleteFile(fileService.deleteImg);-->
-<!--        })-->
-
-
-<!--        const noImg = `<span id="no-image" class="content_disabled font_body_regular_md">-->
-<!--                                    첨부된 이미지가 없습니다.-->
-<!--                                </span>`;-->
-
-
-
-
-<!--        $("#img-input").on("change", function () {-->
-<!--            fileService.addFile();-->
-<!--        })-->
-
-<!--        $("#erase-imgs").click(() => {-->
-<!--            $("#image-wrap").empty();-->
-<!--            $("#img-container input[name='uuid']").remove();-->
-<!--            $("#show-images").append(noImg);-->
-<!--        })-->
-
-<!--        let doubleSubmitFlag = false;-->
-
-<!--        function doubleSubmitCheck() {-->
-<!--            if (doubleSubmitFlag) {-->
-<!--                return doubleSubmitFlag;-->
-<!--            } else {-->
-<!--                doubleSubmitFlag = true;-->
-<!--                return false;-->
-<!--            }-->
-<!--        }-->
-
-<!--        $("#summit-btn").click(() => {-->
-<!--            if (doubleSubmitCheck()) return;-->
-<!--            $("#summit-form").submit();-->
-<!--        });-->
-<!--    });-->
-
-<!--    function sanitizeInput(input) {-->
-<!--        return input.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/g, "");-->
-<!--    }-->
-
-<!--</script>-->
 </html>
