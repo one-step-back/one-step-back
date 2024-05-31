@@ -1,5 +1,7 @@
 package com.app.onestepback.repository;
 
+import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -32,16 +34,8 @@ public class VideoPostDAO {
         videoPostMapper.insertVideoPost(postId, videoLink);
     }
 
-    public VideoPostDTO getVideoPost(Long id) {
-        return videoPostMapper.select(id);
-    }
-
-    public Optional<VideoPostDTO> getPrevPost(VideoPostDTO videoPostDTO) {
-        return videoPostMapper.selectPrevPost(videoPostDTO);
-    }
-
-    public Optional<VideoPostDTO> getNextPost(VideoPostDTO videoPostDTO) {
-        return videoPostMapper.selectNextPost(videoPostDTO);
+    public Optional<ArtistVideoDetailDTO> getPost(Long artistId, Long postId, Long viewerId) {
+        return videoPostMapper.select(artistId, postId, viewerId);
     }
 
     public void editVideoPost(VideoPostDTO videoPostDTO) {

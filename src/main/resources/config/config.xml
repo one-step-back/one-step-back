@@ -7,6 +7,7 @@
         <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO" alias="artistVideoRegisterDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO" alias="artistPostListDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO" alias="artistPostDetailDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO" alias="artistVideoDetailDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistVO" alias="artistVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>

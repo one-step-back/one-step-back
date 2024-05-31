@@ -112,56 +112,122 @@
         VALUES (#{postId}, #{videoLink})
     </insert>
 
-    <select id="select" resultType="videoPostDTO">
-        SELECT V.ID,
-               V.MEMBER_ID,
-               V.POST_TITLE,
-               V.POST_SUBTITLE,
-               V.POST_CONTENT,
-               V.POST_CATEGORY,
-               V.POST_VIEW_COUNT,
-               V.POST_WRITE_TIME,
-               V.VIDEO_LINK,
-               M.MEMBER_NICKNAME,
-               M.MEMBER_KAKAO_PROFILE_URL,
-               M.MEMBER_PROFILE_NAME,
-               M.MEMBER_PROFILE_PATH,
-               (SELECT COUNT(L.POST_ID)
-                FROM TBL_POST_LIKE L
-                WHERE L.POST_ID = V.ID) AS LIKE_COUNT,
-               (SELECT COUNT(R.POST_ID)
-                FROM TBL_POST_REPLY R
-                WHERE R.POST_ID = V.ID) AS REPLY_COUNT
-        FROM VIEW_VIDEO_POST V
-                 JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
-        WHERE V.ID = #{id}
-          AND V.POST_READABLE != 'DISABLE'
-    </select>
+    <resultMap id="artistVideoDetailMap" type="ArtistVideoDetailDTO">
+        <id property="postId" column="ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
+        <result property="title" column="POST_TITLE"/>
+        <result property="videoLink" column="VIDEO_LINK"/>
+        <result property="content" column="POST_CONTENT"/>
+        <result property="category" column="POST_CATEGORY"/>
+        <result property="writeTime" column="CREATED_TIME"/>
+        <result property="nickname" column="MEMBER_NICKNAME"/>
+        <result property="kakaoProfileUrl" column="MEMBER_KAKAO_PROFILE_URL"/>
+        <result property="profileName" column="MEMBER_PROFILE_NAME"/>
+        <result property="profilePath" column="MEMBER_PROFILE_PATH"/>
+        <result property="blogName" column="ARTIST_BLOG_NAME"/>
+        <result property="subscriptionCount" column="SUBSCRIPTION_COUNT"/>
+        <result property="viewCount" column="POST_VIEW_COUNT"/>
+        <result property="likeCount" column="LIKE_COUNT"/>
+        <result property="replyCount" column="REPLY_COUNT"/>
+        <result property="isSubscribed" column="IS_SUBSCRIBED"/>
+        <result property="isLiked" column="IS_LIKED"/>
+        <result property="isBookmarked" column="IS_BOOKMARKED"/>
+        <result property="previousPostId" column="PREVIOUS_POST_ID"/>
+        <result property="previousPostTitle" column="PREVIOUS_POST_TITLE"/>
+        <result property="nextPostId" column="NEXT_POST_ID"/>
+        <result property="nextPostTitle" column="NEXT_POST_TITLE"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result column="POST_TAG_NAME"/>
+        </collection>
+    </resultMap>
 
-    <select id="selectPrevPost" resultType="videoPostDTO">
-        SELECT ID, POST_TITLE, VIDEO_LINK
-        FROM (SELECT ID,
-                     POST_TITLE,
-                     VIDEO_LINK
-              FROM VIEW_VIDEO_POST
-              WHERE MEMBER_ID = #{memberId}
-                AND POST_READABLE != 'DISABLE'
-                AND ID &lt; #{id}
-              ORDER BY ID DESC)
-        WHERE ROWNUM = 1
-    </select>
-
-    <select id="selectNextPost" resultType="videoPostDTO">
-        SELECT ID, POST_TITLE, VIDEO_LINK
-        FROM (SELECT ID,
-                     POST_TITLE,
-                     VIDEO_LINK
-              FROM VIEW_VIDEO_POST
-              WHERE MEMBER_ID = #{memberId}
-                AND POST_READABLE != 'DISABLE'
-                AND ID > #{id}
-              ORDER BY ID)
-        WHERE ROWNUM = 1
+    <select id="select" resultMap="artistVideoDetailMap">
+        SELECT S.ID,
+               S.ARTIST_ID,
+               S.POST_TITLE,
+               S.VIDEO_LINK,
+               S.POST_CONTENT,
+               S.POST_CATEGORY,
+               S.CREATED_TIME,
+               S.POST_TAG_NAME,
+               S.MEMBER_NICKNAME,
+               S.MEMBER_KAKAO_PROFILE_URL,
+               S.MEMBER_PROFILE_NAME,
+               S.MEMBER_PROFILE_PATH,
+               S.ARTIST_BLOG_NAME,
+               S.SUBSCRIPTION_COUNT,
+               S.POST_VIEW_COUNT,
+               S.LIKE_COUNT,
+               S.REPLY_COUNT,
+               S.IS_SUBSCRIBED,
+               S.IS_LIKED,
+               S.IS_BOOKMARKED,
+               S.PREVIOUS_POST_ID,
+               (SELECT POST_TITLE
+                FROM VIEW_VIDEO_POST
+                WHERE ID = S.PREVIOUS_POST_ID) AS PREVIOUS_POST_TITLE,
+               S.NEXT_POST_ID,
+               (SELECT POST_TITLE
+                FROM VIEW_VIDEO_POST
+                WHERE ID = S.NEXT_POST_ID)     AS NEXT_POST_TITLE
+        FROM (SELECT VP.ID,
+                     VP.ARTIST_ID,
+                     VP.POST_TITLE,
+                     VP.VIDEO_LINK,
+                     VP.POST_CONTENT,
+                     VP.POST_CATEGORY,
+                     VP.CREATED_TIME,
+                     T.POST_TAG_NAME,
+                     M.MEMBER_NICKNAME,
+                     M.MEMBER_KAKAO_PROFILE_URL,
+                     M.MEMBER_PROFILE_NAME,
+                     M.MEMBER_PROFILE_PATH,
+                     A.ARTIST_BLOG_NAME,
+                     (SELECT COUNT(S.ARTIST_ID)
+                      FROM TBL_SUBSCRIPTION S
+                      WHERE S.ARTIST_ID = VP.ARTIST_ID)                                      AS SUBSCRIPTION_COUNT,
+                     VP.POST_VIEW_COUNT,
+                     (SELECT COUNT(L.POST_ID) FROM TBL_POST_LIKE L WHERE L.POST_ID = VP.ID)  AS LIKE_COUNT,
+                     (SELECT COUNT(R.POST_ID) FROM TBL_POST_REPLY R WHERE R.POST_ID = VP.ID) AS REPLY_COUNT,
+                     (CASE
+                          WHEN EXISTS (SELECT 1
+                                       FROM TBL_SUBSCRIPTION S
+                                       WHERE S.MEMBER_ID = #{viewerId}
+                                         AND S.ARTIST_ID = VP.ARTIST_ID) THEN 1
+                          ELSE 0
+                         END)                                                                AS IS_SUBSCRIBED,
+                     (CASE
+                          WHEN EXISTS (SELECT 1
+                                       FROM TBL_POST_LIKE L
+                                       WHERE L.MEMBER_ID = #{viewerId}
+                                         AND L.POST_ID = VP.ID) THEN 1
+                          ELSE 0
+                         END)                                                                AS IS_LIKED,
+                     (CASE
+                          WHEN EXISTS (SELECT 1
+                                       FROM TBL_BOOKMARKED_VIDEO B
+                                       WHERE B.MEMBER_ID = #{viewerId}
+                                         AND B.POST_ID = VP.ID) THEN 1
+                          ELSE 0
+                         END)                                                                AS IS_BOOKMARKED,
+                     (SELECT MAX(VP1.ID)
+                      FROM VIEW_VIDEO_POST VP1
+                      WHERE VP1.ARTIST_ID = VP.ARTIST_ID
+                        AND VP1.ID &lt; VP.ID
+                        AND VP1.POST_STATUS = 'READABLE')                                    AS PREVIOUS_POST_ID,
+                     (SELECT MIN(VP2.ID)
+                      FROM VIEW_VIDEO_POST VP2
+                      WHERE VP2.ARTIST_ID = VP.ARTIST_ID
+                        AND VP2.ID > VP.ID
+                        AND VP2.POST_STATUS = 'READABLE')                                    AS NEXT_POST_ID
+              FROM VIEW_VIDEO_POST VP
+                       JOIN TBL_MEMBER M
+                            ON M.ID = VP.ARTIST_ID
+                       JOIN TBL_ARTIST A on A.ARTIST_ID = VP.ARTIST_ID
+                       LEFT JOIN TBL_POST_TAG T ON T.POST_ID = VP.ID
+              WHERE VP.POST_STATUS = 'READABLE'
+                AND VP.ARTIST_ID = #{artistId}
+                AND VP.ID = #{postId}) S
     </select>
 
     <update id="update">

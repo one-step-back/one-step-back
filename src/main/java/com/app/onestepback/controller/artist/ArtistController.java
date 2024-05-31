@@ -202,18 +202,17 @@ public class ArtistController {
         return "redirect:/artist/" + member.getId() + "/video/" + artistVideoRegisterDTO.getPostId();
     }
 
-//    @GetMapping("detail")
-//    public void goToVideoDetail(@RequestParam("id") Long id, Model model){
-//        VideoPostDTO nowVideoPost = videoPostService.getVideoPost(id);
-//
-//        Optional<VideoPostDTO> prevPost = videoPostService.getPrevPost(nowVideoPost);
-//        Optional<VideoPostDTO> nextPost = videoPostService.getNextPost(nowVideoPost);
-//
-//        model.addAttribute("prevPost", prevPost.orElse(null));
-//        model.addAttribute("nextPost", nextPost.orElse(null));
-//        model.addAttribute("artist", videoPostService.getArtist(nowVideoPost.getMemberId()).get());
-//        model.addAttribute("post", nowVideoPost);
-//    }
+    @GetMapping("/{artistId}/video/{postId}")
+    public String goToVideoDetail(@PathVariable Long artistId,
+                                  @PathVariable Long postId,
+                                  HttpSession session,
+                                  Model model) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        Long viewerId = member != null ? member.getId() : 0;
+
+        model.addAttribute("post", videoPostService.getPostDetail(artistId, postId, viewerId));
+        return "artist/video/detail";
+    }
 
 //    @GetMapping("edit")
 //    public void goToVideoEditForm(@RequestParam("id")Long id, VideoPostDTO videoPostDTO, Model model) {

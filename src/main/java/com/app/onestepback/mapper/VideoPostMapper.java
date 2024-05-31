@@ -1,5 +1,6 @@
 package com.app.onestepback.mapper;
 
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -19,7 +20,7 @@ public interface VideoPostMapper {
 
     void insertVideoPost(Long postId, String videoLink);
 
-    VideoPostDTO select(Long id);
+    Optional<ArtistVideoDetailDTO> select(Long artistId, Long postId, Long viewerId);
 
     void update(VideoPostDTO videoPostDTO);
 

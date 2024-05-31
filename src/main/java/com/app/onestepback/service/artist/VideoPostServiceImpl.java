@@ -1,6 +1,8 @@
 package com.app.onestepback.service.artist;
 
 import com.app.onestepback.domain.dto.VideoPostDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -61,40 +64,14 @@ public class VideoPostServiceImpl implements VideoPostService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public VideoPostDTO getVideoPost(Long id) {
-        postDAO.viewCountUp(id);
-        VideoPostDTO post = videoPostDAO.getVideoPost(id);
+    public ArtistVideoDetailDTO getPostDetail(Long artistId, Long postId, Long viewerId) {
+        ArtistVideoDetailDTO content = videoPostDAO.getPost(artistId, postId, viewerId).orElseThrow(
+                () -> new NoSuchElementException("해당 게시글을 조회할 수 없음.")
+        );
 
-        List<String> tags = postTagDAO.getAllTags(post.getId());
+        content.setEmbedLink(youTubeUtil.getYouTubeEmbedLink(content.getVideoLink()));
 
-        if (!tags.isEmpty()) {
-            post.setTag1(tags.get(0));
-        }
-        if (tags.size() >= 2) {
-            post.setTag2(tags.get(1));
-        }
-        if (tags.size() >= 3) {
-            post.setTag3(tags.get(2));
-        }
-        if (tags.size() >= 4) {
-            post.setTag4(tags.get(3));
-        }
-        if (tags.size() >= 5) {
-            post.setTag5(tags.get(4));
-        }
-
-        return post;
-    }
-
-    @Override
-    public Optional<VideoPostDTO> getPrevPost(VideoPostDTO videoPostDTO) {
-        return videoPostDAO.getPrevPost(videoPostDTO);
-    }
-
-    @Override
-    public Optional<VideoPostDTO> getNextPost(VideoPostDTO videoPostDTO) {
-        return videoPostDAO.getNextPost(videoPostDTO);
+        return content;
     }
 
     @Override

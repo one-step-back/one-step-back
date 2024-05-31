@@ -23,12 +23,6 @@ public class VideoPostMapperTest {
 //        videoPostMapper.selectAll(1L, pagination).stream().map(VideoPostDTO::toString).forEach(log::info);
     }
 
-
-    @Test
-    public void selectTest(){
-        log.info(videoPostMapper.select(269L).toString());
-    }
-
     @Test
     public void selectPrev(){
         VideoPostDTO videoPostDTO = new VideoPostDTO();

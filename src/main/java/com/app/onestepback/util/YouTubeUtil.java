@@ -19,4 +19,17 @@ public class YouTubeUtil {
         }
         return null;
     }
+
+    public String getYouTubeEmbedLink(String link) {
+        // YouTube 링크에서 비디오 ID를 추출하기 위한 정규 표현식
+        String regex = "(?:\\?v=|&v=|youtu\\.be\\/|embed\\/|\\/v\\/|\\/e\\/|watch\\?v=)([a-zA-Z0-9_-]{11})";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(link);
+
+        if (matcher.find()) {
+            String videoId = matcher.group(1);
+            return "https://www.youtube.com/embed/" + videoId + "?si=UW0il-4Lpr4jUYbK";
+        }
+        return null;
+    }
 }
