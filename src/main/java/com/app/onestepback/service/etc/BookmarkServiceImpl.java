@@ -16,11 +16,6 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkedVideoDAO bookmarkedVideoDAO;
 
     @Override
-    public Optional<BookmarkedArtistPostVO> checkArtistPostBookmarkInfo(BookmarkedArtistPostVO bookmarkedArtistPostVO) {
-        return bookmarkedArtistPostDAO.getArtistPostBookmarkInfo(bookmarkedArtistPostVO);
-    }
-
-    @Override
     public boolean doBookmarkArtistPost(Long postId, Long memberId, boolean status) {
         if (!status) {
             bookmarkedArtistPostDAO.doBookmarkArtistPost(postId, memberId);
@@ -32,17 +27,13 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public Optional<BookmarkedVideoVO> checkVideoBookmarkInfo(BookmarkedVideoVO bookmarkedVideoVO) {
-        return bookmarkedVideoDAO.getVideoBookmarkInfo(bookmarkedVideoVO);
-    }
-
-    @Override
-    public void doBookmarkVideo(BookmarkedVideoVO bookmarkedVideoVO) {
-        bookmarkedVideoDAO.doBookmarkVideo(bookmarkedVideoVO);
-    }
-
-    @Override
-    public void eraseBookmarkedVideo(BookmarkedVideoVO bookmarkedVideoVO) {
-        bookmarkedVideoDAO.eraseBookmarkedVideo(bookmarkedVideoVO);
+    public boolean doBookmarkVideo(Long postId, Long memberId, boolean status) {
+        if (!status) {
+            bookmarkedVideoDAO.doBookmarkVideo(postId, memberId);
+            return true;
+        } else {
+            bookmarkedVideoDAO.eraseBookmarkedVideo(postId, memberId);
+            return false;
+        }
     }
 }

@@ -1,11 +1,15 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.*;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.dto.postElements.PostFileDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.repository.*;
 import com.app.onestepback.service.file.PostFileService;
+import com.app.onestepback.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     private final PostDAO postDAO;
 
     private final PostFileService postFileService;
+    private final TimeUtil timeUtil;
 
     @Override
     public int getPostCount(Long memberId) {
@@ -40,7 +45,7 @@ public class ArtistPostServiceImpl implements ArtistPostService {
         List<ArtistPostListDTO> contents = artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination);
 
         contents.forEach(content -> {
-             content.setTimeGap(getTimeGap(content.getWriteTime()));
+            content.setTimeGap(timeUtil.getTimeGap(content.getWriteTime()));
         });
 
         return contents;
@@ -152,27 +157,5 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     @Override
     public void erasePost(Long postId, Long artistId) {
         postDAO.erasePost(postId, artistId);
-    }
-
-    private String getTimeGap(LocalDateTime time) {
-        LocalDateTime now = LocalDateTime.now();
-        long gap = ChronoUnit.SECONDS.between(time, now);
-
-        if (gap < 60) {
-            return "방금 전";
-        }
-        if (gap < 3600) {
-            return String.format("%d분 전", gap / 60);
-        }
-        if (gap < 86400) {
-            return String.format("%d시간 전", gap / 3600);
-        }
-        if (gap < 2678400) {
-            return String.format("%d일 전", gap / 86400);
-        }
-        if (gap < 32140800) {
-            return String.format("%d개월 전", gap / 2678400);
-        }
-        return String.format("%d년 전", gap / 32140800);
     }
 }

@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>원스텝 | 포스트 작성</title>
-    <link rel="icon" href="/images/icon.svg">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" href="/css/artist/blog-header.css">
-    <link rel="stylesheet" href="/css/manage/announcement-write.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
-          onload="this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+    <link href="/images/icon.svg" rel="icon">
+    <link href="/css/main/root.css" rel="stylesheet">
+    <link href="/css/artist/blog-header.css" rel="stylesheet">
+    <link href="/css/manage/announcement-write.css" rel="stylesheet">
+    <link as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+          onload="this.rel='stylesheet'" rel="stylesheet"
+          type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
 </head>
 
 <body class="h-full overflow-x-hidden">
@@ -23,70 +23,42 @@
     <div class="flex flex-col h-screen">
         <header th:replace="~{artist/blog-header::blog-header}"></header>
 
-        <div class="h-[68px] border-b border_primary flex items-center surface_primary">
-            <div class="min-w-desktop-grid mx-auto flex items-center justify-between">
-                <div class="flex items-center content_primary">
-                    <button class="surface_tertiary w-[32px] h-[32px] mr-[16px] rounded-full flex items-center justify-center">
-                        <svg viewBox="0 0 17 16" xmlns="http://www.w3.org/2000/svg" class="w-[16px] h-[16px] ">
-                            <path d="M13.833 8a.667.667 0 0 0-.666-.667H5.72L8.973 4.08a.667.667 0 1 0-.943-.943L3.167 8l4.863 4.863a.665.665 0 0 0 .94-.94L5.72 8.667h7.447A.667.667 0 0 0 13.833 8Z">
-
-                            </path>
-                        </svg>
-                    </button>
-                    <h1 class="font_title_bold_lg">공지사항 작성하기</h1>
-                </div>
-                <div class="flex items-center">
-                    <div class="mr-[12px]">
-                        <button type="button"
-                                class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled">
-                            임시저장
-                        </button>
-                    </div>
-                    <button type="button" name="modalbutton"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px]  false disabled:content_disabled"
-                            style="background-color: black">
-                        게시
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0%; height: 3px;"></div>
-        <form id="summit-form" class="mt-[32px]" th:action="@{/artist/video/write}" method="post"
-              enctype="multipart/form-data"
-              th:object="${videoPostDTO}">
-            <input id="id" th:field="*{memberId}" type="hidden">
-            <input id="numberOfTags" type="hidden" name="numberOfTags">
-            <div id="tags"></div>
+        <form class="mt-[32px]" id="summit-form" method="post"
+              th:action="@{/artist/video/write}"
+              th:object="${artistVideoRegisterDTO}">
+            <div id="tagInputs"></div>
             <div class="grid grid-cols-15 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto">
                 <section class="col-span-10">
                     <div class="mb-[14px]">
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input th:field="*{postTitle}" type="text"
-                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
-                                   placeholder="제목을 입력해 주세요." value>
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="제목을 입력해 주세요."
+                                   th:field="*{title}"
+                                   type="text" value>
                         </label>
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input th:field="*{videoLink}" type="text"
-                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
-                                   placeholder="유튜브 링크를 넣어주세요.">
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="유튜브 링크를 넣어주세요."
+                                   th:field="*{videoLink}"
+                                   type="text">
                         </label>
                     </div>
                     <div class="mb-[14px]"></div>
 
                     <div class="mb-[48px]">
                         <div class="border border-[#e6e6e7] p-0">
-                            <div role="application" class="tox tox-tinymce" style="visibility: hidden; height: 474px;">
+                            <div class="tox tox-tinymce" role="application" style="visibility: hidden; height: 474px;">
                                 <div class="tox-editor-container">
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
-                                            <textarea th:field="*{postContent}" name="" id="post-content"
-                                                      class="placeholder:font_body_regular_md"
-                                                      cols="30" rows="10" placeholder="내용을 입력해주세요."></textarea>
+                                            <textarea class="placeholder:font_body_regular_md" cols="30"
+                                                      placeholder="내용을 입력해주세요." rows="10"
+                                                      th:field="*{content}"></textarea>
                                         </div>
                                     </div>
                                 </div>
-
-                                <button type="button" id="popover-on-btn">
+                                <button id="popover-on-btn" type="button">
                                     <span>작성하기</span>
                                 </button>
                             </div>
@@ -103,9 +75,10 @@
                         </div>
                         <div class="px-[20px]">
                             <label style="padding: 20px">
-                                <input th:field="*{postCategory}" type="text" placeholder="카테고리를 작성해주세요"
-                                       maxlength="6"
-                                       class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                       maxlength="6" placeholder="카테고리를 작성해주세요"
+                                       th:field="*{category}"
+                                       type="text"
                                        value="">
                             </label>
                         </div>
@@ -118,9 +91,10 @@
                             <div class="flex gap-x-[12px]">
                                 <div class="w-full">
                                     <label class="tag-label surface_primary rounded-[8px] h-[48px] flex items-center cursor-pointer border border_black_opacity pl-[20px] pr-[16px] focus-within:border-2 focus-within:border_accent_active focus-within:pl-[19px] focus-within:pr-[15px]">
-                                        <input id="tag-input" type="text" placeholder="태그는 최대 5개 까지 작성가능합니다"
-                                               maxlength="10"
-                                               class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                        <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                               id="tag-input" maxlength="10"
+                                               placeholder="태그는 최대 5개 까지 작성가능합니다"
+                                               type="text"
                                                value="">
                                     </label>
                                 </div>
@@ -131,22 +105,24 @@
                 </section>
             </div>
         </form>
-        <div id="modal"
-             class="z-50 fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center min-w-[360px] p-[32px] border box-border rounded-[16px] border_primary surface_primary shadow-s">
+        <div class="z-50 fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center min-w-[360px] p-[32px] border box-border rounded-[16px] border_primary surface_primary shadow-s"
+             id="modal">
             <h4 class="font_headline_bold_sm mb-[12px] content_primary">게시글 등록</h4>
             <div class="font_body_regular_lg max-w-[300px] text-center content_secondary">
                 게시글을 등록하시겠습니까?
             </div>
             <div class="flex items-center justify-between w-full mt-[24px]">
                 <div class="flex-1">
-                    <button type="button" id="modal-cancel"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled"
+                            id="modal-cancel"
+                            type="button">
                         취소
                     </button>
                 </div>
                 <div class="ml-[16px] flex-1">
-                    <button type="button" id="summit-btn"
-                            class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled">
+                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled"
+                            id="summit-btn"
+                            type="button">
                         확인
                     </button>
                 </div>
@@ -158,134 +134,6 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/blog-header.js"></script>
-<script th:inline="javascript">
-    $(function () {
-        const noImg = `<span id="no-image" class="content_disabled font_body_regular_md">
-                                    첨부된 이미지가 없습니다.
-                                </span>`;
+<script src="/js/artist/video/write.js"></script>
 
-        let numberOfTags = 0;
-        const modal = $("#modal");
-        $("#numberOfTags").val(numberOfTags);
-
-        $("#id").val([[${memberId}]]);
-
-        $("#popover-on-btn").click(() => {
-            // 제목, 부제목, 내용, 카테고리 input 요소에 접근
-            var postTitleInput = $("#postTitle");
-            var postSubtitleInput = $("#postSubtitle");
-            var postContentInput = $("#post-content");
-            var postCategoryInput = $("#postCategory");
-
-            // 값이 비어있는지 확인
-            if (postTitleInput.val() === "") {
-                alert("제목을 입력해 주세요.");
-                return;
-            }
-            if (postSubtitleInput.val() === "") {
-                alert("부제목을 입력해 주세요.");
-                return;
-            }
-            if (postContentInput.val() === "") {
-                alert("내용을 입력해 주세요.");
-                return;
-            }
-            if (postCategoryInput.val() === "") {
-                alert("카테고리를 입력해 주세요.");
-                return;
-            }
-
-            modal.css("display", "block");
-        });
-
-        $("#modal-cancel").click(() => {
-            modal.css("display", "none")
-        })
-
-        $("#tag-input").on("input", function () {
-            const inputValue = $(this).val();
-            const sanitizedValue = sanitizeInput(inputValue);
-            $(this).val(sanitizedValue);
-        });
-
-
-        $("#tag-input").on("keydown", function (event) {
-            if (event.key === "Enter") {
-                let tagValue = $(this).val().trim();
-                const tagWrap = $("#tag-wrap");
-                const tags = $("#tags");
-
-                if (tagValue !== "") {
-                    const tagCount = tagWrap.find(".tag-container").length;
-                    if (tagCount >= 5) {
-                        alert("태그는 최대 5개까지 작성 가능합니다.");
-                        return;
-                    }
-
-                    tagValue = tagValue.replace(/ /g, "_");
-
-                    let isDuplicate = false;
-                    tagWrap.find(".tag-container").each(function () {
-                        if ($(this).text() === tagValue) {
-                            isDuplicate = true;
-                            return false;
-                        }
-                    });
-
-                    if (isDuplicate) {
-                        alert("이미 추가된 태그입니다.");
-                        return;
-                    }
-
-                    numberOfTags++;
-
-                    let tagContainer = `<div class="tag-container">${tagValue}<i class="fa-solid fa-x"></i></div>`;
-                    let tagInput = `<input type="hidden" name="tag${numberOfTags}" value="${tagValue}">`;
-
-                    tagWrap.append(tagContainer);
-                    tags.append(tagInput);
-
-                    $("#numberOfTags").val(numberOfTags);
-
-                    $(this).val("");
-                }
-            }
-        });
-
-        $("#tag-wrap").on("click", ".tag-container i", function () {
-            const deletedTag = $(this).parent().text().trim();
-            $(this).parent().remove();
-            numberOfTags--;
-            $("#numberOfTags").val(numberOfTags);
-
-            $("#tags input").each(function () {
-                if ($(this).val() === deletedTag) {
-                    $(this).remove();
-                }
-            });
-        });
-
-        let doubleSubmitFlag = false;
-
-        function doubleSubmitCheck() {
-            if (doubleSubmitFlag) {
-                return doubleSubmitFlag;
-            } else {
-                doubleSubmitFlag = true;
-                return false;
-            }
-        }
-
-
-        $("#summit-btn").click(() => {
-            if (doubleSubmitCheck()) return;
-            $("#summit-form").submit();
-        });
-    });
-
-    function sanitizeInput(input) {
-        return input.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/g, "");
-    }
-
-</script>
 </html>

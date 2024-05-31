@@ -25,7 +25,7 @@
         <header th:replace="~{artist/blog-header::blog-header}"></header>
 
         <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0; height: 3px;"></div>
-        <!--/*@thymesVar id="artistPostRegisterDTO" type=""*/-->
+
         <form class="mt-[32px]" enctype="multipart/form-data" id="summit-form" method="post"
               th:action="@{/artist/post/write}"
               th:object="${artistPostRegisterDTO}">
@@ -34,12 +34,14 @@
                 <section class="col-span-10">
                     <div class="mb-[14px]">
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity" placeholder="제목을 입력해 주세요."
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="제목을 입력해 주세요."
                                    th:field="*{title}"
                                    type="text" value>
                         </label>
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity" placeholder="부제목을 입력해 주세요."
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="부제목을 입력해 주세요."
                                    th:field="*{subtitle}"
                                    type="text" value>
                         </label>
@@ -52,10 +54,9 @@
                                 <div class="tox-editor-container">
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
-
-                                            <textarea class="placeholder:font_body_regular_md" cols="30" id="content"
-                                                      name=""
-                                                      placeholder="내용을 입력해주세요." rows="10" th:field="*{content}"></textarea>
+                                            <textarea class="placeholder:font_body_regular_md" cols="30"
+                                                      placeholder="내용을 입력해주세요." rows="10"
+                                                      th:field="*{content}"></textarea>
 
                                         </div>
                                     </div>
@@ -78,7 +79,8 @@
                         </div>
                         <div class="px-[20px]">
                             <label style="padding: 20px">
-                                <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary" maxlength="6" placeholder="카테고리를 작성해주세요"
+                                <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                       maxlength="6" placeholder="카테고리를 작성해주세요"
                                        th:field="*{category}"
                                        type="text"
                                        value="">
@@ -93,7 +95,8 @@
                             <div class="flex gap-x-[12px]">
                                 <div class="w-full">
                                     <label class="tag-label surface_primary rounded-[8px] h-[48px] flex items-center cursor-pointer border border_black_opacity pl-[20px] pr-[16px] focus-within:border-2 focus-within:border_accent_active focus-within:pl-[19px] focus-within:pr-[15px]">
-                                        <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary" id="tag-input" maxlength="10"
+                                        <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
+                                               id="tag-input" maxlength="10"
                                                placeholder="태그는 최대 5개 까지 작성가능합니다"
                                                type="text"
                                                value="">
@@ -109,7 +112,8 @@
                                     이미지
                                 </strong>
                             </div>
-                            <label class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled" for="img-input"
+                            <label class="hobercolor relative flex justify-center items-center font_button_bold_md  h-[32px] rounded-[16px] content_secondary surface_primary border border-solid border_black_opacity hover:surface_tertiary hover:border_secondary active:surface_tertiary active:border_secondary disabled:surface_primary disabled:border_black_opacity disabled:border disabled:border-solid px-[15px]  false disabled:content_disabled"
+                                   for="img-input"
                                    style="margin: 0 20px 0 0">
                                 업로드
                             </label>
@@ -118,7 +122,8 @@
                             </div>
                         </div>
                         <div id="img-container">
-                            <input accept="image/jpg,image/png,image/jpeg,image/gif" id="img-input" multiple style="display: none"
+                            <input accept="image/jpg,image/png,image/jpeg,image/gif" id="img-input" multiple
+                                   style="display: none"
                                    th:field="*{files}"
                                    type="file">
                         </div>
@@ -144,13 +149,15 @@
             </div>
             <div class="flex items-center justify-between w-full mt-[24px]">
                 <div class="flex-1">
-                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled" id="modal-cancel"
+                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_secondary surface_tertiary hover:surface_primary_active active:surface_primary_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled"
+                            id="modal-cancel"
                             type="button">
                         취소
                     </button>
                 </div>
                 <div class="ml-[16px] flex-1">
-                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled" id="summit-btn"
+                    <button class="relative flex justify-center items-center font_button_bold_md  h-[40px] rounded-[20px] content_primary_inverse surface_primary_inverse hover:surface_primary_inverse_active active:surface_primary_inverse_active disabled:surface_disabled px-[16px] w-full false disabled:content_disabled"
+                            id="summit-btn"
                             type="button">
                         확인
                     </button>

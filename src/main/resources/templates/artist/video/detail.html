@@ -2,790 +2,245 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${post.postTitle}"></title>
-    <link rel="icon" href="/images/icon.svg">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" href="/css/artist/blog-header.css">
-    <link rel="stylesheet" href="/css/artist/post/detail.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
-          onload="this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title th:text="${post.title}"></title>
+    <link href="/images/icon.svg" rel="icon">
+    <link href="/css/main/root.css" rel="stylesheet">
+    <link href="/css/artist/blog-header.css" rel="stylesheet">
+    <link href="/css/artist/post/detail.css" rel="stylesheet">
+    <link as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+          onload="this.rel='stylesheet'" rel="stylesheet"
+          type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-<header th:replace="~{artist/blog-header::blog-header}"></header>
-<header style="z-index: 1000">
-    <div class="h-blog-grid">
+<body th:object="${post}">
+<div>
+    <header th:replace="~{artist/blog-header::blog-header}"></header>
+    <header style="z-index: 1000">
+        <div class="h-blog-grid">
 
-    </div>
-    <div class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <a th:if="${prevPost != null}" class="btn-back" th:href="@{/artist/video/detail(id=${prevPost.id})}"
-                   id="post-viewer-header-btn-back">
-                    <i class="fa-chevron-left"></i>
-                </a>
-            </div>
-            <div class="navbar-center">
-                <div class="navbar-title">
-                    <div class="title-text1">
-                        <span th:text="${post.postTitle}"></span>
-                    </div>
-                    <div class="sub-title1">
-                        <a th:text="${post.postCategory}" class="sub-title2"></a>
+        </div>
+        <div class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-left">
+                    <a class="btn-back" id="post-viewer-header-btn-back"
+                       th:href="|/artist/*{artistId}/video/*{previousPostId}|"
+                       th:if="*{previousPostId != null}">
+                        <i class="fa-chevron-left"></i>
+                    </a>
+                </div>
+                <div class="navbar-center">
+                    <div class="navbar-title">
+                        <div class="title-text1">
+                            <span th:text="*{title}"></span>
+                        </div>
+                        <div class="sub-title1">
+                            <a class="sub-title2" th:text="*{category}"></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="navbar-right">
-                <a th:if="${nextPost != null}" class="btn-back" th:href="@{/artist/video/detail(id=${nextPost.id})}"
-                   id="post-viewer-header-btn-next">
-                    <i class="fa-chevron-right"></i>
-                </a>
+                <div class="navbar-right">
+                    <a class="btn-back" id="post-viewer-header-btn-next"
+                       th:href="|/artist/*{artistId}/video/*{nextPostId}|"
+                       th:if="*{nextPostId != null}">
+                        <i class="fa-chevron-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-<main id="main">
-    <div id="main-content">
-        <article id="post">
-            <div class="container">
-                <div class="post-container">
-                    <h4 class="series-title">
-                        <a th:text="${post.postCategory}"></a>
-                    </h4>
-                    <div class="title-wrap">
-                        <h1 th:text="${post.postTitle}" class="post-title6"></h1>
-                    </div>
-                    <div class="post-meta3">
-                        <a class="profile-avatar" th:href="@{/artist/main(memberId=${post.memberId})}" rel="author">
-                            <img class="profile-img6"
-                                 th:if="${post.memberKakaoProfileUrl == null and post.memberProfileName == null}"
-                                 src="/images/none-avatar.svg">
-                            <img class="profile-img6"
-                                 th:if="${post.memberKakaoProfileUrl != null and post.memberProfileName == null}"
-                                 th:src="${post.memberKakaoProfileUrl}">
-                        </a>
-                        <div class="media-body">
-                            <div class="article-author">
-                                <a th:text="${post.memberNickname}" class="gray-990 disabled-on-preview"
-                                   th:href="@{/artist/main(memberId=${post.memberId})}"
-                                   rel="author"></a>
-                            </div>
-                            <div class="text-gray">
-                                <time th:text="${#strings.substring(post.postWriteTime, 0, 10)}"
-                                      class="meta-item2"></time>
-
-                                <span class="view-count">* 조회
-                                    <span th:text="${post.postViewCount}" class="status-count"></span>
-                                </span>
-                                <span class="view-count">* 좋아요
-                                    <span th:text="${post.likeCount}" id="likeCount" class="status-count"></span>
-                                </span>
-                                <span class="comment-count">* 댓글
-                                        <span th:text="${post.replyCount}" class="stats-count"></span>
-                                </span>
-                            </div>
-                            <th:block th:if="${session.member != null}">
-                                <div th:if="${post.memberId == session.member.id}" class="action-container">
-                                    <a th:href="@{/artist/video/edit(id=${post.id})}" class="edit-container">
-                                        게시글 수정
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </a>
-                                    <form th:action="@{/artist/video/delete(id=${post.id})}" method="post">
-                                        <button type="submit" id="delete-btn">
-                                            <span>게시글 삭제</span>
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
+    </header>
+    <main id="main">
+        <div id="main-content">
+            <article id="post">
+                <div class="container">
+                    <div class="post-container">
+                        <h4 class="series-title">
+                            <a th:text="*{category}"></a>
+                        </h4>
+                        <div class="title-wrap">
+                            <h1 class="post-title6" th:text="*{title}"></h1>
+                        </div>
+                        <div class="post-meta3">
+                            <a class="profile-avatar" rel="author"
+                               th:href="@{/artist/{artistId}(artistId=*{artistId})}">
+                                <img class="profile-img6" src="/images/profile/avatar_blank.png"
+                                     th:if="*{kakaoProfileUrl == null and profileName == null}">
+                                <img class="profile-img6" th:if="*{kakaoProfileUrl != null and profileName == null}"
+                                     th:src="*{kakaoProfileUrl}">
+                                <img class="profile-img6" th:if="*{profileName != null}"
+                                     th:src="|/file/display?fileName=*{profilePath}/t_*{profileName}|">
+                            </a>
+                            <div class="media-body">
+                                <div class="article-author">
+                                    <a class="gray-990 disabled-on-preview" rel="author"
+                                       th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                                       th:text="*{nickname}"></a>
                                 </div>
-                            </th:block>
-                        </div>
+                                <div class="text-gray">
+                                    <time class="meta-item2"
+                                          th:text="*{#strings.substring(writeTime, 0, 10)}"></time>
 
-                    </div>
-                    <div class="post-body">
-                        <div class="video-wrap">
-                            <iframe id="video" width="560" height="315"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen>
-                            </iframe>
-                        </div>
-                        <pre th:text="${post.postContent}" class="post-content3" style="white-space: pre-line"></pre>
-                        <div class="bottom-container">
-                            <div class="tag-list">
-                                <h6 class="sr-only"></h6>
-                                <a th:if="${post.tag1}" class="tag gray-600" th:text="${post.tag1}" href="#"></a>
-                                <a th:if="${post.tag2}" class="tag gray-600" th:text="${post.tag2}" href="#"></a>
-                                <a th:if="${post.tag3}" class="tag gray-600" th:text="${post.tag3}" href="#"></a>
-                                <a th:if="${post.tag4}" class="tag gray-600" th:text="${post.tag4}" href="#"></a>
-                                <a th:if="${post.tag5}" class="tag gray-600" th:text="${post.tag5}" href="#"></a>
-                            </div>
-                            <div class="bottom-post-action">
-                                <div class="like-btn">
-                                    <i class="fa-regular fa-heart default-like"></i>
-                                    <i class="fa-solid fa-heart active-like"></i>
+                                    <span class="view-count">* 조회
+                                    <span class="status-count" th:text="*{viewCount}"></span>
+                                </span>
+                                    <span class="view-count">* 좋아요
+                                    <span class="status-count" id="likeCount" th:text="*{likeCount}"></span>
+                                </span>
+                                    <span class="comment-count">* 댓글
+                                    <span class="stats-count" th:text="*{replyCount}"></span>
+                                </span>
                                 </div>
-                                <div class="bookmark-btn">
-                                    <i class="fa-regular fa-bookmark default-bookmark"></i>
-                                    <i class="fa-solid fa-bookmark active-bookmark"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-pager">
-                            <th:block th:if="${prevPost != null}">
-                                <article class="pager-item1">
-                                    <a class="flex-middle" th:href="@{/artist/video/detail(id=${prevPost.id})}">
-                                        <div class="pager-label">이전글</div>
-                                        <div class="media-body7">
-                                            <h5 th:text="${prevPost.postTitle}" class="pager-title"></h5>
-                                        </div>
-                                        <div class="pager-img">
-                                            <img class="pager-img9" th:videoLink="${prevPost.videoLink}">
-                                        </div>
-                                    </a>
-                                </article>
-                            </th:block>
-
-                            <th:block th:if="${nextPost != null}">
-                                <article class="pager-item2">
-                                    <a class="flex-middle" th:href="@{/artist/video/detail(id=${nextPost.id})}">
-                                        <div class="pager-label">다음글</div>
-                                        <div class="media-body7">
-                                            <h5 th:text="${nextPost.postTitle}" class="pager-title"></h5>
-                                        </div>
-                                        <div class="pager-img">
-                                            <img class="pager-img9" th:videoLink="${nextPost.videoLink}">
-                                        </div>
-                                    </a>
-                                </article>
-                            </th:block>
-                        </div>
-                        <section class="profile-gray50">
-                            <div class="container32">
-                                <div class="profile-bar">
-                                    <a class="profile-img-link blog-avatar avatar-60">
-                                        <img class="blog-img"
-                                             src="/images/none-avatar.svg">
-                                    </a>
-                                    <div class="media-body">
-                                        <h5 class="profile-title98">
-                                            <a th:text="${artist.artistBlogName}" class="rich2"
-                                               th:href="@{/artist/main(memberId=${post.memberId})}"></a>
-                                        </h5>
-                                        <div class="profile-subtitle-gray-600">
-                                            <span class="meta-item">구독자&nbsp;</span>
-                                            <span th:text="${artist.subscriptionCount}" id="subscriber-count"
-                                                  class="stats-count"></span>
-                                        </div>
-                                    </div>
-                                    <div class="action-group">
-                                        <th:block th:unless="${post.memberId == session.member?.id}">
-                                            <button id="subscription-btn" class="subscribe4">
-                                                <span class="default-text">구독하기</span>
+                                <th:block th:if="${session.member != null}">
+                                    <div class="action-container" th:if="${post.artistId == session.member.id}">
+                                        <a class="edit-container"
+                                           th:href="@{/artist/video/edit(postId=${post.postId})}">
+                                            게시글 수정
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+                                        <form method="post" th:action="@{/artist/video/delete(postId=${post.postId})}">
+                                            <button id="delete-btn" type="submit">
+                                                <span>게시글 삭제</span>
+                                                <i class="fa-solid fa-trash"></i>
                                             </button>
-                                        </th:block>
+                                        </form>
                                     </div>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            <div class="video-wrap">
+                                <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen frameborder="0"
+                                        height="315" id="video" th:src="*{embedLink}"
+                                        title="YouTube video player"
+                                        width="560">
+                                </iframe>
+                            </div>
+                            <pre class="post-content3" style="white-space: pre-line" th:text="*{content}"></pre>
+                            <div class="bottom-container">
+                                <div class="tag-list">
+                                    <h6 class="sr-only"></h6>
+                                    <th:block th:each="tag : *{tags}">
+                                        <a class="tag gray-600" href="#" th:text="${tag}"></a>
+                                    </th:block>
+                                </div>
+                                <div class="bottom-post-action">
+                                    <div class="like-btn" th:data-post-id="*{postId}" th:data-status="*{liked}">
+                                        <i class="fa-regular fa-heart"
+                                           th:classappend="*{liked} ? '' : 'active'"></i>
+                                        <i class="fa-solid fa-heart"
+                                           th:classappend="*{liked} ? 'active':''"></i>
+                                    </div>
+                                    <button class="btn btn-icon bookmark-btn vi"
+                                            th:data-post-id="*{postId}" th:data-status="*{bookmarked}">
+                                        <i class="far fa-bookmark"
+                                           th:classappend="*{bookmarked} ? '': 'active'"></i>
+                                        <i class="fas fa-bookmark"
+                                           th:classappend="*{bookmarked} ? 'active': ''"></i>
+                                    </button>
                                 </div>
                             </div>
-                        </section>
-                        <section class="response3">
-                            <div class="container44">
-                                <header class="section-head6">
-                                    <h3 th:text="${post.replyCount + '개의 댓글'}" class="comment-section-title"></h3>
-                                </header>
-                                <div class="comment-list">
-                                    <div class="comments">
-                                        <div class="comment-customize-form">
-                                            <textarea class="form-control autosize" name="text" id="reply"
-                                                      style="overflow: hidden; overflow-wrap: break-word; height: 40px; resize: none; overflow-y: auto"></textarea>
-                                            <div class="brand-icons">
-                                                <button id="send" class="btn btn-strong btn-login btn-create-comment">댓글
-                                                    남기기
-                                                </button>
+                            <div class="post-pager">
+
+                                <th:block th:if="*{previousPostId != null}">
+                                    <article class="pager-item1">
+                                        <a class="flex-middle" th:href="|/artist/*{artistId}/video/*{previousPostId}|">
+                                            <div class="pager-label">이전글</div>
+                                            <div class="media-body7">
+                                                <h5 class="pager-title" th:text="*{previousPostTitle}"></h5>
+                                            </div>
+                                        </a>
+                                    </article>
+                                </th:block>
+
+                                <th:block th:if="*{nextPostId != null}">
+                                    <article class="pager-item2">
+                                        <a class="flex-middle" th:href="|/artist/*{artistId}/video/*{nextPostId}|">
+                                            <div class="pager-label">다음글</div>
+                                            <div class="media-body7">
+                                                <h5 class="pager-title" th:text="*{nextPostTitle}"></h5>
+                                            </div>
+                                        </a>
+                                    </article>
+                                </th:block>
+                            </div>
+                            <section class="profile-gray50">
+                                <div class="container32">
+                                    <div class="profile-bar">
+                                        <a class="profile-img-link blog-avatar avatar-60">
+                                            <img class="blog-img"
+                                                 src="/images/none-avatar.svg">
+                                        </a>
+                                        <div class="media-body">
+                                            <h5 class="profile-title98">
+                                                <a class="rich2" th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                                                   th:text="*{blogName}"></a>
+                                            </h5>
+                                            <div class="profile-subtitle-gray-600">
+                                                <span class="meta-item">구독자&nbsp;</span>
+                                                <span class="stats-count" id="subscriberCount"
+                                                      th:text="*{subscriptionCount}"></span>
                                             </div>
                                         </div>
-                                        <div id="reply-wrap"></div>
-                                        <button type="button" class="more-btn">댓글 더보기</button>
+                                        <div class="action-group">
+                                            <th:block th:unless="${post.artistId == session.member?.id}">
+                                                <button class="subscribe4"
+                                                        id="subscribeBtn"
+                                                        th:classappend="*{subscribed ? 'active' : ''}"
+                                                        th:data-artistId="*{artistId}"
+                                                        th:data-status="*{subscribed}"
+                                                        th:if="${session.member != null and artistId != session.member.id}"
+                                                        type="button">
+                                                <span th:class="*{subscribed ? 'active-text' : 'default-text'}"
+                                                      th:text="*{subscribed ? '구독중': '구독하기'}"></span>
+                                                </button>
+                                            </th:block>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
-                        <!--                        <section class="related-post">-->
-                        <!--                            <div class="container445">-->
-                        <!--                                <header class="section-head8">-->
-                        <!--                                    <h3 class="comment-section-title44">추천 포스트</h3>-->
-                        <!--                                </header>-->
-                        <!--                                <div class="related-post-list">-->
-                        <!--                                    <div class="promotion-banner12">-->
-                        <!--                                        <a class="promotion-banner77" data-promotion-id="1584"-->
-                        <!--                                           href="https://blog.postype.com/post/14151405"-->
-                        <!--                                           style="background-color: #007aff;">-->
-                        <!--                                            <img src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/12/16/19/63a7b41007a9a92b829f9c6739c58ab6.png?w=640&amp;q=65"-->
-                        <!--                                                 class="promotion-banner-img" alt="포스타입 크리에이터 첫 걸음 가이드">-->
-                        <!--                                        </a>-->
-                        <!--                                    </div>-->
-                        <!--                                    <div class="component-post-list">-->
-                        <!--                                        <div class="component33">-->
-                        <!--                                            <div class="post21">-->
-                        <!--                                                <div class="post-date">-->
-                        <!--                                                    <a href="https://blog.postype.com/post/15293000">-->
-                        <!--                                                        <h3 class="ellipsis-26">포스타입 X CU 편의점 택배 제휴 이벤트</h3>-->
-                        <!--                                                        <div class="ellipsis-2 text-alpha-black-47">-->
-                        <!--                                                            <h4 class="discount4">택배비, 최대 반값 할인 제공!</h4>-->
-                        <!--                                                            <div class="divider"></div>-->
-                        <!--                                                            <p class="mes-postype">포스타입</p>-->
-                        <!--                                                        </div>-->
-                        <!--                                                    </a>-->
-                        <!--                                                    <div class="post-tags">-->
-                        <!--                                                        <a href="https://blog.postype.com/post/14838413"-->
-                        <!--                                                           class="tag-promotion">프로모션</a>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="post-data-thumbnail">-->
-                        <!--                                                    <a class="pro1613" href="https://blog.postype.com/post/15293000">-->
-                        <!--                                                        <img class="img-098"-->
-                        <!--                                                             src="https://d3mcojo3jv0dbr.cloudfront.net/2023/09/21/14/25/25c8a58c938440372ba4a7f4171c5391.png?w=240&amp;h=180&amp;q=65"-->
-                        <!--                                                             alt="포스타입 X CU 편의점 택배 제휴 이벤트">-->
-                        <!--                                                    </a>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                            <div class="post-info43">-->
-                        <!--                                                <a class="user-profile-avatar avatar-32"-->
-                        <!--                                                   href="https://www.postype.com/profile/@postype">-->
-                        <!--                                                    <img class="user-profile-avatar-img"-->
-                        <!--                                                         src="https://d3mcojo3jv0dbr.cloudfront.net/2022/10/14/09/27/66fc5bd61c3d9969c7e6cb8845fb3e3e.png?w=64&amp;h=64&amp;q=65"-->
-                        <!--                                                         alt="포스타입">-->
-                        <!--                                                </a>-->
-                        <!--                                                <div class="post-info43-body">-->
-                        <!--                                                    <div class="user-profile-nickname text-truncate">-->
-                        <!--                                                        <a href="https://www.postype.com/profile/@postype" rel="author">포스타입</a>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="post-meta1">-->
-                        <!--                                                        <span class="meta-item6" title="조회수">-->
-                        <!--                                                            <i class="ic ic-eye" aria-label="조회수"></i>-->
-                        <!--                                                            <span class="stats-count22">1.1천</span>-->
-                        <!--                                                        </span>-->
-                        <!--                                                        <span class="meta-item6" title="좋아요">-->
-                        <!--                                                            <i id="hart" class="fal fa-heart" aria-label="좋아요"></i>-->
-                        <!--                                                            <span class="stats-count">4</span>-->
-                        <!--                                                        </span>-->
-                        <!--                                                        <time class="meta-item">1일 전</time>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="post-action7">-->
-                        <!--                                                    <a href="#" class="btn btn-icon btn-scrap" data-post-id="15293000">-->
-                        <!--                                                        <i id="de23" class="fal fa-bookmark default-text"></i>-->
-                        <!--                                                        <i id="de24" class="fas fa-bookmark active-text"></i>-->
-                        <!--                                                    </a>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                    <div class="component-post-list3">-->
-                        <!--                                        <div class="component331">-->
-                        <!--                                            <div class="post21">-->
-                        <!--                                                <div class="post-date">-->
-                        <!--                                                    <a href="https://blog.postype.com/post/14528797">-->
-                        <!--                                                        <h3 class="ellipsis-26">"딱 3일만 무료!" 틈새 시장 공략하는 일러스트 연재 팁</h3>-->
-                        <!--                                                        <div class="ellipsis-2 text-alpha-black-47">-->
-                        <!--                                                            <h4 class="discount4">크리에이터 인터뷰 창작소재편</h4>-->
-                        <!--                                                            <div class="divider"></div>-->
-                        <!--                                                            <p class="mes-postype">오얼모얼님, 독사님</p>-->
-                        <!--                                                        </div>-->
-                        <!--                                                    </a>-->
-                        <!--                                                    <div class="post-tags">-->
-                        <!--                                                        <a href="https://blog.postype.com/post/14838413"-->
-                        <!--                                                           class="tag-promotion">프로모션</a>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="post-data-thumbnail">-->
-                        <!--                                                    <a class="pro1613" href="https://blog.postype.com/post/14528797">-->
-                        <!--                                                        <img class="img-098"-->
-                        <!--                                                             src="https://d3mcojo3jv0dbr.cloudfront.net/2023/07/20/12/42/ef0b4df41a26febfcc12546b6c976139.png?w=240&amp;h=180&amp;q=65"-->
-                        <!--                                                             alt="&quot;딱 3일만 무료!&quot; 틈새 시장 공략하는 일러스트 연재 팁">-->
-                        <!--                                                    </a>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                            <div class="post-info43">-->
-                        <!--                                                <a class="user-profile-avatar avatar-32"-->
-                        <!--                                                   href="https://www.postype.com/profile/@postype">-->
-                        <!--                                                    <img class="user-profile-avatar-img"-->
-                        <!--                                                         src="https://d3mcojo3jv0dbr.cloudfront.net/2022/10/14/09/27/66fc5bd61c3d9969c7e6cb8845fb3e3e.png?w=64&amp;h=64&amp;q=65"-->
-                        <!--                                                         alt="포스타입">-->
-                        <!--                                                </a>-->
-                        <!--                                                <div class="post-info43-body">-->
-                        <!--                                                    <div class="user-profile-nickname text-truncate">-->
-                        <!--                                                        <a href="https://www.postype.com/profile/@postype" rel="author">포스타입</a>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="post-meta1">-->
-                        <!--                                                        <span class="meta-item6" title="조회수">-->
-                        <!--                                                            <i class="ic ic-eye" aria-label="조회수"></i>-->
-                        <!--                                                            <span class="stats-count22">1만</span>-->
-                        <!--                                                        </span>-->
-                        <!--                                                        <span class="meta-item6" title="좋아요">-->
-                        <!--                                                            <i id="hart2" class="fal fa-heart" aria-label="좋아요"></i>-->
-                        <!--                                                            <span class="stats-count">117</span>-->
-                        <!--                                                        </span>-->
-                        <!--                                                        <time class="meta-item">2023.08.23</time>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="post-action7">-->
-                        <!--                                                    <a href="#" class="btn btn-icon btn-scrap" data-post-id="15293000">-->
-                        <!--                                                        <i id="de231" class="fal fa-bookmark default-text"></i>-->
-                        <!--                                                        <i id="de241" class="fas fa-bookmark active-text"></i>-->
-                        <!--                                                    </a>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </div>-->
-                        <!--                        </section>-->
+                            </section>
+                            <section class="response3">
+                                <div class="container44">
+                                    <header class="section-head6">
+                                        <h3 class="comment-section-title" th:text="*{replyCount + '개의 댓글'}"/>
+                                    </header>
+                                    <div class="comment-list">
+                                        <div class="comments">
+                                            <div class="comment-customize-form">
+                                                <textarea class="form-control autosize" id="replyTextarea"
+                                                          style="overflow: hidden; overflow-wrap: break-word; height: 40px; resize: none; overflow-y: auto"></textarea>
+                                                <div class="brand-icons">
+                                                    <button class="btn btn-strong btn-login btn-create-comment"
+                                                            id="submitReply">
+                                                        댓글 남기기
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="replyWrap"></div>
+                                            <button class="more-btn" type="button">댓글 더보기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-    </div>
-</main>
-
+            </article>
+        </div>
+    </main>
+    <input id="loggedIn" th:value="${session.member != null}" type="hidden">
+</div>
 </body>
-<script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="/js/artist/post/detail.js"></script>
 <script th:inline="javascript">
-    console.log([[${post}]]);
-
-    // 세션 값
-    const session = /*[[${session.member}]]*/ null;
-    // 아티스트의 memberId (여러곳에서 사용해야 되므로 전역 상수로 선언)
-    const artistId = [[${artist.memberId}]]
-    // 구독버튼
-    const subscriptionBtn = $("#subscription-btn");
-
-    const subscriberCount = $("#subscriber-count")
-
-    let currentCount = [[${artist.subscriptionCount}]];
-
-    let subscriptionStatus = null;
-
-    // 리플라이 페이지
-    let currentPage = 1;
-
-    const moreBtn = $(".more-btn");
-
-    let likeCount = [[${post.likeCount}]];
-
-    // 로그인이 되어있을 시 클라이언트가 아티스트의 구독자인지 아닌지 구분하는 함수
-    function checkSubscription(artistId, memberId, callback) {
-        $.ajax({
-            type: "GET",
-            url: "/subscription/check-subscription?artistId=" + artistId + "&memberId=" + memberId,
-
-            success: function (data) {
-                // 불린타입으로 반납된 결과 값을 전역 변수에 대입
-                subscriptionStatus = data;
-                if (callback) {
-                    callback(data)
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
-
-    // 구독버튼을 누를시.
-    function updateSubscription(artistId, memberId, callback, callback2) {
-        $.ajax({
-            type: "GET",
-            url: "/subscription/update-subscription?subscriptionStatus=" + subscriptionStatus + "&artistId=" + artistId + "&memberId=" + memberId,
-
-            success: function (data) {
-                subscriptionStatus = data;
-                if (callback) {
-                    callback(data)
-                }
-                if (callback2) {
-                    callback2(data)
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        })
-    }
-
-    // data 값에 따라 구독버튼에 html 삽입
-    function didISubscribe(data) {
-        let subscriptionHtml = null;
-        subscriptionBtn.empty();
-
-        if (!data) {
-            subscriptionHtml = `<span class="default-text">구독하기</span>`;
-            subscriptionBtn.removeClass("active");
-            subscriptionBtn.append(subscriptionHtml);
-        } else if (data) {
-            subscriptionHtml = `<span class="active-text">구독중</span>`;
-            subscriptionBtn.addClass("active");
-            subscriptionBtn.append(subscriptionHtml);
-        }
-    }
-
-    // 화면상의 구독자 수 업데이트
-    function updateSubscriberCount(data) {
-        if (!data) {
-            currentCount -= 1;
-            subscriberCount.text(currentCount)
-        } else {
-            currentCount += 1;
-            subscriberCount.text(currentCount)
-        }
-    }
-
-    // 시간차이 계산 함수
-    function getTimeGap(datetime) {
-        const today = new Date();
-        const date = new Date(datetime);
-        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
-
-        if (gap < 1) {
-            return "방금 전";
-        }
-        if (gap < 60) {
-            return `${gap}분 전`;
-        }
-        gap = Math.floor(gap / 60);
-        if (gap < 24) {
-            return `${gap}시간 전`;
-        }
-        gap = Math.floor(gap / 24);
-        if (gap < 32) {
-            return `${gap}일 전`;
-        }
-        gap = Math.floor(gap / 31);
-        if (gap < 13) {
-            return `${gap}개월 전`;
-        }
-        gap = Math.floor(gap / 12);
-
-        return `${gap}년 전`;
-    }
-
-    // 댓글 관련 종합 서비스 ============================================================
-    const replyService = (function () {
-        // 댓글 리스트 출력 컨테이너
-        const repliesContainer = $("#reply-wrap");
-
-        // 댓글 작성 부분
-        // (작성에 성공할 시 현재 댓글wrap을 전부 삭제 후 다시 처음부터 출력하는 형식. 본래는 redirect 하는 것이 더욱 맞지 않겠나라고 생각하지만 어짜피 댓글 불러오는
-        // 형식이 페이지네이션 형식이 아니므로 rest형태로 구현해보았음)
-        function write(replyContent) {
-            $.ajax({
-                type: "POST",
-                url: "/replies/write",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    replyContent: replyContent,
-                    memberId: session.id,
-                    postId: [[${post.id}]]
-                }),
-                success: function () {
-                    window.location.reload();
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        // 리플라이 업데이트
-        function updateReplies(postId, page, callback) {
-            $.ajax({
-                type: "GET",
-                url: "/replies/getAllReplies?postId=" + postId + "&page=" + page,
-                success: function (data) {
-                    if (callback) {
-                        callback(data);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
-
-        // 리플라이들을 출력하는 역할과 리플라이 창을 보일지 말지 결정
-        function showReply(data) {
-            let replyHtml = '';
-
-            data.replies.forEach(reply => {
-                replyHtml += `
-                              <div class="reply-item">
-                                  <a class="replier-avatar">
-                                  ${reply.memberKakaoProfileUrl == null && reply.memberProfileName == null ? `
-                                      <img src="/images/none-avatar.svg">
-                                  ` : ''}
-                                  ${reply.memberKakaoProfileUrl != null && reply.memberProfileName == null ? `
-                                      <img src="${reply.memberKakaoProfileUrl}">
-                                  ` : ''}
-                                  </a>
-                                  <div class="reply-body">
-                                      <div class="reply-head">
-                                          <a class="replier-name">${reply.memberNickname}</a>
-                                           <time class="reply-time">${getTimeGap(reply.replyWriteTime)}</time>
-                                      </div>
-                                      <pre class="reply-content">${reply.replyContent}</pre>
-                                  </div>
-                              </div>
-                              `;
-            });
-
-            if (data.isItEnd === false) {
-                moreBtn.css("display", "block");
-            } else {
-                moreBtn.css("display", "none");
-            }
-
-            repliesContainer.append(replyHtml);
-        }
-
-        return {write: write, updateReplies: updateReplies, showReply: showReply};
-    })();
-
-    const videoService = (function () {
-        // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
-        function postVideoThumbnail() {
-            const thumbnailElements = document.querySelectorAll('.pager-img9');
-            thumbnailElements.forEach(function (element) {
-                element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
-            })
-        }
-
-        function getYouTubeThumbnailUrl(youtubeLink) {
-            // YouTube 비디오 ID 추출
-            let videoId = youtubeLink.match(/v=([^&]+)/);
-            if (videoId) {
-                return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
-            }
-            return null;
-        }
-
-        function getYouTubeVideo(link) {
-            const source = link.match(/(?:\?v=|&v=|youtu\.be\/|embed\/|\/v\/|\/e\/|watch\?v=)([a-zA-Z0-9_-]{11})/);
-
-
-            if (source) {
-                const videoId = source[1];
-                const embedLink = `https://www.youtube.com/embed/${videoId}?si=UW0il-4Lpr4jUYbK`;
-
-                $("#video").attr("src", embedLink);
-                return embedLink;
-            }
-            return null;
-        }
-
-
-        return {postVideoThumbnail: postVideoThumbnail, getYouTubeVideo: getYouTubeVideo}
-    })();
-
-    // 좋아요 관련 종합 서비스
-    const likeService = (function () {
-        const likeBtn = $(".like-btn");
-
-        function checkLike(callback) {
-            $.ajax({
-                type: "GET",
-                url: "/like/check-like",
-                data: {
-                    memberId: session.id,
-                    postId: [[${post.id}]]
-                },
-                success: function (data) {
-                    console.log(data)
-                    if (callback) {
-                        callback(data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        function updateLike(likeStatus, callback, callback2) {
-            $.ajax({
-                type: "POST",
-                url: "/like/update-like",
-                data: {
-                    memberId: session.id,
-                    postId: [[${post.id}]],
-                    likeStatus: likeStatus
-                },
-                success: function (data) {
-                    if (callback) {
-                        callback(data)
-                    }
-                    if (callback2) {
-                        callback2(data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        function updateStatus(data) {
-            if (data === true) {
-                likeBtn.data('like-status', 'true');
-                likeBtn.addClass("active");
-            } else {
-                likeBtn.data('like-status', 'false');
-                likeBtn.removeClass("active")
-            }
-        }
-
-        function updateLikeCount(data) {
-            if (data === true) {
-                likeCount++;
-                $("#likeCount").text(likeCount);
-            } else {
-                likeCount--;
-                $("#likeCount").text(likeCount);
-            }
-        }
-
-        return {
-            checkLike: checkLike,
-            updateLike: updateLike,
-            updateStatus: updateStatus,
-            updateLikeCount: updateLikeCount
-        }
-    })();
-
-    const bookmarkService = (function () {
-        const bookmarkBtn = $(".bookmark-btn");
-        function checkPost(callback) {
-            $.ajax({
-                type: "GET",
-                url: "/bookmark/check-video",
-                data: {
-                    memberId: session.id,
-                    postId: [[${post.id}]]
-                },
-                success: function (data) {
-                    console.log(data)
-                    if (callback) {
-                        callback(data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        function updateStatus(data) {
-            if (data === true) {
-                bookmarkBtn.data('bookmark-status', 'true');
-                bookmarkBtn.addClass("active");
-            } else {
-                bookmarkBtn.data('bookmark-status', 'false');
-                bookmarkBtn.removeClass("active")
-            }
-        }
-
-
-        function updateBookmarkPost(bookmarkStatus, callback) {
-            $.ajax({
-                type: "POST",
-                url: "/bookmark/update-video",
-                data: {
-                    memberId: session.id,
-                    postId: [[${post.id}]],
-                    bookmarkStatus: bookmarkStatus
-                },
-                success: function (data) {
-                    if (callback) {
-                        callback(data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        return {checkPost: checkPost, updateStatus:updateStatus, updateBookmarkPost: updateBookmarkPost}
-    })();
-
-    // 페이지 로드 시
-    $(function () {
-        videoService.getYouTubeVideo([[${post.videoLink}]]);
-        videoService.postVideoThumbnail();
-        if (session != null) {
-            checkSubscription(artistId, session.id, didISubscribe);
-            likeService.checkLike(likeService.updateStatus);
-            bookmarkService.checkPost(bookmarkService.updateStatus);
-        }
-        replyService.updateReplies([[${post.id}]], currentPage, replyService.showReply);
-    });
-
-    // 구독 버튼 누를시 작동되는 함수
-    subscriptionBtn.click(() => {
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            window.location.href = "/member/login";
-        }
-        updateSubscription(artistId, session.id, didISubscribe, updateSubscriberCount);
-    })
-
-    // 댓글 추가 불러오기
-    moreBtn.click(() => {
-        currentPage += 1;
-        replyService.updateReplies([[${post.id}]], currentPage, replyService.showReply);
-    })
-
-    // 댓글 작성 버튼 누를시
-    $("#send").on("click", function () {
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            window.location.href = "/member/login";
-        }
-        const replyContent = $("#reply").val();
-        if (replyContent == null) {
-            alert("먼저 댓글을 작성해주세요.");
-            return
-        }
-        replyService.write(replyContent);
-    });
-
-    // 좋아요 버튼 누를시
-    $(".like-btn").click(function () {
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            return;
-        }
-        let likeStatus = $(this).data('like-status');
-
-        likeService.updateLike(likeStatus, likeService.updateStatus, likeService.updateLikeCount);
-    });
-
-    // 북마크 버튼
-    $(".bookmark-btn").click(function (){
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            return;
-        }
-        let bookmarkStatus = $(this).data('bookmark-status');
-
-        bookmarkService.updateBookmarkPost(bookmarkStatus, bookmarkService.updateStatus);
-    });
+    const postId = parseInt([[${post.postId}]]);
+    const replyCount = parseInt([[${post.replyCount}]]);
 </script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script th:src="@{/js/artist/subscribe.js}" type="module"></script>
+<script th:src="@{/js/artist/like.js}" type="module"></script>
+<script th:src="@{/js/artist/video/bookmark.js}" type="module"></script>
+<script th:src="@{/js/artist/replyLoader.js}" type="module"></script>
+<script th:src="@{/js/artist/replyRegister.js}" type="module"></script>
+
 </html>

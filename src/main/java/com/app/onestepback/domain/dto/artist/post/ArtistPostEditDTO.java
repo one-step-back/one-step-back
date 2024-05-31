@@ -1,4 +1,4 @@
-package com.app.onestepback.domain.dto.artist;
+package com.app.onestepback.domain.dto.artist.post;
 
 import com.app.onestepback.domain.dto.postElements.PostFileDTO;
 import lombok.Data;

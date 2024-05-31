@@ -19,7 +19,7 @@ public class BookmarkedVideo {
 
     @ManyToOne
     @JoinColumn(name = "POST_ID", insertable = false, updatable = false)
-    private ArtistPost post;
+    private Video post;
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
     private Member member;

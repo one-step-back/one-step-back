@@ -12,13 +12,11 @@ import java.util.Optional;
 public class BookmarkedVideoDAO {
     private final BookmarkedVideoMapper bookmarkedVideoMapper;
 
-    public Optional<BookmarkedVideoVO> getVideoBookmarkInfo(BookmarkedVideoVO bookmarkedVideoVO){return bookmarkedVideoMapper.select(bookmarkedVideoVO);}
-
-    public void doBookmarkVideo(BookmarkedVideoVO bookmarkedVideoVO){
-        bookmarkedVideoMapper.insert(bookmarkedVideoVO);
+    public void doBookmarkVideo(Long postId, Long memberId) {
+        bookmarkedVideoMapper.insert(postId, memberId);
     }
 
-    public void eraseBookmarkedVideo(BookmarkedVideoVO bookmarkedVideoVO){
-        bookmarkedVideoMapper.delete(bookmarkedVideoVO);
+    public void eraseBookmarkedVideo(Long postId, Long memberId) {
+        bookmarkedVideoMapper.delete(postId, memberId);
     }
 }

@@ -2,68 +2,102 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>원스텝 - 아티스트 페이지</title>
-    <link rel="icon" href="/images/icon.svg">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" href="/css/artist/blog-header.css">
-    <link rel="stylesheet" href="/css/artist/main.css">
-    <script src="https://kit.fontawesome.com/2364e2b536.js" crossorigin="anonymous"></script>
+    <link href="/images/icon.svg" rel="icon">
+    <link href="/css/main/root.css" rel="stylesheet">
+    <link href="/css/artist/blog-header.css" rel="stylesheet">
+    <link href="/css/artist/main.css" rel="stylesheet">
+    <link href="/css/artist/blog-modal.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2364e2b536.js"></script>
 </head>
 <body>
+<div id="b-modal">
+    <div id="b-modal-link-container">
+        <div class="b-modal-header">
+            <h5 class="modal-title" id="b-modal-label">공유하기</h5>
+            <button class="btn b-btn-icon b-btn-close" type="button">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="b-modal-body">
+            <div class="b-link-container">
+                <input class="b-input" readonly type="text">
+                <span class="b-copy">
+                    <button class="btn b-btn-clipboard" type="button">URL 복사</button>
+                </span>
+            </div>
+        </div>
+        <div class="b-modal-footer">
+            <button class="b-modal-btn" type="button">확인</button>
+        </div>
+    </div>
+</div>
 <header th:replace="~{artist/blog-header::blog-header}"></header>
 
-<div id="blog"
-     class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline">
-    <a id="skip" class="sr-only" href="#main">주요 내용으로 건너뛰기</a>
-    <div id="header" class="header bg-gray-0" role="banner">
-        <div id="header-custom" class="header-custom bg-gray-0 disabled-on-preview ">
-            <div class="container">
-                <div id="masthead" class="masthead d-flex">
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
-                       th:if="${artist.blogImgName == null}"
-                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"></a>
-                    <a th:href="@{/artist/main(id=${artist.memberId})}" class="channel-avatar"
-                       th:unless="${artist.blogImgName == null}"
-                       th:style="'background-image: url(' + @{/file/display(fileName=${artist.blogImgPath} + '/' + ${artist.blogImgName})} + ');'"></a>
+<div class="blog channel-home post-tile-md logged-user bg-gray-0 gray-990 header-size-md header-align-left header-sans-serif   post-list-view series-list-view header-title-tagline"
+     id="blog">
+    <a class="sr-only" href="#main" id="skip">주요 내용으로 건너뛰기</a>
+    <div class="header bg-gray-0" id="header" role="banner">
+        <div class="header-custom bg-gray-0 disabled-on-preview " id="header-custom">
+            <div class="container" th:object="${content.artist}">
+                <div class="masthead d-flex" id="masthead">
+                    <a class="channel-avatar"
+                       style="background-image: url(/images/none-avatar.svg); background-size: 80px; background-color: #E4E4E4"
+                       th:if="*{blogImgName == null}"></a>
+
+                    <a class="channel-avatar"
+                       th:style="'background-image: url(' + @{/file/display(fileName=*{blogImgPath} + '/' + *{blogImgName})} + ');'"
+                       th:unless="*{blogImgName == null}"></a>
                     <div class="action-group">
-                        <button th:if="${session.member != null and artist.memberId != session.member.id}"
-                                class="btn btn-strong btn-strong-pill btn-subscribe" type="button"
-                                data-blog-id="1287845" aria-pressed="false" aria-label="구독하기">
-                            <span class="default-text">구독하기</span>
-                            <span class="active-text">구독중</span>
+                        <a class="btn btn-icon btn-share">
+                            <i class="fas fa-sign-out-alt fa-rotate-270"></i>
+                        </a>
+                        <button class="btn btn-strong btn-strong-pill btn-subscribe"
+                                id="subscribeBtn"
+                                th:classappend="*{subscribed ? 'active' : ''}"
+                                th:data-artistId="*{artistId}"
+                                th:data-status="*{subscribed}"
+                                th:if="${session.member != null and artistId != session.member.id}"
+                                type="button">
+                            <span th:class="*{subscribed ? 'active-text' : 'default-text'}"
+                                  th:text="*{subscribed ? '구독중': '구독하기'}"></span>
                         </button>
                     </div>
-                    <span class="channel-meta">구독자 <span class="count" id="subscriberCount"></span>명 · 포스트 <span
-                            class="count" id="allPostsCount"></span>개</span>
+                    <span class="channel-meta">
+                        구독자
+                        <span class="count" id="subscriberCount" th:text="*{subscriptionCount}"/>
+                        명 · 포스트
+                        <span class="count" th:text="*{postCount}"/>개
+                    </span>
                     <h1 class="masthead-title">
                         <div class="masthead-title-text">
-                            <a th:text="${artist.artistBlogName}" th:href="@{/artist/main(id=${artist.memberId})}"></a>
+                            <a th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                               th:text="*{blogName}"></a>
                         </div>
                     </h1>
                 </div>
                 <div class="divider"></div>
-                <div id="gnb-nav" class="gnb-nav">
+                <div class="gnb-nav" id="gnb-nav">
                     <nav>
                         <ul>
                             <li>
-                                <a th:href="@{/artist/main(memberId=${artist.memberId})}">홈</a>
+                                <a th:href="@{/artist/{artistId}(artistId=*{artistId})}">홈</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/post/list(memberId=${artist.memberId})}">게시글</a>
+                                <a th:href="@{/artist/{artistId}/posts(artistId=*{artistId})}">게시글</a>
                             </li>
                             <li>
                                 <a class="active">영상</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/community/list(memberId=${artist.memberId})}" class="inactive">커뮤니티</a>
+                                <a class="inactive" th:href="@{/artist/community/list(artistId=*{artistId})}">커뮤니티</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/sponsor(memberId=${artist.memberId})}">후원</a>
+                                <a th:href="@{/artist/sponsor(artistId=*{artistId})}">후원</a>
                             </li>
                             <li>
-                                <a th:href="@{/artist/crowd-funding/list(memberId=${artist.memberId})}">크라우드
-                                    펀딩</a>
+                                <a th:href="@{/artist/crowd-funding/list(artistId=*{artistId})}">크라우드 펀딩</a>
                             </li>
                         </ul>
                     </nav>
@@ -71,12 +105,12 @@
             </div>
         </div>
     </div>
-    <main id="main" class="main body-custom" role="main">
-        <div id="content" class="content">
+    <main class="main body-custom" id="main" role="main">
+        <div class="content" id="content">
             <article class="ch-home">
                 <div class="ch-home-aside">
                     <div class="sticky-top">
-                        <section class="ch-home-author-bio">
+                        <section class="ch-home-author-bio" th:object="${content.artist}">
                             <div class="ch-section-header">
                                 <h4>아티스트</h4>
                             </div>
@@ -84,24 +118,24 @@
                                 <div class="author-bio">
                                     <div class="user-profile media align-items-center">
                                         <a class="profile-img-link profile-avatar avatar-36"
-                                           th:href="@{/artist/main(memberId=${artist.memberId})}" rel="author">
+                                           rel="author" th:href="@{/artist/{artistId}(artistId=*{artistId})}">
                                             <img class="profile-img"
                                                  src="https://d33pksfia2a94m.cloudfront.net/assets/img/avatar/avatar_blank.png">
                                         </a>
                                         <div class="media-body profile-title-box">
-                                            <span class="profile-title">
-                                                <a th:text="${artist.memberNickname}"
-                                                   th:href="@{/artist/main(memberId=${artist.memberId})}"
-                                                   rel="author"></a>
-                                            </span>
+                                                <span class="profile-title">
+                                                    <a rel="author"
+                                                       th:href="@{/artist/{artistId}(artistId=*{artistId})}"
+                                                       th:text="*{nickname}"></a>
+                                                </span>
                                         </div>
                                     </div>
-                                    <p th:text="${artist.artistDescription}" class="text-alpha-black-60 mb-0"></p>
+                                    <p class="text-alpha-black-60 mb-0" th:text="*{description}"></p>
                                 </div>
                             </div>
                             <th:block th:if="${session.member != null}">
-                                <a th:if="${artist.memberId == session.member.id}" class="write-btn"
-                                   href="/artist/video/write">작성하기</a>
+                                <a class="write-btn" href="/artist/video/write"
+                                   th:if="${content.artist.artistId == session.member.id}">작성하기</a>
                             </th:block>
                         </section>
                     </div>
@@ -117,73 +151,61 @@
                         <div class="ch-section-header">
                             <h4 id="postsCount"></h4>
                         </div>
-                        <th:block th:if="${#lists.size(videos) != 0}">
-                            <th:block th:each="video:${videos}">
-                                <div th:object="${video}" id="videos-container"
-                                     class="article-list series-list channel-home-series-list">
+                        <th:block th:if="${#lists.size(content.posts) != 0}">
+                            <th:block th:each="video:${content.posts}">
+                                <div class="article-list series-list channel-home-series-list" id="videos-container"
+                                     th:object="${video}">
                                     <div class="component-series list">
                                         <div class="series-data-thumbnail">
-                                            <a th:href="@{/artist/video/detail(id=*{id})}">
-                                                <img class="video-thumbnails" th:videoLink="*{videoLink}">
+                                            <a th:href="@{/artist/{artistId}/video/{postId}(artistId=*{artistId}, postId=*{postId})}">
+                                                <img class="video-thumbnails" th:src="*{videoThumbnail}">
                                             </a>
                                         </div>
                                         <div class="series">
                                             <div class="series-inner">
                                                 <h3 class="text-truncate">
-                                                    <a th:text="*{postTitle}"
-                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>
+                                                    <a th:href="@{/artist/{artistId}/video/{postId}(artistId=*{artistId}, postId=*{postId})}"
+                                                       th:text="*{title}"></a>
                                                 </h3>
                                                 <div class="series-meta-wrapper">
                                                     <div class="user-profile-nickname text-truncate">
-                                                        <a class="text-color-black" th:text="*{memberNickname}"
-                                                           href="#"
-                                                           rel="author"></a>
+                                                        <a class="text-color-black" href="#"
+                                                           rel="author"
+                                                           th:text="*{nickname}"></a>
                                                     </div>
                                                     <div class="series-meta text-alpha-black-47">
                                                         <span class="meta-item" title="조회수">
-                                                            <i class="ic ic-eye" aria-label="조회수"></i>
-                                                            <span th:text="*{postViewCount}" class="stats-count"></span>
+                                                            <i aria-label="조회수" class="ic ic-eye"></i>
+                                                            <span class="stats-count" th:text="*{viewCount}"></span>
                                                         </span>
                                                         <span class="meta-item" title="좋아요">
-                                                            <i class="far fa-heart" aria-label="좋아요"></i>
-                                                            <span th:text="*{likeCount}" class="stats-count"></span>
+                                                            <i aria-label="좋아요" class="far fa-heart"></i>
+                                                            <span class="stats-count" th:text="*{likeCount}"></span>
                                                         </span>
                                                         <span class="meta-item" title="댓글">
                                                             <i class="far fa-comment-dots"></i>
-                                                            <span th:text="*{replyCount}" class="stats-count"></span>
+                                                            <span class="stats-count" th:text="*{replyCount}"></span>
                                                         </span>
-                                                        <time class="meta-item time"
-                                                              th:data-post-time="*{postWriteTime}"></time>
+                                                        <time class="meta-item time" th:text="*{timeGap}"></time>
                                                     </div>
                                                 </div>
                                                 <p class="ellipsis-2">
-                                                    <a th:text="*{postContent}"
-                                                       th:href="@{/artist/video/detail(id=*{id})}"></a>
+                                                    <a th:href="@{/artist/{artistId}/video/{postId}(artistId=*{artistId}, postId=*{postId})}"
+                                                       th:text="*{content}"></a>
                                                 </p>
                                             </div>
                                             <div class="bottom-container">
-                                                <div class="series-tags">
-                                                    <th:block th:if="*{tag1 != null}">
-                                                        <a href="#"
-                                                           th:text="*{tag1}" class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag2 != null}" th:text="*{tag2}"
-                                                           class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag3 != null}" th:text="*{tag3}"
-                                                           class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag4 != null}" th:text="*{tag4}"
-                                                           class="general-tag"></a>
-                                                        <a href="#"
-                                                           th:if="*{tag5 != null}" th:text="*{tag5}"
-                                                           class="general-tag"></a>
-                                                    </th:block>
+                                                <div class="series-tags" th:unless="*{tags.size() == 0}">
+                                                    <a class="general-tag" href="#"
+                                                       th:each="tag : *{tags}" th:text="${tag}"></a>
                                                 </div>
-                                                <div class="bookmark-btn" th:data-post-id="*{id}">
-                                                    <i class="fa-regular fa-bookmark default-bookmark"></i>
-                                                    <i class="fa-solid fa-bookmark active-bookmark"></i>
-                                                </div>
+                                                <button class="btn btn-icon bookmark-btn vi" th:data-post-id="*{postId}"
+                                                        th:data-status="*{bookmarked}">
+                                                    <i class="far fa-bookmark"
+                                                       th:classappend="*{bookmarked} ? '': 'active'"></i>
+                                                    <i class="fas fa-bookmark"
+                                                       th:classappend="*{bookmarked} ? 'active': ''"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -191,280 +213,37 @@
                                 </div>
                             </th:block>
                         </th:block>
-                        <th:block th:unless="${#lists.size(videos) != 0}">
+                        <th:block th:unless="${#lists.size(content.posts) != 0}">
                             <div class="content-none">게시글이 없습니다</div>
                         </th:block>
-                        <div id="page-wrap"></div>
+
+                        <div id="page-wrap" th:object="${content.pagination}">
+                            <a class="change-page"
+                               th:href="|/artist/${artistId}/videos?page=*{startPage - 1}|"
+                               th:if="*{startPage > 1}">이전</a>
+                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                <a th:class="${i == content.pagination.page ? 'active' : ''}"
+                                   th:href="|/artist/${artistId}/videos?page=${i}|">
+                                    <span class="button-highlight" th:text="${i}"></span>
+                                </a>
+                            </th:block>
+
+                            <a class="change-page"
+                               th:href="|/artist/${artistId}/videos?page=*{endPage + 1}|"
+                               th:if="*{endPage < realEnd}">다음</a>
+                        </div>
                     </section>
                 </div>
             </article>
         </div>
     </main>
+    <input id="loggedIn" th:value="${session.member != null}" type="hidden">
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script th:inline="javascript">
+<script th:src="@{/js/artist/blog-modal.js}"></script>
+<script th:src="@{/js/artist/blog-header.js}"></script>
+<script th:src="@{/js/artist/subscribe.js}" type="module"></script>
+<script th:src="@{/js/artist/video/bookmark.js}" type="module"></script>
 
-    const session = /*[[${session.member}]]*/ null;
-    const bookmarkBtn = $(".bookmark-btn");
-    let subscriptionStatus = null;
-    let subscriberCount = null
-
-    // 구독자 수와 포스트 수 가져오는 ajax 모듈 (이때 포스트는 artistPost와 video 합산임)
-    function getCounts(artistId) {
-        $.ajax({
-            type: "GET",
-            url: "/getCounts?id=" + artistId,
-            success: function (data) {
-                $("#subscriberCount").text(data[0]);
-                subscriberCount = data[0];
-                $("#allPostsCount").text(data[1] + data[2]);
-                $("#postsCount").text(data[2] + "개의 영상")
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
-
-
-    function updateTimeGaps() {
-        let currentTime = new Date();
-
-        const timeElements = document.querySelectorAll('.meta-item.time');
-        timeElements.forEach(function (element) {
-            let postTime = new Date(element.getAttribute('data-post-time'));
-            element.textContent = getTimeGap(currentTime, postTime);
-        });
-    }
-
-    // 시간차이 계산 함수
-    function getTimeGap(currentTime, postTime) {
-        let timeDiff = Math.floor((currentTime - postTime) / 1000); // 초 단위로 시간 차이 계산
-
-        if (timeDiff < 60) {
-            return "방금 전";
-        } else if (timeDiff < 3600) {
-            var minutes = Math.floor(timeDiff / 60);
-            return minutes + "분 전";
-        } else if (timeDiff < 86400) {
-            var hours = Math.floor(timeDiff / 3600);
-            return hours + "시간 전";
-        } else if (timeDiff < 2678400) {
-            var days = Math.floor(timeDiff / 86400);
-            return days + "일 전";
-        } else if (timeDiff < 32140800) {
-            var months = Math.floor(timeDiff / 2678400);
-            return months + "개월 전";
-        } else {
-            var years = Math.floor(timeDiff / 32140800);
-            return years + "년 전";
-        }
-    }
-
-    function getPageBtn() {
-        const pageWrap = $("#page-wrap");
-        const pagination = [[${pagination}]];
-        let pagingText = ``;
-
-        if (pagination.startPage > 1) {
-            pagingText += `<a class="change-page" href="/artist/video/list?memberId=[[${artist.memberId}]]&page=${pagination.startPage - 1}">이전</a>`;
-        }
-        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-            let isActive = i === pagination.page ? 'active' : '';
-            pagingText += `<a href="/artist/video/list?memberId=[[${artist.memberId}]]&page=${i}" class="${isActive}"><span class="button-highlight">${i}</span></a>`;
-        }
-        if (pagination.endPage < pagination.realEnd) {
-            pagingText += `<a class="change-page" href="/artist/video/list?memberId=[[${artist.memberId}]]&page=${pagination.endPage + 1}">다음</a>`;
-        }
-
-        pageWrap.html(pagingText);
-    }
-
-    const videoService = (function () {
-        // 비디오 포스트들의 html을 불러와 유튜브 영상 링크를 변환시켜 썸네일을 출력시킴
-        function postVideoThumbnail() {
-            const thumbnailElements = document.querySelectorAll('.video-thumbnails');
-            thumbnailElements.forEach(function (element) {
-                element.src = getYouTubeThumbnailUrl(element.getAttribute('videoLink'));
-            })
-        }
-
-        function getYouTubeThumbnailUrl(youtubeLink) {
-            // YouTube 비디오 ID 추출
-            let videoId = youtubeLink.match(/v=([^&]+)/);
-            if (videoId) {
-                return `https://img.youtube.com/vi/${videoId[1]}/mqdefault.jpg`;
-            }
-            return null;
-        }
-
-        return {postVideoThumbnail: postVideoThumbnail}
-    })();
-
-    const bookmarkService = (function () {
-        function checkPost(postId, btn, callback) {
-            $.ajax({
-                type: "GET",
-                url: "/bookmark/check-video",
-                data: {
-                    memberId: session.id,
-                    postId: postId
-                },
-                success: function (data) {
-                    if (callback) {
-                        callback(btn, data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        function updateStatus(btn, data) {
-            if (data === true) {
-                btn.data('bookmark-status', 'true');
-                btn.addClass("active");
-            } else {
-                btn.data('bookmark-status', 'false');
-                btn.removeClass("active")
-            }
-        }
-
-
-        function updateBookmarkPost(btn, postId, bookmarkStatus, callback) {
-            $.ajax({
-                type: "POST",
-                url: "/bookmark/update-video",
-                data: {
-                    memberId: session.id,
-                    postId: postId,
-                    bookmarkStatus: bookmarkStatus
-                },
-                success: function (data) {
-                    if (callback) {
-                        callback(btn, data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        return {checkPost: checkPost, updateStatus: updateStatus, updateBookmarkPost: updateBookmarkPost}
-    })();
-
-    const subscriptionService = (function () {
-        function checkSubscription(callback) {
-            $.ajax({
-                type: "GET",
-                url: "/subscription/check-subscription",
-                data: {
-                    artistId: [[${artist.memberId}]],
-                    memberId: session.id
-                },
-                success: function (data) {
-                    if (callback) {
-                        callback(data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        function updateSubscription(callback, callback2) {
-            $.ajax({
-                type: "GET",
-                url: "/subscription/update-subscription",
-                data: {
-                    subscriptionStatus: subscriptionStatus,
-                    artistId: [[${artist.memberId}]],
-                    memberId: session.id
-                },
-                success: function (data) {
-                    if (callback) {
-                        callback(data)
-                    }
-                    if (callback2){
-                        callback2(data)
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("오류가 발생했습니다. 나중에 다시 시도해주세요.")
-                }
-            });
-        }
-
-        function updateStatus(data) {
-            if (data) {
-                subscriptionStatus = data
-                $(".btn-subscribe").addClass("active")
-            } else {
-                subscriptionStatus = data
-                $(".btn-subscribe").removeClass("active")
-            }
-        }
-
-        function updateCount(data) {
-            if (data){
-                subscriberCount ++;
-                $("#subscriberCount").text(subscriberCount);
-            } else {
-                subscriberCount --;
-                $("#subscriberCount").text(subscriberCount);
-            }
-        }
-
-
-        return {
-            checkSubscription: checkSubscription,
-            updateSubscription: updateSubscription,
-            updateStatus: updateStatus,
-            updateCount: updateCount
-        }
-    })()
-
-    // 페이지 로드시 비동기 불러옴
-    $(document).ready(function () {
-        getCounts([[${artist.memberId}]]);
-        updateTimeGaps();
-        getPageBtn();
-        videoService.postVideoThumbnail();
-        if (session != null) {
-            bookmarkBtn.each(function () {
-                let btn = $(this);
-                console.log(btn);
-                let postId = $(this).data('post-id');
-                bookmarkService.checkPost(postId, btn, bookmarkService.updateStatus);
-            })
-            subscriptionService.checkSubscription(subscriptionService.updateStatus);
-        }
-    })
-
-    $(".btn-subscribe").click(()=>{
-        subscriptionService.updateSubscription(subscriptionService.updateStatus, subscriptionService.updateCount);
-    })
-
-    bookmarkBtn.click(function () {
-        if (session == null) {
-            alert("먼저 로그인을 해주세요.");
-            return;
-        }
-        let btn = $(this);
-        let postId = $(this).data('post-id');
-        let bookmarkStatus = btn.data('bookmark-status');
-
-        bookmarkService.updateBookmarkPost(btn, postId, bookmarkStatus, bookmarkService.updateStatus);
-    });
-</script>
-<script src="/js/artist/blog-header.js"></script>
-<script src="/js/artist/main.js"></script>
 </html>

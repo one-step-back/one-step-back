@@ -1,5 +1,8 @@
 package com.app.onestepback.mapper;
 
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,25 +12,23 @@ import java.util.Optional;
 
 @Mapper
 public interface VideoPostMapper {
-    public int selectCountOfVideo(Long memberId);
+    int selectCountOfVideo(Long artistId);
 
-    public List<VideoPostDTO> select3Videos(Long memberId);
+    List<ArtistVideoListDTO> selectAll(Long artistId, Long viewerId, Pagination pagination);
 
-    public List<VideoPostDTO> selectAll(Long memberId, Pagination pagination);
+    void insertPost(ArtistVideoRegisterDTO artistVideoRegisterDTO);
 
-    public void insertPost(VideoPostDTO videoPostDTO);
+    void insertVideoPost(Long postId, String videoLink);
 
-    public void insertVideoPost(VideoPostDTO videoPostDTO);
+    Optional<ArtistVideoDetailDTO> select(Long artistId, Long postId, Long viewerId);
 
-    public VideoPostDTO select(Long id);
+    void update(VideoPostDTO videoPostDTO);
 
-    public void update(VideoPostDTO videoPostDTO);
+    void updateVideoLink(VideoPostDTO videoPostDTO);
 
-    public void updateVideoLink(VideoPostDTO videoPostDTO);
+    Optional<VideoPostDTO> selectPrevPost(VideoPostDTO videoPostDTO);
 
-    public Optional<VideoPostDTO> selectPrevPost(VideoPostDTO videoPostDTO);
+    Optional<VideoPostDTO> selectNextPost(VideoPostDTO videoPostDTO);
 
-    public Optional<VideoPostDTO> selectNextPost(VideoPostDTO videoPostDTO);
-
-    public List<VideoPostDTO> select6Videos();
+    List<VideoPostDTO> select6Videos();
 }
