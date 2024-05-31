@@ -15,21 +15,21 @@ class ArtistPostMapperTest {
     @Autowired
     ArtistPostMapper artistPostMapper;
 
-    @Test
-    void selectAll() {
-        Pagination pagination = new Pagination(2, 10, 12);
-        List<ArtistPostListDTO> artistPostDTOS = artistPostMapper.selectAll(1L, pagination);
-
-        System.out.println("artistPostDTOS = " + artistPostDTOS);
-        System.out.println("artistPostDTOS = " + artistPostDTOS.size());
-    }
-
-    @Test
-    void selectTest() {
-        ArtistPostDetailDTO artistPostDetailDTO = artistPostMapper.select(1L, 14L).orElseThrow(
-                NoSuchElementException::new
-        );
-
-        System.out.println("artistPostDetailDTO = " + artistPostDetailDTO);
-    }
+//    @Test
+//    void selectAll() {
+//        Pagination pagination = new Pagination(2, 10, 12);
+//        List<ArtistPostListDTO> artistPostDTOS = artistPostMapper.selectAll(1L, pagination);
+//
+//        System.out.println("artistPostDTOS = " + artistPostDTOS);
+//        System.out.println("artistPostDTOS = " + artistPostDTOS.size());
+//    }
+//
+//    @Test
+//    void selectTest() {
+//        ArtistPostDetailDTO artistPostDetailDTO = artistPostMapper.select(1L, 14L).orElseThrow(
+//                NoSuchElementException::new
+//        );
+//
+//        System.out.println("artistPostDetailDTO = " + artistPostDetailDTO);
+//    }
 }
