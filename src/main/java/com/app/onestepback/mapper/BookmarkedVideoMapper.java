@@ -7,7 +7,9 @@ import java.util.Optional;
 
 @Mapper
 public interface BookmarkedVideoMapper {
-    public Optional<BookmarkedVideoVO> select(BookmarkedVideoVO bookmarkedVideoVO);
-    public void insert(BookmarkedVideoVO bookmarkedVideoVO);
-    public void delete(BookmarkedVideoVO bookmarkedVideoVO);
+
+    void insert(Long postId, Long memberId);
+
+    void delete(Long postId, Long memberId);
+
 }

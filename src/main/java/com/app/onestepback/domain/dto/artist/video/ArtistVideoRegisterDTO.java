@@ -1,24 +1,21 @@
-package com.app.onestepback.domain.dto.artist;
+package com.app.onestepback.domain.dto.artist.video;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class ArtistPostRegisterDTO {
+public class ArtistVideoRegisterDTO {
     private Long postId;
     private Long artistId;
     private String title;
-    private String subtitle;
+    private String videoLink;
     private String content;
     private String category;
     private long viewCount = 0;
 
     List<String> tags = new ArrayList<>();
-
-    List<MultipartFile> files = new ArrayList<>();
 }

@@ -1,8 +1,7 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.dto.artist.ArtistPostDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostDetailDTO;
-import com.app.onestepback.domain.dto.artist.ArtistPostListDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ArtistPostMapperTest {

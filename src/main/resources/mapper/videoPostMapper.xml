@@ -2,102 +2,73 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.onestepback.mapper.VideoPostMapper">
     <select id="selectCountOfVideo" resultType="int">
-        SELECT COUNT(MEMBER_ID)
+        SELECT COUNT(ARTIST_ID)
         FROM VIEW_VIDEO_POST
-        WHERE MEMBER_ID = #{memberId}
-          AND POST_READABLE &lt;> 'DISABLE'
+        WHERE ARTIST_ID = #{artistId}
+          AND POST_STATUS &lt;> 'READABLE'
     </select>
 
-    <select id="select3Videos" resultType="VideoPostDTO">
-        SELECT ID,
-               MEMBER_ID,
-               POST_TITLE,
-               POST_SUBTITLE,
-               POST_CONTENT,
-               POST_CATEGORY,
-               POST_VIEW_COUNT,
-               POST_WRITE_TIME,
-               VIDEO_LINK,
-               MEMBER_NICKNAME,
-               MEMBER_KAKAO_PROFILE_URL,
-               MEMBER_PROFILE_NAME,
-               MEMBER_PROFILE_PATH,
-               LIKE_COUNT,
-               REPLY_COUNT,
-               FILE_NAME,
-               FILE_PATH
-        FROM (SELECT V.ID,
-                     V.MEMBER_ID,
-                     V.POST_TITLE,
-                     V.POST_SUBTITLE,
-                     V.POST_CONTENT,
-                     V.POST_CATEGORY,
-                     V.POST_VIEW_COUNT,
-                     V.POST_WRITE_TIME,
-                     V.VIDEO_LINK,
-                     M.MEMBER_NICKNAME,
-                     M.MEMBER_KAKAO_PROFILE_URL,
-                     M.MEMBER_PROFILE_NAME,
-                     M.MEMBER_PROFILE_PATH,
-                     (SELECT COUNT(L.POST_ID)
-                      FROM TBL_POST_LIKE L
-                      WHERE L.POST_ID = V.ID)                                                AS LIKE_COUNT,
-                     (SELECT COUNT(R.POST_ID)
-                      FROM TBL_POST_REPLY R
-                      WHERE R.POST_ID = V.ID)                                                AS REPLY_COUNT,
-                     (SELECT F.FILE_NAME
-                      FROM TBL_POST_FILE F
-                      WHERE F.POST_ID = V.ID
-                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = V.ID)) AS FILE_NAME,
-                     (SELECT F.FILE_PATH
-                      FROM TBL_POST_FILE F
-                      WHERE F.POST_ID = V.ID
-                        AND F.ID = (SELECT MIN(ID) FROM TBL_POST_FILE WHERE POST_ID = V.ID)) AS FILE_PATH
-              FROM VIEW_VIDEO_POST V
-                       JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
-              WHERE V.MEMBER_ID = #{memberId}
-                AND V.POST_READABLE != 'DISABLE'
-              ORDER BY V.POST_WRITE_TIME DESC)
-        WHERE ROWNUM &lt;= 3
-    </select>
+    <resultMap id="artistVideoListResult" type="ArtistVideoListDTO">
+        <id property="postId" column="ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
+        <result property="title" column="POST_TITLE"/>
+        <result property="videoLink" column="VIDEO_LINK"/>
+        <result property="content" column="POST_CONTENT"/>
+        <result property="category" column="POST_CATEGORY"/>
+        <result property="writeTime" column="CREATED_TIME"/>
+        <result property="nickname" column="MEMBER_NICKNAME"/>
+        <result property="kakaoProfileUrl" column="MEMBER_KAKAO_PROFILE_URL"/>
+        <result property="profileName" column="MEMBER_PROFILE_NAME"/>
+        <result property="profilePath" column="MEMBER_PROFILE_PATH"/>
+        <result property="viewCount" column="POST_VIEW_COUNT"/>
+        <result property="likeCount" column="LIKE_COUNT"/>
+        <result property="replyCount" column="REPLY_COUNT"/>
+        <result property="isBookmarked" column="IS_BOOKMARKED"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result column="POST_TAG_NAME"/>
+        </collection>
+    </resultMap>
 
-    <select id="selectAll" resultType="videoPostDTO">
+    <select id="selectAll" resultMap="artistVideoListResult">
         SELECT P2.ID,
-               P2.MEMBER_ID,
+               P2.ARTIST_ID,
                P2.POST_TITLE,
                P2.POST_CONTENT,
                P2.POST_CATEGORY,
                P2.POST_VIEW_COUNT,
-               P2.POST_WRITE_TIME,
+               P2.CREATED_TIME,
                P2.VIDEO_LINK,
                P2.MEMBER_NICKNAME,
                P2.MEMBER_KAKAO_PROFILE_URL,
                P2.MEMBER_PROFILE_NAME,
                P2.MEMBER_PROFILE_PATH,
                P2.LIKE_COUNT,
-               P2.REPLY_COUNT
+               P2.REPLY_COUNT,
+               P2.IS_BOOKMARKED,
+               T.POST_TAG_NAME
         FROM (SELECT ROWNUM R,
                      P1.ID,
-                     P1.MEMBER_ID,
+                     P1.ARTIST_ID,
                      P1.POST_TITLE,
                      P1.POST_CONTENT,
                      P1.POST_CATEGORY,
                      P1.POST_VIEW_COUNT,
-                     P1.POST_WRITE_TIME,
+                     P1.CREATED_TIME,
                      P1.VIDEO_LINK,
                      P1.MEMBER_NICKNAME,
                      P1.MEMBER_KAKAO_PROFILE_URL,
                      P1.MEMBER_PROFILE_NAME,
                      P1.MEMBER_PROFILE_PATH,
                      P1.LIKE_COUNT,
-                     P1.REPLY_COUNT
+                     P1.REPLY_COUNT,
+                     P1.IS_BOOKMARKED
               FROM (SELECT V.ID,
-                           V.MEMBER_ID,
+                           V.ARTIST_ID,
                            V.POST_TITLE,
                            V.POST_CONTENT,
                            V.POST_CATEGORY,
                            V.POST_VIEW_COUNT,
-                           V.POST_WRITE_TIME,
+                           V.CREATED_TIME,
                            V.VIDEO_LINK,
                            M.MEMBER_NICKNAME,
                            M.MEMBER_KAKAO_PROFILE_URL,
@@ -108,27 +79,37 @@
                             WHERE L.POST_ID = V.ID) AS LIKE_COUNT,
                            (SELECT COUNT(R.POST_ID)
                             FROM TBL_POST_REPLY R
-                            WHERE R.POST_ID = V.ID) AS REPLY_COUNT
+                            WHERE R.POST_ID = V.ID) AS REPLY_COUNT,
+                           CASE
+                               WHEN EXISTS(SELECT 1
+                                           FROM TBL_BOOKMARKED_VIDEO B
+                                           WHERE B.MEMBER_ID = #{viewerId}
+                                             AND B.POST_ID = V.ID) THEN 1
+                               ELSE 0
+                               END                  AS IS_BOOKMARKED
                     FROM VIEW_VIDEO_POST V
-                             JOIN TBL_MEMBER M ON V.MEMBER_ID = M.ID
-                    WHERE MEMBER_ID = #{memberId}
-                      AND V.POST_READABLE != 'DISABLE'
-                    ORDER BY V.POST_WRITE_TIME DESC) P1
+                             JOIN TBL_MEMBER M ON V.ARTIST_ID = M.ID
+                    WHERE V.ARTIST_ID = #{artistId}
+                      AND V.POST_STATUS = 'READABLE'
+                    ORDER BY V.CREATED_TIME DESC) P1
               WHERE ROWNUM &lt;= #{pagination.endRow}) P2
-        WHERE R >= #{pagination.startRow}
+                 LEFT JOIN TBL_POST_TAG T ON T.POST_ID = P2.ID
+        WHERE P2.R >= #{pagination.startRow}
     </select>
 
+
     <insert id="insertPost">
-        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+        <selectKey keyProperty="postId" order="BEFORE" resultType="Long">
             SELECT SEQ_POST.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO TBL_POST(ID, MEMBER_ID, POST_TITLE, POST_CONTENT, POST_CATEGORY, POST_WRITE_TIME)
-        VALUES (#{id}, #{memberId}, #{postTitle}, #{postContent}, #{postCategory}, CURRENT_TIMESTAMP)
+        INSERT INTO TBL_POST(ID, ARTIST_ID, POST_TITLE, POST_CONTENT, POST_CATEGORY, POST_STATUS, POST_VIEW_COUNT,
+        CREATED_TIME)
+        VALUES (#{postId}, #{artistId}, #{title}, #{content}, #{category}, 'READABLE', #{viewCount}, CURRENT_TIMESTAMP)
     </insert>
 
     <insert id="insertVideoPost">
-        INSERT INTO TBL_VIDEO_POST(POST_ID, VIDEO_LINK)
-        VALUES (#{id}, #{videoLink})
+        INSERT INTO TBL_VIDEO(ID, VIDEO_LINK)
+        VALUES (#{postId}, #{videoLink})
     </insert>
 
     <select id="select" resultType="videoPostDTO">

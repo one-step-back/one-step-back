@@ -2,7 +2,7 @@ import {bookmarkService} from "../../service/bookmark/bookmarkService.js";
 
 const isLoggedIn = $('#loggedIn').val() === 'true';
 
-$('.bookmark-btn.ap').click(async function() {
+$('.bookmark-btn.vi').click(async function() {
     if (!isLoggedIn) {
         alert("로그인이 필요한 서비스입니다.");
         return;
@@ -11,7 +11,7 @@ $('.bookmark-btn.ap').click(async function() {
     const postId = $(this).data('post-id');
     const status = $(this).data('status');
 
-    const result = await bookmarkService.artistPost(postId, status);
+    const result = await bookmarkService.videoPost(postId, status);
 
     if (result) {
         $(this).find('.far.fa-bookmark').removeClass('active');

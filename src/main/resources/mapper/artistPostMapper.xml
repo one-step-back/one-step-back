@@ -111,7 +111,7 @@
             SELECT SEQ_POST.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO TBL_POST(ID, ARTIST_ID, POST_TITLE, POST_SUBTITLE, POST_CONTENT, POST_CATEGORY,
-        POST_VIEW_COUNT,POST_STATUS,CREATED_TIME)
+        POST_VIEW_COUNT, POST_STATUS,CREATED_TIME)
         VALUES (#{postId}, #{artistId}, #{title}, #{subtitle}, #{content}, #{category}, #{viewCount}, 'READABLE',
         CURRENT_TIMESTAMP)
     </insert>
@@ -199,7 +199,6 @@
                      (SELECT COUNT(L.POST_ID) FROM TBL_POST_LIKE L WHERE L.POST_ID = AP.ID)  AS LIKE_COUNT,
                      (SELECT COUNT(R.POST_ID) FROM TBL_POST_REPLY R WHERE R.POST_ID = AP.ID) AS REPLY_COUNT,
                      (CASE
-                          WHEN #{viewerId} IS NULL THEN 0
                           WHEN EXISTS (SELECT 1
                                        FROM TBL_SUBSCRIPTION S
                                        WHERE S.MEMBER_ID = #{viewerId}
@@ -207,7 +206,6 @@
                           ELSE 0
                          END)                                                                AS IS_SUBSCRIBED,
                      (CASE
-                          WHEN #{viewerId} IS NULL THEN 0
                           WHEN EXISTS (SELECT 1
                                        FROM TBL_POST_LIKE L
                                        WHERE L.MEMBER_ID = #{viewerId}
@@ -215,7 +213,6 @@
                           ELSE 0
                          END)                                                                AS IS_LIKED,
                      (CASE
-                          WHEN #{viewerId} IS NULL THEN 0
                           WHEN EXISTS (SELECT 1
                                        FROM TBL_BOOKMARKED_ARTIST_POST B
                                        WHERE B.MEMBER_ID = #{viewerId}

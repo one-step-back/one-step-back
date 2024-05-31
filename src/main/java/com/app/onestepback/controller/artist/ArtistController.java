@@ -1,6 +1,9 @@
 package com.app.onestepback.controller.artist;
 
-import com.app.onestepback.domain.dto.artist.*;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.service.artist.ArtistPostService;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -37,7 +41,10 @@ public class ArtistController {
         HashMap<String, Object> content = new HashMap<>();
 
         content.put("artist", artistService.getArtistDetail(artistId, viewerId));
+        System.out.println("pagination = " + pagination);
         content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
+        System.out.println("pagination = " + pagination);
+        content.put("videoPosts", videoPostService.getArtistVideoPage(artistId, viewerId, pagination));
 
         model.addAttribute("content", content);
         return "artist/main";
@@ -71,8 +78,7 @@ public class ArtistController {
 
     @GetMapping("/post/write")
     public String goToPostWriteForm(@ModelAttribute ArtistPostRegisterDTO artistPostRegisterDTO,
-                                    HttpSession session,
-                                    Model model) {
+                                    HttpSession session) {
         MemberVO member = (MemberVO) session.getAttribute("member");
 
         if (!artistService.checkArtistExist(member.getId())) {
@@ -92,7 +98,7 @@ public class ArtistController {
             artistPostService.savePost(artistPostRegisterDTO);
         } catch (Exception e) {
             log.error("아티스트 {}, 게시글 작성 오류 : {}", member.getId(), e.getMessage());
-            return "/artist/" + member.getId() + "/post/write";
+            return "/artist/post/write";
         }
 
         return "redirect:/artist/" + member.getId() + "/post/" + artistPostRegisterDTO.getPostId();
@@ -142,34 +148,59 @@ public class ArtistController {
         MemberVO member = (MemberVO) session.getAttribute("member");
 
         artistPostService.erasePost(postId, member.getId());
-        return new RedirectView("/artist/" + member.getId() +"/posts");
+        return new RedirectView("/artist/" + member.getId() + "/posts");
     }
 
     /////////////////////////////////////////////////// video /////////////////////////////////////////////////////////
-    @GetMapping("/{artistId}/video/list")
-    public void goToVideoList(@PathVariable("artistId") Long artistId,
-                              @RequestParam(value = "page", required = false) Integer page,
-                              Model model) {
-//        model.addAttribute("artist", videoPostService.getArtist(artistId));
-
+    @GetMapping("/{artistId}/videos")
+    public String goToVideoList(@PathVariable("artistId") Long artistId,
+                                @RequestParam(value = "page", required = false) Integer page,
+                                HttpSession session,
+                                Model model) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        Long viewerId = member != null ? member.getId() : 0;
         Pagination pagination = new Pagination(page, 10, videoPostService.getPostCount(artistId));
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("videos", videoPostService.getAllVideos(artistId, pagination));
+        HashMap<String, Object> content = new HashMap<>();
+
+        List<ArtistVideoListDTO> posts = videoPostService.getArtistVideoPage(artistId, viewerId, pagination);
+
+        System.out.println("posts = " + posts);
+
+        content.put("artist", artistService.getArtistDetail(artistId, viewerId));
+        content.put("posts", posts);
+        content.put("pagination", pagination);
+
+        model.addAttribute("content", content);
+        return "artist/video/list";
     }
 
-//    @GetMapping("write")
-//    public void goToVideoWriteForm(VideoPostDTO videoPostDTO, HttpSession session, Model model) {
-//        MemberVO memberSession = (MemberVO) session.getAttribute("member");
-//
-//        model.addAttribute("memberId", memberSession.getId());
-//    }
-//
-//    @PostMapping("write")
-//    public RedirectView saveArtistVideo(VideoPostDTO videoPostDTO, @RequestParam("numberOfTags") int numberOfTags, @RequestParam(value = "uuid", required = false) List<String> uuids, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFiles) {
-//        videoPostService.savePost(videoPostDTO, numberOfTags);
-//
-//        return new RedirectView("/artist/video/detail?id=" + videoPostDTO.getId());
-//    }
+    @GetMapping("/video/write")
+    public String goToVideoWriteForm(@ModelAttribute ArtistVideoRegisterDTO artistVideoRegisterDTO,
+                                     HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+
+        if (!artistService.checkArtistExist(member.getId())) {
+            throw new NoSuchElementException("해당 유저는 아티스트임을 조회 할 수 없음");
+        }
+
+        return "/artist/video/write";
+    }
+
+    @PostMapping("/video/write")
+    public String saveArtistVideo(ArtistVideoRegisterDTO artistVideoRegisterDTO,
+                                  HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        artistVideoRegisterDTO.setArtistId(member.getId());
+
+        try {
+            videoPostService.savePost(artistVideoRegisterDTO);
+        } catch (Exception e) {
+            log.error("아티스트 {}, 영상게시글 작성 오류 : {}", member.getId(), e.getMessage());
+            return "/artist/video/write";
+        }
+
+        return "redirect:/artist/" + member.getId() + "/video/" + artistVideoRegisterDTO.getPostId();
+    }
 
 //    @GetMapping("detail")
 //    public void goToVideoDetail(@RequestParam("id") Long id, Model model){

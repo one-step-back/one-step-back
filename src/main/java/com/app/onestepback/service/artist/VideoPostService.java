@@ -1,6 +1,7 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.ArtistDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 
@@ -9,22 +10,22 @@ import java.util.Optional;
 
 public interface VideoPostService {
 
-    public int getPostCount(Long memberId);
+    int getPostCount(Long artistId);
 
-    public List<VideoPostDTO> getAllVideos(Long memberId, Pagination pagination);
+    List<ArtistVideoListDTO> getArtistVideoPage(Long artistId, Long viewerId, Pagination pagination);
 
-    public void savePost(VideoPostDTO videoPostDTO, int numberOfTags);
+    void savePost(ArtistVideoRegisterDTO artistVideoRegisterDTO);
 
-    public VideoPostDTO getVideoPost(Long id);
+    VideoPostDTO getVideoPost(Long id);
 
-    public Optional<VideoPostDTO> getPrevPost(VideoPostDTO videoPostDTO);
+    Optional<VideoPostDTO> getPrevPost(VideoPostDTO videoPostDTO);
 
-    public Optional<VideoPostDTO> getNextPost(VideoPostDTO videoPostDTO);
+    Optional<VideoPostDTO> getNextPost(VideoPostDTO videoPostDTO);
 
-    public void editVideoPost(VideoPostDTO videoPostDTO, int numberOfTags);
+    void editVideoPost(VideoPostDTO videoPostDTO, int numberOfTags);
 
-    public void viewCountUp(Long id);
+    void viewCountUp(Long id);
 
-    public void erasePost(Long id);
+    void erasePost(Long id);
 
 }

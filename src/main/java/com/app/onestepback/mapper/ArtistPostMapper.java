@@ -1,6 +1,9 @@
 package com.app.onestepback.mapper;
 
-import com.app.onestepback.domain.dto.artist.*;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 

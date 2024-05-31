@@ -1,6 +1,9 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.dto.artist.*;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
+import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
 import lombok.RequiredArgsConstructor;
