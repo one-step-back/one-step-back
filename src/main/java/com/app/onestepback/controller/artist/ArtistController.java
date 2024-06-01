@@ -2,6 +2,7 @@ package com.app.onestepback.controller.artist;
 
 import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.MemberVO;
@@ -41,9 +42,7 @@ public class ArtistController {
         HashMap<String, Object> content = new HashMap<>();
 
         content.put("artist", artistService.getArtistDetail(artistId, viewerId));
-        System.out.println("pagination = " + pagination);
         content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
-        System.out.println("pagination = " + pagination);
         content.put("videoPosts", videoPostService.getArtistVideoPage(artistId, viewerId, pagination));
 
         model.addAttribute("content", content);
@@ -164,8 +163,6 @@ public class ArtistController {
 
         List<ArtistVideoListDTO> posts = videoPostService.getArtistVideoPage(artistId, viewerId, pagination);
 
-        System.out.println("posts = " + posts);
-
         content.put("artist", artistService.getArtistDetail(artistId, viewerId));
         content.put("posts", posts);
         content.put("pagination", pagination);
@@ -214,24 +211,36 @@ public class ArtistController {
         return "artist/video/detail";
     }
 
-//    @GetMapping("edit")
-//    public void goToVideoEditForm(@RequestParam("id")Long id, VideoPostDTO videoPostDTO, Model model) {
-//        model.addAttribute("post", videoPostService.getVideoPost(id));
-//    }
+    @GetMapping("/video/edit")
+    public String goToVideoEditForm(@RequestParam("postId") Long postId,
+                                    HttpSession session,
+                                    Model model) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
 
-//    @PostMapping("edit")
-//    public RedirectView editForm(VideoPostDTO videoPostDTO, @RequestParam("numberOfTags")int numberOfTags){
-//        videoPostService.editVideoPost(videoPostDTO, numberOfTags);
-//
-//        return new RedirectView("/artist/video/detail?id=" + videoPostDTO.getId());
-//    }
+        model.addAttribute("post", videoPostService.getEditPost(member.getId(), postId));
+        return "/artist/video/edit";
+    }
 
-//    @PostMapping("delete")
-//    public RedirectView eraseVideo(@RequestParam("id") Long id, HttpSession session){
-//        videoPostService.erasePost(id);
-//
-//        MemberVO member = (MemberVO) session.getAttribute("member");
-//
-//        return new RedirectView("/artist/video/list?memberId=" + member.getId());
-//    }
+    @PostMapping("/video/edit")
+    public RedirectView editForm(ArtistVideoEditDTO artistVideoEditDTO,
+                                 HttpSession session){
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        artistVideoEditDTO.setArtistId(member.getId());
+
+        try {
+            videoPostService.editVideoPost(artistVideoEditDTO);
+        } catch (Exception e) {
+            log.error("아티스트 : {}, 수정오류 발생 : {}", member.getId(), e.getMessage());
+        }
+        return new RedirectView("/artist/" + artistVideoEditDTO.getArtistId() + "/video/" + artistVideoEditDTO.getPostId());
+    }
+
+    @PostMapping("/video/delete")
+    public RedirectView eraseVideo(@RequestParam("postId") Long postId,
+                                  HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+
+        videoPostService.erasePost(postId, member.getId());
+        return new RedirectView("/artist/" + member.getId() + "/videos");
+    }
 }

@@ -1,11 +1,10 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.dto.VideoPostDTO;
 
 import java.util.List;
 
@@ -19,10 +18,12 @@ public interface VideoPostService {
 
     ArtistVideoDetailDTO getPostDetail(Long artistId, Long postId, Long viewerId);
 
-    void editVideoPost(VideoPostDTO videoPostDTO, int numberOfTags);
+    ArtistVideoEditDTO getEditPost(Long artistId, Long postId);
+
+    void editVideoPost(ArtistVideoEditDTO artistVideoEditDTO);
 
     void viewCountUp(Long id);
 
-    void erasePost(Long id);
+    void erasePost(Long artistId, Long postId);
 
 }

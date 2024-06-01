@@ -1,8 +1,7 @@
 package com.app.onestepback.service.artist;
 
-import com.app.onestepback.domain.dto.VideoPostDTO;
-import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -16,9 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,32 +69,58 @@ public class VideoPostServiceImpl implements VideoPostService {
         );
 
         content.setEmbedLink(youTubeUtil.getYouTubeEmbedLink(content.getVideoLink()));
-
         return content;
     }
 
     @Override
-    public void editVideoPost(VideoPostDTO videoPostDTO, int numberOfTags) {
-        videoPostDAO.editVideoPost(videoPostDTO);
-        videoPostDAO.editVideoLink(videoPostDTO);
+    public ArtistVideoEditDTO getEditPost(Long artistId, Long postId) {
+        return videoPostDAO.getEditPost(artistId, postId).orElseThrow(
+                () -> new NoSuchElementException("해당 게시글을 조회할 수 없음.")
+        );
+    }
 
-        postTagDAO.deletePostTag(videoPostDTO.getId());
-//        for (int i = 1; i <= numberOfTags; i++) {
-//            try {
-//                PostTagVO postTagVO = new PostTagVO();
-//
-//                String tagName = "tag" + i;
-//                Field field = videoPostDTO.getClass().getDeclaredField(tagName);
-//                field.setAccessible(true);
-//
-//                postTagVO.setPostId(videoPostDTO.getId());
-//                postTagVO.setPostTagName((String) field.get(videoPostDTO));
-//
-//                postTagDAO.savePostTag(postTagVO);
-//            } catch (NoSuchFieldException | IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//        }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void editVideoPost(ArtistVideoEditDTO artistVideoEditDTO) {
+        videoPostDAO.editVideoPost(artistVideoEditDTO);
+        videoPostDAO.editVideoLink(artistVideoEditDTO);
+
+        List<String> savedTags = postTagDAO.getAllTags(artistVideoEditDTO.getPostId());
+        List<String> tags = artistVideoEditDTO.getTags();
+
+        // 새로운 태그 insert
+        List<String> newTags = new ArrayList<>(tags);
+        newTags.removeAll(savedTags);
+
+        List<PostTagVO> saveTagsList = new ArrayList<>();
+
+        for (String newTag : newTags) {
+            PostTagVO postTagVO = PostTagVO.builder()
+                    .postId(artistVideoEditDTO.getPostId())
+                    .postTagName(newTag)
+                    .build();
+            saveTagsList.add(postTagVO);
+        }
+        if (!saveTagsList.isEmpty()) {
+            postTagDAO.saveAllTags(saveTagsList);
+        }
+
+        // 삭제되어야 하는 태그 delete
+        List<String> deletedTags = new ArrayList<>(savedTags);
+        deletedTags.removeAll(tags);
+
+        List<PostTagVO> deleteTagList = new ArrayList<>();
+
+        for (String deleteTag : deletedTags) {
+            PostTagVO postTagVO = PostTagVO.builder()
+                    .postId(artistVideoEditDTO.getPostId())
+                    .postTagName(deleteTag)
+                    .build();
+            deleteTagList.add(postTagVO);
+        }
+        if (!deleteTagList.isEmpty()) {
+            postTagDAO.deleteAllTags(deleteTagList);
+        }
     }
 
     @Override
@@ -104,7 +129,7 @@ public class VideoPostServiceImpl implements VideoPostService {
     }
 
     @Override
-    public void erasePost(Long id) {
-//        postDAO.erasePost(id);
+    public void erasePost(Long postId, Long artistId) {
+        postDAO.erasePost(postId, artistId);
     }
 }
