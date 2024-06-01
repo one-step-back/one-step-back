@@ -1,6 +1,5 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;

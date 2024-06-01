@@ -1,11 +1,8 @@
 package com.app.onestepback.repository;
 
-import com.app.onestepback.domain.vo.BookmarkedVideoVO;
 import com.app.onestepback.mapper.BookmarkedVideoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

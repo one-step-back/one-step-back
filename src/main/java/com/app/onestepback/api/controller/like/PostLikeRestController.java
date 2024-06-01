@@ -1,7 +1,6 @@
 package com.app.onestepback.api.controller.like;
 
 import com.app.onestepback.domain.vo.MemberVO;
-import com.app.onestepback.domain.vo.PostLikeVO;
 import com.app.onestepback.service.file.PostLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
