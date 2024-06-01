@@ -3,7 +3,6 @@ package com.app.onestepback.service.artist;
 import com.app.onestepback.domain.dto.reply.PostReplyDTO;
 import com.app.onestepback.domain.dto.reply.PostReplyWriteDTO;
 import com.app.onestepback.domain.vo.Pagination;
-import com.app.onestepback.domain.vo.PostReplyVO;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.app.onestepback.mapper;
 
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
+import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
 import com.app.onestepback.domain.vo.Pagination;
@@ -22,9 +23,11 @@ public interface VideoPostMapper {
 
     Optional<ArtistVideoDetailDTO> select(Long artistId, Long postId, Long viewerId);
 
-    void update(VideoPostDTO videoPostDTO);
+    Optional<ArtistVideoEditDTO> selectToEditDTO(Long artistId, Long postId);
 
-    void updateVideoLink(VideoPostDTO videoPostDTO);
+    void update(ArtistVideoEditDTO artistVideoEditDTO);
+
+    void updateVideoLink(ArtistVideoEditDTO artistVideoEditDTO);
 
     Optional<VideoPostDTO> selectPrevPost(VideoPostDTO videoPostDTO);
 

@@ -230,19 +230,47 @@
                 AND VP.ID = #{postId}) S
     </select>
 
+    <resultMap id="artistVideoEditMap" type="ArtistVideoEditDTO">
+        <id property="postId" column="ID"/>
+        <result property="artistId" column="ARTIST_ID"/>
+        <result property="title" column="POST_TITLE"/>
+        <result property="videoLink" column="VIDEO_LINK"/>
+        <result property="content" column="POST_CONTENT"/>
+        <result property="category" column="POST_CATEGORY"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result column="POST_TAG_NAME"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectToEditDTO" resultMap="artistVideoEditMap">
+        SELECT VP.ID,
+               VP.ARTIST_ID,
+               VP.POST_TITLE,
+               VP.VIDEO_LINK,
+               VP.POST_CONTENT,
+               VP.POST_CATEGORY,
+               T.POST_TAG_NAME
+        FROM VIEW_VIDEO_POST VP
+                 LEFT JOIN TBL_POST_TAG T ON T.POST_ID = VP.ID
+        WHERE VP.POST_STATUS = 'READABLE'
+          AND VP.ARTIST_ID = #{artistId}
+          AND VP.ID = #{postId}
+    </select>
+
     <update id="update">
         UPDATE TBL_POST
-        SET POST_TITLE       = #{postTitle},
-            POST_CONTENT     = #{postContent},
-            POST_CATEGORY    = #{postCategory},
-            POST_UPDATE_TIME = CURRENT_TIMESTAMP
-        WHERE ID = #{id}
+        SET POST_TITLE    = #{title},
+            POST_CONTENT  = #{content},
+            POST_CATEGORY = #{category},
+            MODIFIED_TIME = current_timestamp
+        WHERE ID = #{postId}
+          AND ARTIST_ID = #{artistId}
     </update>
 
     <update id="updateVideoLink">
-        UPDATE TBL_VIDEO_POST
+        UPDATE TBL_VIDEO
         SET VIDEO_LINK = #{videoLink}
-        WHERE POST_ID = #{id}
+        WHERE ID = #{postId}
     </update>
 
     <select id="select6Videos" resultType="videoPostDTO">

@@ -53,20 +53,23 @@
         <div class="surface_accent translate-x-0 animate-slideLeftToRight" style="width: 0%; height: 3px;"></div>
         <form id="summit-form" class="mt-[32px]" th:action="@{/artist/video/edit}" method="post"
               enctype="multipart/form-data"
-              th:object="${videoPostDTO}">
-            <input id="id" th:field="*{id}" type="hidden">
+              th:object="${post}">
+            <input th:field="*{postId}" type="hidden">
             <input id="numberOfTags" type="hidden" name="numberOfTags">
-            <div id="tags"></div>
+            <div id="tagInputs">
+                <input name="tags" th:each="tag : *{tags}" th:value="${tag}" type="hidden">
+            </div>
             <div class="grid grid-cols-15 gap-x-[16px] gap-y-0 w-desktop-grid mx-auto">
                 <section class="col-span-10">
                     <div class="mb-[14px]">
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input id="postTitle" th:field="*{postTitle}" type="text"
-                                   class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
-                                   placeholder="제목을 입력해 주세요." value>
+                            <input class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
+                                   placeholder="제목을 입력해 주세요."
+                                   th:field="*{title}"
+                                   type="text" value>
                         </label>
                         <label class="relative overflow-hidden flex rounded-[8px] border-solid border-[1px] border_black_opacity surface_primary focus:border-[2px] focus:border_accent_active disabled:content_disabled">
-                            <input id="videoLink" th:field="*{videoLink}" type="text"
+                            <input th:field="*{videoLink}" type="text"
                                    class="px-[20px] w-full h-[48px] outline-none font_title_bold_md placeholder:font_body_regular_md content_primary placeholder:content_disabled disabled:surface_tertiary disabled:border_black_opacity"
                                    placeholder="유튜브 링크를 넣어주세요." value>
                         </label>
@@ -79,9 +82,9 @@
                                 <div class="tox-editor-container">
                                     <div class="tox-sidebar-wrap">
                                         <div class="tox-edit-area">
-                                            <textarea id="post-content" th:field="*{postContent}"
-                                                      class="placeholder:font_body_regular_md"
-                                                      cols="30" rows="10" placeholder="내용을 입력해주세요."></textarea>
+                                           <textarea class="placeholder:font_body_regular_md" cols="30"
+                                                     placeholder="내용을 입력해주세요." rows="10"
+                                                     th:field="*{content}"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -102,11 +105,11 @@
                         </div>
                         <div class="px-[20px]">
                             <label style="padding: 20px">
-                                <input id="postCategory" th:field="*{postCategory}" type="text"
-                                       placeholder="카테고리를 작성해주세요"
+                                <input class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
                                        maxlength="6"
-                                       class="outline-none w-full font_body_regular_md placeholder:content_disabled cursor-pointer surface_primary content_primary"
-                                       value="">
+                                       placeholder="카테고리를 작성해주세요"
+                                       th:field="*{category}"
+                                       type="text">
                             </label>
                         </div>
                         <div class="h-[54px] surface_secondary px-[16px] first:rounded-t-[12px] border-y first:border-t-0 border_primary flex items-center justify-between">
@@ -125,7 +128,12 @@
                                     </label>
                                 </div>
                             </div>
-                            <div id="tag-wrap"></div>
+                            <div id="tag-wrap">
+                                <div class="tag-container" th:each="tag : *{tags}">
+                                    <span th:text="${tag}"></span>
+                                    <i class="fa-solid fa-x"></i>
+                                </div>
+                            </div>
                         </div>
                     </section>
                 </section>
@@ -158,165 +166,12 @@
 </div>
 
 </body>
+<script th:inline="javascript">
+    let tagCount = [[${post.tags}]].length;
+</script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="/js/artist/blog-header.js"></script>
-<script th:inline="javascript">
-    const tagWrap = $("#tag-wrap");
-    const tags = $("#tags");
-    let numberOfTags = 0;
+<script th:src="@{/js/artist/blog-header.js}"></script>
+<script th:src="@{/js/artist/video/edit.js}" type="module"></script>
 
-    // 페이지 출력후 포스트의 정보를 각 정보칸에 저장하는 함수
-    function loadPostInfo() {
-        const post = [[${post}]];
-
-        $("#id").val(post.id);
-        $("#postTitle").val(post.postTitle);
-        $("#videoLink").val(post.videoLink);
-        $("#post-content").val(post.postContent);
-        $("#postCategory").val(post.postCategory);
-
-        for (let i = 1; i <= 5; i++) {
-            const tag = post[`tag${i}`];
-            if (tag != null) {
-                let tagContainer = `<div class="tag-container">${tag}<i class="fa-solid fa-x"></i></div>`;
-                let tagInput = `<input type="hidden" name="tag${i}" value="${tag}">`;
-
-                tagWrap.append(tagContainer);
-                tags.append(tagInput);
-                numberOfTags++;
-                $("#numberOfTags").val(numberOfTags);
-            }
-        }
-        console.log(numberOfTags);
-    }
-
-
-    $(function () {
-        loadPostInfo();
-
-        const modal = $("#modal");
-        const postForm = $("#post-form");
-        const reCheckForm = $("#re-check-form")
-
-
-        $("#numberOfTags").val(numberOfTags);
-
-        $("#popover-on-btn").click(() => {
-            let postTitleInput = $("#postTitle");
-            let videoLinkInput = $("#videoLink");
-            let postContentInput = $("#postContent");
-            let postCategoryInput = $("#postCategory");
-
-            // 값이 비어있는지 확인
-            if (postTitleInput.val() === "") {
-                alert("제목을 입력해 주세요.");
-                return;
-            }
-            if (videoLinkInput.val() === "") {
-                alert("부제목을 입력해 주세요.");
-                return;
-            }
-            if (postContentInput.val() === "") {
-                alert("내용을 입력해 주세요.");
-                return;
-            }
-            if (postCategoryInput.val() === "") {
-                alert("카테고리를 입력해 주세요.");
-                return;
-            }
-
-            modal.css("display", "block");
-            postForm.css("display", "block")
-        });
-
-        $(".modal-cancel").click(() => {
-            modal.hide();
-            postForm.hide();
-            reCheckForm.hide();
-        })
-
-        $("#tag-input").on("input", function () {
-            const inputValue = $(this).val();
-            const sanitizedValue = sanitizeInput(inputValue);
-            $(this).val(sanitizedValue);
-        });
-
-
-        $("#tag-input").on("keydown", function (event) {
-            if (event.key === "Enter") {
-                let tagValue = $(this).val().trim();
-
-                if (tagValue !== "") {
-                    const tagCount = tagWrap.find(".tag-container").length;
-                    if (tagCount >= 5) {
-                        alert("태그는 최대 5개까지 작성 가능합니다.");
-                        return;
-                    }
-
-                    tagValue = tagValue.replace(/ /g, "_");
-
-                    let isDuplicate = false;
-                    tagWrap.find(".tag-container").each(function () {
-                        if ($(this).text() === tagValue) {
-                            isDuplicate = true;
-                            return false;
-                        }
-                    });
-
-                    if (isDuplicate) {
-                        alert("이미 추가된 태그입니다.");
-                        return;
-                    }
-
-                    numberOfTags++;
-
-                    let tagContainer = `<div class="tag-container">${tagValue}<i class="fa-solid fa-x"></i></div>`;
-                    let tagInput = `<input type="hidden" name="tag${numberOfTags}" value="${tagValue}">`;
-
-                    tagWrap.append(tagContainer);
-                    tags.append(tagInput);
-
-                    $("#numberOfTags").val(numberOfTags);
-
-                    $(this).val("");
-                }
-            }
-        });
-
-        $("#tag-wrap").on("click", ".tag-container i", function () {
-            const deletedTag = $(this).parent().text().trim();
-            $(this).parent().remove();
-            numberOfTags--;
-            $("#numberOfTags").val(numberOfTags);
-
-            $("#tags input").each(function () {
-                if ($(this).val() === deletedTag) {
-                    $(this).remove();
-                }
-            });
-        });
-
-        let doubleSubmitFlag = false;
-
-        function doubleSubmitCheck() {
-            if (doubleSubmitFlag) {
-                return doubleSubmitFlag;
-            } else {
-                doubleSubmitFlag = true;
-                return false;
-            }
-        }
-
-
-        $("#summit-btn").click(() => {
-            if (doubleSubmitCheck()) return;
-            $("#summit-form").submit();
-        });
-    });
-
-    function sanitizeInput(input) {
-        return input.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/g, "");
-    }
-
-</script>
 </html>

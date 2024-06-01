@@ -1,7 +1,6 @@
 package com.app.onestepback.api.controller;
 
 import com.app.onestepback.api.response.DataResponse;
-import com.app.onestepback.api.response.MessageResponse;
 import com.app.onestepback.domain.dto.reply.PostReplyDTO;
 import com.app.onestepback.domain.dto.reply.PostReplyWriteDTO;
 import com.app.onestepback.domain.vo.MemberVO;
