@@ -4,6 +4,7 @@ import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface VideoPostService {
 
     int getPostCount(Long artistId);
+
+    List<ArtistVideoListDTO> getVideos(PostSortType sortType);
 
     List<ArtistVideoListDTO> getArtistVideoPage(Long artistId, Long viewerId, Pagination pagination);
 

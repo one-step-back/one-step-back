@@ -8,6 +8,59 @@
           AND POST_STATUS &lt;> 'READABLE'
     </select>
 
+    <select id="selectAll" resultType="artistVideoListDTO">
+        SELECT S.POST_ID,
+        S.ARTIST_ID,
+        S.TITLE,
+        S.VIDEO_LINK,
+        S.CONTENT,
+        S.CATEGORY,
+        S.CREATED_TIME,
+        S.NICKNAME,
+        S.KAKAO_PROFILE_URL,
+        S.PROFILE_NAME,
+        S.PROFILE_PATH,
+        S.VIEW_COUNT,
+        S.LIKE_COUNT,
+        S.REPLY_COUNT
+        FROM (
+        SELECT V.ID AS POST_ID,
+        V.ARTIST_ID,
+        V.POST_TITLE AS TITLE,
+        V.VIDEO_LINK,
+        V.POST_CONTENT AS CONTENT,
+        V.POST_CATEGORY AS CATEGORY,
+        V.CREATED_TIME,
+        M.MEMBER_NICKNAME as NICKNAME,
+        M.MEMBER_KAKAO_PROFILE_URL AS KAKAO_PROFILE_URL,
+        M.MEMBER_PROFILE_NAME AS PROFILE_NAME,
+        M.MEMBER_PROFILE_PATH AS PROFILE_PATH,
+        V.POST_VIEW_COUNT AS VIEW_COUNT,
+        (SELECT COUNT(L.POST_ID)
+        FROM TBL_POST_LIKE L
+        WHERE L.POST_ID = V.ID) AS LIKE_COUNT,
+        (SELECT COUNT(R.POST_ID)
+        FROM TBL_POST_REPLY R
+        WHERE R.POST_ID = V.ID) AS REPLY_COUNT
+        FROM VIEW_VIDEO_POST V
+        JOIN TBL_MEMBER M ON V.ARTIST_ID = M.ID
+        WHERE V.POST_STATUS = 'READABLE'
+        ORDER BY
+        <choose>
+            <when test="sortType.value == 'ID_DESC'">
+                V.ID DESC
+            </when>
+            <when test="sortType.value == 'LIKE_DESC'">
+                LIKE_COUNT DESC, V.ID DESC
+            </when>
+            <when test="sortType.value == 'VIEW_DESC'">
+                VIEW_COUNT DESC, V.ID DESC
+            </when>
+        </choose>
+        ) S
+        WHERE ROWNUM &lt;= 3
+    </select>
+
     <resultMap id="artistVideoListResult" type="ArtistVideoListDTO">
         <id property="postId" column="ID"/>
         <result property="artistId" column="ARTIST_ID"/>
@@ -15,7 +68,7 @@
         <result property="videoLink" column="VIDEO_LINK"/>
         <result property="content" column="POST_CONTENT"/>
         <result property="category" column="POST_CATEGORY"/>
-        <result property="writeTime" column="CREATED_TIME"/>
+        <result property="createdTime" column="CREATED_TIME"/>
         <result property="nickname" column="MEMBER_NICKNAME"/>
         <result property="kakaoProfileUrl" column="MEMBER_KAKAO_PROFILE_URL"/>
         <result property="profileName" column="MEMBER_PROFILE_NAME"/>
@@ -29,7 +82,7 @@
         </collection>
     </resultMap>
 
-    <select id="selectAll" resultMap="artistVideoListResult">
+    <select id="selectVideoPosts" resultMap="artistVideoListResult">
         SELECT P2.ID,
                P2.ARTIST_ID,
                P2.POST_TITLE,

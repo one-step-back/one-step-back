@@ -1,38 +1,38 @@
-package com.app.onestepback.domain.dto.artist.post;
+package com.app.onestepback.domain.dto;
 
+import com.app.onestepback.domain.dto.postElements.PostTagDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @Data
 @NoArgsConstructor
-public class ArtistPostListDTO {
+public class PostDTO {
     private Long postId;
     private Long artistId;
     private String title;
-    private String subtitle;
     private String content;
     private String category;
     private LocalDateTime createdTime;
-    private String timeGap;
 
-    // 사진은 ID순 맨 첫번째꺼 하나
+    private Long likeCount;
+    private Long replyCount;
+    private Long viewCount;
+
+    private String videoLink;
+    private String videoThumbnail;
     private String fileName;
     private String filePath;
-
-    private List<String> tags = new ArrayList<>();
 
     private String nickname;
     private String kakaoProfileUrl;
     private String profileName;
     private String profilePath;
 
-    private long viewCount;
-    private int likeCount;
-    private int replyCount;
-
-    private boolean isBookmarked;
+    private List<String> tags = new ArrayList<>();
 }

@@ -17,7 +17,7 @@ public class ArtistPostMapperTest {
 //        Pagination pagination = new Pagination();
 //        pagination.setStartRow(1);
 //        pagination.setEndRow(10);
-//        artistPostMapper.selectAll(1L, pagination).stream().map(ArtistPostDTO::toString).forEach(log::info);
+//        artistPostMapper.selectArtistPosts(1L, pagination).stream().map(ArtistPostDTO::toString).forEach(log::info);
 //    }
 
 //    @Test

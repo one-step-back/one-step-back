@@ -4,6 +4,7 @@ import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +16,9 @@ import java.util.Optional;
 public interface VideoPostMapper {
     int selectCountOfVideo(Long artistId);
 
-    List<ArtistVideoListDTO> selectAll(Long artistId, Long viewerId, Pagination pagination);
+    List<ArtistVideoListDTO> selectAll(PostSortType sortType);
+
+    List<ArtistVideoListDTO> selectVideoPosts(Long artistId, Long viewerId, Pagination pagination);
 
     void insertPost(ArtistVideoRegisterDTO artistVideoRegisterDTO);
 

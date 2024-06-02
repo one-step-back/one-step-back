@@ -5,6 +5,7 @@ import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.dto.postElements.PostFileDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.repository.*;
@@ -39,11 +40,22 @@ public class ArtistPostServiceImpl implements ArtistPostService {
     }
 
     @Override
-    public List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination) {
-        List<ArtistPostListDTO> contents = artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination);
+    public List<ArtistPostListDTO> getArtistPosts(PostSortType sortType) {
+        List<ArtistPostListDTO> contents = artistPostDAO.getArtistPosts(sortType);
 
         contents.forEach(content -> {
-            content.setTimeGap(timeUtil.getTimeGap(content.getWriteTime()));
+            content.setTimeGap(timeUtil.getTimeGap(content.getCreatedTime()));
+        });
+
+        return contents;
+    }
+
+    @Override
+    public List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination, PostSortType sortType) {
+        List<ArtistPostListDTO> contents = artistPostDAO.getArtistPostsPage(artistId, viewerId, pagination, sortType);
+
+        contents.forEach(content -> {
+            content.setTimeGap(timeUtil.getTimeGap(content.getCreatedTime()));
         });
 
         return contents;

@@ -20,7 +20,7 @@ public class VideoPostMapperTest {
 //
 //        pagination.setStartRow(1);
 //        pagination.setEndRow(10);
-//        videoPostMapper.selectAll(1L, pagination).stream().map(VideoPostDTO::toString).forEach(log::info);
+//        videoPostMapper.selectArtistPosts(1L, pagination).stream().map(VideoPostDTO::toString).forEach(log::info);
     }
 
     @Test

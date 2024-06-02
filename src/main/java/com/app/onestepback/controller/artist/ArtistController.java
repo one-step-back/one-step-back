@@ -5,6 +5,7 @@ import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.service.artist.ArtistPostService;
@@ -42,7 +43,7 @@ public class ArtistController {
         HashMap<String, Object> content = new HashMap<>();
 
         content.put("artist", artistService.getArtistDetail(artistId, viewerId));
-        content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
+        content.put("artistPosts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination, PostSortType.ID_DESC));
         content.put("videoPosts", videoPostService.getArtistVideoPage(artistId, viewerId, pagination));
 
         model.addAttribute("content", content);
@@ -68,7 +69,7 @@ public class ArtistController {
         HashMap<String, Object> content = new HashMap<>();
 
         content.put("artist", artistService.getArtistDetail(artistId, viewerId));
-        content.put("posts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination));
+        content.put("posts", artistPostService.getArtistPostsPage(artistId, viewerId, pagination, PostSortType.ID_DESC));
         content.put("pagination", pagination);
 
         model.addAttribute("content", content);
