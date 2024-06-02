@@ -2,6 +2,7 @@ package com.app.onestepback.mapper;
 
 import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,17 @@ class ArtistPostMapperTest {
     @Autowired
     ArtistPostMapper artistPostMapper;
 
+    @Test
+    void selectAll() {
+        List<ArtistPostListDTO> content = artistPostMapper.selectAll(PostSortType.LIKE_DESC);
+
+        System.out.println("content = " + content);
+    }
+
 //    @Test
-//    void selectAll() {
+//    void selectArtistPosts() {
 //        Pagination pagination = new Pagination(2, 10, 12);
-//        List<ArtistPostListDTO> artistPostDTOS = artistPostMapper.selectAll(1L, pagination);
+//        List<ArtistPostListDTO> artistPostDTOS = artistPostMapper.selectArtistPosts(1L, pagination);
 //
 //        System.out.println("artistPostDTOS = " + artistPostDTOS);
 //        System.out.println("artistPostDTOS = " + artistPostDTOS.size());

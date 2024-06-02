@@ -3,11 +3,14 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistPostVO" alias="artistPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO" alias="artistPostRegisterDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO" alias="artistVideoRegisterDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO"
+                   alias="artistPostRegisterDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO"
+                   alias="artistVideoRegisterDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO" alias="artistPostListDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO" alias="artistPostDetailDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO" alias="artistVideoDetailDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO"
+                   alias="artistVideoDetailDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.ArtistVO" alias="artistVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>
@@ -25,7 +28,7 @@
         <typeAlias type="com.app.onestepback.domain.dto.postElements.PostFileDTO" alias="postFileDTO"/>
         <typeAlias type="com.app.onestepback.domain.vo.PostLikeVO" alias="postLikeVO"/>
         <typeAlias type="com.app.onestepback.domain.vo.SponsorshipVO" alias="sponsorshipVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.CombinedPostDTO" alias="combinedPostDTO"/>
+        <typeAlias type="com.app.onestepback.domain.dto.PostDTO" alias="postDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistDTO" alias="artistDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistDetailDTO" alias="artistDetailDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostDTO" alias="artistPostDTO"/>
@@ -36,4 +39,9 @@
         <typeAlias type="com.app.onestepback.domain.dto.VideoPostDTO" alias="videoPostDTO"/>
         <typeAlias type="com.app.onestepback.domain.dto.reply.PostReplyDTO" alias="postReplyDTO"/>
     </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.app.onestepback.customHandler.PostSortTypeHandler"
+                     javaType="com.app.onestepback.domain.type.post.PostSortType"/>
+    </typeHandlers>
 </configuration>

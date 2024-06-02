@@ -18,6 +18,6 @@ public class ReplyMapperTest {
 //        pagination.setStartRow(11);
 //        pagination.setEndRow(20);
 //
-//        postReplyMapper.selectAll(101L, pagination).stream().map(PostReplyDTO::toString).forEach(log::info);
+//        postReplyMapper.selectArtistPosts(101L, pagination).stream().map(PostReplyDTO::toString).forEach(log::info);
     }
 }

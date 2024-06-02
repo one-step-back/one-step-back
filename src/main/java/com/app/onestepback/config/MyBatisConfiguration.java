@@ -1,5 +1,7 @@
 package com.app.onestepback.config;
 
+import com.app.onestepback.customHandler.PostSortTypeHandler;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,11 @@ public class MyBatisConfiguration {
         sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:/config/config.xml"));
         try {
             SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
-            sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);
+            if (sqlSessionFactory != null) {
+                org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
+                configuration.setMapUnderscoreToCamelCase(true);
+                configuration.getTypeHandlerRegistry().register(PostSortType.class, new PostSortTypeHandler());
+            }
             return sqlSessionFactory;
         } catch (Exception e){
             e.printStackTrace();

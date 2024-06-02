@@ -4,6 +4,7 @@ import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.mapper.ArtistPostMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,12 @@ public class ArtistPostDAO {
         return artistPostMapper.selectCountOfPost(artistId);
     }
 
-    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination) {
-        return artistPostMapper.selectAll(memberId, viewerId, pagination);
+    public List<ArtistPostListDTO> getArtistPosts(PostSortType sortType) {
+        return artistPostMapper.selectAll(sortType);
+    }
+
+    public List<ArtistPostListDTO> getArtistPostsPage(Long memberId, Long viewerId, Pagination pagination, PostSortType sortType) {
+        return artistPostMapper.selectArtistPosts(memberId, viewerId, pagination, sortType);
     }
 
     public void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) {

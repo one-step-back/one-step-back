@@ -17,7 +17,7 @@ public class ArtistVideoListDTO {
     private String videoThumbnail;
     private String content;
     private String category;
-    private LocalDateTime writeTime;
+    private LocalDateTime createdTime;
     private String timeGap;
 
     private List<String> tags = new ArrayList<>();

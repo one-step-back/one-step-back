@@ -1,6 +1,5 @@
 package com.app.onestepback.api.controller.subscription;
 
-import com.app.onestepback.domain.dto.CombinedPostDTO;
 import com.app.onestepback.domain.dto.SubscriptionDTO;
 import com.app.onestepback.domain.vo.MemberVO;
 import com.app.onestepback.domain.vo.SubscriptionVO;
@@ -32,8 +31,8 @@ public class SubscriptionRestController {
         return subscriptionService.getAllSubscribedArtist(memberId);
     }
 
-    @GetMapping("get-one-post")
-    public Optional<CombinedPostDTO> getLatestOne(@RequestParam("memberId")Long memberId){
-        return subscriptionService.getLatestOne(memberId);
-    }
+//    @GetMapping("get-one-post")
+//    public Optional<CombinedPostDTO> getLatestOne(@RequestParam("memberId")Long memberId){
+//        return subscriptionService.getLatestOne(memberId);
+//    }
 }

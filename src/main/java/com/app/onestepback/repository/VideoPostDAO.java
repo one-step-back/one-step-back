@@ -4,6 +4,7 @@ import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.dto.VideoPostDTO;
 import com.app.onestepback.mapper.VideoPostMapper;
@@ -22,8 +23,12 @@ public class VideoPostDAO {
         return videoPostMapper.selectCountOfVideo(artistId);
     }
 
+    public List<ArtistVideoListDTO> getVideos(PostSortType sortType) {
+        return videoPostMapper.selectAll(sortType);
+    }
+
     public List<ArtistVideoListDTO> getArtistVideoPage(Long artistId, Long viewerId, Pagination pagination) {
-        return videoPostMapper.selectAll(artistId, viewerId, pagination);
+        return videoPostMapper.selectVideoPosts(artistId, viewerId, pagination);
     }
 
     public void savePost(ArtistVideoRegisterDTO artistVideoRegisterDTO) {

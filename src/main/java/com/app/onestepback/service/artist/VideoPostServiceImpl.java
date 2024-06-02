@@ -4,6 +4,7 @@ import com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO;
 import com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 import com.app.onestepback.domain.vo.PostTagVO;
 import com.app.onestepback.repository.PostDAO;
@@ -36,11 +37,23 @@ public class VideoPostServiceImpl implements VideoPostService {
     }
 
     @Override
+    public List<ArtistVideoListDTO> getVideos(PostSortType sortType) {
+        List<ArtistVideoListDTO> contents = videoPostDAO.getVideos(sortType);
+
+        contents.forEach(content -> {
+            content.setTimeGap(timeUtil.getTimeGap(content.getCreatedTime()));
+            content.setVideoThumbnail(youTubeUtil.getYouTubeThumbnailUrl(content.getVideoLink()));
+        });
+
+        return contents;
+    }
+
+    @Override
     public List<ArtistVideoListDTO> getArtistVideoPage(Long artistId, Long viewerId, Pagination pagination) {
         List<ArtistVideoListDTO> contents = videoPostDAO.getArtistVideoPage(artistId, viewerId, pagination);
 
         contents.forEach(content -> {
-            content.setTimeGap(timeUtil.getTimeGap(content.getWriteTime()));
+            content.setTimeGap(timeUtil.getTimeGap(content.getCreatedTime()));
             content.setVideoThumbnail(youTubeUtil.getYouTubeThumbnailUrl(content.getVideoLink()));
         });
 

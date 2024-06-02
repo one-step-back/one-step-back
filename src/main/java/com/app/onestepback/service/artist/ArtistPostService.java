@@ -4,6 +4,7 @@ import com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO;
 import com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO;
+import com.app.onestepback.domain.type.post.PostSortType;
 import com.app.onestepback.domain.vo.Pagination;
 
 import java.io.IOException;
@@ -13,7 +14,9 @@ public interface ArtistPostService {
 
     int getPostCount(Long memberId);
 
-    List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination);
+    List<ArtistPostListDTO> getArtistPosts(PostSortType sortType);
+
+    List<ArtistPostListDTO> getArtistPostsPage(Long artistId, Long viewerId, Pagination pagination, PostSortType sortType);
 
     void savePost(ArtistPostRegisterDTO artistPostRegisterDTO) throws IOException;
 

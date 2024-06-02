@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 2. 프로필 누르면 모달창 띄우기
-    userIcon.addEventListener("click", (e) => {
+    userIcon?.addEventListener("click", (e) => {
         if (!body.classList.contains("user-menu-show")) {
             body.classList.add("user-menu-show");
             console.log(body.classList);
@@ -188,9 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    myMenuProfileAvatar.addEventListener("click", changeShow);
-    userName.addEventListener("click", changeShow);
-    userProfileArrowDown.addEventListener("click", changeShow);
+    myMenuProfileAvatar?.addEventListener("click", changeShow);
+    userName?.addEventListener("click", changeShow);
+    userProfileArrowDown?.addEventListener("click", changeShow);
 
     // 5. 북마크 버튼 누르면 색깔 바뀌기
     bookmarkButtons.forEach((bookmarkButton) => {
