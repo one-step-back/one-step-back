@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.MembershipMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_MEMBERSHIP(ARTIST_ID, NAME, DESCRIPTION, IMAGE_ID, PRICE, LEVEL_ORDER)
+        VALUES (#{artistId},
+                #{name},
+                #{description},
+                #{imageId, jdbcType=VARCHAR},
+                #{price},
+                #{levelOrder})
+    </insert>
+
+    <select id="existsById" resultType="boolean">
+        SELECT COUNT(*)
+        FROM TBL_MEMBERSHIP
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectById" resultType="com.app.onestepback.domain.model.MembershipVO">
+        SELECT ID,
+               ARTIST_ID,
+               NAME,
+               DESCRIPTION,
+               IMAGE_ID,
+               PRICE,
+               LEVEL_ORDER,
+               SUBSCRIBER_COUNT,
+               IS_ACTIVE AS active,
+               CREATED_TIME,
+               UPDATED_TIME
+        FROM TBL_MEMBERSHIP
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectAllByArtistId" resultType="com.app.onestepback.domain.model.MembershipVO">
+        SELECT *
+        FROM TBL_MEMBERSHIP
+        WHERE ARTIST_ID = #{artistId}
+        ORDER BY LEVEL_ORDER ASC
+    </select>
+
+    <select id="selectAllDtoByArtistId" resultType="com.app.onestepback.domain.dto.membership.MembershipDTO">
+        SELECT M.ID,
+               M.ARTIST_ID,
+               M.NAME,
+               M.DESCRIPTION,
+               M.PRICE,
+               M.LEVEL_ORDER,
+               M.IMAGE_ID,
+               M.SUBSCRIBER_COUNT,
+               M.IS_ACTIVE AS active,
+               CASE
+                   WHEN M.IMAGE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || M.IMAGE_ID
+                   END     AS imagePath,
+               CASE
+                   WHEN #{viewerId, jdbcType=NUMERIC} IS NOT NULL AND S.ID IS NOT NULL
+                       THEN 1
+                   ELSE 0
+                   END     AS subscribing
+        FROM TBL_MEMBERSHIP M
+                 LEFT JOIN TBL_SUBSCRIPTION S
+                           ON M.ID = S.MEMBERSHIP_ID
+                               AND S.MEMBER_ID = #{viewerId, jdbcType=NUMERIC}
+                               AND S.STATUS = 'ACTIVE'
+        WHERE M.ARTIST_ID = #{artistId}
+        ORDER BY M.LEVEL_ORDER ASC
+    </select>
+
+    <select id="selectDetailDtoById" resultType="com.app.onestepback.domain.dto.membership.MembershipDetailDTO">
+        SELECT M.ID              AS id,
+               M.NAME            AS name,
+               M.DESCRIPTION     AS description,
+               M.PRICE           AS price,
+               CASE
+                   WHEN M.IMAGE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || M.IMAGE_ID
+                   END           AS imagePath,
+               IS_ACTIVE         AS active,
+
+               B.ID              AS artistId,
+               B.MEMBER_NICKNAME AS artistNickname,
+               CASE
+                   WHEN B.MEMBER_PROFILE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || B.MEMBER_PROFILE_ID
+                   WHEN B.MEMBER_KAKAO_PROFILE_URL IS NOT NULL
+                       THEN B.MEMBER_KAKAO_PROFILE_URL
+                   ELSE '/images/default-profile.png'
+                   END           AS artistProfilePath
+        FROM TBL_MEMBERSHIP M
+                 JOIN TBL_MEMBER B ON M.ARTIST_ID = B.ID
+        WHERE M.ID = #{id}
+    </select>
+
+    <select id="existsByArtistAndLevel" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM TBL_MEMBERSHIP
+        WHERE ARTIST_ID = #{artistId}
+          AND LEVEL_ORDER = #{level}
+    </select>
+
+    <update id="update">
+        UPDATE TBL_MEMBERSHIP
+        <set>
+            NAME = #{name},
+            DESCRIPTION = #{description},
+            PRICE = #{price},
+            IMAGE_ID = #{imageId, jdbcType=VARCHAR},
+            UPDATED_TIME = SYSTIMESTAMP,
+        </set>
+        WHERE ID = #{id}
+        AND ARTIST_ID = #{artistId}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE TBL_MEMBERSHIP
+        SET IS_ACTIVE    = #{status},
+            UPDATED_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+          AND ARTIST_ID = #{artistId}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM TBL_MEMBERSHIP
+        WHERE ID = #{id}
+          AND ARTIST_ID = #{artistId}
+    </delete>
+
+</mapper>

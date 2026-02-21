@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>앗, 존재하지 않는 길이에요.</title>
+    <link data-n-head="ssr" rel="preload" as="style"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/root.css">
+    <link rel="stylesheet" href="/css/main/total.css">
+    <style>
+        @import url(https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css);
+        @import url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
+    </style>
+    <link rel="icon" href="../../header-footer/favicon.ico">
+</head>
+
+<body class="body12">
+<div class="content-error-page">
+    <div class="error-heread">
+        <a class="a123" href="/static">
+            <img class="logo-img-dark" src="/images/header-logo.png">
+        </a>
+    </div>
+    <div class="error-body">
+        <div class="error-content">
+            <div class="error-icon">
+                <img class="img45" src="/images/exclamation_circle.svg" alt="error icon">
+            </div>
+            <p class="error-title">앗, 존재하지 않는 아티스트에요.</p>
+            <p class="error-message">
+                해당 유저는 아티스트가 아닌 것 같습니다.
+            <h5></h5>
+            정확한 주소인지 다시 한번 확인해 주세요.
+            </p>
+            <div class="error-btn-group">
+                <a href="/static" class="btn-secondary">원스텝 홈으로 가기</a>
+            </div>
+        </div>
+    </div>
+    <div class="error-footer">
+        <a id="toBack" style="cursor:pointer;">이전 페이지로 가기</a>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="header.js"></script>
+<script>
+    $("#toBack").click(() => {
+        window.history.back();
+    })
+</script>
+
+</html>

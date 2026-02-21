@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{my-page/my-page-layout}">
+<head>
+    <th:block layout:fragment="css">
+        <link href="/dist/css/my-page/my-following.min.css" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<main class="mypage-content" layout:fragment="mypage-content">
+    <div class="settings-card animated-fade-in">
+        <section class="settings-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-user-friends icon-title"></i>
+                    <span>팔로우 관리</span>
+                </h2>
+
+                <div class="sort-wrapper">
+                    <select id="sort-select" class="sort-select">
+                        <option th:each="sort : ${sortOptions}"
+                                th:value="${sort}"
+                                th:text="${sort.name() == 'LATEST' ? '최신순' :
+                          (sort.name() == 'NAME' ? '이름순' : '블로그명순')}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="loading-spinner" class="text-center py-5">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+            </div>
+
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fas fa-user-slash"></i>
+                <p>아직 팔로우한 아티스트가 없습니다.</p>
+                <a href="/artist/list" class="btn-explore">아티스트 찾아보기</a>
+            </div>
+
+            <div id="following-grid" class="following-grid">
+            </div>
+        </section>
+    </div>
+</main>
+
+<th:block layout:fragment="mypage-js">
+    <script type="module" src="/dist/js/my-page/my-following.min.js"></script>
+</th:block>
+
+</body>
+</html>

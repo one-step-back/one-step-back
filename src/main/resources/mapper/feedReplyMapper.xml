@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.FeedReplyMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_FEED_REPLY (COMMENT_ID, MEMBER_ID, TARGET_MEMBER_ID, CONTENT)
+        VALUES (#{commentId}, #{memberId}, #{targetMemberId, jdbcType=NUMERIC}, #{content})
+    </insert>
+
+    <select id="selectAll" resultType="com.app.onestepback.domain.dto.feed.reply.FeedReplyDTO">
+        SELECT R.ID,
+               R.COMMENT_ID,
+               R.MEMBER_ID,
+               R.TARGET_MEMBER_ID,
+               R.CONTENT,
+               R.CREATED_TIME,
+               R.UPDATED_TIME,
+
+               -- 작성자 정보
+               M.MEMBER_NICKNAME,
+               CASE
+                   WHEN M.MEMBER_PROFILE_ID IS NOT NULL THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                   WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL THEN M.MEMBER_KAKAO_PROFILE_URL
+                   ELSE '/images/profile/avatar_blank.png'
+                   END           AS MEMBER_PROFILE,
+
+               -- 멘션 대상 닉네임 (LEFT JOIN)
+               T.MEMBER_NICKNAME AS TARGET_MEMBER_NICKNAME
+
+        FROM TBL_FEED_REPLY R
+                 JOIN TBL_MEMBER M ON R.MEMBER_ID = M.ID
+                 LEFT JOIN TBL_MEMBER T ON R.TARGET_MEMBER_ID = T.ID
+
+        WHERE R.COMMENT_ID = #{commentId}
+          AND R.IS_DELETED = 'N'
+        ORDER BY R.ID
+    </select>
+
+    <update id="update">
+        UPDATE TBL_FEED_REPLY
+        SET CONTENT      = #{content},
+            UPDATED_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+          AND MEMBER_ID = #{memberId}
+    </update>
+
+    <update id="softDelete">
+        UPDATE TBL_FEED_REPLY
+        SET IS_DELETED   = 'Y',
+            DELETED_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+          AND MEMBER_ID = #{memberId}
+    </update>
+</mapper>

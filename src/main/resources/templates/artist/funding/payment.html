@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>펀딩 후원 확인 | OneStep</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <link href="/dist/css/artist/funding/funding-payment.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="subscription-wrapper"
+         th:data-portone-id="${portoneMerchantId}"
+         th:data-member-id="${session.member != null ? session.member.id : 0}"
+         th:data-has-payment="${hasPaymentMethod}">
+
+        <input type="hidden" id="fundingId" th:value="${funding.fundingId}">
+        <input type="hidden" id="amount" th:value="${amount}">
+        <input type="hidden" id="fundingTitle" th:value="${funding.title}">
+
+        <h1 class="page-title">펀딩 후원 결제</h1>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="funding-img-banner"
+                     th:style="'background-image: url(' + ${@fileUrlSigner.sign(funding.mainImgPath)} + ')'">
+                </div>
+
+                <div class="membership-details">
+                    <div class="badge-row">
+                        <span class="mode-badge NEW">Crowd Funding</span>
+                    </div>
+                    <h3 class="membership-name" th:text="${funding.title}">프로젝트 제목</h3>
+                    <p class="membership-desc">
+                        Creator <span th:text="${funding.artistName}" style="color:#2563eb; font-weight:700;"></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="billing-info-box">
+                <div class="info-row">
+                    <span class="label">후원자</span>
+                    <span class="value" th:text="${funding.memberName}">홍길동</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">이메일</span>
+                    <span class="value" th:text="${funding.memberEmail}">email@example.com</span>
+                </div>
+                <div class="info-row separator-top">
+                    <span class="label">펀딩 종료일</span>
+                    <span class="value" th:text="${#temporals.format(funding.endDate, 'yyyy.MM.dd')}">2026.12.31</span>
+                </div>
+            </div>
+
+            <div class="price-row">
+                <div class="price-label-group">
+                    <span class="main-label">최종 후원 금액</span>
+                    <span class="sub-label">결제 즉시 후원이 완료됩니다.</span>
+                </div>
+                <span class="price-amount" th:text="'₩' + ${#numbers.formatInteger(amount, 0, 'COMMA')}">₩50,000</span>
+            </div>
+        </div>
+
+        <div id="payment-method-wrapper">
+            <div class="text-center py-4">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color: #3478ff;"></i>
+            </div>
+        </div>
+
+        <div id="action-button-wrapper"></div>
+
+        <div class="confirmation-notice">
+            <i class="fas fa-exclamation-circle"></i> 목표 금액 미달성으로 펀딩 실패 시, 결제하신 금액은 100% 자동 환불됩니다.
+        </div>
+
+        <p class="policy-text">
+            * 펀딩 마감일 전까지는 결제 취소가 가능합니다.<br>
+            * 환불 시 별도의 수수료는 발생하지 않습니다.
+        </p>
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/artist/funding/payment.min.js"></script>
+</th:block>
+
+</body>
+</html>

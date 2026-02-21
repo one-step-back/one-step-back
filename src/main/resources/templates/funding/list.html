@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>One Step - Funding Projects</title>
+    <link rel="stylesheet" href="/dist/css/funding/list.min.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <section class="funding-hero">
+        <div class="funding-hero__content">
+            <h1 class="funding-hero__title">Make It Real</h1>
+            <p class="funding-hero__desc">
+                아티스트의 상상이 당신의 현실이 됩니다.<br>
+                지금 프로젝트의 주인공이 되어주세요.
+            </p>
+        </div>
+    </section>
+
+    <div class="funding-container">
+
+        <div class="funding-tabs">
+            <button type="button" class="tab-btn active" data-status="ALL">전체</button>
+            <button type="button" class="tab-btn" data-status="PROCEEDING">진행 중</button>
+            <button type="button" class="tab-btn" data-status="UPCOMING">오픈 예정</button>
+            <button type="button" class="tab-btn" data-status="ENDED">종료된 펀딩</button>
+        </div>
+
+        <div id="funding-list-grid" class="funding-grid">
+        </div>
+
+        <div id="funding-status-message" class="status-message"></div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/funding/list.min.js"></script>
+</th:block>
+
+</body>
+</html>

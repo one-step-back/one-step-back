@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{my-page/my-page-layout}">
+<head>
+    <th:block layout:fragment="css">
+        <link href="/dist/css/my-page/my-subscription.min.css" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<main class="mypage-content" layout:fragment="mypage-content">
+    <div class="settings-card animated-fade-in">
+        <section class="settings-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-star icon-title"></i>
+                    <span>구독 관리</span>
+                </h2>
+                <span class="subscription-count" th:if="${!#lists.isEmpty(subscriptions)}">
+                    총 <b th:text="${#lists.size(subscriptions)}">0</b>개
+                </span>
+            </div>
+
+            <div class="empty-state" th:if="${#lists.isEmpty(subscriptions)}">
+                <i class="far fa-sad-tear"></i>
+                <p>현재 구독 중인 아티스트가 없습니다.</p>
+                <a href="/artist/list" class="btn-explore">아티스트 둘러보기</a>
+            </div>
+
+            <div class="subscription-grid" th:unless="${#lists.isEmpty(subscriptions)}">
+                <div class="subscription-card" th:each="sub : ${subscriptions}" th:id="'sub-card-' + ${sub.id}">
+                    <div class="sub-card-header">
+                        <a th:href="@{/artist/{id}(id=${sub.artistId})}" class="artist-link">
+                            <div class="artist-avatar"
+                                 th:style="'background-image: url(' + ${@fileUrlSigner.sign(sub.artistProfilePath)} + ');'"></div>
+                            <div class="artist-info">
+                                <span class="artist-name" th:text="${sub.artistNickname}">Artist Name</span>
+                                <span class="sub-status active">구독 중</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/artist/{id}/membership(id=${sub.artistId})}"
+                           class="btn-icon-link" title="멤버십 페이지 방문">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+
+                    <hr class="card-divider">
+
+                    <div class="sub-card-body">
+                        <div class="info-row">
+                            <span class="info-label">이용 멤버십</span>
+                            <span class="info-value membership-name" th:text="${sub.membershipName}">Premium</span>
+                        </div>
+
+                        <div class="info-row highlight" th:if="${sub.nextMembershipName != null}">
+                            <span class="info-label">변경 예약</span>
+                            <span class="info-value text-blue">
+                                <i class="fas fa-clock"></i>
+                                다음 달부터 <span th:text="${sub.nextMembershipName}">Basic</span>(으)로 변경
+                            </span>
+                        </div>
+
+                        <div class="info-row highlight warning renewal-status"
+                             th:style="${sub.autoRenewal} ? 'display: none;' : ''">
+                            <span class="info-label">상태</span>
+                            <span class="info-value text-danger">
+                                <i class="fas fa-ban"></i> 해지 예약됨
+                                <span class="sub-text">(혜택은 <span
+                                        th:text="${#temporals.format(sub.nextBillingDate, 'MM.dd')}"></span>까지)</span>
+                            </span>
+                        </div>
+
+                        <div class="info-row payment-method-row">
+                            <span class="info-label">결제 수단</span>
+                            <span class="info-value payment-display">
+                                <span class="payment-info-text" th:if="${sub.paymentMethodId != null}">
+                                    <i class="far fa-credit-card"></i>
+                                    <span class="card-name" th:text="${sub.cardName}">Shinhan</span>
+                                    <span class="card-last4">(<span th:text="${sub.last4Digit}">1234</span>)</span>
+                                </span>
+                                <span class="payment-warning-text text-danger"
+                                      th:unless="${sub.paymentMethodId != null}">
+                                    <i class="fas fa-exclamation-triangle"></i> 결제 수단 없음
+                                </span>
+                            </span>
+                        </div>
+                        <div class="info-row warning-row" th:if="${sub.paymentMethodId == null}"
+                             style="margin-top: -8px;">
+                            <span class="info-label"></span>
+                            <span class="info-value text-danger" style="font-size: 12px; font-weight: 400;">
+                                * 다음 결제일에 승인이 거절됩니다.
+                            </span>
+                        </div>
+
+
+                        <div class="info-row">
+                            <span class="info-label">결제 금액</span>
+                            <span class="info-value price"
+                                  th:text="${#numbers.formatInteger(sub.price, 0, 'COMMA') + '원'}">10,000원</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">다음 결제일</span>
+                            <span class="info-value date"
+                                  th:text="${#temporals.format(sub.nextBillingDate, 'yyyy.MM.dd')}">2026.02.01</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-card-footer">
+                        <button type="button" class="btn-action btn-change-payment"
+                                th:data-id="${sub.id}"
+                                th:data-artist="${sub.artistNickname}"
+                                th:data-current-payment="${sub.paymentMethodId}"> 결제 수단 변경
+                        </button>
+
+                        <button type="button" class="btn-action btn-toggle-renewal"
+                                th:data-id="${sub.id}"
+                                th:data-artist="${sub.artistNickname}"
+                                th:data-status="${sub.autoRenewal}"
+                                th:classappend="${!sub.autoRenewal} ? 'btn-resume' : 'btn-cancel'"
+                                th:text="${sub.autoRenewal} ? '구독 취소' : '멤버십 유지하기'">
+                            구독 취소
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="paymentChangeModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>결제 수단 변경</h3>
+                <button type="button" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">변경할 카드를 선택해주세요.</p>
+
+                <div id="modal-payment-list" class="modal-payment-list">
+                    <div class="text-center py-4">
+                        <i class="fas fa-spinner fa-spin"></i> 로딩 중...
+                    </div>
+                </div>
+
+                <div id="modal-action-container" class="modal-action-area"></div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<th:block layout:fragment="mypage-js">
+    <script type="module" src="/dist/js/my-page/my-subscription.min.js"></script>
+</th:block>
+
+</body>
+</html>

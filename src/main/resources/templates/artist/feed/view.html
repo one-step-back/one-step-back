@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${feed.title}">피드 상세</title>
+    <link rel="stylesheet" href="/dist/css/artist/feed-view.min.css">
+    <link rel="stylesheet" href="/dist/css/artist/feed-reply.min.css">
+</head>
+
+<body>
+
+<div layout:fragment="artist-content">
+    <div class="feed-view-container" id="feed-main-container"
+         th:data-feed-id="${feed.id}"
+         th:data-artist-id="${feed.artistId}">
+
+        <div class="view-header">
+            <button type="button" class="btn-back" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> 뒤로
+            </button>
+        </div>
+
+        <article class="feed-card" th:classappend="${feed.isLocked} ? 'feed-card--locked' : ''">
+            <div class="card-header">
+                <img th:src="${@fileUrlSigner.sign(feed.artistProfilePath)}" alt="프로필" class="profile-img">
+                <div class="profile-info">
+                    <span class="nickname" th:text="${feed.artistNickname}">닉네임</span>
+                    <span class="timestamp" th:text="${#temporals.format(feed.writeTime, 'yyyy.MM.dd HH:mm')}">날짜</span>
+                </div>
+
+                <div class="header-actions">
+                    <span class="category-badge" th:if="${!feed.isLocked}" th:text="${feed.category}">카테고리</span>
+                    <span class="category-badge" th:if="${feed.isLocked}">
+                        <i class="fas fa-lock"></i> <span th:text="${feed.requiredMembershipName}">멤버십</span>
+                    </span>
+
+                    <div class="more-menu-wrapper"
+                         th:if="${session.member != null and session.member.id == feed.artistId}">
+                        <button type="button" class="action-btn btn-more" id="btn-feed-more">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <div class="dropdown-menu" id="feed-more-dropdown">
+                            <a th:href="@{/artist/{artistId}/feed/write(artistId=${feed.artistId}, id=${feed.id})}"
+                               class="dropdown-item">
+                                <i class="fas fa-pen"></i> 수정
+                            </a>
+                            <button type="button" class="dropdown-item btn-delete" th:data-feed-id="${feed.id}">
+                                <i class="fas fa-trash"></i> 삭제
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-media" th:if="${not #lists.isEmpty(feed.files)}">
+                <div class="media-slider">
+                    <div class="slider-track">
+                        <div th:each="file : ${feed.files}" class="slide-item">
+                            <th:block th:if="${file.video}">
+                                <video th:src="${@fileUrlSigner.sign(file.filePath)}" controls playsinline loop
+                                       preload="metadata"></video>
+                            </th:block>
+                            <th:block th:unless="${file.video}">
+                                <img th:src="${@fileUrlSigner.sign(file.filePath)}" alt="피드 미디어">
+                            </th:block>
+                        </div>
+                    </div>
+
+                    <th:block th:if="${#lists.size(feed.files) > 1}">
+                        <button type="button" class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button type="button" class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-counter">
+                            <span class="current-idx">1</span> / <span class="total-idx"
+                                                                       th:text="${#lists.size(feed.files)}"></span>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h1 class="card-title" th:text="${feed.title}">제목</h1>
+
+                <th:block th:if="${!feed.isLocked}">
+                    <div class="card-content-text" th:utext="${#strings.replace(feed.content, '&#10;', '<br>')}">
+                        본문 내용
+                    </div>
+                </th:block>
+
+                <th:block th:if="${feed.isLocked}">
+                    <div class="card-content-text locked-text">
+                        이 게시글은 <strong><span th:text="${feed.requiredMembershipName}">멤버십</span></strong> 전용입니다.<br>
+                        구독하고 전체 내용을 확인하세요.
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="card-footer">
+                <button class="action-btn btn-like" th:data-feed-id="${feed.id}"
+                        th:classappend="${feed.liked} ? 'active' : ''"
+                        th:disabled="${feed.isLocked}">
+                    <i class="fa-heart icon-heart" th:classappend="${feed.liked} ? 'fas' : 'far'"></i>
+                    <span class="like-count" th:text="${feed.likeCount}">0</span>
+                </button>
+                <button class="action-btn" th:disabled="${feed.isLocked}">
+                    <i class="far fa-comment"></i>
+                    <span id="reply-count-badge" th:text="${feed.replyCount}">0</span>
+                </button>
+                <div class="view-count">
+                    조회수 <span th:text="${feed.viewCount}">0</span>회
+                </div>
+            </div>
+
+            <div class="lock-overlay" th:if="${feed.isLocked}">
+                <div class="lock-icon-box">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <p class="lock-message">이 게시글은 잠겨있습니다</p>
+                <p class="lock-sub-message">
+                    <span th:text="${feed.requiredMembershipName}">멤버십</span>에 가입하고 아티스트를 후원하세요.
+                </p>
+                <button type="button" class="btn-subscribe-req"
+                        th:data-url="@{/artist/{aid}/membership/{mid}/confirm(aid=${feed.artistId}, mid=${feed.requiredMembershipId})}">
+                    <span th:text="${feed.requiredMembershipName}">멤버십</span> 구독하고 전체 보기
+                </button>
+            </div>
+        </article>
+
+        <div class="comments-section" th:if="${session.member != null and !feed.isLocked}">
+            <h3 class="section-title">댓글</h3>
+
+            <div class="reply-input-wrap"
+                 id="current-user-info"
+                 th:data-member-nickname="${session.member.memberNickname}"
+                 th:data-member-profile="${session.member.profilePath != null ? @fileUrlSigner.sign(session.member.profilePath) : '/images/default-profile.png'}">
+
+                <div class="reply-input-box">
+                    <textarea id="reply-content" class="reply-textarea" placeholder="댓글을 남겨보세요..." rows="1"></textarea>
+                    <button type="button" id="btn-reply-write" class="btn-reply-submit" disabled>게시</button>
+                </div>
+            </div>
+
+            <div id="reply-list" class="reply-list"></div>
+
+            <button type="button" id="btn-reply-more" class="btn-reply-more" style="display: none;">댓글 더보기</button>
+        </div>
+
+        <div class="guest-message-box" th:if="${session.member == null and !feed.isLocked}">
+            <p>댓글을 작성하거나 보려면 <a th:href="@{/member/login}">로그인</a>이 필요합니다.</p>
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/feed/feed-view.min.js"></script>
+</th:block>
+
+</body>
+</html>

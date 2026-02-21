@@ -1,64 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>원스텝 | 로그인</title>
-    <link rel="stylesheet" href="/css/member/login.css">
-    <link rel="stylesheet" href="/css/main/root.css">
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
-        onload="this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <title>로그인</title>
+    <link rel="stylesheet" href="/dist/css/member/login.min.css">
 </head>
-
 <body>
-    <main class="main-content" id="main-content" role="main">
-        <section class="dialog">
-            <div class="dialog-content">
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="sign-up-kakao" role="tabpanel">
-                        <h1>원스텝 로그인</h1>
-                        <p class="d-none d-md-block no-margin" style="margin-bottom: 0 !important;">
-                            원스텝에 돌아오신 것을 환영해요!
-                        </p>
-                        <div class="align-item-center auth-options" id="auth-options">
-                            <a href="https://kauth.kakao.com/oauth/authorize?client_id=65587a79d94d6bc090b9c3b96f4d48ba&redirect_uri=http://3.16.66.0:10000/kakao/login&response_type=code"
-                               id="btn-sign-up-social-kakao">
-                                <img src="/images/kakao_login_medium_wide.png" style="width: 100%; height: 50px;"/>
-                            </a>
-                            <a href="login-email" class="btn-secondary" id="btn-sign-up-social-email">
-                                <span class="icon-wrapper">
-                                    <i class="brand-icon-email"></i>
-                                </span>
-                                <span data-auth="email" class="media-body">
-                                    이메일 로그인
-                                </span>
-                            </a>
-                        </div>
-                        <p class="already">
-                            <span class="mr-1">
-                                계정이 없으세요?
-                            </span>
-                            <a class="text-dark" href="join">회원가입</a>
-                        </p>
-                        <hr>
-<!--                        <p>-->
-<!--                            <a href="https://www.postype.com/auth/findAccount">비밀 번호 재설정 ＆ 계정 찾기</a>-->
-<!--                        </p>-->
-<!--                        <hr>-->
-                        <p>
-                            <a class="text-muted">SNS로 로그인 및 회원가입 시 포스타입의 이용약관과 개인정보 수집 및 이용에 동의한 것으로 간주합니다.</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+
+<div layout:fragment="content" class="login-wrapper">
+    <div class="login-container">
+
+        <div class="login-header">
+            <h1 class="login-title">로그인</h1>
+            <p class="login-desc">원스텝에 오신 것을 환영합니다!</p>
+        </div>
+
+        <div class="login-actions">
+            <a href="/oauth2/kakao" class="btn-login btn-kakao">
+                <i class="fas fa-comment"></i> 카카오로 3초 만에 시작하기
+            </a>
+
+            <a href="/member/login-email" class="btn-login btn-email">
+                <i class="far fa-envelope"></i> 이메일 아이디로 로그인
+            </a>
+        </div>
+
+        <div class="login-footer">
+            <p class="join-text">
+                아직 계정이 없으신가요? <a href="/member/join" class="link-join">회원가입</a>
+            </p>
+            <div class="divider"></div>
+            <p class="terms-text">
+                로그인 시 <a href="#">이용약관</a> 및 <a href="#">개인정보처리방침</a>에 동의하는 것으로 간주합니다.
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/member/login.min.js"></script>
+</th:block>
+
 </body>
 </html>

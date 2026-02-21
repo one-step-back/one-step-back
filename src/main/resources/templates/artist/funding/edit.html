@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 펀딩 수정 및 승낙'">펀딩 수정 및 승낙</title>
+    <link href="/dist/css/artist/funding/funding-write.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="tab='funding'"></th:block>
+
+<div layout:fragment="artist-content">
+    <div class="write-container">
+        <div class="write-header">
+            <h2 class="write-title">펀딩 제안 검토 및 오픈</h2>
+            <p class="write-desc">팬이 제안한 프로젝트입니다. 내용을 입맛에 맞게 수정하고, 진행 기간을 확정하여 펀딩을 오픈하세요.</p>
+        </div>
+
+        <form id="funding-form">
+            <input type="hidden" id="fundingId" th:value="${funding.id}">
+            <input type="hidden" id="artistId" th:value="${funding.artistId}">
+            <input type="hidden" id="originalFileId"
+                   th:value="${funding.mainImgPath != '/images/no-img.png' ? funding.mainImgPath.replace('/api/v1/files/', '') : ''}">
+
+            <div class="form-group">
+                <label class="form-label">대표 이미지 (수정 가능)</label>
+                <div th:classappend="${funding.mainImgPath != '/images/no-img.png'} ? 'has-image' : ''"
+                     class="img-upload-box">
+                    <div class="upload-placeholder"
+                         th:style="${funding.mainImgPath != '/images/no-img.png'} ? 'display: none;' : ''">
+                        <i class="fas fa-image"></i>
+                        <p>클릭하여 이미지 업로드 (변경 시)</p>
+                        <span class="form-help">권장 사이즈: 1200 x 600px (JPG, PNG)</span>
+                    </div>
+                    <img id="preview-img"
+                         th:src="${funding.mainImgPath != '/images/no-img.png' ? @fileUrlSigner.sign(funding.mainImgPath) : ''}"
+                         th:style="${funding.mainImgPath != '/images/no-img.png'} ? 'display: block;' : 'display: none;'"
+                         alt="미리보기">
+                    <input type="file" id="file-input" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title" class="form-label">프로젝트 제목</label>
+                <input type="text" id="title" class="form-input" th:value="${funding.title}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="targetAmount" class="form-label">목표 금액 (원)</label>
+                <input type="text" id="targetAmount" class="form-input" th:value="${funding.targetAmount}" required>
+                <p class="form-help">목표 금액을 달성하지 못해도, 아티스트의 결정에 따라 진행될 수 있습니다.</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">진행 기간 (필수)</label>
+                <div class="date-picker-wrapper">
+                    <input type="hidden" id="startDate" required>
+                    <input type="hidden" id="endDate" required>
+
+                    <input type="text" id="dateRange" class="form-input date-range-input"
+                           placeholder="시작일과 종료일을 반드시 선택하세요" readonly>
+                    <i class="fas fa-calendar-alt calendar-icon"></i>
+                </div>
+                <p class="form-help" id="date-help-text">기간을 선택하면 자동으로 계산됩니다.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="content" class="form-label">상세 내용</label>
+                <textarea id="content" class="form-textarea" th:text="${funding.content}" required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="javascript:history.back()" class="btn-cancel">취소</a>
+                <button type="submit" class="btn-submit">수정 후 펀딩 오픈하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/funding/edit.min.js"></script>
+</th:block>
+
+</body>
+</html>

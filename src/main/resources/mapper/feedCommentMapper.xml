@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.FeedCommentMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_FEED_COMMENT (FEED_ID, MEMBER_ID, CONTENT)
+        VALUES (#{feedId}, #{memberId}, #{content})
+    </insert>
+
+    <select id="selectSlice" resultType="com.app.onestepback.domain.dto.feed.comment.FeedCommentDTO">
+        SELECT
+        C.ID,
+        C.FEED_ID,
+        C.MEMBER_ID,
+        C.CONTENT,
+        C.REPLY_COUNT,
+        C.CREATED_TIME,
+        C.UPDATED_TIME,
+        M.MEMBER_NICKNAME,
+        CASE
+        WHEN M.MEMBER_PROFILE_ID IS NOT NULL THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+        WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL THEN M.MEMBER_KAKAO_PROFILE_URL
+        ELSE '/images/profile/avatar_blank.png'
+        END AS MEMBER_PROFILE
+        FROM TBL_FEED_COMMENT C
+        JOIN TBL_MEMBER M ON C.MEMBER_ID = M.ID
+        WHERE C.IS_DELETED = 'N' AND C.FEED_ID = #{feedId}
+
+        <if test="lastCommentId != null">
+            AND C.ID &lt; #{cond.lastCommentId}
+        </if>
+
+        ORDER BY C.ID DESC
+
+        FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <update id="update">
+        UPDATE TBL_FEED_COMMENT
+        SET CONTENT      = #{content},
+            UPDATED_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+          AND MEMBER_ID = #{memberId}
+    </update>
+
+    <update id="softDelete">
+        UPDATE TBL_FEED_COMMENT
+        SET IS_DELETED   = 'Y',
+            DELETED_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+          AND MEMBER_ID = #{memberId}
+    </update>
+</mapper>

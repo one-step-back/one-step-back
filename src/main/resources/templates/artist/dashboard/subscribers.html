@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/dashboard/layout}">
+<head>
+    <title>구독자 관리</title>
+    <link href="/dist/css/artist/dashboard/subscribers.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="dashboardTab='subscribers'"></th:block>
+
+<h1 class="page-title" layout:fragment="page-title">구독자 관리</h1>
+<p class="page-desc" layout:fragment="page-desc">
+    현재 멤버십을 이용 중인 팬들입니다.
+    <span style="margin-left: 8px; font-weight: 600; color: #2563eb;">
+        총 <span id="total-subscriber-count">0</span>명
+    </span>
+</p>
+
+<div layout:fragment="dashboard-content">
+    <section class="subscriber-section">
+        <div class="table-responsive">
+            <table class="subscriber-table">
+                <thead>
+                <tr>
+                    <th>팬 정보</th>
+                    <th>이용 멤버십</th>
+                    <th>구독 시작일</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody id="subscriber-list-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="subscriber-empty" class="empty-state" style="display: none;">
+            <i class="fas fa-users-slash"></i>
+            <p>아직 구독자가 없습니다.</p>
+        </div>
+    </section>
+</div>
+
+<th:block layout:fragment="dashboard-js">
+    <script type="module" src="/dist/js/artist/dashboard/subscribers.min.js"></script>
+</th:block>
+
+</body>
+</html>

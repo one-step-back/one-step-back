@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서비스 오류 | 원스텝</title>
+    <link rel="stylesheet" href="/dist/css/error/error.min.css">
+</head>
+<body>
+
+<div class="error-container">
+    <header class="error-header">
+        <a href="/" aria-label="홈으로 이동">
+            <img src="/images/header-logo.png" alt="One Step Logo" class="logo-img">
+        </a>
+    </header>
+
+    <main class="error-content">
+        <div class="icon-area">
+            <div class="gear-wrapper">
+                <i class="fas fa-cog fa-spin-slow big-gear"></i>
+                <i class="fas fa-cog fa-spin-reverse small-gear"></i>
+            </div>
+        </div>
+
+        <h1 class="error-title">서비스 이용에 불편을 드려 죄송합니다.</h1>
+
+        <div class="error-message">
+            <p>현재 일시적인 서버 오류가 발생하여 요청을 처리할 수 없습니다.</p>
+            <p>문제를 해결하기 위해 열심히 노력하고 있습니다. 잠시 후 다시 시도해 주세요.</p>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn--primary" id="btn-reload">
+                <i class="fas fa-redo"></i> 다시 시도
+            </button>
+            <a href="/" class="btn btn--secondary">홈으로 이동</a>
+        </div>
+    </main>
+
+    <footer class="error-footer">
+        <p class="support-text">문제가 지속되면 <a href="mailto:support@onestep.com">고객센터</a>로 문의해 주세요.</p>
+    </footer>
+</div>
+
+<script type="module" src="/dist/js/error/error.min.js"></script>
+
+</body>
+</html>

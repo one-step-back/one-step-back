@@ -1,0 +1,18 @@
+@startuml
+participant "PortOne Scheduler" as P1
+participant "WebhookController" as Web
+participant "SubscriptionService" as Service
+database "Database" as DB
+
+P1 -> P1 : 예약된 시간에 결제 실행
+P1 -> Web : POST /webhook (결제 결과 전송)
+Web -> Service : renewSubscriptionByWebhook(imp_uid, merchant_uid)
+
+Service -> DB : 결제 정보 검증 및 중복 체크
+Service -> DB : TBL_SUBSCRIPTION.END_DATE += 30일
+Service -> DB : TBL_PAYMENT_HISTORY 생성
+
+Service -> Service : 차기 결제 예약 (Schedule API)
+Service --> Web : 200 OK
+Web --> P1 : 확인 완료
+@enduml

@@ -1,47 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <typeAliases>
-        <typeAlias type="com.app.onestepback.domain.vo.ArtistPostVO" alias="artistPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostRegisterDTO"
-                   alias="artistPostRegisterDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoRegisterDTO"
-                   alias="artistVideoRegisterDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostListDTO" alias="artistPostListDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostDetailDTO" alias="artistPostDetailDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoDetailDTO"
-                   alias="artistVideoDetailDTO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.ArtistVO" alias="artistVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.BookmarkedArtistPostVO" alias="bookmarkedArtistPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.BookmarkedCommunityPostVO" alias="bookmarkedCommunityPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.BookmarkedVideoVO" alias="bookmarkedVideoVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.CommunityPostVO" alias="communityPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.CrowdFundingVO" alias="crowdFundingVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.CrowdFundingDTO" alias="crowdFundingDTO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.FundingPaymentVO" alias="fundingPaymentVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.FundingRequestVO" alias="fundingRequestVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.FundingRequestDTO" alias="fundingRequestDTO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.MemberVO" alias="memberVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.SubscriptionVO" alias="subscriptionVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.VideoPostVO" alias="videoPostVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.PostFileVO" alias="postFileVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.postElements.PostFileDTO" alias="postFileDTO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.PostLikeVO" alias="postLikeVO"/>
-        <typeAlias type="com.app.onestepback.domain.vo.SponsorshipVO" alias="sponsorshipVO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.PostDTO" alias="postDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistDTO" alias="artistDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.ArtistDetailDTO" alias="artistDetailDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostDTO" alias="artistPostDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.post.ArtistPostEditDTO" alias="artistPostEditDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoEditDTO" alias="artistVideoEditDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.artist.video.ArtistVideoListDTO" alias="artistVideoListDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.SubscriptionDTO" alias="subscriptionDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.VideoPostDTO" alias="videoPostDTO"/>
-        <typeAlias type="com.app.onestepback.domain.dto.reply.PostReplyDTO" alias="postReplyDTO"/>
-    </typeAliases>
 
-    <typeHandlers>
-        <typeHandler handler="com.app.onestepback.customHandler.PostSortTypeHandler"
-                     javaType="com.app.onestepback.domain.type.post.PostSortType"/>
-    </typeHandlers>
 </configuration>

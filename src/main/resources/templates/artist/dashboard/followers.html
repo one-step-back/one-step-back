@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/dashboard/layout}">
+<head>
+    <title>팔로워 관리</title>
+    <link href="/dist/css/artist/dashboard/followers.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="dashboardTab='followers'"></th:block>
+
+<h1 class="page-title" layout:fragment="page-title">팔로워 관리</h1>
+<p class="page-desc" layout:fragment="page-desc">
+    채널 소식을 받아보는 팬들입니다.
+    <span style="margin-left: 8px; font-weight: 600; color: #2563eb;">
+        총 <span id="total-follower-count">0</span>명
+    </span>
+</p>
+
+<div layout:fragment="dashboard-content">
+    <section class="follower-section">
+        <div class="table-responsive">
+            <table class="follower-table">
+                <thead>
+                <tr>
+                    <th>팬 정보</th>
+                    <th>팔로우한 날짜</th>
+                </tr>
+                </thead>
+                <tbody id="follower-list-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="follower-empty" class="empty-state" style="display: none;">
+            <i class="fas fa-user-friends"></i>
+            <p>아직 팔로워가 없습니다.</p>
+        </div>
+    </section>
+</div>
+
+<th:block layout:fragment="dashboard-js">
+    <script type="module" src="/dist/js/artist/dashboard/followers.min.js"></script>
+</th:block>
+
+</body>
+</html>

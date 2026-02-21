@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko-KR"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>One Step - Closer to your Artist</title>
+    <link href="/dist/css/index.min.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+
+    <section class="hero-v2">
+        <div class="hero-v2__bg"></div>
+        <div class="hero-v2__content">
+            <span class="hero-badge">Now Trending</span>
+            <h1 class="hero-title">
+                당신의 아티스트와<br>
+                <span class="highlight">한 걸음</span> 더 가까이.
+            </h1>
+            <p class="hero-desc">
+                단독 콘텐츠부터 프라이빗 펀딩까지.<br>
+                상상만 했던 덕질의 모든 것을 시작하세요.
+            </p>
+            <div class="hero-actions">
+                <a href="/artist/list" class="btn-hero-primary">아티스트 찾아보기</a>
+                <a href="/funding/list" class="btn-hero-secondary">진행 중인 펀딩 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card card-1"></div>
+            <div class="floating-card card-2"></div>
+        </div>
+    </section>
+
+    <section class="main-section">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Rising Artists 🔥</h2>
+                <p class="section-subtitle">지금 가장 빠르게 성장하는 크리에이터를 만나보세요.</p>
+            </div>
+            <a href="/artist/list" class="link-more">더보기</a>
+        </div>
+        <div id="rising-artist-list" class="artist-scroll-wrapper">
+        </div>
+    </section>
+
+    <section class="main-section bg-gray">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Funding Spotlight 🚀</h2>
+                <p class="section-subtitle">마감이 얼마 남지 않은 프로젝트에 힘을 실어주세요.</p>
+            </div>
+            <a href="/funding/list" class="link-more">전체보기</a>
+        </div>
+        <div id="spotlight-funding-list" class="funding-grid">
+        </div>
+    </section>
+
+    <section class="main-section">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Live Moments 💬</h2>
+                <p class="section-subtitle">아티스트들의 지금 이 순간.</p>
+            </div>
+        </div>
+        <div id="live-feed-list" class="feed-preview-grid">
+        </div>
+    </section>
+
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/index.min.js"></script>
+</th:block>
+</body>
+</html>

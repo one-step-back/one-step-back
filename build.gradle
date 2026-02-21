@@ -1,14 +1,20 @@
+/**
+ * @file build.gradle
+ * @description Spring Boot 백엔드 애플리케이션 및 통합 프론트엔드(Vite/Node.js) 파이프라인의 빌드 설정을 정의합니다.
+ */
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.16'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id "com.github.node-gradle.node" version "7.0.1"
 }
 
 group = 'com.app'
-version = '1.0'
+version = '1.0.0'
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -22,25 +28,93 @@ repositories {
 }
 
 dependencies {
+    // ===================================================================================
+    //  Core Spring Boot Starters
+    // ===================================================================================
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
-    implementation 'net.coobird:thumbnailator:0.4.8'
-    implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // validation
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.1'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // ===================================================================================
+    //  Database & MyBatis Configuration
+    // ===================================================================================
+    // MyBatis Starter 최신 버전 (3.0.3)
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+
+    // ===================================================================================
+    //  Database Migration (Flyway)
+    // ===================================================================================
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-oracle'
+
+    // ===================================================================================
+    //  Caching System
+    // ===================================================================================
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    // ===================================================================================
+    //  Utility & Tools
+    // ===================================================================================
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'net.datafaker:datafaker:2.1.0'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // ===================================================================================
+    //  Test Dependencies
+    // ===================================================================================
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// ===================================================================================
+//  Frontend Build Pipeline (Vite + Node.js Integration)
+// ===================================================================================
+
+node {
+    /**
+     * @description 시스템에 설치된 Node.js에 의존하지 않고, 명시된 버전을 격리된 환경에 다운로드하여 실행합니다.
+     * 이를 통해 모든 개발자 및 CI/CD 환경에서 동일한 빌드 결과를 보장합니다.
+     */
+    version = '20.11.0'
+    download = true
+    workDir = file("${project.projectDir}/.gradle/nodejs")
+    npmWorkDir = file("${project.projectDir}/src/main/frontend")
+    nodeProjectDir = file("${project.projectDir}/src/main/frontend")
+}
+
+/**
+ * @task npmInstallDependencies
+ * @description 프론트엔드 디렉토리에서 'npm install' 명령어를 실행하여 필요한 패키지를 설치합니다.
+ */
+task npmInstallDependencies(type: NpmTask) {
+    args = ['install']
+}
+
+/**
+ * @task npmBuild
+ * @description 'npm run build' 명령어를 통해 프론트엔드 자산을 번들링합니다. 패키지 설치가 선행되어야 합니다.
+ */
+task npmBuild(type: NpmTask) {
+    dependsOn npmInstallDependencies
+    args = ['run', 'build']
+}
+
+/**
+ * @description Spring Boot의 정적 리소스 복사 과정(processResources)이 실행되기 전에,
+ * 프론트엔드 빌드(npmBuild)가 반드시 먼저 완료되도록 의존성을 설정합니다.
+ */
+processResources.dependsOn npmBuild

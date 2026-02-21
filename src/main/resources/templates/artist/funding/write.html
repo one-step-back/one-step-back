@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 펀딩 만들기'">펀딩 만들기</title>
+    <link href="/dist/css/artist/funding/funding-write.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="tab='funding'"></th:block>
+
+<div layout:fragment="artist-content">
+    <div class="write-container"
+         th:with="isArtist=${session.member != null and session.member.id == artist.profile.id}">
+        <div class="write-header">
+            <h2 class="write-title" th:text="${isArtist ? '펀딩 오픈하기' : '펀딩 제안하기'}">펀딩 만들기</h2>
+            <p class="write-desc"
+               th:text="${isArtist
+               ? '팬들과 함께 꿈을 실현해보세요. 목표 금액과 기간을 설정하고 프로젝트를 시작합니다.'
+               : '아티스트에게 새로운 프로젝트를 제안해보세요. 아티스트가 수락하면 펀딩이 시작됩니다.'}">
+            </p>
+        </div>
+
+        <form id="funding-form">
+            <input type="hidden" id="artistId" th:value="${artist.profile.id}">
+            <input type="hidden" id="isArtist" th:value="${isArtist}">
+
+            <div class="form-group">
+                <label class="form-label">대표 이미지 (선택)</label>
+                <div class="img-upload-box">
+                    <div class="upload-placeholder">
+                        <i class="fas fa-image"></i>
+                        <p>클릭하여 이미지 업로드</p>
+                        <span class="form-help">권장 사이즈: 1200 x 600px (JPG, PNG)</span>
+                    </div>
+                    <img id="preview-img" src="" alt="미리보기">
+                    <input type="file" id="file-input" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title" class="form-label">프로젝트 제목</label>
+                <input type="text" id="title" class="form-input" placeholder="매력적인 제목을 입력해주세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="targetAmount" class="form-label">목표 금액 (원)</label>
+                <input type="text" id="targetAmount" class="form-input" placeholder="최소 1,000원 이상" required>
+                <p class="form-help">목표 금액을 달성하지 못해도, 아티스트의 결정에 따라 진행될 수 있습니다.</p>
+            </div>
+
+            <div class="form-group" th:if="${isArtist}">
+                <label class="form-label">진행 기간</label>
+                <div class="date-picker-wrapper">
+                    <input type="hidden" id="startDate" required>
+                    <input type="hidden" id="endDate" required>
+
+                    <input type="text" id="dateRange" class="form-input date-range-input"
+                           placeholder="시작일과 종료일을 선택하세요 (기간 설정)" readonly>
+                    <i class="fas fa-calendar-alt calendar-icon"></i>
+                </div>
+                <p class="form-help" id="date-help-text">기간을 선택하면 자동으로 계산됩니다.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="content" class="form-label">상세 내용</label>
+                <textarea id="content" class="form-textarea" placeholder="프로젝트의 목적, 리워드, 일정 등을 자세히 적어주세요."
+                          required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="javascript:history.back()" class="btn-cancel">취소</a>
+                <button type="submit" class="btn-submit">펀딩 개설하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/funding/write.min.js"></script>
+</th:block>
+
+</body>
+</html>

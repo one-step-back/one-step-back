@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 피드'">아티스트 피드</title>
+    <link rel="stylesheet" href="/dist/css/artist/feed.min.css">
+</head>
+
+<body>
+
+<div layout:fragment="artist-content">
+    <div class="feed-wrapper">
+        <div class="feed-header-section">
+            <h2 class="feed-header-title">최신 피드</h2>
+            <p class="feed-header-subtitle">아티스트의 새로운 소식을 확인해보세요.</p>
+        </div>
+
+        <div id="feed-list" class="feed-list"
+             th:data-artist-id="${artist.profile.id}">
+        </div>
+
+        <div id="loading-sentinel" class="loading-sentinel">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/feed/feed.min.js"></script>
+    <script type="module" src="/dist/js/artist/feed/feed-like.min.js"></script>
+</th:block>
+
+</body>
+</html>

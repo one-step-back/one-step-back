@@ -1,0 +1,69 @@
+server:
+  port: 10000
+
+jwt:
+  # 32바이트 이상의 랜덤 문자열을 직접 생성해서 입력할 것
+  secret: "YOUR_JWT_SECRET_KEY_HERE"
+
+spring:
+  profiles:
+    active: dev
+
+  servlet:
+    multipart:
+      max-file-size: 2GB       # 파일 하나당 최대 2GB (영상 고려)
+      max-request-size: 2GB    # 요청 당 최대 2GB
+  datasource:
+    # 1. DB 접속 정보
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: YOUR_DB_USERNAME
+    password: YOUR_DB_PASSWORD
+    # 2. 커넥션 풀 설정 (선택 사항)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  # 3. Flyway 설정
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  # 4. MVC 설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          audiences:
+
+# 5. MyBatis 설정
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.app.onestepback.domain
+  type-handlers-package: com.app.onestepback.customHandler
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: NULL
+    map-underscore-to-camel-case: true
+    default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
+
+# 6. 파일 업로드 경로
+file:
+  # [보안] 로컬 환경에 맞는 절대 경로로 변경할 것
+  upload-dir: /path/to/your/upload/directory
+
+oauth2:
+  kakao:
+    client-id: "YOUR_KAKAO_CLIENT_ID"
+    redirect-uri: "http://localhost:10000/oauth2/kakao"
+    client-secret: "YOUR_KAKAO_CLIENT_SECRET"
+
+port-one:
+  api:
+    merchant-id: "YOUR_PORTONE_MERCHANT_ID"
+    url: "https://api.iamport.kr"
+    key: "YOUR_PORTONE_API_KEY"
+    secret: "YOUR_PORTONE_API_SECRET"

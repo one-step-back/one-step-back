@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.FollowMapper">
+
+    <insert id="insert">
+        INSERT INTO TBL_FOLLOW (ARTIST_ID, MEMBER_ID)
+        VALUES (#{artistId}, #{memberId})
+    </insert>
+
+    <delete id="delete">
+        DELETE
+        FROM TBL_FOLLOW
+        WHERE ARTIST_ID = #{artistId}
+          AND MEMBER_ID = #{memberId}
+    </delete>
+
+    <select id="exists" resultType="_boolean">
+        SELECT COUNT(*)
+        FROM TBL_FOLLOW
+        WHERE ARTIST_ID = #{artistId}
+          AND MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="findFollowerIdsByArtistId" resultType="long">
+        SELECT MEMBER_ID
+        FROM TBL_FOLLOW
+        WHERE ARTIST_ID = #{artistId}
+    </select>
+
+    <select id="selectFollowingByMemberId" resultType="com.app.onestepback.domain.dto.follow.FollowDTO$Following">
+        SELECT F.ARTIST_ID AS id,
+        M.MEMBER_NICKNAME AS artistNickname,
+        CASE
+        WHEN M.MEMBER_PROFILE_ID IS NOT NULL THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+        WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL THEN M.MEMBER_KAKAO_PROFILE_URL
+        ELSE '/images/default-profile.png'
+        END AS artistProfilePath,
+        A.ARTIST_BLOG_NAME AS blogName,
+        F.FOLLOW_TIME AS followTime
+        FROM TBL_FOLLOW F
+        JOIN TBL_ARTIST A ON F.ARTIST_ID = A.MEMBER_ID
+        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+        WHERE F.MEMBER_ID = #{memberId}
+
+        <choose>
+            <when test="sort != null and sort.name() == 'NAME'">
+                ORDER BY M.MEMBER_NICKNAME ASC
+            </when>
+            <when test="sort != null and sort.name() == 'BLOG'">
+                ORDER BY A.ARTIST_BLOG_NAME ASC
+            </when>
+            <otherwise>
+                ORDER BY F.FOLLOW_TIME DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectFollowersByArtistId" resultType="com.app.onestepback.domain.dto.follow.FollowDTO$Follower">
+        SELECT
+            M.ID                    AS id,
+            M.MEMBER_NICKNAME       AS artistNickname, -- DTO 필드명에 맞춤 (실제론 팬 닉네임)
+            CASE
+                WHEN M.MEMBER_PROFILE_ID IS NOT NULL THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL THEN M.MEMBER_KAKAO_PROFILE_URL
+                ELSE '/images/default-profile.png'
+                END                     AS artistProfilePath, -- DTO 필드명에 맞춤 (실제론 팬 프사)
+            F.FOLLOW_TIME           AS followTime
+        FROM TBL_FOLLOW F
+                 JOIN TBL_MEMBER M ON F.MEMBER_ID = M.ID
+        WHERE F.ARTIST_ID = #{artistId}
+        ORDER BY F.FOLLOW_TIME DESC
+    </select>
+</mapper>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.CrowdFundingMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_CROWDFUNDING (ARTIST_ID,
+                                      WRITER_ID,
+                                      TITLE,
+                                      CONTENT,
+                                      TARGET_AMOUNT,
+                                      CURRENT_AMOUNT,
+                                      START_DATE,
+                                      END_DATE,
+                                      STATUS,
+                                      MAIN_IMG_ID,
+                                      CREATED_TIME,
+                                      UPDATED_TIME)
+        VALUES (#{artistId},
+                #{writerId},
+                #{title},
+                #{content},
+                #{targetAmount},
+                0,
+                #{startDate, jdbcType=TIMESTAMP},
+                #{endDate, jdbcType=TIMESTAMP},
+                #{status},
+                #{mainImgId, jdbcType=VARCHAR},
+                SYSTIMESTAMP,
+                SYSTIMESTAMP)
+    </insert>
+
+    <select id="selectListByArtistId" resultType="com.app.onestepback.domain.dto.crowdfunding.CrowdFundingDTO$ListView">
+        SELECT C.ID,
+               C.TITLE,
+               C.STATUS,
+
+               C.TARGET_AMOUNT,
+               C.CURRENT_AMOUNT,
+               TRUNC((CASE
+                          WHEN C.TARGET_AMOUNT = 0 THEN 0
+                          ELSE C.CURRENT_AMOUNT / C.TARGET_AMOUNT END) * 100) AS ACHIEVE_RATE,
+               C.START_DATE,
+               C.END_DATE,
+               CASE
+                   WHEN C.MAIN_IMG_ID IS NOT NULL
+                       THEN '/api/v1/files/' || C.MAIN_IMG_ID
+                   ELSE '/images/no-img.png'
+                   END                                                        AS MAIN_IMG_PATH,
+               TRUNC(CAST(C.END_DATE AS DATE) - CAST(SYSTIMESTAMP AS DATE))   AS DAYS_LEFT
+
+        FROM TBL_CROWDFUNDING C
+                 LEFT JOIN TBL_FILE F ON C.MAIN_IMG_ID = F.ID
+        WHERE C.ARTIST_ID = #{artistId}
+          AND (
+            C.STATUS IN ('WAITING', 'PROCEEDING', 'ENDED', 'SUCCESS', 'COMPLETED')
+                OR
+            (C.STATUS IN ('FAILED', 'CANCELLED', 'REJECTED') AND C.END_DATE >= SYSTIMESTAMP - 30)
+            )
+        ORDER BY
+            -- 정렬 순서도 '오픈 예정(UPCOMING)'을 1순위 그룹에 포함시킨다.
+            CASE
+                WHEN (CASE
+                          WHEN C.STATUS = 'PROCEEDING' AND C.START_DATE > SYSTIMESTAMP THEN 'UPCOMING'
+                          ELSE C.STATUS END)
+                    IN ('PROCEEDING', 'UPCOMING', 'ENDED', 'WAITING') THEN 1
+                WHEN C.STATUS IN ('SUCCESS', 'COMPLETED') THEN 2
+                ELSE 3
+                END ASC,
+            C.ID DESC
+    </select>
+
+    <select id="selectById" resultType="com.app.onestepback.domain.dto.crowdfunding.CrowdFundingDTO$Detail">
+        SELECT C.ID,
+               C.ARTIST_ID,
+               C.WRITER_ID,
+               M.MEMBER_NICKNAME                                              AS WRITER_NICKNAME,
+
+               CASE
+                   WHEN M.MEMBER_PROFILE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                   WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL
+                       THEN M.MEMBER_KAKAO_PROFILE_URL
+                   ELSE '/images/default-profile.png'
+                   END                                                        AS WRITER_PROFILE_PATH,
+
+               C.REJECT_REASON                                                as rejectReason,
+               C.TITLE,
+               C.CONTENT,
+               C.STATUS,
+
+               C.TARGET_AMOUNT,
+               C.CURRENT_AMOUNT,
+
+               TRUNC((CASE
+                          WHEN C.TARGET_AMOUNT = 0 THEN 0
+                          ELSE C.CURRENT_AMOUNT / C.TARGET_AMOUNT END) * 100) AS ACHIEVE_RATE,
+
+               0                                                              AS PARTICIPANT_COUNT,
+
+               C.START_DATE,
+               C.END_DATE,
+
+               TRUNC(CAST(C.END_DATE AS DATE) - CAST(SYSTIMESTAMP AS DATE))   AS DAYS_LEFT,
+
+               CASE
+                   WHEN C.MAIN_IMG_ID IS NOT NULL THEN '/api/v1/files/' || C.MAIN_IMG_ID
+                   ELSE '/images/no-img.png'
+                   END                                                        AS MAIN_IMG_PATH
+
+        FROM TBL_CROWDFUNDING C
+                 JOIN TBL_MEMBER M ON C.WRITER_ID = M.ID
+        WHERE C.ID = #{id}
+    </select>
+
+    <select id="selectPaymentView" resultType="com.app.onestepback.domain.dto.crowdfunding.CrowdFundingDTO$PaymentView">
+        SELECT C.ID                                             AS FUNDING_ID,
+               C.TITLE,
+
+               -- 아티스트 이름 (블로그명 우선, 없으면 닉네임)
+               COALESCE(A.ARTIST_BLOG_NAME, AW.MEMBER_NICKNAME) AS ARTIST_NAME,
+
+               C.END_DATE,
+
+               -- 결제자(후원자) 정보
+               M.ID                                             AS MEMBER_ID,
+               M.MEMBER_NICKNAME                                AS MEMBER_NAME,
+               M.MEMBER_EMAIL,
+
+               -- 펀딩 메인 이미지
+               CASE
+                   WHEN C.MAIN_IMG_ID IS NOT NULL THEN '/api/v1/files/' || C.MAIN_IMG_ID
+                   ELSE '/images/no-img.png'
+                   END                                          AS MAIN_IMG_PATH
+
+        FROM TBL_CROWDFUNDING C
+                 JOIN TBL_MEMBER AW ON C.WRITER_ID = AW.ID
+                 LEFT JOIN TBL_ARTIST A ON AW.ID = A.MEMBER_ID
+                 JOIN TBL_MEMBER M ON M.ID = #{memberId}
+        WHERE C.ID = #{fundingId}
+    </select>
+
+    <select id="selectExpiredEndedFundings" resultType="com.app.onestepback.domain.model.CrowdFundingVO">
+        SELECT ID, ARTIST_ID
+        FROM TBL_CROWDFUNDING
+        WHERE STATUS = 'ENDED'
+          AND END_DATE &lt; SYSDATE - 7
+    </select>
+
+    <select id="selectFundingList" resultType="com.app.onestepback.domain.dto.crowdfunding.CrowdFundingDTO$PublicList">
+        SELECT
+        C.ID,
+        C.TITLE,
+        A.MEMBER_ID AS artistId,
+        A.ARTIST_BLOG_NAME AS artistName,
+        CASE
+        WHEN C.MAIN_IMG_ID IS NOT NULL THEN '/api/v1/files/' || C.MAIN_IMG_ID
+        ELSE '/images/no-img.png'
+        END AS thumbnailPath,
+        TRUNC((C.CURRENT_AMOUNT / C.TARGET_AMOUNT) * 100) AS achieveRate,
+        C.CURRENT_AMOUNT AS collectedAmount,
+        C.STATUS,
+
+        TRUNC(CAST(C.END_DATE AS DATE) - SYSDATE) AS daysLeft
+
+        FROM TBL_CROWDFUNDING C
+        JOIN TBL_ARTIST A ON C.ARTIST_ID = A.MEMBER_ID
+        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+
+        WHERE M.MEMBER_STATUS = 'ACTIVE'
+        <if test="status != null and status != 'ALL'">
+            AND C.STATUS = #{status}
+        </if>
+
+        <choose>
+            <when test="status == 'PROCEEDING'">
+                ORDER BY C.END_DATE ASC
+            </when>
+            <when test="status == 'UPCOMING'">
+                ORDER BY C.START_DATE ASC
+            </when>
+            <otherwise>
+                ORDER BY C.CREATED_TIME DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="update">
+        UPDATE TBL_CROWDFUNDING
+        <set>
+            <if test="title != null">
+                TITLE = #{title},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content},
+            </if>
+            <if test="targetAmount != null">
+                TARGET_AMOUNT = #{targetAmount},
+            </if>
+            <if test="currentAmount != null">
+                CURRENT_AMOUNT = #{currentAmount},
+            </if>
+            <if test="startDate != null">
+                START_DATE = #{startDate},
+            </if>
+            <if test="endDate != null">
+                END_DATE = #{endDate},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="rejectReason != null">
+                REJECT_REASON = #{rejectReason},
+            </if>
+            <if test="mainImgId != null">
+                MAIN_IMG_ID = #{mainImgId},
+            </if>
+            <if test="resultFeedId != null">
+                RESULT_FEED_ID = #{resultFeedId},
+            </if>
+            <if test="decisionTime != null">
+                DECISION_TIME = #{decisionTime},
+            </if>
+            <if test="completedTime != null">
+                COMPLETED_TIME = #{completedTime},
+            </if>
+            UPDATED_TIME = SYSTIMESTAMP,
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateExpiredFundings">
+        UPDATE TBL_CROWDFUNDING
+        SET STATUS       = 'ENDED',
+            UPDATED_TIME = SYSTIMESTAMP
+        WHERE STATUS = 'PROCEEDING'
+          AND END_DATE &lt; SYSTIMESTAMP
+    </update>
+</mapper>

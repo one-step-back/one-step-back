@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.app.onestepback.mapper.InquiryMapper">
-    <insert id="insert">
-        INSERT INTO TBL_INQUIRY(ID, MEMBER_ID, INQUIRY_TITLE, INQUIRY_CONTENT, INQUIRY_WRITE_TIME)
-        VALUES(SEQ_INQUIRY.NEXTVAL, #{memberId}, #{inquiryTitle}, #{inquiryContent}, CURRENT_TIMESTAMP)
-    </insert>
-</mapper>

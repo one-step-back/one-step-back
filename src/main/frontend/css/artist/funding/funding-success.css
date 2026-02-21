@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+.success-wrapper {
+    max-width: 540px;
+    margin: 80px auto 120px;
+    padding: 0 20px;
+    font-family: 'Pretendard', sans-serif;
+    text-align: center;
+}
+
+.success-icon-area {
+    font-size: 72px;
+    color: #10b981;
+    margin-bottom: 24px;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.success-desc {
+    font-size: 15px;
+    color: #64748b;
+    margin-bottom: 40px;
+}
+
+.info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 28px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-row.separator {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px dashed #cbd5e1;
+}
+
+.info-row .label {
+    color: #64748b;
+}
+
+.info-row .value {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.info-row .value.highlight {
+    color: #3478ff;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.btn-primary {
+    background: #3478ff;
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(52, 120, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

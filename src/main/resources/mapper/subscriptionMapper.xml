@@ -1,44 +1,238 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.app.onestepback.mapper.SubscriptionMapper">
-    <select id="selectCountOfSubscriber" resultType="int">
-        SELECT COUNT(ARTIST_ID)
-        FROM TBL_SUBSCRIPTION
-        WHERE ARTIST_ID = #{artistId}
-    </select>
+<mapper namespace="com.app.onestepback.repository.SubscriptionMapper">
 
-    <select id="select" resultType="subscriptionVO">
-        SELECT ARTIST_ID, MEMBER_ID
-        FROM TBL_SUBSCRIPTION
-        WHERE ARTIST_ID = #{artistId}
-          AND MEMBER_ID = #{memberId}
-    </select>
-
-    <insert id="insert">
-        INSERT INTO TBL_SUBSCRIPTION(ARTIST_ID, MEMBER_ID)
-        VALUES (#{artistId}, #{memberId})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_SUBSCRIPTION (MEMBER_ID,
+                                      ARTIST_ID,
+                                      MEMBERSHIP_ID,
+                                      PAYMENT_METHOD_ID,
+                                      LAST_MERCHANT_UID,
+                                      STATUS,
+                                      START_DATE,
+                                      NEXT_BILLING_DATE,
+                                      UPDATED_TIME)
+        VALUES (#{memberId},
+                #{artistId},
+                #{membershipId},
+                #{paymentMethodId},
+                #{lastMerchantUid},
+                #{status},
+                SYSTIMESTAMP,
+                #{nextBillingDate},
+                SYSTIMESTAMP)
     </insert>
 
-    <delete id="delete">
-        DELETE
+    <select id="selectById" resultType="com.app.onestepback.domain.model.SubscriptionVO">
+        SELECT ID,
+               MEMBER_ID,
+               ARTIST_ID,
+               MEMBERSHIP_ID,
+               PAYMENT_METHOD_ID,
+               NEXT_MEMBERSHIP_ID,
+               LAST_MERCHANT_UID,
+               STATUS,
+               START_DATE,
+               NEXT_BILLING_DATE,
+               UPDATED_TIME
         FROM TBL_SUBSCRIPTION
-        WHERE ARTIST_ID = #{artistId}
-          AND MEMBER_ID = #{memberId}
-    </delete>
-
-    <select id="selectAll" resultType="subscriptionDTO">
-        SELECT S.ARTIST_ID,
-               S.MEMBER_ID,
-               A.ARTIST_BLOG_NAME,
-               A.BLOG_IMG_PATH,
-               A.BLOG_IMG_NAME,
-               M.MEMBER_NICKNAME,
-               M.MEMBER_KAKAO_PROFILE_URL,
-               M.MEMBER_PROFILE_NAME,
-               M.MEMBER_PROFILE_PATH
-        FROM TBL_SUBSCRIPTION S
-                 LEFT JOIN TBL_ARTIST A ON S.ARTIST_ID = A.MEMBER_ID
-                 LEFT JOIN TBL_MEMBER M ON S.ARTIST_ID = M.ID
-        WHERE S.MEMBER_ID = #{memberId}
+        WHERE ID = #{id}
     </select>
+
+    <select id="countActiveSubscribers" resultType="int">
+        SELECT COUNT(*)
+        FROM TBL_SUBSCRIPTION
+        WHERE MEMBERSHIP_ID = #{membershipId}
+          AND STATUS = 'ACTIVE'
+    </select>
+
+    <select id="existsByMemberAndArtist" resultType="boolean">
+        SELECT COUNT(*)
+        FROM TBL_SUBSCRIPTION
+        WHERE MEMBER_ID = #{memberId}
+          AND ARTIST_ID = #{artistId}
+          AND STATUS = 'ACTIVE'
+    </select>
+
+    <update id="update">
+        UPDATE TBL_SUBSCRIPTION
+        <set>
+            <if test="membershipId != null">
+                MEMBERSHIP_ID = #{membershipId},
+            </if>
+            <if test="paymentMethodId != null">
+                PAYMENT_METHOD_ID = #{paymentMethodId},
+            </if>
+
+            <if test="nextMembershipId != null">
+                NEXT_MEMBERSHIP_ID = #{nextMembershipId, jdbcType=BIGINT},
+            </if>
+
+            <if test="lastMerchantUid != null">
+                LAST_MERCHANT_UID = #{lastMerchantUid},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="nextBillingDate != null">
+                NEXT_BILLING_DATE = #{nextBillingDate},
+            </if>
+
+            <if test="autoRenewal != null">
+                IS_AUTO_RENEWAL = CASE WHEN #{autoRenewal} = 1 THEN 'Y' ELSE 'N' END,
+            </if>
+
+            UPDATED_TIME = SYSTIMESTAMP
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <select id="selectActiveSubscription" resultType="com.app.onestepback.domain.dto.subscription.SubscriptionDTO$Info">
+        SELECT S.ID,
+               S.MEMBER_ID,
+               S.ARTIST_ID,
+               S.MEMBERSHIP_ID,
+               M.NAME  AS membershipName,
+               M.PRICE AS price,
+               S.STATUS,
+               S.NEXT_BILLING_DATE
+        FROM TBL_SUBSCRIPTION S
+                 JOIN TBL_MEMBERSHIP M ON S.MEMBERSHIP_ID = M.ID
+        WHERE S.MEMBER_ID = #{memberId}
+          AND S.ARTIST_ID = #{artistId}
+          AND S.STATUS = 'ACTIVE'
+    </select>
+
+    <select id="selectLatestSubscription"
+            resultType="com.app.onestepback.domain.dto.subscription.SubscriptionDTO$Receipt">
+        SELECT *
+        FROM (SELECT S.ID,
+                     M.NAME          AS membershipName,
+                     M.PRICE         AS price,
+                     PM.CARD_NAME    AS cardName,
+                     PM.LAST_4_DIGIT AS last4Digit,
+                     S.STATUS,
+                     S.START_DATE,
+                     S.NEXT_BILLING_DATE
+              FROM TBL_SUBSCRIPTION S
+                       JOIN TBL_MEMBERSHIP M ON S.MEMBERSHIP_ID = M.ID
+                       LEFT JOIN TBL_PAYMENT_METHOD PM ON S.PAYMENT_METHOD_ID = PM.ID
+              WHERE S.MEMBER_ID = #{memberId}
+                AND S.ARTIST_ID = #{artistId}
+              ORDER BY S.ID DESC)
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="selectSubscriptionsForRenewal"
+            resultType="com.app.onestepback.domain.dto.subscription.SubscriptionDTO$Renewal">
+        SELECT S.ID,
+               S.MEMBER_ID,
+               S.ARTIST_ID,
+               S.PAYMENT_METHOD_ID,
+               PM.BILLING_KEY,
+               M.PRICE,
+               M.NAME            AS MEMBERSHIP_NAME,
+               S.NEXT_MEMBERSHIP_ID,
+               S.IS_AUTO_RENEWAL AS autoRenewal
+
+        FROM TBL_SUBSCRIPTION S
+                 LEFT JOIN TBL_PAYMENT_METHOD PM ON S.PAYMENT_METHOD_ID = PM.ID
+                 JOIN TBL_MEMBERSHIP M ON S.MEMBERSHIP_ID = M.ID
+        WHERE S.STATUS = 'ACTIVE'
+          AND S.NEXT_BILLING_DATE <![CDATA[ <= ]]> SYSDATE
+    </select>
+
+    <select id="selectActiveSubscriptionsByMemberId"
+            resultType="com.app.onestepback.domain.dto.subscription.SubscriptionDTO$Management">
+        SELECT S.ID,
+               S.ARTIST_ID,
+               A.MEMBER_NICKNAME AS artistNickname,
+               CASE
+                   WHEN A.MEMBER_PROFILE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || A.MEMBER_PROFILE_ID
+                   WHEN A.MEMBER_KAKAO_PROFILE_URL IS NOT NULL
+                       THEN A.MEMBER_KAKAO_PROFILE_URL
+                   ELSE '/images/default-profile.png'
+                   END           AS PROFILE_PATH,
+               M.NAME            AS membershipName,
+               M.PRICE,
+               S.STATUS,
+               S.START_DATE,
+               S.NEXT_BILLING_DATE,
+               NM.NAME           AS nextMembershipName,
+               S.IS_AUTO_RENEWAL AS autoRenewal,
+               PM.ID             AS paymentMethodId,
+               PM.CARD_NAME      AS cardName,
+               PM.LAST_4_DIGIT   AS last4Digit
+        FROM TBL_SUBSCRIPTION S
+                 JOIN TBL_MEMBER A ON S.ARTIST_ID = A.ID
+                 JOIN TBL_MEMBERSHIP M ON S.MEMBERSHIP_ID = M.ID
+                 LEFT JOIN TBL_MEMBERSHIP NM ON S.NEXT_MEMBERSHIP_ID = NM.ID
+                 LEFT JOIN TBL_PAYMENT_METHOD PM ON S.PAYMENT_METHOD_ID = PM.ID
+        WHERE S.MEMBER_ID = #{memberId}
+          AND S.STATUS = 'ACTIVE'
+        ORDER BY S.START_DATE DESC
+    </select>
+
+    <select id="selectSubscribersByArtistId"
+            resultType="com.app.onestepback.domain.dto.subscription.SubscriptionDTO$SubscriberList">
+        SELECT S.ID              AS subscriptionId,
+               S.MEMBER_ID       AS memberId,
+               M.MEMBER_NICKNAME AS nickname,
+               CASE
+                   WHEN M.MEMBER_PROFILE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                   WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL
+                       THEN M.MEMBER_KAKAO_PROFILE_URL
+                   ELSE '/images/default-profile.png'
+                   END           AS profilePath,
+               S.START_DATE      AS startDate,
+
+               MS.ID             AS membershipId,
+               MS.NAME           AS membershipName,
+               MS.LEVEL_ORDER    AS levelOrder
+
+        FROM TBL_SUBSCRIPTION S
+                 JOIN TBL_MEMBER M ON S.MEMBER_ID = M.ID
+                 JOIN TBL_MEMBERSHIP MS ON S.MEMBERSHIP_ID = MS.ID
+        WHERE S.ARTIST_ID = #{artistId}
+          AND S.STATUS = 'ACTIVE'
+        ORDER BY S.START_DATE DESC
+    </select>
+
+    <update id="updateNextBillingDate">
+        UPDATE TBL_SUBSCRIPTION
+        SET NEXT_BILLING_DATE = ADD_MONTHS(NEXT_BILLING_DATE, 1),
+            UPDATED_TIME      = SYSTIMESTAMP,
+            LAST_MERCHANT_UID = #{lastMerchantUid}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateStatusToFailed">
+        UPDATE TBL_SUBSCRIPTION
+        SET STATUS       = 'FAILED',
+            UPDATED_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateRenewalSuccess">
+        UPDATE TBL_SUBSCRIPTION
+        SET NEXT_BILLING_DATE = #{nextBillingDate},
+        LAST_MERCHANT_UID = #{lastMerchantUid},
+        UPDATED_TIME = SYSTIMESTAMP
+
+        <if test="membershipId != null">
+            , MEMBERSHIP_ID = #{membershipId}
+            , NEXT_MEMBERSHIP_ID = NULL -- [Core] 예약된 내역 초기화
+        </if>
+
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updatePaymentMethodToNull">
+        UPDATE TBL_SUBSCRIPTION
+        SET PAYMENT_METHOD_ID = NULL,
+            UPDATED_TIME      = SYSTIMESTAMP
+        WHERE PAYMENT_METHOD_ID = #{paymentMethodId}
+    </update>
 </mapper>

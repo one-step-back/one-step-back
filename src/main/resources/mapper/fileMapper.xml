@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.FileMapper">
+
+    <insert id="insert">
+        INSERT INTO TBL_FILE (ID,
+                              FILE_ORIGINAL_NAME,
+                              FILE_NAME,
+                              FILE_PATH,
+                              FILE_SIZE,
+                              FILE_EXTENSION,
+                              TARGET_ID,
+                              TARGET_GB,
+                              FILE_OWNER_ID)
+        VALUES (#{id},
+                #{fileOriginalName},
+                #{fileName},
+                #{filePath},
+                #{fileSize},
+                #{fileExtension, jdbcType=VARCHAR},
+                #{targetId, jdbcType=NUMERIC}, #{targetGb},
+                #{fileOwnerId})
+    </insert>
+
+    <select id="selectById" resultType="com.app.onestepback.domain.model.FileVO">
+        SELECT *
+        FROM TBL_FILE
+        WHERE ID = #{id}
+    </select>
+
+    <update id="updateFileTarget">
+        UPDATE TBL_FILE
+        SET
+        TARGET_ID = #{targetId},
+        TARGET_GB = #{targetGb}
+        WHERE FILE_OWNER_ID = #{fileOwnerId}
+        AND ID IN
+        <foreach item="id" collection="fileIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updateFilesToDeletable">
+        UPDATE TBL_FILE
+        SET TARGET_ID = NULL,
+        TARGET_GB = 'DELETABLE'
+        WHERE ID IN
+        <foreach collection="fileIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND FILE_OWNER_ID = #{fileOwnerId}
+    </update>
+</mapper>

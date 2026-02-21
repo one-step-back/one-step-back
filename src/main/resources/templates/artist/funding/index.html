@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 펀딩'">아티스트 펀딩</title>
+    <link href="/dist/css/artist/funding/funding-list.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="tab='funding'"></th:block>
+
+<div layout:fragment="artist-content">
+    <div class="funding-container" th:data-artist-id="${artist.profile.id}">
+
+        <div class="funding-header">
+            <h2 class="funding-title">크라우드 펀딩</h2>
+
+            <a th:href="@{/artist/{id}/funding/write(id=${artist.profile.id})}"
+               class="btn-create-funding"
+               th:if="${session.member != null}">
+                <i class="fas fa-plus"></i> 펀딩 만들기
+            </a>
+        </div>
+
+        <div id="funding-grid" class="funding-grid">
+            <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/funding/list.min.js"></script>
+</th:block>
+
+</body>
+</html>

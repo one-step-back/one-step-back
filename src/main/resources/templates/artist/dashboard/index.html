@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/dashboard/layout}">
+<head>
+    <title>수익 현황</title>
+    <link href="/dist/css/artist/dashboard/dashboard.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="dashboardTab='summary'"></th:block>
+
+<h1 class="page-title" layout:fragment="page-title">블로그 대시보드</h1>
+<p class="page-desc" layout:fragment="page-desc">
+    <span class="highlight" th:text="${artistNickname}">아티스트</span>님의 수익 현황입니다.
+</p>
+
+<div layout:fragment="header-actions">
+    <button type="button" class="btn-refresh-data" id="btn-refresh">
+        <i class="fas fa-sync-alt"></i> 실시간 업데이트
+    </button>
+</div>
+
+<div layout:fragment="dashboard-content">
+    <section class="dashboard-section">
+        <div class="summary-grid">
+            <div class="summary-card hero-card">
+                <div class="card-icon"><i class="fas fa-coins"></i></div>
+                <p class="card-label">출금 가능 금액 (Net)</p>
+                <h2 class="card-value highlight" id="val-distributable">0원</h2>
+                <p class="card-sub">수수료 5% 공제 후 실 수령액</p>
+                <button type="button" class="btn-request" id="btn-request-settlement" disabled>
+                    정산 신청하기
+                </button>
+            </div>
+
+            <div class="summary-card">
+                <p class="card-label">미정산 총 매출</p>
+                <h3 class="card-value" id="val-total-sales">0원</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <p class="card-label">공제 예정 수수료 (5%)</p>
+                <h3 class="card-value" id="val-fee">0원</h3>
+                <p class="card-sub text-muted">플랫폼 유지보수 및 결제 수수료</p>
+            </div>
+
+            <div class="summary-card bg-light">
+                <p class="card-label">누적 정산 완료</p>
+                <h3 class="card-value text-dark" id="val-completed">0원</h3>
+                <p class="card-sub">지금까지 지급된 총 금액</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-section">
+        <div class="chart-box">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="fas fa-chart-line"></i> 월별 매출 추이</h3>
+                <span class="chart-period">최근 6개월</span>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <ul>
+            <li><i class="fas fa-info-circle"></i> 정산 신청 시 <b>익일 새벽 4시</b>에 등록된 계좌로 일괄 입금됩니다.</li>
+            <li><i class="fas fa-info-circle"></i> 계좌 정보 오류로 지급이 반려될 경우, 정보 수정 후 다시 신청할 수 있습니다.</li>
+        </ul>
+    </section>
+</div>
+
+<th:block layout:fragment="dashboard-js">
+    <script type="module" src="/dist/js/artist/dashboard/dashboard.min.js"></script>
+</th:block>
+
+</body>
+</html>

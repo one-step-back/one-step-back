@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+.funding-history-container {
+    width: 100%;
+}
+
+.history-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.history-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.history-desc {
+    font-size: 15px;
+    color: #64748b;
+}
+
+.funding-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.funding-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.funding-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.artist-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.funding-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e293b;
+    text-decoration: none;
+}
+
+.funding-title:hover {
+    text-decoration: underline;
+}
+
+.payment-date {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.card-amount-status {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.payment-amount {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-paid {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.status-refunded {
+    background-color: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+}
+
+.funding-empty {
+    text-align: center;
+    padding: 60px 0;
+    color: #94a3b8;
+}
+
+.funding-empty i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #cbd5e1;
+}
+
+.funding-empty p {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.funding-loading {
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

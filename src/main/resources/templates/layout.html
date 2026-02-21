@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title layout:title-pattern="$CONTENT_TITLE - One Step"></title>
+
+    <link href="/dist/css/root.min.css" rel="stylesheet">
+    <link href="/images/fav.svg" rel="icon">
+</head>
+
+<body th:data-member-id="${session.member != null ? session.member.id : ''}">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main id="main-section">
+    <div th:replace="~{fragments/artists-nav :: nav}"></div>
+    <div id="main__content">
+        <div layout:fragment="content"></div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<th:block th:replace="~{fragments/confirm :: confirm-html}"></th:block>
+<th:block th:replace="~{fragments/alert :: alert-html}"></th:block>
+
+<script type="module" src="/dist/js/root.min.js"></script>
+
+<th:block layout:fragment="js"></th:block>
+
+</body>
+</html>

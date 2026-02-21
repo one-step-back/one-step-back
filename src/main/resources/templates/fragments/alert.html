@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko-KR" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="alert-html">
+    <div id="global-alert-dialog" class="alert-dialog-overlay" style="display: none;">
+        <div class="alert-dialog-content">
+            <div class="alert-dialog-body">
+                <div class="alert-dialog-header">
+                    <div class="alert-icon-wrapper" id="alert-icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                            <path d="M12 9v4"/>
+                            <path d="M12 17h.01"/>
+                        </svg>
+                    </div>
+                    <h2 id="alert-title" class="alert-dialog-title">알림</h2>
+                    <p id="alert-description" class="alert-dialog-description">내용을 확인해주세요.</p>
+                </div>
+            </div>
+            <div class="alert-dialog-footer">
+                <button type="button" id="alert-cancel-btn" class="btn-alert-base btn-alert-secondary">취소</button>
+                <button type="button" id="alert-action-btn" class="btn-alert-base btn-alert-primary">확인</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

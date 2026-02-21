@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.MainMapper">
+
+    <select id="selectRisingArtists" resultType="com.app.onestepback.domain.dto.main.MainPageDTO$RisingArtist">
+        SELECT *
+        FROM (SELECT M.ID,
+                     A.ARTIST_BLOG_NAME      AS name,
+                     A.ARTIST_DESCRIPTION    AS description,
+                     A.ARTIST_FOLLOWER_COUNT AS followerCount,
+                     CASE
+                         WHEN A.ARTIST_BLOG_IMAGE_ID IS NOT NULL
+                             THEN '/api/v1/files/' || A.ARTIST_BLOG_IMAGE_ID
+                         ELSE '/images/artist/blog_default.png'
+                         END                 AS profilePath
+              FROM TBL_ARTIST A
+                       JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+              WHERE M.MEMBER_STATUS = 'ACTIVE'
+              ORDER BY A.ARTIST_FOLLOWER_COUNT DESC)
+        WHERE ROWNUM &lt;= 4
+    </select>
+
+    <select id="selectFundingSpotlight" resultType="com.app.onestepback.domain.dto.main.MainPageDTO$FundingSpotlight">
+        SELECT *
+        FROM (SELECT C.ID,
+                     A.MEMBER_ID                                       AS artistId,
+                     C.TITLE,
+                     A.ARTIST_BLOG_NAME                                AS artistName,
+                     TRUNC((C.CURRENT_AMOUNT / C.TARGET_AMOUNT) * 100) AS achieveRate,
+                     TRUNC(CAST(C.END_DATE AS DATE) - SYSDATE)         AS daysLeft,
+                     CASE
+                         WHEN C.MAIN_IMG_ID IS NOT NULL
+                             THEN '/api/v1/files/' || C.MAIN_IMG_ID
+                         ELSE NULL
+                         END                                           AS thumbnailPath
+              FROM TBL_CROWDFUNDING C
+                       JOIN TBL_ARTIST A ON C.ARTIST_ID = A.MEMBER_ID
+              WHERE C.STATUS = 'PROCEEDING'
+              ORDER BY C.END_DATE ASC)
+        WHERE ROWNUM &lt;= 3
+    </select>
+
+    <select id="selectLiveFeeds" resultType="com.app.onestepback.domain.dto.main.MainPageDTO$LiveFeed">
+        SELECT *
+        FROM (SELECT F.ID,
+                     F.ARTIST_ID                             AS artistId,
+                     A.ARTIST_BLOG_NAME                      AS artistName,
+                     CASE
+                         WHEN M.MEMBER_PROFILE_ID IS NOT NULL
+                             THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                         ELSE M.MEMBER_KAKAO_PROFILE_URL -- 기본 이미지 처리 등은 필요 시 추가
+                         END                                 AS artistProfilePath,
+                     DBMS_LOB.SUBSTR(F.FEED_CONTENT, 100, 1) AS contentPreview,
+                     F.FEED_WRITE_TIME                       AS writeTime
+              FROM TBL_FEED F
+                       JOIN TBL_ARTIST A ON F.ARTIST_ID = A.MEMBER_ID
+                       JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+              WHERE F.FEED_STATUS = 'PUBLIC'
+                AND F.FEED_IS_DELETED = 'N'
+              ORDER BY F.FEED_WRITE_TIME DESC)
+        WHERE ROWNUM &lt;= 6
+    </select>
+
+</mapper>

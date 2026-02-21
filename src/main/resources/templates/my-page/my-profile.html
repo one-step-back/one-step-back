@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{my-page/my-page-layout}">
+<head>
+    <th:block layout:fragment="css">
+        <link href="/dist/css/my-page/my-profile.min.css" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<main class="mypage-content" layout:fragment="mypage-content">
+    <div class="settings-card animated-fade-in">
+
+        <section class="settings-section">
+            <h2 class="section-title">
+                <i class="fas fa-user-circle icon-title"></i>
+                <span>프로필 정보</span>
+            </h2>
+
+            <form id="profileForm" enctype="multipart/form-data">
+                <div class="profile-uploader-wrapper">
+                    <div class="profile-uploader">
+                        <div class="profile-preview" id="profilePreview"
+                             th:style="'background-image: url(' + (${@fileUrlSigner.sign(session.member?.profilePath)} ?: '/images/profile/avatar_blank.png') + ');'">
+                            <label for="profileImage" class="profile-overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>사진 변경</span>
+                            </label>
+                        </div>
+                        <input type="file" id="profileImage" name="profileImage" accept="image/*" hidden>
+                    </div>
+                    <p class="profile-help">최적 사이즈: 500x500px (JPG, PNG)</p>
+                    <p class="field-error text-center" id="error-profileImage"></p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">이메일</label>
+                        <input type="text" class="form-input readonly" th:value="${session.member?.memberEmail}" disabled readonly>
+                        <p class="form-hint">이메일은 변경할 수 없습니다.</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="nickname">닉네임</label>
+                        <input type="text" id="nickname" name="nickname" class="form-input"
+                               th:value="${session.member?.memberNickname}" placeholder="활동명 입력">
+                        <p class="field-error" id="error-nickname"></p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="introduction">소개글</label>
+                    <textarea id="introduction" name="introduction" class="form-textarea"
+                              placeholder="나를 표현하는 한마디를 입력해주세요."
+                              th:text="${session.member?.memberIntroduction}"></textarea>
+                    <p class="field-error" id="error-introduction"></p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btnUpdateProfile" class="btn btn--primary btn--lg">
+                        <span>변경사항 저장</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="settings-section">
+            <h2 class="section-title">
+                <i class="fas fa-lock icon-title"></i>
+                <span>보안 설정</span>
+            </h2>
+            <form id="passwordForm">
+                <div class="form-grid">
+                    <div class="form-group" th:if="${session.member?.hasPassword}">
+                        <label class="form-label" for="currentPassword">현재 비밀번호</label>
+                        <input type="password" id="currentPassword" name="currentPassword" class="form-input" placeholder="현재 비밀번호 입력">
+                        <p class="field-error" id="error-currentPassword"></p>
+                    </div>
+                    <div class="form-group" th:unless="${session.member?.hasPassword}">
+                        <div class="info-box warn">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>소셜 로그인 회원은 비밀번호 설정이 필요합니다.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="newPassword">새 비밀번호</label>
+                        <input type="password" id="newPassword" name="newPassword" class="form-input" placeholder="영문/숫자/특수문자 포함 8~20자">
+                        <p class="field-error" id="error-newPassword"></p>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="btnUpdatePassword" class="btn btn--secondary btn--lg">
+                        <span th:text="${session.member?.hasPassword ? '비밀번호 변경' : '비밀번호 설정'}">변경하기</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="settings-section danger-zone-wrapper">
+            <h2 class="section-title text-danger">
+                <i class="fas fa-user-times icon-title"></i>
+                <span>계정 관리</span>
+            </h2>
+            <div class="danger-zone">
+                <div class="danger-info">
+                    <h3>회원 탈퇴</h3>
+                    <p>탈퇴 시 작성한 모든 콘텐츠와 활동 내역이 영구적으로 삭제되며 복구할 수 없습니다.</p>
+                </div>
+                <button type="button" id="btnWithdraw" class="btn btn--danger-outline">계정 탈퇴</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<th:block layout:fragment="mypage-js">
+    <script type="module" src="/dist/js/my-page/my-profile.min.js"></script>
+</th:block>
+
+</body>
+</html>

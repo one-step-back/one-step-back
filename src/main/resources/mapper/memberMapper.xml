@@ -1,70 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.app.onestepback.mapper.MemberMapper">
-    <insert id="insert">
-        <choose>
-            <when test="memberPassword == null">
-                INSERT INTO TBL_MEMBER(ID, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_KAKAO_PROFILE_URL, CREATED_TIME)
-                VALUES (SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberNickname}, #{memberKakaoProfileUrl},
-                CURRENT_TIMESTAMP)
-            </when>
-            <otherwise>
-                INSERT INTO TBL_MEMBER (ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NICKNAME, CREATED_TIME)
-                VALUES (SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPassword}, #{memberNickname}, CURRENT_TIMESTAMP)
-            </otherwise>
-        </choose>
+<mapper namespace="com.app.onestepback.repository.MemberMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_MEMBER (MEMBER_EMAIL,
+                                MEMBER_PASSWORD,
+                                MEMBER_NICKNAME,
+                                MEMBER_KAKAO_PROFILE_URL,
+                                MEMBER_PROFILE_ID,
+                                MEMBER_INTRODUCTION)
+        VALUES (#{memberEmail},
+                #{memberPassword, jdbcType=VARCHAR},
+                #{memberNickname},
+                #{memberKakaoProfileUrl, jdbcType=VARCHAR},
+                #{memberProfileId, jdbcType=VARCHAR},
+                #{memberIntroduction, jdbcType=VARCHAR})
     </insert>
 
     <select id="selectById" resultType="memberVO">
-        SELECT ID,
-               MEMBER_EMAIL,
-               MEMBER_NICKNAME,
-               MEMBER_KAKAO_PROFILE_URL,
-               MEMBER_PROFILE_NAME,
-               MEMBER_PROFILE_PATH,
-               MEMBER_INTRODUCTION,
-               MEMBER_PAYMENT_TOTAL,
-               CREATED_TIME,
-               MODIFIED_TIME,
-               MEMBER_STATUS
-        FROM ONESTEP.TBL_MEMBER
-        WHERE ID = #{id}
+        SELECT m.ID,
+               m.MEMBER_EMAIL,
+               m.MEMBER_PASSWORD,
+               m.MEMBER_NICKNAME,
+               m.MEMBER_KAKAO_ID,
+               m.MEMBER_KAKAO_PROFILE_URL,
+               m.MEMBER_PROFILE_ID,
+               m.MEMBER_INTRODUCTION,
+               m.MEMBER_PAYMENT_TOTAL,
+               m.MEMBER_CREATE_TIME,
+               m.MEMBER_UPDATE_TIME,
+               m.MEMBER_STATUS,
+               (CASE WHEN m.HAS_PAYMENT_METHOD = 'Y' THEN 1 ELSE 0 END) AS PAYMENT_METHOD_EXISTS,
+               (CASE WHEN a.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END)    AS IS_ARTIST
+        FROM TBL_MEMBER m
+                 LEFT JOIN TBL_ARTIST a
+                           ON m.ID = a.MEMBER_ID
+        WHERE m.id = #{memberId}
     </select>
 
     <select id="selectByEmail" resultType="memberVO">
-        SELECT ID,
-               MEMBER_EMAIL,
-               MEMBER_PASSWORD,
-               MEMBER_NICKNAME,
-               MEMBER_KAKAO_PROFILE_URL,
-               MEMBER_PROFILE_NAME,
-               MEMBER_PROFILE_PATH,
-               MEMBER_INTRODUCTION,
-               MEMBER_PAYMENT_TOTAL,
-               CREATED_TIME,
-               MODIFIED_TIME,
-               MEMBER_STATUS
-        FROM TBL_MEMBER
-        WHERE MEMBER_EMAIL = #{memberEmail}
+        SELECT m.ID,
+               m.MEMBER_EMAIL,
+               m.MEMBER_PASSWORD,
+               m.MEMBER_NICKNAME,
+               m.MEMBER_KAKAO_ID,
+               m.MEMBER_KAKAO_PROFILE_URL,
+               m.MEMBER_PROFILE_ID,
+               m.MEMBER_INTRODUCTION,
+               m.MEMBER_PAYMENT_TOTAL,
+               m.MEMBER_CREATE_TIME,
+               m.MEMBER_UPDATE_TIME,
+               m.MEMBER_STATUS,
+               (CASE WHEN m.HAS_PAYMENT_METHOD = 'Y' THEN 1 ELSE 0 END) AS PAYMENT_METHOD_EXISTS,
+               (CASE WHEN a.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END)    AS IS_ARTIST
+        FROM TBL_MEMBER m
+                 LEFT JOIN TBL_ARTIST a
+                           ON m.ID = a.MEMBER_ID
+        WHERE m.MEMBER_EMAIL = #{memberEmail}
     </select>
 
-    <select id="selectByEmailAndPassword" resultType="memberVO">
-        SELECT ID,
-               MEMBER_EMAIL,
-               MEMBER_PASSWORD,
-               MEMBER_NICKNAME,
-               MEMBER_KAKAO_PROFILE_URL,
-               MEMBER_PROFILE_NAME,
-               MEMBER_PROFILE_PATH,
-               MEMBER_INTRODUCTION,
-               MEMBER_PAYMENT_TOTAL,
-               CREATED_TIME,
-               MODIFIED_TIME,
-               MEMBER_STATUS
+    <select id="existsByEmail" resultType="_boolean">
+        SELECT COUNT(*)
         FROM TBL_MEMBER
-        WHERE MEMBER_EMAIL = #{memberEmail}
-          AND MEMBER_PASSWORD = #{memberPassword}
+        WHERE MEMBER_EMAIL = #{email}
     </select>
+
+    <select id="selectInfoById" resultType="com.app.onestepback.domain.dto.member.MemberDTO$Info">
+        SELECT ID,
+               MEMBER_EMAIL        as email,
+               MEMBER_NICKNAME     as nickname,
+               CASE
+                   WHEN MEMBER_PROFILE_ID IS NOT NULL
+                       THEN '/api/v1/files/' || MEMBER_PROFILE_ID
+                   WHEN MEMBER_KAKAO_PROFILE_URL IS NOT NULL
+                       THEN MEMBER_KAKAO_PROFILE_URL
+                   ELSE '/images/default-profile.png'
+                   END             AS profilePath,
+               MEMBER_INTRODUCTION as description
+        FROM TBL_MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <update id="updateKakao">
+        UPDATE TBL_MEMBER
+        SET MEMBER_KAKAO_ID          = #{kakaoId},
+            MEMBER_KAKAO_PROFILE_URL = #{profileUrl, jdbcType=VARCHAR}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateProfileId">
+        UPDATE TBL_MEMBER
+        SET MEMBER_PROFILE_ID = #{memberProfileId}
+        WHERE ID = #{memberId}
+    </update>
+
+    <update id="updateMember">
+        UPDATE TBL_MEMBER
+        <set>
+            <if test="memberNickname != null">
+                MEMBER_NICKNAME = #{memberNickname, jdbcType=VARCHAR},
+            </if>
+            <if test="memberIntroduction != null">
+                MEMBER_INTRODUCTION = #{memberIntroduction, jdbcType=VARCHAR},
+            </if>
+            <if test="memberProfileId != null">
+                MEMBER_PROFILE_ID = #{memberProfileId, jdbcType=VARCHAR},
+            </if>
+            MEMBER_UPDATE_TIME = CURRENT_TIMESTAMP
+        </set>
+        WHERE ID = #{id, jdbcType=NUMERIC}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE TBL_MEMBER
+        SET MEMBER_PASSWORD    = #{newPassword},
+            MEMBER_UPDATE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{memberId}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE TBL_MEMBER
+        SET MEMBER_STATUS      = #{status},
+            MEMBER_UPDATE_TIME = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
 
     <update id="updateKaKaoProfile">
         UPDATE TBL_MEMBER
@@ -99,6 +157,13 @@
         SET MEMBER_NICKNAME     = #{memberNickname},
             MEMBER_INTRODUCTION = #{memberIntroduction}
         WHERE ID = #{id}
+    </update>
+
+    <update id="updatePaymentTotal">
+        UPDATE TBL_MEMBER
+        SET MEMBER_PAYMENT_TOTAL = MEMBER_PAYMENT_TOTAL + #{amount},
+            MEMBER_UPDATE_TIME   = SYSTIMESTAMP
+        WHERE ID = #{memberId}
     </update>
 
     <delete id="delete">

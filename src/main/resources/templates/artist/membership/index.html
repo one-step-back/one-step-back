@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 멤버십'">멤버십</title>
+    <link rel="stylesheet" href="/dist/css/artist/membership.min.css">
+</head>
+
+<body>
+
+<div layout:fragment="artist-content">
+    <section class="membership"
+             th:data-is-login="${session.member != null}"
+             th:data-member-id="${session.member != null ? session.member.id : ''}"
+             th:data-email="${session.member != null ? session.member.memberEmail : ''}">
+
+        <div class="membership__container">
+            <header class="membership__header">
+                <span class="membership__subtitle">PREMIUM ACCESS</span>
+                <h2 class="membership__title">EXCLUSIVE MEMBERSHIP</h2>
+                <p class="membership__desc">
+                    아티스트 <strong th:text="${artist.profile.nickname}">Artist</strong>님의 창작 활동을 후원하고<br>
+                    특별한 혜택과 비공개 콘텐츠를 가장 먼저 만나보세요.
+                </p>
+            </header>
+
+            <div class="membership__list">
+                <article th:each="m : ${memberships}"
+                         class="membership-card"
+                         th:classappend="|${!m.active ? 'membership-card--disabled' : ''} ${m.subscribing ? 'membership-card--active' : ''}|">
+
+                    <div th:if="${m.subscribing}" class="membership-card__badge-active">
+                        <i class="fas fa-check"></i> SUBSCRIBED
+                    </div>
+
+                    <div class="membership-card__header">
+                        <div th:if="${m.imagePath}"
+                             class="membership-card__image"
+                             th:style="'background-image: url(' + ${@fileUrlSigner.sign(m.imagePath)} + ');'">
+                            <div class="membership-card__overlay"></div>
+                        </div>
+
+                        <div th:unless="${m.imagePath}" class="membership-card__pattern">
+                            <div class="pattern-content">
+                                <span class="pattern-tier" th:text="'TIER ' + ${m.levelOrder}">TIER 1</span>
+                                <i class="fas fa-crown pattern-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="membership-card__body">
+                        <div class="membership-card__info">
+                            <h3 class="membership-card__title" th:text="${m.name}">멤버십 이름</h3>
+                            <div class="membership-card__price-box">
+                                <span class="currency">₩</span>
+                                <span class="amount" th:text="${#numbers.formatInteger(m.price, 3, 'COMMA')}">10,000</span>
+                                <span class="period">/ 월</span>
+                            </div>
+                        </div>
+
+                        <hr class="membership-card__divider">
+
+                        <div class="membership-card__benefits">
+                            <h4 class="benefits-title">MEMBERSHIP BENEFITS</h4>
+                            <p class="benefits-desc" th:text="${m.description}">
+                                혜택 설명이 여기에 들어갑니다.
+                            </p>
+                        </div>
+
+                        <div class="membership-card__footer">
+                            <p class="subscriber-count">
+                                <i class="fas fa-user-friends"></i>
+                                <span th:text="${m.subscriberCount}">0</span>명이 구독 중
+                            </p>
+
+                            <a th:href="${m.subscribing} ? 'javascript:void(0)' : @{|/artist/${artist.profile.id}/membership/${m.id}/confirm|}"
+                               class="btn-subscribe"
+                               th:classappend="${m.subscribing} ? 'subscribed' : ''"
+                               th:disabled="${!m.active || m.subscribing}">
+                                <span th:if="${m.subscribing}">구독 중</span>
+                                <span th:unless="${m.subscribing}" th:text="${m.active ? '지금 시작하기' : '준비 중'}">지금 시작하기</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

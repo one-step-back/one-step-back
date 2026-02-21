@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.SettlementMapper">
+
+    <insert id="insertSettlement" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_SETTLEMENT (ARTIST_ID,
+                                    TOTAL_AMOUNT,
+                                    FEE_AMOUNT,
+                                    NET_AMOUNT,
+                                    STATUS,
+                                    REQUEST_TIME)
+        VALUES (#{artistId},
+                #{totalAmount},
+                #{feeAmount},
+                #{netAmount},
+                #{status},
+                SYSTIMESTAMP)
+    </insert>
+
+    <select id="selectUnsettledTotalAmount" resultType="long">
+        SELECT COALESCE(SUM(PH.AMOUNT), 0)
+        FROM TBL_PAYMENT_HISTORY PH
+                 LEFT JOIN TBL_SUBSCRIPTION S ON PH.SUBSCRIPTION_ID = S.ID
+                 LEFT JOIN TBL_CROWDFUNDING F ON PH.FUNDING_ID = F.ID
+        WHERE COALESCE(S.ARTIST_ID, F.ARTIST_ID) = #{artistId}
+          AND PH.STATUS = 'PAID'
+          AND PH.SETTLEMENT_ID IS NULL
+    </select>
+
+    <select id="selectCompletedTotalAmount" resultType="long">
+        SELECT COALESCE(SUM(NET_AMOUNT), 0)
+        FROM TBL_SETTLEMENT
+        WHERE ARTIST_ID = #{artistId}
+          AND STATUS = 'COMPLETED'
+    </select>
+
+    <select id="selectMonthlyRevenue"
+            resultType="com.app.onestepback.domain.dto.settlement.SettlementDTO$MonthlyRevenue">
+        SELECT TO_CHAR(PH.CREATED_TIME, 'YYYY-MM') AS month,
+               SUM(PH.AMOUNT)                      AS amount
+        FROM TBL_PAYMENT_HISTORY PH
+                 LEFT JOIN TBL_SUBSCRIPTION S ON PH.SUBSCRIPTION_ID = S.ID
+                 LEFT JOIN TBL_CROWDFUNDING F ON PH.FUNDING_ID = F.ID
+        WHERE COALESCE(S.ARTIST_ID, F.ARTIST_ID) = #{artistId}
+          AND PH.STATUS = 'PAID'
+          AND PH.CREATED_TIME >= ADD_MONTHS(SYSDATE, -6)
+        GROUP BY TO_CHAR(PH.CREATED_TIME, 'YYYY-MM')
+        ORDER BY month
+    </select>
+
+    <select id="selectSettlementHistory" resultType="com.app.onestepback.domain.dto.settlement.SettlementDTO$History">
+        SELECT ID,
+        TOTAL_AMOUNT,
+        FEE_AMOUNT,
+        NET_AMOUNT,
+        STATUS,
+        REQUEST_TIME,
+        COMPLETE_TIME
+        FROM (
+        SELECT ID,
+        TOTAL_AMOUNT,
+        FEE_AMOUNT,
+        NET_AMOUNT,
+        STATUS,
+        REQUEST_TIME,
+        COMPLETE_TIME
+        FROM TBL_SETTLEMENT
+        WHERE ARTIST_ID = #{artistId}
+        <if test="lastId != null">
+            AND ID &lt; #{lastId}
+        </if>
+        ORDER BY ID DESC
+        )
+        WHERE ROWNUM &lt;= #{limit}
+    </select>
+
+    <select id="selectRequestedSettlements" resultType="com.app.onestepback.domain.model.SettlementVO">
+        SELECT ID,
+               ARTIST_ID,
+               TOTAL_AMOUNT,
+               FEE_AMOUNT,
+               NET_AMOUNT,
+               STATUS,
+               REQUEST_TIME
+        FROM TBL_SETTLEMENT
+        WHERE STATUS = 'REQUESTED'
+    </select>
+
+    <update id="updateSettlementStatus">
+        UPDATE TBL_SETTLEMENT
+        SET STATUS        = #{status},
+            COMPLETE_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

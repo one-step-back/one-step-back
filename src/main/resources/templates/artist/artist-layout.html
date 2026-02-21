@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <link href="/dist/css/artist/main.min.css" rel="stylesheet">
+</head>
+
+<div layout:fragment="content">
+
+    <div id="share-modal" class="artist-modal">
+        <div class="artist-modal__backdrop"></div>
+        <div class="artist-modal__content">
+            <div class="artist-modal__header">
+                <h5 class="artist-modal__title">페이지 공유</h5>
+                <button type="button" class="artist-modal__close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="artist-modal__body">
+                <p class="artist-modal__desc">아래 링크를 복사하여 친구들에게 공유해보세요.</p>
+                <div class="artist-input-group">
+                    <input type="text" class="artist-input-group__field" readonly>
+                    <button type="button" class="artist-input-group__btn">복사</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="artist-wrapper" th:object="${artist}">
+
+        <header class="artist-header">
+            <div class="artist-header__banner"
+                 th:style="'background-image: url(' + ${@fileUrlSigner.sign(artist.profile.blogImgPath)} + ');'">
+                <div class="artist-header__overlay"></div>
+            </div>
+
+            <div class="artist-container">
+                <div class="artist-profile">
+                    <div class="artist-profile__avatar-area">
+                        <div class="artist-profile__avatar" id="btn-profile-info"
+                             th:data-id="*{profile.id}"
+                             th:style="'background-image: url(' + ${@fileUrlSigner.sign(artist.profile.profilePath)} + ');'">
+                            <div class="artist-profile__overlay">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                        </div>
+
+                        <div class="artist-profile__indicator">
+                            <i class="fas fa-info"></i>
+                        </div>
+
+                        <div id="profile-info-card" class="artist-profile__info-card">
+                            <div class="text-center">
+                                <i class="fas fa-spinner fa-spin" style="color: var(--primary);"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="artist-profile__info">
+                        <h1 class="artist-profile__title" th:text="*{profile.blogName}">블로그명</h1>
+                        <div class="artist-profile__meta">
+                            <span class="artist-profile__nickname">@<span
+                                    th:text="*{profile.nickname}">닉네임</span></span>
+                            <span class="artist-profile__divider">·</span>
+                            <div class="artist-profile__stats">
+                                <span>팔로워 <b id="artist-follower-count" th:text="*{stats.followerCount}">0</b></span>
+                                <span>피드 <b th:text="*{stats.feedTotal}">0</b></span>
+                            </div>
+                        </div>
+                        <p class="artist-profile__desc" th:text="*{profile.description}">소개글이 없습니다.</p>
+                    </div>
+
+                    <div class="artist-profile__actions">
+                        <button type="button" class="artist-btn artist-btn--icon" id="btn-share" title="공유하기">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+
+                        <th:block th:if="${session.member != null and session.member.id == artist.profile.id}">
+
+                            <a th:href="@{/artist/{id}/feed/write(id=*{profile.id})}"
+                               class="artist-btn artist-btn--primary">
+                                <i class="fas fa-pen"></i> <span>글쓰기</span>
+                            </a>
+
+                            <a th:href="@{/artist/dashboard}"
+                               class="artist-btn artist-btn--revenue" title="대시보드">
+                                <i class="fas fa-chart-pie"></i> <span>대시보드</span>
+                            </a>
+
+                            <a th:href="@{/artist/setting}"
+                               class="artist-btn artist-btn--outline artist-btn--icon-only" title="채널 설정">
+                                <i class="fas fa-cog"></i>
+                            </a>
+
+                        </th:block>
+
+                        <th:block th:unless="${session.member != null and session.member.id == artist.profile.id}">
+                            <th:block th:if="*{myStatus.subscribed}">
+                                <a href="/my-page/subscription" class="artist-btn artist-btn--subscribed">
+                                    <i class="fas fa-crown"></i>
+                                    <span th:text="*{myStatus.subscriptionDetail.membershipName}">VIP</span>
+                                </a>
+                            </th:block>
+
+                            <th:block th:if="!*{myStatus.subscribed} and *{profile.hasMembership}">
+                                <a th:href="@{/artist/{id}/membership(id=*{profile.id})}"
+                                   class="artist-btn artist-btn--membership artist-btn--pulse">
+                                    멤버십 가입
+                                </a>
+                            </th:block>
+
+                            <button type="button" class="artist-btn" id="btn-follow"
+                                    th:classappend="*{myStatus.following ? 'artist-btn--active' : 'artist-btn--primary'}"
+                                    th:data-id="*{profile.id}"
+                                    th:data-status="*{myStatus.following}">
+                                <span th:text="*{myStatus.following ? '팔로잉' : '팔로우'}">팔로우</span>
+                            </button>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="artist-nav">
+            <div class="artist-container">
+                <ul class="artist-nav__list">
+                    <li class="artist-nav__item">
+                        <a th:href="@{/artist/{id}(id=*{profile.id})}"
+                           class="artist-nav__link"
+                           th:classappend="${tab == 'home'} ? 'artist-nav__link--active'">홈</a>
+                    </li>
+                    <li class="artist-nav__item">
+                        <a th:href="@{/artist/{id}/feed(id=*{profile.id})}"
+                           class="artist-nav__link"
+                           th:classappend="${tab == 'feed'} ? 'artist-nav__link--active'">피드</a>
+                    </li>
+                    <li class="artist-nav__item" th:if="*{profile.hasMembership}">
+                        <a th:href="@{/artist/{id}/membership(id=*{profile.id})}"
+                           class="artist-nav__link"
+                           th:classappend="${tab == 'membership'} ? 'artist-nav__link--active'">멤버십</a>
+                    </li>
+                    <li class="artist-nav__item">
+                        <a th:href="@{/artist/{id}/funding(id=*{profile.id})}"
+                           class="artist-nav__link"
+                           th:classappend="${tab == 'funding'} ? 'artist-nav__link--active'">펀딩</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="artist-content artist-container" layout:fragment="artist-content">
+        </main>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/artist/main.min.js"></script>
+    <th:block layout:fragment="artist-js"></th:block>
+</th:block>
+</html>

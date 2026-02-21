@@ -1,61 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>원스텝 | 이메일 로그인</title>
-  <link rel="stylesheet" href="/css/member/email.css">
-  <link rel="stylesheet" href="/css/main/root.css">
-  <link rel="stylesheet" href="/css/member/modal.css">
-  <link rel="stylesheet" type="text/css"
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style"
-        onload="this.rel='stylesheet'">
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <title>이메일 로그인</title>
+    <link rel="stylesheet" href="/dist/css/member/login-email.min.css">
 </head>
-
 <body>
-<main class="main-content" id="login" role="main">
-  <div class="modal">
-    <div class="warn-modal">
-      <div id="content-wrap"></div>
-    </div>
-  </div>
-  <section class="dialog">
-    <div class="dialog-content">
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="sign-up-email" role="tabpanel">
-          <form th:action="@{/member/login-email}" name="login" method="post" th:object="${memberVO}">
-            <div>
-              <h1 class="mb-4">이메일로 로그인</h1>
-              <div class="form-group">
-                <label class="form-label-sm">이메일 주소</label>
-                <input th:field="*{memberEmail}" type="text" id="email" name="memberEmail" class="form-control" placeholder="이메일 주소" autofocus>
-              </div>
-              <div class="form-group">
-                <label class="form-label-sm">비밀번호</label>
-                <input th:field="*{memberPassword}" type="password" id="password" name="memberPassword" class="form-control" placeholder="비밀번호" autofocus>
-              </div>
-              <div class="btn-wrapper">
-                <button type="button" class="login login-button" onclick="send()">로그인</button>
-              </div>
-            </div>
-          </form>
+
+<div layout:fragment="content" class="login-wrapper">
+    <div class="login-container">
+
+        <div class="login-header">
+            <h1 class="login-title">이메일로 로그인</h1>
         </div>
-      </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="email" class="form-label">이메일 주소</label>
+                <input type="email" id="email" name="email" class="form-input"
+                       placeholder="example@onestep.com" autocomplete="email" autofocus>
+                <p class="validation-msg" id="email-msg"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" id="password" name="password" class="form-input"
+                       placeholder="비밀번호 입력" autocomplete="current-password">
+                <p class="validation-msg" id="password-msg"></p>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-submit">로그인</button>
+        </form>
+
+        <div class="login-links">
+            <a href="/member/join" class="link-item">회원가입</a>
+            <span class="divider">|</span>
+            <a href="#" class="link-item">비밀번호 찾기</a>
+        </div>
+
     </div>
-  </section>
-</main>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/member/login-email.min.js"></script>
+</th:block>
+
 </body>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<script src="/js/member/login.js"></script>
-<script src="/js/member/modal.js"></script>
-<script th:inline="javascript">
-  let check = [[${login}]];
-  if(check){
-    showWarnModal("<span>아이디 또는 비밀번호를</span><span>확인해주세요.</span>");
-  }
-</script>
 </html>

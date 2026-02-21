@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>후원 완료 | OneStep</title>
+    <link href="/dist/css/artist/funding/funding-success.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="success-wrapper">
+        <div class="success-icon-area">
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <h1 class="success-title">펀딩 후원이 완료되었습니다</h1>
+        <p class="success-desc">프로젝트의 든든한 후원자가 되어주셔서 감사합니다.</p>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="label">프로젝트명</span>
+                <span class="value" th:text="${receipt.projectTitle}">상남자 기가채드의 코딩 마스터 클래스</span>
+            </div>
+            <div class="info-row">
+                <span class="label">크리에이터</span>
+                <span class="value" th:text="${receipt.artistName}">Gigachad</span>
+            </div>
+            <div class="info-row separator">
+                <span class="label">결제 금액</span>
+                <span class="value highlight" th:text="'₩' + ${#numbers.formatInteger(receipt.amount, 0, 'COMMA')}">₩50,000</span>
+            </div>
+            <div class="info-row">
+                <span class="label">결제 일시</span>
+                <span class="value" th:text="${#temporals.format(receipt.paymentDate, 'yyyy.MM.dd HH:mm')}">2026.02.13 22:31</span>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <a th:href="@{/artist/{artistId}/funding(artistId=${receipt.artistId})}" class="btn btn-secondary">펀딩 목록으로</a>
+            <a th:href="@{/my-page/funding}" class="btn btn-primary">내 후원 내역 보기</a>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+</th:block>
+
+</body>
+</html>

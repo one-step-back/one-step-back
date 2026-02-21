@@ -1,0 +1,264 @@
+/**
+ * @file error.css
+ * @description 403, 404, 500 에러 페이지 공통 스타일 및 개별 애니메이션 통합본
+ */
+
+@import "pretendard/dist/web/variable/pretendardvariable.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+:root {
+    --primary-color: #3478ff;
+    --primary-hover: #2a60cc;
+    --text-color: #191919;
+    --text-sub: #767676;
+    --bg-body: #f8f9fa;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.error-container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    padding: 40px 20px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    margin: 20px;
+}
+
+.error-header {
+    margin-bottom: 30px;
+}
+
+.logo-img {
+    height: 24px;
+    width: auto;
+}
+
+.icon-area, .illustration-area {
+    position: relative;
+    height: 140px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-color);
+}
+
+.error-message {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-sub);
+    margin-bottom: 36px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    height: 48px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    gap: 8px;
+}
+
+.btn--primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(52, 120, 255, 0.3);
+}
+
+.btn--primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn--secondary {
+    background-color: #f1f3f5;
+    color: var(--text-color);
+}
+
+.btn--secondary:hover {
+    background-color: #e9ecef;
+}
+
+.shadow {
+    width: 60px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    margin-top: 10px;
+    animation: shrink 3s ease-in-out infinite;
+}
+
+/* 403: Forbidden */
+.security-icon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: float 3s ease-in-out infinite;
+}
+
+.shield {
+    font-size: 100px;
+    color: #f1f3f5;
+}
+
+.lock {
+    position: absolute;
+    font-size: 40px;
+    color: var(--primary-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.floating-icon {
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+}
+
+.sign-icon {
+    font-size: 80px;
+    color: #e1e1e1;
+}
+
+.question-mark {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 40px;
+    color: var(--primary-color);
+    background: #fff;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    animation: bounce 2s infinite;
+}
+
+.gear-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    color: #e1e1e1;
+}
+
+.big-gear {
+    font-size: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #d1d5db;
+}
+
+.small-gear {
+    font-size: 50px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: var(--primary-color);
+}
+
+.fa-spin-slow {
+    animation: spin 8s linear infinite;
+}
+
+.fa-spin-reverse {
+    animation: spin-reverse 6s linear infinite;
+}
+
+.error-footer {
+    margin-top: 40px;
+    border-top: 1px solid #f1f3f5;
+    padding-top: 20px;
+}
+
+.support-text {
+    font-size: 13px;
+    color: #adb5bd;
+}
+
+.support-text a {
+    color: var(--text-sub);
+    text-decoration: underline;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes shrink {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-reverse {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}

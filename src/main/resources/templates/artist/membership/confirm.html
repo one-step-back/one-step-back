@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>구독 확인 | OneStep</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <link href="/dist/css/artist/subscription-confirm.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="subscription-wrapper"
+         th:data-portone-id="${portoneMerchantId}"
+         th:data-has-payment="${session.member != null ? session.member.hasPaymentMethod : false}">
+
+        <input type="hidden" id="subscriptionMode" th:value="${mode}">
+        <input type="hidden" id="targetMembershipId" th:value="${membership.id}">
+        <input type="hidden" id="isMembershipActive" th:value="${membership.active}">
+        <input type="hidden" id="finalAmount" th:value="${paymentAmount}">
+        <input type="hidden" id="currentSubscriptionId" th:value="${currentSub?.id}">
+
+        <h1 class="page-title" th:switch="${mode}">
+            <span th:case="'NEW'">구독 결제 확인</span>
+            <span th:case="'UPGRADE'">멤버십 업그레이드</span>
+            <span th:case="'DOWNGRADE'">멤버십 변경 예약</span>
+            <span th:case="'SAME'">이용 중인 멤버십</span>
+        </h1>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="membership-img"
+                     th:style="${membership.imagePath != null} ? 'background-image: url(' + ${@fileUrlSigner.sign(membership.imagePath)} + ')' : 'background-color: #f1f5f9; display:flex; align-items:center; justify-content:center;'">
+                    <i th:if="${membership.imagePath == null}" class="fas fa-crown" style="color:#cbd5e1; font-size: 24px;"></i>
+                </div>
+                <div class="membership-details">
+                    <div class="badge-row" style="margin-bottom: 4px;">
+                         <span class="mode-badge" th:classappend="${mode}" th:switch="${mode}">
+                            <span th:case="'NEW'">신규 구독</span>
+                            <span th:case="'UPGRADE'">Upgrade</span>
+                            <span th:case="'DOWNGRADE'">Downgrade</span>
+                            <span th:case="'SAME'">Active</span>
+                        </span>
+                    </div>
+                    <h3 class="membership-name" th:text="${membership.name}">멤버십 이름</h3>
+                    <p class="membership-desc" th:text="${membership.description}">멤버십 설명</p>
+                </div>
+            </div>
+
+            <div class="billing-info-box">
+                <div class="info-row">
+                    <span class="label">월 구독료 (VAT 포함)</span>
+                    <span class="value" th:text="'₩' + ${#numbers.formatInteger(membership.price, 0, 'COMMA')}">₩0</span>
+                </div>
+
+                <div class="info-row" th:if="${mode == 'UPGRADE' or mode == 'DOWNGRADE'}">
+                    <span class="label">기존 멤버십</span>
+                    <span class="value" th:text="${currentSub.membershipName}">Current Tier</span>
+                </div>
+
+                <div class="info-row separator-top">
+                    <span class="label">적용 시점</span>
+                    <span class="value highlight" th:if="${mode == 'UPGRADE' or mode == 'NEW'}">즉시 적용</span>
+                    <span class="value text-danger" th:if="${mode == 'DOWNGRADE'}"
+                          th:text="${#temporals.format(currentSub.nextBillingDate, 'yyyy.MM.dd')} + ' 부터'">
+                        Date
+                    </span>
+                </div>
+                <div class="info-row" th:if="${mode == 'NEW' or mode == 'UPGRADE'}">
+                    <span class="label">다음 결제일</span>
+                    <span class="value" id="nextBillingDate" th:if="${mode == 'NEW'}">-</span>
+                    <span class="value" th:if="${mode == 'UPGRADE'}"
+                          th:text="${#temporals.format(currentSub.nextBillingDate, 'yyyy.MM.dd')} + ' (기존 유지)'">
+                    </span>
+                </div>
+            </div>
+
+            <div class="price-row">
+                <div class="price-label-group">
+                    <span class="main-label" th:switch="${mode}">
+                        <span th:case="'UPGRADE'">오늘 결제 금액 (차액)</span>
+                        <span th:case="'DOWNGRADE'">결제 금액 (0원)</span>
+                        <span th:case="*">총 결제 금액</span>
+                    </span>
+                    <span class="sub-label" th:if="${mode == 'UPGRADE'}">남은 기간 일할 계산 적용됨</span>
+                </div>
+                <span class="price-amount" th:text="'₩' + ${#numbers.formatInteger(paymentAmount, 0, 'COMMA')}">₩0</span>
+            </div>
+        </div>
+
+        <div id="payment-method-wrapper" th:unless="${mode == 'DOWNGRADE' or mode == 'SAME'}">
+            <div class="text-center py-4">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color: #3478ff;"></i>
+            </div>
+        </div>
+
+        <div id="action-button-wrapper"></div>
+
+        <p class="policy-text" th:if="${mode == 'UPGRADE'}">
+            * 등급 변경 시 즉시 혜택이 적용되며, 기존 결제일은 유지됩니다.
+        </p>
+        <p class="policy-text" th:if="${mode == 'DOWNGRADE'}">
+            * 다운그레이드는 현재 이용 기간이 만료된 후 자동으로 적용됩니다.
+        </p>
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/artist/membership/confirm.min.js"></script>
+</th:block>
+
+</body>
+</html>

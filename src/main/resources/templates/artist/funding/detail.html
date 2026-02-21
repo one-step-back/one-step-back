@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | ' + ${funding.title}">펀딩 상세</title>
+    <link href="/dist/css/artist/funding/funding-detail.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="tab='funding'"></th:block>
+
+<div layout:fragment="artist-content"
+     th:with="isUpcoming=${funding.status.name() == 'PROCEEDING' and funding.startDate.isAfter(#temporals.createNow())}">
+
+    <div class="detail-container">
+
+        <input type="hidden" id="fundingId" th:value="${funding.id}">
+        <input type="hidden" id="artistId" th:value="${funding.artistId}">
+        <input type="hidden" id="fundingStatus" th:value="${isUpcoming ? 'UPCOMING' : funding.status.name()}">
+
+        <div class="detail-main">
+            <div class="detail-header">
+                <span class="detail-category">Crowd Funding</span>
+                <h1 class="detail-title" th:text="${funding.title}">프로젝트 제목</h1>
+
+                <div class="detail-writer">
+                    <img th:src="${@fileUrlSigner.sign(funding.writerProfilePath)}"
+                         class="writer-profile-img" alt="작성자">
+                    <div class="writer-info">
+                        <h4 th:text="${funding.writerNickname}">작성자 닉네임</h4>
+                        <span>크라우드 펀딩 요청자</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-image-area" th:if="${funding.mainImgPath != '/images/no-img.png'}">
+                <img th:src="${@fileUrlSigner.sign(funding.mainImgPath)}" alt="대표 이미지">
+            </div>
+
+            <div class="reject-reason-box" th:if="${funding.rejectReason != null and !funding.rejectReason.isEmpty()}">
+                <div class="reason-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span th:text="${funding.status.name() == 'REJECTED' ? '아티스트 반려 사유' : '펀딩 실패 및 환불 사유'}">사유 타이틀</span>
+                </div>
+                <div class="reason-content" th:text="${funding.rejectReason}">
+                    사유 내용이 이곳에 출력됩니다.
+                </div>
+            </div>
+
+            <div class="detail-content" th:text="${funding.content}">
+                상세 내용
+            </div>
+        </div>
+
+        <aside class="detail-sidebar">
+            <div th:class="'funding-state-label state-' + (${isUpcoming} ? 'UPCOMING' : ${funding.status.name()})"
+                 th:text="${isUpcoming ? '오픈 예정' :
+                           (funding.status.name() == 'PROCEEDING' ? '진행 중' :
+                           (funding.status.name() == 'SUCCESS' ? '성공' :
+                           (funding.status.name() == 'FAILED' ? '실패' :
+                           (funding.status.name() == 'WAITING' ? '승인 대기' :
+                           (funding.status.name() == 'REJECTED' ? '반려됨' : '종료')))))}">
+                상태
+            </div>
+
+            <div class="artist-manage-area"
+                 th:if="${funding.status.name() == 'WAITING' and session.member != null and funding.artistId == session.member.id}">
+                <div class="manage-notice">팬의 펀딩 제안이 도착했습니다.</div>
+                <div class="manage-action-group">
+                    <button type="button" id="btnRejectFunding" class="btn-inline-reject">거절</button>
+                    <button type="button" id="btnAcceptFunding" class="btn-inline-accept">수정 후 승낙</button>
+                </div>
+            </div>
+
+            <div class="artist-manage-area"
+                 th:if="${funding.status.name() == 'ENDED' and session.member != null and funding.artistId == session.member.id}">
+                <div class="manage-notice">펀딩 기한이 종료되었습니다.<br>최종 결과를 결정해주세요.</div>
+                <div class="manage-action-group">
+                    <button type="button" id="btnFailFunding" class="btn-inline-fail">실패 (환불)</button>
+                    <button type="button" id="btnSuccessFunding" class="btn-inline-success">성공 (진행)</button>
+                </div>
+            </div>
+
+            <div class="funding-metrics">
+                <div class="metric-item">
+                    <div class="metric-label">남은 기간</div>
+
+                    <div class="metric-value" th:if="${isUpcoming}">
+                        <span class="unit" style="margin:0; color:#7c3aed;">
+                            D-<span
+                                th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(#temporals.createNow(), funding.startDate)}">5</span> (오픈)
+                        </span>
+                    </div>
+                    <div class="metric-value" th:if="${!isUpcoming and funding.status.name() == 'PROCEEDING'}">
+                        <span th:text="${funding.daysLeft}">10</span><span class="unit">일</span>
+                    </div>
+                    <div class="metric-value" th:unless="${isUpcoming or funding.status.name() == 'PROCEEDING'}">
+                        <span class="unit" style="margin:0;">종료됨</span>
+                    </div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-label">달성률</div>
+                    <div class="metric-value highlight">
+                        <span th:text="${funding.achieveRate}">0</span><span class="unit">%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"
+                                 th:data-width="${funding.achieveRate > 100 ? 100 : funding.achieveRate}"
+                                 style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-item">
+                    <div class="metric-label">모인 금액</div>
+                    <div class="metric-value">
+                        <span th:text="${#numbers.formatInteger(funding.currentAmount, 0, 'COMMA')}">0</span><span
+                            class="unit">원</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 13px; color:#94a3b8; text-align: right;">
+                    목표 <span th:text="${#numbers.formatInteger(funding.targetAmount, 0, 'COMMA')}">0</span>원
+                </div>
+            </div>
+
+            <div class="funding-period">
+                <i class="far fa-calendar-alt"></i>
+                <span th:text="${#temporals.format(funding.startDate, 'yyyy.MM.dd')}"></span> ~
+                <span th:text="${#temporals.format(funding.endDate, 'yyyy.MM.dd')}"></span>
+            </div>
+
+            <div class="funding-input-area" th:if="${!isUpcoming and funding.status.name() == 'PROCEEDING'}">
+                <label for="fundingAmount">후원 금액 입력</label>
+                <div class="input-with-unit">
+                    <input type="text" id="fundingAmount" placeholder="1,000" maxlength="10">
+                    <span>원</span>
+                </div>
+                <p class="input-help">최소 1,000원 이상</p>
+            </div>
+
+            <div class="funding-actions">
+                <button type="button" id="btn-fund" class="btn-fund"
+                        th:disabled="${isUpcoming or funding.status.name() != 'PROCEEDING'}"
+                        th:text="${isUpcoming ? '오픈 예정입니다' :
+                                  (funding.status.name() == 'PROCEEDING' ? '후원하기' :
+                                  (funding.status.name() == 'WAITING' ? '승인 대기 중' :
+                                  (funding.status.name() == 'REJECTED' ? '반려된 프로젝트' :
+                                  (funding.status.name() == 'SUCCESS' ? '펀딩 성공' :
+                                  (funding.status.name() == 'FAILED' ? '펀딩 실패' : '모금 종료')))))}">
+                    후원하기
+                </button>
+
+                <button type="button" class="btn-share">
+                    <i class="fas fa-share-alt"></i> 친구에게 공유하기
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="reject-modal" class="confirm-modal-overlay">
+        <div class="confirm-modal-box">
+            <div class="confirm-modal-header">
+                <h2 class="confirm-modal-title">펀딩 요청 반려</h2>
+            </div>
+            <div class="confirm-modal-body">
+                <p class="confirm-modal-desc" style="margin-bottom: 16px;">
+                    반려 사유를 작성해주세요. 이 사유는 팬에게 전달됩니다.
+                </p>
+                <textarea id="rejectReasonInput" class="reject-textarea" placeholder="반려 사유를 상세히 적어주세요 (필수)"></textarea>
+            </div>
+            <div class="confirm-modal-footer">
+                <button type="button" id="reject-cancel-btn" class="btn-confirm btn-confirm-cancel">취소</button>
+                <button type="button" id="reject-action-btn" class="btn-confirm btn-confirm-action">반려하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="fail-modal" class="confirm-modal-overlay">
+        <div class="confirm-modal-box" style="border-color: #ef4444;">
+            <div class="confirm-modal-header">
+                <h2 class="confirm-modal-title" style="color: #ef4444;">펀딩 실패 및 환불 처리</h2>
+            </div>
+            <div class="confirm-modal-body">
+                <p class="confirm-modal-desc" style="margin-bottom: 16px;">
+                    모든 참여자의 결제가 즉시 취소되며 전액 환불됩니다. 팬들에게 전달될 실패 사유를 적어주세요.
+                </p>
+                <textarea id="failReasonInput" class="reject-textarea" placeholder="실패(환불) 사유를 상세히 적어주세요 (필수)" style="border-color: #ef4444;"></textarea>
+            </div>
+            <div class="confirm-modal-footer">
+                <button type="button" id="fail-cancel-btn" class="btn-confirm btn-confirm-cancel">취소</button>
+                <button type="button" id="fail-action-btn" class="btn-confirm btn-confirm-action" style="background-color: #ef4444; color: #ffffff;">전액 환불하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/funding/detail.min.js"></script>
+</th:block>
+
+</body>
+</html>

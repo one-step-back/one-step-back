@@ -1,0 +1,42 @@
+@startuml
+skinparam handwritten false
+skinparam monochrome true
+skinparam shadowing false
+
+actor User
+participant "Frontend (JS)" as FE
+participant "SubscriptionController" as Ctrl
+participant "SubscriptionService" as Service
+participant "PaymentGateway" as Gateway
+participant "PortOne API" as P1
+
+User -> FE : 구독 버튼 클릭
+FE -> P1 : IMP.request_pay (customer_uid 포함)
+P1 -> User : 카드 인증창 (0원)
+User -> P1 : 인증 완료
+P1 -> FE : success (imp_uid, customer_uid 반환)
+
+FE -> Ctrl : POST /api/v1/subscriptions/complete
+Ctrl -> Service : completeSubscription(cmd)
+activate Service
+
+group Transaction Area [@Transactional]
+    Service -> Gateway : confirmInitialPayment(cmd, expectedPrice)
+    activate Gateway
+    Gateway -> P1 : GET /payments/{imp_uid} (0원 확인)
+    Gateway -> P1 : POST /subscribe/payments/again (실제 인출)
+    P1 --> Gateway : 결제 성공 (finalAmount)
+    deactivate Gateway
+
+    Service -> Gateway : reserveNextPayment(billingKey, price, nextDate)
+    activate Gateway
+    Gateway -> P1 : POST /subscribe/payments/schedule (예약)
+    deactivate Gateway
+
+    Service -> Service : DB 저장 \n(Subscription, PaymentMethod, PaymentHistory)
+end
+
+Service --> Ctrl : OK
+deactivate Service
+Ctrl --> FE : 성공 메시지
+@enduml

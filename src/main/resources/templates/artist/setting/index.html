@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>채널 설정 | OneStep</title>
+    <link href="/dist/css/artist/setting.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="setting-container">
+
+        <div class="setting-header">
+            <h1 class="setting-header__title">채널 관리</h1>
+            <p class="setting-header__desc">채널 정보, 정산 계좌, 멤버십을 통합 관리하세요.</p>
+        </div>
+
+        <div class="setting-tabs">
+            <div class="tab-item active" data-tab="artist">채널 정보</div>
+            <div class="tab-item" data-tab="account">정산 계좌</div>
+            <div class="tab-item" data-tab="membership">멤버십</div>
+        </div>
+
+        <div id="tab-artist" class="tab-content active">
+            <form id="artist-form" enctype="multipart/form-data">
+                <section class="setting-section">
+                    <h2 class="setting-section__title">채널 이미지</h2>
+
+                    <div class="image-uploader image-uploader--bg">
+                        <label for="bg-file" class="image-uploader__preview" id="bg-preview"
+                               th:style="'background-image: url(' + ${@fileUrlSigner.sign(artist.profile.blogImgPath)} + ');'">
+                            <div class="image-uploader__overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>배경 변경</span>
+                            </div>
+                        </label>
+                        <input type="file" id="bg-file" name="blogImage" accept="image/*" hidden>
+                    </div>
+
+                    <div class="image-uploader image-uploader--profile">
+                        <label for="profile-file" class="image-uploader__preview image-uploader__preview--circle"
+                               id="profile-preview"
+                               th:style="'background-image: url(' + ${@fileUrlSigner.sign(artist.profile.profilePath)} + ');'">
+                            <div class="image-uploader__overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </label>
+                        <input type="file" id="profile-file" name="profileImage" accept="image/*" hidden>
+                    </div>
+                </section>
+
+                <section class="setting-section">
+                    <h2 class="setting-section__title">기본 정보</h2>
+                    <div class="form-group">
+                        <label class="form-label">블로그(채널) 이름</label>
+                        <input type="text" name="blogName" class="form-input" th:value="${artist.profile.blogName}"
+                               placeholder="채널 이름을 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">닉네임</label>
+                        <input type="text" name="memberNickname" class="form-input" th:value="${artist.profile.nickname}"
+                               placeholder="활동명을 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">소개글</label>
+                        <textarea name="description" class="form-textarea" th:text="${artist.profile.description}"
+                                  placeholder="방문자에게 나를 소개해보세요"></textarea>
+                    </div>
+                </section>
+
+                <div class="form-actions">
+                    <button type="button" id="btn-save-artist" class="btn btn--primary">저장하기</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="tab-account" class="tab-content">
+            <section class="setting-section">
+                <h2 class="setting-section__title">정산 계좌 등록</h2>
+
+                <div class="form-group">
+                    <label class="form-label">은행 선택</label>
+                    <select id="acc-bank" class="form-input">
+                        <option value="">은행을 선택하세요</option>
+                        <option th:each="bank : ${T(com.app.onestepback.domain.type.bank.BankCode).values()}"
+                                th:value="${bank.name}"
+                                th:text="${bank.description}">
+                            은행명
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">계좌번호</label>
+                    <input type="text" id="acc-number" class="form-input" placeholder="- 없이 숫자만 입력">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">예금주</label>
+                    <input type="text" id="acc-holder" class="form-input" placeholder="본인 실명">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btn-verify-save" class="btn btn--primary">계좌 인증 및 저장</button>
+                    <button type="button" id="btn-edit-account" class="btn btn--outline" style="display:none;">계좌 정보
+                        수정하기
+                    </button>
+                </div>
+
+                <div id="account-verified-badge"
+                     style="display:none; margin-top:10px; color:#389e0d; font-weight:bold; text-align:center;">
+                    <i class="fas fa-check-circle"></i> 인증된 계좌입니다.
+                </div>
+
+            </section>
+        </div>
+
+        <div id="tab-membership" class="tab-content">
+            <section class="setting-section">
+                <h2 class="setting-section__title">멤버십 등급 관리</h2>
+
+                <div id="membership-content-area" class="membership-container">
+                </div>
+            </section>
+        </div>
+
+        <div id="membership-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">멤버십 생성</h3>
+                    <button type="button" class="btn-close-modal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="membership-form">
+                        <input type="hidden" id="input-level" name="levelOrder">
+
+                        <div class="form-group">
+                            <label class="form-label">멤버십 이름 <span class="required">*</span></label>
+                            <input type="text" id="input-name" class="form-input" placeholder="예: 입문자, 열혈 팬" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">월간 가격 (원) <span class="required">*</span></label>
+                            <input type="number" id="input-price" class="form-input" placeholder="최소 1,000원" required>
+                            <p class="hint">상위 등급은 하위 등급보다 비싸야 합니다.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">혜택 설명 <span class="required">*</span></label>
+                            <textarea id="input-desc" class="form-textarea" placeholder="제공할 혜택을 상세히 적어주세요."
+                                      required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">대표 이미지</label>
+                            <input type="file" id="input-file" class="form-input" accept="image/*">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary btn-close-modal">취소</button>
+                    <button type="button" class="btn btn--primary" id="btn-save-membership">생성하기</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/artist/setting/main.min.js"></script>
+</th:block>
+
+</body>
+</html>

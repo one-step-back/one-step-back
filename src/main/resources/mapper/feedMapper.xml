@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.FeedMapper">
+
+    <insert id="insertFeed" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_FEED (ARTIST_ID,
+                              FEED_TITLE,
+                              FEED_CONTENT,
+                              FEED_MEDIA_TYPE,
+                              FEED_CATEGORY,
+                              FEED_STATUS,
+                              FEED_MIN_TIER,
+                              FEED_VIEW_COUNT,
+                              FEED_LIKE_COUNT,
+                              FEED_REPLY_COUNT)
+        VALUES (#{artistId},
+                #{feedTitle, jdbcType=VARCHAR},
+                #{feedContent},
+                #{feedMediaType},
+                #{feedCategory},
+                #{feedStatus},
+                #{feedMinTier},
+                #{feedViewCount},
+                #{feedLikeCount},
+                #{feedReplyCount})
+    </insert>
+
+    <select id="selectFeedList" resultType="com.app.onestepback.domain.dto.feed.FeedListDTO">
+        SELECT
+        F.ID,
+        F.FEED_TITLE AS title,
+        CASE
+        WHEN (F.FEED_STATUS = 'PUBLIC') THEN F.FEED_CONTENT
+        WHEN (F.ARTIST_ID = #{viewerId, jdbcType=NUMERIC}) THEN F.FEED_CONTENT
+        WHEN (F.FEED_STATUS = 'MEMBER_ONLY' AND NVL(SUB.MY_LEVEL, 0) >= F.FEED_MIN_TIER) THEN F.FEED_CONTENT
+        ELSE NULL
+        END AS content,
+
+        F.FEED_MEDIA_TYPE AS mediaType,
+        F.FEED_CATEGORY AS category,
+        F.FEED_STATUS AS status,
+        F.FEED_VIEW_COUNT AS viewCount,
+        F.FEED_LIKE_COUNT AS likeCount,
+        F.FEED_REPLY_COUNT AS replyCount,
+        F.FEED_WRITE_TIME AS writeTime,
+
+        (SELECT COUNT(*)
+        FROM TBL_FEED_LIKE
+        WHERE FEED_ID = F.ID
+        AND MEMBER_ID = #{viewerId, jdbcType=NUMERIC}) AS liked,
+
+        A.MEMBER_ID AS artistId,
+        A.ARTIST_BLOG_NAME AS artistBlogName,
+        M.MEMBER_NICKNAME AS artistNickname,
+        CASE
+        WHEN M.MEMBER_PROFILE_ID IS NOT NULL THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+        WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL THEN M.MEMBER_KAKAO_PROFILE_URL
+        ELSE '/images/default-profile.png'
+        END AS artistProfilePath,
+
+        (
+        SELECT
+        CASE
+        WHEN (F.FEED_STATUS = 'PUBLIC' OR F.ARTIST_ID = #{viewerId, jdbcType=NUMERIC})
+        THEN '/api/v1/files/' || ID
+        WHEN (F.FEED_STATUS = 'MEMBER_ONLY' AND NVL(SUB.MY_LEVEL, 0) >= F.FEED_MIN_TIER)
+        THEN '/api/v1/files/' || ID
+        ELSE '/api/v1/files/mq_' || ID
+        END
+        FROM TBL_FILE
+        WHERE TARGET_ID = F.ID
+        AND TARGET_GB = 'FEED'
+        AND ROWNUM = 1
+        ) AS thumbnailPath,
+
+        (SELECT COUNT(*) FROM TBL_FILE WHERE TARGET_ID = F.ID AND TARGET_GB = 'FEED') AS fileCount,
+
+        CASE
+        WHEN (F.FEED_STATUS = 'PUBLIC' OR F.ARTIST_ID = #{viewerId, jdbcType=NUMERIC}) THEN 0
+        WHEN (F.FEED_STATUS = 'MEMBER_ONLY' AND NVL(SUB.MY_LEVEL, 0) >= F.FEED_MIN_TIER) THEN 0
+        ELSE 1
+        END AS locked,
+
+        REQ_MS.ID AS requiredMembershipId,
+        REQ_MS.NAME AS requiredMembershipName
+
+        FROM TBL_FEED F
+        JOIN TBL_ARTIST A ON F.ARTIST_ID = A.MEMBER_ID
+        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+
+        LEFT JOIN (
+        SELECT S.ARTIST_ID, MAX(MS.LEVEL_ORDER) AS MY_LEVEL
+        FROM TBL_SUBSCRIPTION S
+        JOIN TBL_MEMBERSHIP MS ON S.MEMBERSHIP_ID = MS.ID
+        WHERE S.MEMBER_ID = #{viewerId, jdbcType=NUMERIC}
+        AND S.STATUS = 'ACTIVE'
+        GROUP BY S.ARTIST_ID
+        ) SUB ON F.ARTIST_ID = SUB.ARTIST_ID
+
+        LEFT JOIN TBL_MEMBERSHIP REQ_MS
+        ON REQ_MS.ARTIST_ID = F.ARTIST_ID
+        AND REQ_MS.LEVEL_ORDER = F.FEED_MIN_TIER
+
+        WHERE F.FEED_IS_DELETED = 'N'
+        <if test="artistId != null">
+            AND F.ARTIST_ID = #{artistId}
+        </if>
+
+        <if test="category != null">
+            AND F.FEED_CATEGORY = #{category}
+        </if>
+
+        <choose>
+            <when test="isOwner">
+            </when>
+            <otherwise>
+                AND F.FEED_STATUS IN ('PUBLIC', 'MEMBER_ONLY')
+            </otherwise>
+        </choose>
+
+        <if test="lastFeedId != null">
+            AND F.ID &lt; #{lastFeedId}
+        </if>
+
+        ORDER BY F.ID DESC
+        FETCH NEXT (#{size} + 1) ROWS ONLY
+    </select>
+
+
+    <resultMap id="feedDetailMap" type="com.app.onestepback.domain.dto.feed.FeedDetailDTO">
+        <id property="id" column="ID"/>
+        <result property="title" column="FEED_TITLE"/>
+        <result property="content" column="FEED_CONTENT"/>
+        <result property="mediaType" column="FEED_MEDIA_TYPE"/>
+        <result property="category" column="FEED_CATEGORY"/>
+        <result property="status" column="FEED_STATUS"/>
+        <result property="minTier" column="FEED_MIN_TIER"/>
+        <result property="isLocked" column="IS_LOCKED"/>
+        <result property="viewCount" column="FEED_VIEW_COUNT"/>
+        <result property="likeCount" column="FEED_LIKE_COUNT"/>
+        <result property="replyCount" column="FEED_REPLY_COUNT"/>
+        <result property="writeTime" column="FEED_WRITE_TIME"/>
+        <result property="artistId" column="ARTIST_ID"/>
+        <result property="artistBlogName" column="ARTIST_BLOG_NAME"/>
+        <result property="artistNickname" column="MEMBER_NICKNAME"/>
+        <result property="artistProfilePath" column="ARTIST_PROFILE_PATH"/>
+        <result property="liked" column="IS_LIKED"/>
+
+        <result property="requiredMembershipId" column="REQUIRED_MEMBERSHIP_ID"/>
+        <result property="requiredMembershipName" column="REQUIRED_MEMBERSHIP_NAME"/>
+
+        <collection property="files"
+                    column="{feedId=ID, isLocked=IS_LOCKED}"
+                    javaType="java.util.List"
+                    ofType="com.app.onestepback.domain.dto.feed.FeedFileDTO"
+                    select="selectFeedFiles"/>
+    </resultMap>
+
+    <select id="selectFeedFiles" resultType="com.app.onestepback.domain.dto.feed.FeedFileDTO">
+        SELECT ID,
+               CASE
+                   WHEN #{isLocked} = 0 THEN '/api/v1/files/' || ID
+                   ELSE '/api/v1/files/mq_' || ID
+                   END AS filePath,
+               CASE
+                   WHEN LOWER(FILE_EXTENSION) IN ('mp4', 'mov', 'avi', 'wmv', 'webm', 'mkv') THEN 'VIDEO'
+                   ELSE 'IMAGE'
+                   END AS fileType
+        FROM TBL_FILE
+        WHERE TARGET_ID = #{feedId}
+          AND TARGET_GB = 'FEED'
+        ORDER BY ID
+    </select>
+
+    <select id="selectFeedDetail" resultMap="feedDetailMap">
+        SELECT
+        F.ID,
+        F.FEED_TITLE,
+
+        CASE
+        WHEN (F.FEED_STATUS = 'PUBLIC') THEN F.FEED_CONTENT
+        WHEN (F.ARTIST_ID = #{viewerId, jdbcType=NUMERIC}) THEN F.FEED_CONTENT
+        WHEN (F.FEED_STATUS = 'MEMBER_ONLY' AND NVL(SUB.MY_LEVEL, 0) >= F.FEED_MIN_TIER) THEN F.FEED_CONTENT
+        ELSE NULL
+        END AS FEED_CONTENT,
+
+        F.FEED_MEDIA_TYPE,
+        F.FEED_CATEGORY,
+        F.FEED_STATUS,
+        F.FEED_MIN_TIER,
+        F.FEED_VIEW_COUNT,
+        F.FEED_LIKE_COUNT,
+        F.FEED_REPLY_COUNT,
+        F.FEED_WRITE_TIME,
+
+        CASE
+        WHEN (F.FEED_STATUS = 'PUBLIC' OR F.ARTIST_ID = #{viewerId, jdbcType=NUMERIC}) THEN 0
+        WHEN (F.FEED_STATUS = 'MEMBER_ONLY' AND NVL(SUB.MY_LEVEL, 0) >= F.FEED_MIN_TIER) THEN 0
+        ELSE 1
+        END AS IS_LOCKED,
+
+        A.MEMBER_ID AS ARTIST_ID,
+        A.ARTIST_BLOG_NAME,
+        M.MEMBER_NICKNAME,
+
+        (SELECT COUNT(*)
+        FROM TBL_FEED_LIKE
+        WHERE FEED_ID = F.ID
+        AND MEMBER_ID = #{viewerId, jdbcType=NUMERIC}) AS IS_LIKED,
+
+        CASE
+        WHEN M.MEMBER_PROFILE_ID IS NOT NULL THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+        WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL THEN M.MEMBER_KAKAO_PROFILE_URL
+        ELSE '/images/default-profile.png'
+        END AS ARTIST_PROFILE_PATH,
+
+        REQ_MS.ID AS REQUIRED_MEMBERSHIP_ID,
+        REQ_MS.NAME AS REQUIRED_MEMBERSHIP_NAME
+
+        FROM TBL_FEED F
+        JOIN TBL_ARTIST A ON F.ARTIST_ID = A.MEMBER_ID
+        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+
+        LEFT JOIN (
+        SELECT S.ARTIST_ID, MAX(MS.LEVEL_ORDER) AS MY_LEVEL
+        FROM TBL_SUBSCRIPTION S
+        JOIN TBL_MEMBERSHIP MS ON S.MEMBERSHIP_ID = MS.ID
+        WHERE S.MEMBER_ID = #{viewerId, jdbcType=NUMERIC}
+        AND S.STATUS = 'ACTIVE'
+        GROUP BY S.ARTIST_ID
+        ) SUB ON F.ARTIST_ID = SUB.ARTIST_ID
+
+        LEFT JOIN TBL_MEMBERSHIP REQ_MS
+        ON REQ_MS.ARTIST_ID = F.ARTIST_ID
+        AND REQ_MS.LEVEL_ORDER = F.FEED_MIN_TIER
+
+        WHERE F.ID = #{id}
+        AND F.FEED_IS_DELETED = 'N'
+        <if test="artistId != null">
+            AND F.ARTIST_ID = #{artistId}
+        </if>
+    </select>
+
+    <update id="updateViewCount">
+        UPDATE TBL_FEED
+        SET FEED_VIEW_COUNT = FEED_VIEW_COUNT + 1
+        WHERE ID = #{id}
+          AND FEED_IS_DELETED = 'N'
+    </update>
+
+    <update id="updateFeed">
+        UPDATE TBL_FEED
+        SET FEED_TITLE       = #{feedTitle, jdbcType=VARCHAR},
+            FEED_CONTENT     = #{feedContent},
+            FEED_CATEGORY    = #{feedCategory},
+            FEED_STATUS      = #{feedStatus},
+            FEED_MIN_TIER    = #{feedMinTier},
+            FEED_MEDIA_TYPE  = #{feedMediaType},
+            FEED_UPDATE_TIME = SYSTIMESTAMP
+        WHERE ID = #{id}
+          AND ARTIST_ID = #{artistId}
+          AND FEED_IS_DELETED = 'N'
+    </update>
+
+    <update id="softDeleteByFeedIdAndArtistId">
+        UPDATE TBL_FEED
+        SET FEED_IS_DELETED   = 'Y',
+            FEED_DELETED_TIME = SYSTIMESTAMP
+        WHERE ID = #{feedId}
+          AND ARTIST_ID = #{artistId}
+          AND FEED_IS_DELETED = 'N'
+    </update>
+
+    <delete id="deleteById">
+        DELETE
+        FROM TBL_FEED
+        WHERE ID = #{feedId}
+    </delete>
+</mapper>

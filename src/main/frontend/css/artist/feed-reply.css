@@ -1,0 +1,298 @@
+@charset "UTF-8";
+
+:root {
+    --ig-blue: #0095f6;
+    --ig-blue-hover: #0074cc;
+    --ig-blue-disabled: #b2dffc;
+    --ig-border: #dbdbdb;
+    --ig-bg: #fafafa;
+    --ig-text: #262626;
+    --ig-sub-text: #8e8e8e;
+    --ig-link: #00376b;
+}
+
+/* =========================================
+   Container & Header
+   ========================================= */
+.comments-section {
+    margin-top: 24px;
+    background: #fff;
+    border-top: 1px solid #efefef;
+    padding-top: 20px;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--ig-text);
+}
+
+/* =========================================
+   Input Area
+   ========================================= */
+.reply-input-wrap {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.reply-input-box {
+    flex: 1;
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    background: #fff;
+    border: 1px solid var(--ig-border);
+    border-radius: 24px; /* 둥근 모서리 */
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    min-height: 44px;
+}
+
+.reply-input-box:focus-within {
+    border-color: #a5a5a5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.reply-textarea {
+    flex: 1;
+    border: none;
+    background: transparent;
+    resize: none;
+    outline: none;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-height: 100px;
+    color: var(--ig-text);
+    padding: 4px 0;
+    margin-right: 8px;
+    font-family: inherit;
+}
+
+.btn-reply-submit {
+    background: transparent;
+    border: none;
+    color: var(--ig-blue);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 0;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.btn-reply-submit:disabled {
+    color: var(--ig-blue-disabled);
+    cursor: default;
+}
+
+/* =========================================
+   Comment List Structure
+   ========================================= */
+.reply-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.empty-message {
+    text-align: center;
+    color: var(--ig-sub-text);
+    padding: 20px 0;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   Comment Item (Individual)
+   ========================================= */
+.comment-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: fadeIn 0.3s ease;
+}
+
+.comment-profile img,
+.reply-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.comment-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.95rem;
+}
+
+.comment-content-wrapper,
+.reply-content-wrapper {
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.writer {
+    font-weight: 700;
+    color: var(--ig-text);
+    text-decoration: none;
+    margin-right: 6px;
+}
+
+.writer:hover {
+    text-decoration: underline;
+}
+
+.comment-text {
+    color: var(--ig-text);
+}
+
+/* Meta Actions (Date, Reply Btn, Delete) */
+.comment-meta-actions,
+.reply-meta-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: var(--ig-sub-text);
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ig-sub-text);
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-action:hover {
+    color: #555;
+}
+
+.btn-delete:hover {
+    color: #ed4956;
+}
+
+.edited-badge {
+    margin-left: 4px;
+    font-weight: 400;
+    color: #aaa;
+}
+
+/* =========================================
+   Replies (Nested Comments)
+   ========================================= */
+.replies-wrapper {
+    margin-top: 10px;
+    /* 대댓글 들여쓰기는 JS에서 padding이나 margin으로 제어될 수도 있으나 여기서 기본값 설정 */
+}
+
+.btn-view-replies {
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ig-sub-text);
+    cursor: pointer;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+.btn-view-replies::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: #dbdbdb;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+.re-reply-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.reply-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.reply-body {
+    flex: 1;
+}
+
+/* 멘션 하이라이트 */
+.mention-target {
+    color: var(--ig-link);
+    background: #eef6ff;
+    padding: 0 4px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* =========================================
+   Forms (Edit / Re-reply)
+   ========================================= */
+.edit-input-box,
+.re-reply-form .reply-input-box {
+    margin-top: 8px;
+    background: #fff;
+    border: 1px solid var(--ig-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: block; /* Flex 해제 */
+}
+
+.edit-input-box textarea,
+.re-reply-form textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* =========================================
+   More Button
+   ========================================= */
+.btn-reply-more {
+    width: 100%;
+    margin-top: 30px;
+    padding: 10px;
+    background: #fff;
+    border: none;
+    color: var(--ig-blue);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-reply-more:hover {
+    opacity: 0.7;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

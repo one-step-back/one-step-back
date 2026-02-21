@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.PaymentMethodMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_PAYMENT_METHOD (
+        MEMBER_ID,
+        BILLING_KEY,
+        LAST_4_DIGIT,
+        CARD_NAME,
+        IS_DEFAULT
+        ) VALUES (
+        #{memberId},
+        #{billingKey},
+        #{last4Digit},
+        #{cardName},
+        <choose>
+            <when test="isDefault">'Y'</when>
+            <otherwise>'N'</otherwise>
+        </choose>
+        )
+    </insert>
+
+    <select id="selectById" resultType="com.app.onestepback.domain.model.PaymentMethodVO">
+        SELECT ID                                           AS id,
+               MEMBER_ID                                    AS memberId,
+               BILLING_KEY                                  AS billingKey,
+               LAST_4_DIGIT                                 AS last4Digit,
+               CARD_NAME                                    AS cardName,
+               CASE WHEN IS_DEFAULT = 'Y' THEN 1 ELSE 0 END AS isDefault,
+               CREATED_TIME                                 AS createdTime
+        FROM TBL_PAYMENT_METHOD
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectAllByMemberId" resultType="com.app.onestepback.domain.dto.payment.PaymentMethodDTO">
+        SELECT ID                                           as id,
+               LAST_4_DIGIT                                 as last4Digit,
+               CARD_NAME                                    as cardName,
+               CASE WHEN IS_DEFAULT = 'Y' THEN 1 ELSE 0 END as isDefault
+        FROM TBL_PAYMENT_METHOD
+        WHERE MEMBER_ID = #{memberId}
+        ORDER BY ID
+    </select>
+
+    <update id="updateAllDefaultToN">
+        UPDATE TBL_PAYMENT_METHOD
+        SET IS_DEFAULT = 'N'
+        WHERE MEMBER_ID = #{memberId}
+          AND IS_DEFAULT = 'Y'
+    </update>
+
+    <update id="updateDefaultToY">
+        UPDATE TBL_PAYMENT_METHOD
+        SET IS_DEFAULT = 'Y'
+        WHERE ID = #{id}
+          AND MEMBER_ID = #{memberId}
+    </update>
+
+    <delete id="deleteById">
+        DELETE
+        FROM TBL_PAYMENT_METHOD
+        WHERE ID = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 홈'">아티스트 홈</title>
+    <link href="/dist/css/artist/home.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<th:block th:with="tab='home'"></th:block>
+
+<div layout:fragment="artist-content">
+    <div class="home-container">
+
+        <section class="home-section" id="funding-highlight-section" style="display: none;">
+            <div class="section-header">
+                <h2>Ongoing Project</h2>
+                <a href="#" class="view-all-link" id="link-to-funding">전체보기 <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div id="funding-highlight-container"></div>
+        </section>
+
+        <section class="home-section" id="recent-feeds-section" style="display: none;">
+            <div class="section-header">
+                <h2>Recent Feeds</h2>
+                <a href="#" class="view-all-link" id="link-to-feed">더보기 <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="recent-feeds-grid" id="recent-feeds-container"></div>
+        </section>
+
+        <section class="home-section" id="membership-section" style="display: none;">
+            <div class="section-header">
+                <h2>Memberships</h2>
+                <a href="#" class="view-all-link" id="link-to-membership">안내 <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="membership-grid" id="membership-container"></div>
+        </section>
+
+    </div>
+</div>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/home.min.js"></script>
+</th:block>
+
+</body>
+</html>

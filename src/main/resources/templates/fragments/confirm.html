@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko-KR" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="confirm-html">
+    <div id="global-confirm-modal" class="confirm-modal-overlay">
+        <div class="confirm-modal-box">
+            <div class="confirm-modal-header">
+                <h2 id="confirm-title" class="confirm-modal-title">확인 필요</h2>
+            </div>
+            <div class="confirm-modal-body">
+                <p id="confirm-description" class="confirm-modal-desc">정말로 이 작업을 계속하시겠습니까?</p>
+            </div>
+            <div class="confirm-modal-footer">
+                <button type="button" id="confirm-cancel-btn" class="btn-confirm btn-confirm-cancel">돌아가기</button>
+                <button type="button" id="confirm-action-btn" class="btn-confirm btn-confirm-action">실행하기</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

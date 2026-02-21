@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>아티스트 찾기 - One Step</title>
+    <link href="/dist/css/artist/list.min.css" rel="stylesheet">
+</head>
+
+<div layout:fragment="content">
+    <div class="artist-list__container">
+
+        <div class="artist-list__header">
+            <h2 class="artist-list__title">아티스트 디스커버리</h2>
+            <p class="artist-list__desc">당신의 취향을 저격할 새로운 아티스트를 발굴해보세요.</p>
+        </div>
+
+        <div class="artist-list__controls">
+            <div class="artist-list__tabs">
+                <a th:href="@{/artist/list}"
+                   class="artist-list__tab"
+                   th:classappend="${sort == null} ? 'artist-list__tab--active'">추천</a>
+
+                <a th:href="@{/artist/list(sort='new')}"
+                   class="artist-list__tab"
+                   th:classappend="${sort != null and sort.name() == 'NEW'} ? 'artist-list__tab--active'">신규</a>
+
+                <a th:href="@{/artist/list(sort='popular')}"
+                   class="artist-list__tab"
+                   th:classappend="${sort != null and sort.name() == 'POPULAR'} ? 'artist-list__tab--active'">인기</a>
+            </div>
+        </div>
+
+        <div class="artist-list__grid" th:if="${!#lists.isEmpty(artists)}">
+
+            <div class="artist-card" th:each="artist : ${artists}">
+                <div class="artist-card__cover"
+                     th:style="'background-image: url(' + ${@fileUrlSigner.sign(artist.blogImgPath)} + ');'">
+                    <div class="artist-card__overlay">
+                        <a th:href="@{/artist/{id}(id=${artist.id})}" class="artist-card__link">채널 방문하기</a>
+                    </div>
+                </div>
+
+                <div class="artist-card__content">
+                    <a th:href="@{/artist/{id}(id=${artist.id})}" class="artist-card__avatar-link">
+                        <img th:src="${@fileUrlSigner.sign(artist.profilePath)}" alt="Profile" class="artist-card__avatar">
+                    </a>
+
+                    <div class="artist-card__info">
+                        <a th:href="@{/artist/{id}(id=${artist.id})}" class="artist-card__name"
+                           th:text="${artist.nickname}">닉네임</a>
+                        <span class="artist-card__blog" th:text="${artist.blogName}">블로그명</span>
+                    </div>
+
+                    <button type="button" class="artist-card__follow-btn"
+                            th:classappend="${artist.isFollowing ? 'artist-card__follow-btn--active' : ''}"
+                            th:data-id="${artist.id}"
+                            th:data-status="${artist.isFollowing}"
+                            th:title="${artist.isFollowing ? '팔로우 취소' : '팔로우'}">
+
+                        <div class="artist-card__follow-btn-flipper">
+
+                            <div class="artist-card__btn-face artist-card__btn-face--front">
+                                <i class="fas fa-plus"></i>
+                            </div>
+
+                            <div class="artist-card__btn-face artist-card__btn-face--back">
+                                <i class="fas fa-check"></i>
+                            </div>
+
+                        </div>
+                    </button>
+                </div>
+
+                <div class="artist-card__stats">
+                    <span class="artist-card__stat" title="팔로워">
+                        <i class="fas fa-user-friends"></i> <span
+                            th:text="${#numbers.formatInteger(artist.followerCount, 0, 'COMMA')}">0</span>
+                    </span>
+                    <span class="artist-card__stat" title="게시글">
+                        <i class="fas fa-pen-nib"></i> <span
+                            th:text="${#numbers.formatInteger(artist.feedCount, 0, 'COMMA')}">0</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="artist-list__empty" th:if="${#lists.isEmpty(artists)}">
+            <i class="fas fa-search"></i>
+            <p>조건에 맞는 아티스트가 없습니다.</p>
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/artist/list.min.js"></script>
+</th:block>
+</html>

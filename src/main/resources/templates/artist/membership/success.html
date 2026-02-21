@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 구독 완료'">구독 완료</title>
+    <link href="/dist/css/artist/subscription-success.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="success-wrapper">
+        <div class="success-icon-box">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h1 class="success-title">Welcome to the Club!</h1>
+        <p class="success-desc">
+            <strong th:text="${artist.profile.nickname}">Artist</strong>님의 멤버십 구독이 완료되었습니다.<br>
+            이제 특별한 혜택과 콘텐츠를 마음껏 즐겨보세요.
+        </p>
+
+        <div class="receipt-card">
+            <div class="receipt-header">
+                <div class="artist-thumb"
+                     th:style="'background-image: url(' + (${@fileUrlSigner.sign(artist.profile.profilePath)} ?: '/images/profile/avatar_blank.png') + ');'"></div>
+                <div class="artist-info">
+                    <h4 th:text="${artist.profile.blogName}">Blog Name</h4>
+                    <span class="sub-text">New Subscription</span>
+                </div>
+            </div>
+
+            <div class="receipt-body">
+                <div class="receipt-row">
+                    <span>멤버십</span>
+                    <span class="value" th:text="${subscription.membershipName}">Tier 1</span>
+                </div>
+                <div class="receipt-row">
+                    <span>상태</span>
+                    <span class="value highlight-text" th:text="${subscription.status.description}">구독 중</span>
+                </div>
+                <div class="receipt-row">
+                    <span>결제 수단</span>
+                    <span class="value" th:text="${subscription.cardName} + ' (' + ${subscription.last4Digit} + ')'">Card (1234)</span>
+                </div>
+                <div class="receipt-row">
+                    <span>다음 결제일</span>
+                    <span class="value" th:text="${#temporals.format(subscription.nextBillingDate, 'yyyy.MM.dd')}">2026.02.01</span>
+                </div>
+
+                <div class="receipt-row total">
+                    <span>결제 금액</span>
+                    <span class="value price" th:text="'₩' + ${#numbers.formatInteger(subscription.price, 0, 'COMMA')} + ' / 월'">₩10,000</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a th:href="@{/artist/{id}(id=${artist.profile.id})}" class="btn-primary-action">
+                아티스트 홈으로 이동 <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+            </a>
+            <a href="/my-page/subscription" class="btn-secondary-action">
+                내 구독 내역 확인
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

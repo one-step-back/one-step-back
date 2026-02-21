@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.FundingPaymentMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_FUNDING_PAYMENT (FUNDING_ID,
+                                         MEMBER_ID,
+                                         MERCHANT_UID,
+                                         IMP_UID,
+                                         AMOUNT,
+                                         STATUS,
+                                         PAYMENT_DATE)
+        VALUES (#{fundingId},
+                #{memberId},
+                #{merchantUid},
+                #{impUid},
+                #{amount},
+                'PAID',
+                SYSTIMESTAMP)
+    </insert>
+
+    <select id="selectReceipt" resultType="com.app.onestepback.domain.dto.crowdfunding.CrowdFundingDTO$Receipt">
+        SELECT C.ID              AS FUNDING_ID,
+               C.ARTIST_ID,
+               C.TITLE           AS PROJECT_TITLE,
+               M.MEMBER_NICKNAME AS ARTIST_NAME,
+               FP.AMOUNT,
+               FP.PAYMENT_DATE
+        FROM TBL_FUNDING_PAYMENT FP
+                 JOIN TBL_CROWDFUNDING C ON FP.FUNDING_ID = C.ID
+                 JOIN TBL_MEMBER M ON C.WRITER_ID = M.ID
+        WHERE FP.ID = #{paymentId}
+          AND FP.FUNDING_ID = #{fundingId}
+          AND FP.MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="selectPaidPaymentsByFundingId" resultType="com.app.onestepback.domain.model.FundingPaymentVO">
+        SELECT *
+        FROM TBL_FUNDING_PAYMENT
+        WHERE FUNDING_ID = #{fundingId}
+          AND STATUS = 'PAID'
+    </select>
+
+    <select id="selectFundingPaymentHistory"
+            resultType="com.app.onestepback.domain.dto.payment.FundingPaymentDTO$History">
+        SELECT PAYMENT_ID AS paymentId,
+        FUNDING_ID AS fundingId,
+        ARTIST_ID AS artistId,
+        ARTIST_NAME AS artistName,
+        TITLE AS title,
+        AMOUNT AS amount,
+        STATUS AS status,
+        PAYMENT_DATE AS paymentDate
+        FROM (
+        SELECT FP.ID AS PAYMENT_ID,
+        FP.FUNDING_ID,
+        CF.ARTIST_ID,
+        A.ARTIST_BLOG_NAME AS ARTIST_NAME,
+        CF.TITLE,
+        FP.AMOUNT,
+        FP.STATUS,
+        FP.PAYMENT_DATE
+        FROM TBL_FUNDING_PAYMENT FP
+        JOIN TBL_CROWDFUNDING CF ON FP.FUNDING_ID = CF.ID
+        JOIN TBL_ARTIST A ON CF.ARTIST_ID = A.MEMBER_ID
+        WHERE FP.MEMBER_ID = #{memberId}
+        AND FP.STATUS IN ('PAID', 'REFUNDED')
+        <if test="lastPaymentId != null">
+            AND FP.ID &lt; #{lastPaymentId}
+        </if>
+        ORDER BY FP.ID DESC
+        )
+        WHERE ROWNUM &lt;= #{size} + 1
+    </select>
+
+    <update id="updatePaymentsToRefunded">
+        UPDATE TBL_FUNDING_PAYMENT
+        SET STATUS = 'REFUNDED',
+            REFUNDED_TIME = SYSTIMESTAMP
+        WHERE FUNDING_ID = #{fundingId}
+          AND STATUS = 'PAID'
+    </update>
+
+</mapper>

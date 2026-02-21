@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/dashboard/layout}">
+<head>
+    <title>정산 내역</title>
+    <link href="/dist/css/artist/dashboard/dashboard.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="dashboardTab='settlement'"></th:block>
+
+<h1 class="page-title" layout:fragment="page-title">정산 내역</h1>
+<p class="page-desc" layout:fragment="page-desc">지난 정산 기록을 확인합니다.</p>
+
+<div layout:fragment="dashboard-content">
+    <section class="history-section">
+        <div class="table-responsive">
+            <table class="history-table">
+                <thead>
+                <tr>
+                    <th>신청일</th>
+                    <th>총 매출</th>
+                    <th>수수료(5%)</th>
+                    <th>실 수령액</th>
+                    <th>상태</th>
+                    <th>지급일</th>
+                </tr>
+                </thead>
+                <tbody id="history-list-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-area">
+            <button type="button" id="btn-load-more" class="btn-more" style="display: none;">
+                더보기 <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="history-empty" class="empty-state" style="display: none;">
+                <i class="fas fa-history"></i>
+                <p>정산 내역이 없습니다.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block layout:fragment="dashboard-js">
+    <script type="module" src="/dist/js/artist/dashboard/settlement-history.min.js"></script>
+</th:block>
+
+</body>
+</html>

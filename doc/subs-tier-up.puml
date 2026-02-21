@@ -1,0 +1,17 @@
+@startuml
+participant "Service" as S
+participant "PaymentGateway" as G
+participant "PortOne API" as P
+
+S -> S : 차액 계산 (Delta = New - Old)
+S -> G : executeImmediateCharge(billingKey, Delta)
+G -> P : POST /subscribe/payments/again (차액 인출)
+
+S -> G : unschedule(billingKey, lastMerchantUid)
+G -> P : POST /subscribe/payments/unschedule (기존 예약 취소)
+
+S -> G : reserveNextPayment(billingKey, NewPrice, originalEndDate)
+G -> P : POST /subscribe/payments/schedule (새 가격으로 예약)
+
+S -> S : DB 갱신 (Membership ID, lastMerchantUid)
+@enduml

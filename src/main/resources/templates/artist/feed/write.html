@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{artist/artist-layout}">
+<head>
+    <title th:text="${artist.profile.blogName} + ' | 글쓰기'">글쓰기</title>
+    <link href="/dist/css/artist/feed-write.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<th:block layout:fragment="artist-content">
+    <div class="feed-write-container">
+        <input type="hidden" id="form-mode" th:value="${mode}">
+        <input type="hidden" id="feed-id" th:value="${feed?.id}">
+        <input type="hidden" id="artist-id" th:value="${artist.profile.id}">
+        <input type="hidden" id="current-min-tier" th:value="${feed?.minTier}">
+
+        <div class="write-card">
+            <div class="write-card__header">
+                <h2 class="write-card__title" th:text="${mode == 'edit' ? '게시물 수정' : '새 게시물 작성'}">새 게시물 작성</h2>
+                <div class="write-card__actions">
+                    <button type="button" class="btn-submit" id="btn-submit-feed"
+                            th:text="${mode == 'edit' ? '수정하기' : '게시하기'}">게시하기</button>
+                </div>
+            </div>
+
+            <div class="write-card__body">
+                <div class="option-bar">
+                    <div class="top-controls">
+                        <div class="select-wrapper">
+                            <select name="category" class="modern-select" required>
+                                <option value="" disabled th:selected="${feed == null}">카테고리 선택</option>
+                                <option th:each="cat : ${categories}"
+                                        th:value="${cat.name()}"
+                                        th:text="${cat.description}"
+                                        th:selected="${feed != null and feed.category == cat}"></option>
+                            </select>
+                            <i class="fas fa-chevron-down select-icon"></i>
+                        </div>
+
+                        <div class="visibility-group">
+                            <label class="visibility-radio" th:each="stat : ${statuses}">
+                                <input type="radio" name="status"
+                                       th:value="${stat.name()}"
+                                       th:checked="${feed != null ? (feed.status == stat) : (stat.name() == 'PUBLIC')}">
+                                <span class="radio-label" th:text="${stat.description}"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="tier-selection-area" id="tier-selection-area">
+                        <span class="tier-title">열람 가능한 최소 멤버십 등급</span>
+                        <div class="tier-options" id="tier-options-container">
+                            <div class="tier-loading">
+                                <i class="fas fa-spinner fa-spin"></i> 멤버십 정보를 불러오는 중...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="title" class="modern-input" placeholder="제목 (선택사항)"
+                           th:value="${feed?.title}">
+                    <span class="input-focus-border"></span>
+                </div>
+
+                <div class="input-group">
+                    <textarea name="content" class="modern-textarea" placeholder="무슨 생각을 하고 계신가요?" rows="8"
+                              th:text="${feed?.content}"></textarea>
+                    <span class="input-focus-border"></span>
+                </div>
+
+                <div class="media-upload-area">
+                    <input type="file" id="file-input" multiple accept="image/*,video/*" hidden>
+
+                    <div class="media-preview-grid" id="media-preview-area">
+                        <th:block th:if="${feed != null and not #lists.isEmpty(feed.files)}">
+                            <div th:each="file : ${feed.files}" class="media-item existing-file" th:data-file-id="${file.id}">
+
+                                <img th:if="${file.fileType == 'IMAGE'}"
+                                     th:src="${@fileUrlSigner.sign(file.filePath)}"
+                                     alt="기존 이미지">
+
+                                <video th:if="${file.fileType == 'VIDEO'}"
+                                       th:src="${@fileUrlSigner.sign(file.filePath)}"
+                                       muted playsinline></video>
+
+                                <button type="button" class="media-item__remove-btn btn-remove-existing">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </th:block>
+
+                        <button type="button" class="media-upload-btn" id="btn-add-media">
+                            <i class="fas fa-images upload-icon"></i>
+                            <span class="upload-text">사진/동영상 추가</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="artist-js">
+    <script type="module" src="/dist/js/artist/feed/feed-write.min.js"></script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{my-page/my-page-layout}">
+<head>
+    <th:block layout:fragment="css">
+        <link href="/dist/css/my-page/my-payment.min.css" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<main class="mypage-content" layout:fragment="mypage-content">
+    <div class="settings-card animated-fade-in"
+         th:data-has-payment="${session.member != null ? session.member.hasPaymentMethod : false}">
+
+        <section class="settings-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-credit-card icon-title"></i>
+                    <span>결제 수단 관리</span>
+                </h2>
+            </div>
+
+            <div class="payment-container">
+                <div id="payment-list-container" class="payment-list">
+                    <div class="loading-state">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                        <p>결제 정보를 불러오는 중입니다...</p>
+                    </div>
+                </div>
+
+                <div id="payment-action-container" class="action-area"></div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<th:block layout:fragment="mypage-js">
+    <script type="module" src="/dist/js/my-page/my-payment.min.js"></script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{my-page/my-page-layout}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | OneStep">내 펀딩 내역</title>
+    <link href="/dist/css/my-page/my-funding.min.css" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:with="tab='funding'"></th:block>
+
+<div layout:fragment="mypage-content">
+    <div class="funding-history-container">
+        <div class="history-header">
+            <h2 class="history-title">나의 펀딩 참여 내역</h2>
+            <p class="history-desc">내가 후원한 프로젝트들의 진행 상태와 결제 내역을 확인합니다.</p>
+        </div>
+
+        <div class="history-list-wrapper">
+            <ul id="funding-list" class="funding-list"></ul>
+
+            <div id="funding-loading" class="funding-loading" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="funding-empty" class="funding-empty" style="display: none;">
+                <i class="fas fa-box-open"></i>
+                <p>참여한 펀딩 내역이 없습니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="mypage-js">
+    <script type="module" src="/dist/js/my-page/my-funding.min.js"></script>
+</th:block>
+
+</body>
+</html>

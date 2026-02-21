@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | 대시보드">아티스트 대시보드</title>
+    <link href="/dist/css/artist/dashboard/layout.min.css" rel="stylesheet">
+    <th:block layout:fragment="dashboard-css"></th:block>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="dashboard-layout-container">
+
+        <div class="dashboard-header">
+            <div class="header-left">
+                <a th:href="@{/artist/{id}(id=${artistId})}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> 채널로 돌아가기
+                </a>
+                <h1 class="page-title" layout:fragment="page-title">대시보드</h1>
+                <p class="page-desc" layout:fragment="page-desc">현황을 확인하세요.</p>
+            </div>
+
+            <div class="header-right" layout:fragment="header-actions"></div>
+        </div>
+
+        <div class="dashboard-tabs">
+            <a th:href="@{/artist/dashboard}"
+               class="tab-item"
+               th:classappend="${dashboardTab == 'summary'} ? 'active'">
+                대시보드
+            </a>
+            <a th:href="@{/artist/dashboard/settlement}"
+               class="tab-item"
+               th:classappend="${dashboardTab == 'settlement'} ? 'active'">
+                정산 내역
+            </a>
+            <a th:href="@{/artist/dashboard/subscribers}"
+               class="tab-item"
+               th:classappend="${dashboardTab == 'subscribers'} ? 'active'">
+                구독자
+            </a>
+            <a th:href="@{/artist/dashboard/followers}"
+               class="tab-item"
+               th:classappend="${dashboardTab == 'followers'} ? 'active'">
+                팔로워
+            </a>
+        </div>
+
+        <div class="dashboard-content-wrapper animated-fade-in" layout:fragment="dashboard-content">
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <th:block layout:fragment="dashboard-js"></th:block>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+/* =========================================
+   Hero Section V2
+   ========================================= */
+.hero-v2 {
+    position: relative;
+    height: 560px;
+    background: #0f172a;
+    border-radius: 32px;
+    overflow: hidden;
+    margin: 20px 0 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+    color: white;
+}
+
+/* 배경 그라디언트 효과 */
+.hero-v2__bg {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(37,99,235,0.4) 0%, rgba(15,23,42,0) 70%);
+    filter: blur(60px);
+    z-index: 1;
+}
+
+.hero-v2__content {
+    position: relative;
+    z-index: 10;
+    max-width: 600px;
+    animation: slideUp 0.8s ease-out;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #93c5fd;
+}
+
+.hero-title {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.highlight {
+    color: transparent;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.hero-desc {
+    font-size: 20px;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-hero-primary {
+    padding: 16px 32px;
+    background: #3b82f6;
+    color: white;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-hero-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.btn-hero-secondary {
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   Main Sections
+   ========================================= */
+.main-section {
+    margin-bottom: 100px;
+    padding: 20px 0;
+}
+
+.main-section.bg-gray {
+    background: #f8fafc;
+    margin: 0 -100vw; /* 화면 전체 너비 배경 */
+    padding: 80px 100vw; /* 콘텐츠 중앙 정렬 보정 */
+    margin-bottom: 100px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    color: #64748b;
+}
+
+.link-more {
+    font-size: 15px;
+    font-weight: 600;
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+/* 1. Artist Scroll */
+.artist-scroll-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+    gap: 24px;
+}
+
+.artist-card-v2 {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 32px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.artist-card-v2:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e1;
+}
+
+.artist-avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    object-fit: cover;
+    border: 4px solid #f1f5f9;
+}
+
+.artist-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.artist-tags {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.btn-follow-sm {
+    padding: 8px 24px;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
+.artist-card-v2:hover .btn-follow-sm {
+    background: #3b82f6;
+    color: white;
+}
+
+/* 2. Funding Grid */
+.funding-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.funding-card-v2 {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.funding-card-v2:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+}
+
+.funding-thumb-v2 {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.funding-badge-dday {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    color: white;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.funding-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.funding-artist-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.funding-title-v2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 16px;
+    line-height: 1.4;
+    flex-grow: 1;
+}
+
+.funding-progress-area {
+    margin-top: auto;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2563eb;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: #2563eb;
+    border-radius: 99px;
+}
+
+/* 3. Feed Preview */
+.feed-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.feed-mini-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s;
+}
+
+.feed-mini-card:hover {
+    border-color: #94a3b8;
+}
+
+.feed-mini-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.feed-avatar-xs {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.feed-mini-artist {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.feed-mini-text {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.feed-mini-meta {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+/* Animation */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* [Gigachad Logic] Empty State Design */
+.no-data-container {
+    grid-column: 1 / -1; /* 그리드 전체 너비 차지 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    text-align: center;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px dashed #cbd5e1;
+    color: #94a3b8;
+}
+
+.no-data-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    color: #cbd5e1;
+}
+
+.no-data-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* bg-gray 섹션 내부의 empty state는 흰색 배경으로 반전 */
+.main-section.bg-gray .no-data-container {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}

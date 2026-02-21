@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.onestepback.repository.NotificationMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO TBL_NOTIFICATION (RECEIVER_ID,
+                                      SENDER_ID,
+                                      NOTI_TYPE,
+                                      NOTI_MESSAGE,
+                                      NOTI_URL,
+                                      IS_READ,
+                                      CREATED_TIME)
+        VALUES (#{receiverId},
+                #{senderId, jdbcType=BIGINT},
+                #{notiType},
+                #{notiMessage},
+                #{notiUrl},
+                'N',
+                SYSTIMESTAMP)
+    </insert>
+
+    <select id="selectUnreadNotifications" resultType="NotificationVO">
+        SELECT ID,
+               RECEIVER_ID,
+               SENDER_ID,
+               NOTI_TYPE,
+               NOTI_MESSAGE,
+               NOTI_URL,
+               IS_READ AS "READ",
+               CREATED_TIME
+        FROM TBL_NOTIFICATION
+        WHERE RECEIVER_ID = #{receiverId}
+          AND IS_READ = 'N'
+        ORDER BY ID DESC
+    </select>
+
+    <update id="updateIsRead">
+        UPDATE TBL_NOTIFICATION
+        SET IS_READ = 'Y'
+        WHERE ID = #{id}
+    </update>
+</mapper>

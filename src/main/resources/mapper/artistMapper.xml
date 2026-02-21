@@ -1,51 +1,312 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.app.onestepback.mapper.ArtistMapper">
-    <select id="selectById" resultType="artistVO">
-        SELECT ARTIST_ID,
-               ARTIST_BLOG_NAME,
-               ARTIST_DESCRIPTION,
-               BLOG_IMG_NAME,
-               BLOG_IMG_PATH,
-               CREATED_TIME,
-               MODIFIED_TIME
-        FROM TBL_ARTIST
-        WHERE ARTIST_ID = #{artistId}
-    </select>
+<mapper namespace="com.app.onestepback.repository.ArtistMapper">
+    <insert id="insert">
+        INSERT INTO TBL_ARTIST(MEMBER_ID,
+                               ARTIST_BLOG_NAME,
+                               ARTIST_DESCRIPTION,
+                               ARTIST_BLOG_IMAGE_ID)
+        VALUES (#{artistId},
+                #{artistBlogName},
+                #{artistDescription},
+                #{artistBlogImageId, jdbcType=VARCHAR})
+    </insert>
 
-    <select id="selectDetail" resultType="artistDetailDTO">
-        SELECT A.ARTIST_ID,
-               M.MEMBER_NICKNAME                  AS NICKNAME,
-               M.MEMBER_KAKAO_PROFILE_URL         AS KAKAO_PROFILE_URL,
-               M.MEMBER_PROFILE_NAME              AS PROFILE_NAME,
-               M.MEMBER_PROFILE_PATH              AS PROFILE_PATH,
-               A.ARTIST_BLOG_NAME                 AS BLOG_NAME,
-               A.ARTIST_DESCRIPTION               AS DESCRIPTION,
-               A.BLOG_IMG_NAME,
-               A.BLOG_IMG_PATH,
-               (SELECT COUNT(S.ARTIST_ID)
-                FROM TBL_SUBSCRIPTION S
-                WHERE S.ARTIST_ID = A.ARTIST_ID)  AS SUBSCRIPTION_COUNT,
-               (SELECT COUNT(P.ID)
-                FROM TBL_POST P
-                WHERE P.ARTIST_ID = A.ARTIST_ID
-                  AND P.POST_STATUS = 'READABLE') AS POST_COUNT,
-               (CASE
-                    WHEN #{viewerId} IS NULL THEN 0
-                    WHEN EXISTS (SELECT 1
-                                 FROM TBL_SUBSCRIPTION S
-                                 WHERE S.MEMBER_ID = #{viewerId}
-                                   AND S.ARTIST_ID = A.ARTIST_ID) THEN 1
-                    ELSE 0
-                   END)                           AS IS_SUBSCRIBED
-        FROM TBL_MEMBER M
-                 JOIN TBL_ARTIST A on M.ID = A.ARTIST_ID
-        WHERE A.ARTIST_ID = #{artistId}
+    <update id="updateArtist">
+        UPDATE TBL_ARTIST
+        SET ARTIST_BLOG_NAME = #{artistBlogName},
+        ARTIST_DESCRIPTION = #{artistDescription},
+        <if test="artistBlogImageId != null">
+            ARTIST_BLOG_IMAGE_ID = #{artistBlogImageId},
+        </if>
+        ARTIST_UPDATE_TIME = CURRENT_TIMESTAMP
+        where MEMBER_ID = #{artistId}
+    </update>
+
+    <resultMap id="artistPageMap" type="com.app.onestepback.domain.dto.artist.ArtistPageDTO">
+
+        <association property="profile" javaType="com.app.onestepback.domain.dto.artist.ArtistProfileDTO">
+            <id property="id" column="ARTIST_ID"/>
+            <result property="nickname" column="NICKNAME"/>
+            <result property="blogName" column="BLOG_NAME"/>
+            <result property="description" column="DESCRIPTION"/>
+
+            <result property="profilePath" column="PROFILE_PATH"/>
+            <result property="blogImgPath" column="BLOG_IMG_PATH"/>
+
+            <result property="hasMembership" column="HAS_MEMBERSHIP"/>
+        </association>
+
+        <association property="stats" javaType="com.app.onestepback.domain.dto.artist.ArtistStatsDTO">
+            <result property="followerCount" column="FOLLOWER_COUNT"/>
+            <result property="subscriptionCount" column="SUBSCRIPTION_COUNT"/>
+            <result property="feedTotal" column="FEED_TOTAL"/>
+        </association>
+
+        <association property="myStatus" javaType="com.app.onestepback.domain.dto.artist.ViewerContextDTO">
+            <result property="following" column="IS_FOLLOWING"/>
+            <result property="subscribed" column="IS_SUBSCRIBED"/>
+
+            <association property="subscriptionDetail"
+                         javaType="com.app.onestepback.domain.dto.artist.SubscriptionDetailDTO">
+                <id property="id" column="MY_SUB_ID"/>
+                <result property="membershipName" column="MY_MEMBERSHIP_NAME"/>
+                <result property="status" column="MY_SUB_STATUS"/>
+                <result property="nextBillingDate" column="MY_NEXT_BILLING_DATE"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="selectArtistPageInfo" resultMap="artistPageMap">
+        SELECT
+            -- [Profile Info]
+            m.ID                                                                   AS ARTIST_ID,
+            m.MEMBER_NICKNAME                                                      AS NICKNAME,
+            a.ARTIST_BLOG_NAME                                                     AS BLOG_NAME,
+            a.ARTIST_DESCRIPTION                                                   AS DESCRIPTION,
+
+            CASE
+                WHEN m.MEMBER_PROFILE_ID IS NOT NULL
+                    THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                WHEN M.MEMBER_KAKAO_PROFILE_URL IS NOT NULL
+                    THEN m.MEMBER_KAKAO_PROFILE_URL
+                ELSE '/images/default-profile.png'
+                END                                                                AS PROFILE_PATH,
+            CASE
+                WHEN a.ARTIST_BLOG_IMAGE_ID IS NOT NULL
+                    THEN '/api/v1/files/' || a.ARTIST_BLOG_IMAGE_ID
+                ELSE '/images/artist/blog_default.png'
+                END                                                                as BLOG_IMG_PATH,
+
+            m.MEMBER_PROFILE_ID,
+            m.MEMBER_KAKAO_PROFILE_URL,
+            a.ARTIST_BLOG_IMAGE_ID,
+
+            (CASE WHEN a.HAS_MEMBERSHIP = 'Y' THEN 1 ELSE 0 END)                   AS HAS_MEMBERSHIP,
+
+            -- [Stats Info]
+            a.ARTIST_FOLLOWER_COUNT                                                AS FOLLOWER_COUNT,
+            a.ARTIST_SUBSCRIPTION_COUNT                                            AS SUBSCRIPTION_COUNT,
+            (SELECT COUNT(*) FROM TBL_FEED f WHERE f.ARTIST_ID = m.ID)             AS FEED_TOTAL,
+
+            -- [Viewer Context: Following]
+            -- [FIX] f.ID -> f.MEMBER_ID (조인된 컬럼이 존재하는지로 판단)
+            (CASE WHEN f.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END)                  AS IS_FOLLOWING,
+
+            -- [Viewer Context: Subscribed]
+            (CASE WHEN s.ID IS NOT NULL AND s.STATUS = 'ACTIVE' THEN 1 ELSE 0 END) AS IS_SUBSCRIBED,
+
+            -- [My Subscription Detail]
+            s.ID                                                                   AS MY_SUB_ID,
+            ms.NAME                                                                AS MY_MEMBERSHIP_NAME,
+            s.STATUS                                                               AS MY_SUB_STATUS,
+            s.NEXT_BILLING_DATE                                                    AS MY_NEXT_BILLING_DATE
+
+        FROM TBL_MEMBER m
+                 JOIN TBL_ARTIST a ON m.ID = a.MEMBER_ID
+
+            -- 1. 팔로우 여부 체크 (LEFT JOIN)
+                 LEFT JOIN TBL_FOLLOW f
+                           ON f.ARTIST_ID = m.ID
+                               AND f.MEMBER_ID = #{viewerId, jdbcType=NUMERIC}
+
+            -- 2. 구독 정보 및 멤버십 정보 체크 (LEFT JOIN)
+                 LEFT JOIN (SELECT *
+                            FROM (SELECT sub.*,
+                                         ROW_NUMBER() OVER (PARTITION BY ARTIST_ID, MEMBER_ID ORDER BY ID DESC) as rn
+                                  FROM TBL_SUBSCRIPTION sub
+                                  WHERE STATUS = 'ACTIVE')
+                            WHERE rn = 1) s ON s.ARTIST_ID = m.ID AND s.MEMBER_ID = #{viewerId, jdbcType=NUMERIC}
+
+                 LEFT JOIN TBL_MEMBERSHIP ms ON s.MEMBERSHIP_ID = ms.ID
+
+        WHERE m.ID = #{artistId}
     </select>
 
     <select id="selectId" resultType="Long">
         SELECT MEMBER_ID
         FROM TBL_ARTIST
         WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="checkBankInfoExistence" resultType="boolean">
+        SELECT CASE
+                   WHEN BANK_NAME IS NOT NULL AND ACCOUNT_NUMBER IS NOT NULL
+                       THEN 1
+                   ELSE 0 END
+        FROM TBL_ARTIST
+        WHERE MEMBER_ID = #{artistId}
+    </select>
+
+    <select id="selectBankAccount" resultType="com.app.onestepback.domain.dto.artist.ArtistBankAccountDTO">
+        SELECT BANK_NAME      AS bankCode,
+               ACCOUNT_NUMBER AS accountNumber,
+               ACCOUNT_HOLDER AS accountHolder
+        FROM TBL_ARTIST
+        WHERE MEMBER_ID = #{artistId}
+    </select>
+
+    <select id="selectBankInfo" resultType="com.app.onestepback.domain.dto.artist.ArtistDTO$BankInfo">
+        SELECT A.MEMBER_ID      AS id,
+               M.MEMBER_STATUS  AS memberStatus,
+               A.BANK_NAME      AS bankName,
+               A.ACCOUNT_NUMBER AS accountNumber,
+               A.ACCOUNT_HOLDER AS accountHolder
+        FROM TBL_ARTIST A
+                 JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+        WHERE A.MEMBER_ID = #{memberId}
+    </select>
+
+    <resultMap id="myArtistsMap" type="com.app.onestepback.domain.dto.artist.ArtistDTO$MyArtists">
+        <constructor>
+            <arg column="MEMBER_ID" javaType="java.util.List" select="selectSubscribedArtists"/>
+            <arg column="MEMBER_ID" javaType="java.util.List" select="selectFollowedArtists"/>
+        </constructor>
+    </resultMap>
+
+    <select id="selectMyArtists" resultMap="myArtistsMap">
+        SELECT #{memberId} AS MEMBER_ID
+        FROM DUAL
+    </select>
+
+    <select id="selectSubscribedArtists" resultType="com.app.onestepback.domain.dto.artist.ArtistDTO$ShortInfo">
+        SELECT M.ID               AS id,
+               M.MEMBER_NICKNAME  AS nickname,
+               COALESCE(
+                       CASE
+                           WHEN M.MEMBER_PROFILE_ID IS NOT NULL
+                               THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                           ELSE M.MEMBER_KAKAO_PROFILE_URL END,
+                       '/images/default-profile.png'
+               )                  AS profilePath,
+               A.ARTIST_BLOG_NAME AS blogName
+        FROM TBL_SUBSCRIPTION S
+                 JOIN TBL_MEMBER M ON S.ARTIST_ID = M.ID
+                 JOIN TBL_ARTIST A ON M.ID = A.MEMBER_ID
+        WHERE S.MEMBER_ID = #{memberId}
+          AND S.STATUS = 'ACTIVE'
+        ORDER BY S.START_DATE DESC
+    </select>
+
+    <select id="selectFollowedArtists" resultType="com.app.onestepback.domain.dto.artist.ArtistDTO$ShortInfo">
+        SELECT M.ID               AS id,
+               M.MEMBER_NICKNAME  AS nickname,
+               COALESCE(
+                       CASE
+                           WHEN M.MEMBER_PROFILE_ID IS NOT NULL
+                               THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+                           ELSE M.MEMBER_KAKAO_PROFILE_URL END,
+                       '/images/default-profile.png'
+               )                  AS profilePath,
+               A.ARTIST_BLOG_NAME AS blogName
+        FROM TBL_FOLLOW F
+                 JOIN TBL_MEMBER M ON F.ARTIST_ID = M.ID
+                 JOIN TBL_ARTIST A ON M.ID = A.MEMBER_ID
+        WHERE F.MEMBER_ID = #{memberId}
+        ORDER BY F.FOLLOW_TIME DESC
+    </select>
+
+    <select id="selectArtistList" resultType="com.app.onestepback.domain.dto.artist.ArtistDTO$ListInfo">
+        SELECT
+        A.MEMBER_ID AS id,
+        M.MEMBER_NICKNAME AS nickname,
+        A.ARTIST_BLOG_NAME AS blogName,
+        COALESCE(
+        CASE WHEN M.MEMBER_PROFILE_ID IS NOT NULL
+        THEN '/api/v1/files/' || M.MEMBER_PROFILE_ID
+        ELSE M.MEMBER_KAKAO_PROFILE_URL END,
+        '/images/default-profile.png'
+        ) AS profilePath,
+        COALESCE(
+        '/api/v1/files/' || A.ARTIST_BLOG_IMAGE_ID,
+        '/images/artist/blog_default.png'
+        ) AS blogImgPath,
+        A.ARTIST_FOLLOWER_COUNT AS followerCount,
+        (SELECT COUNT(*) FROM TBL_FEED F WHERE F.ARTIST_ID = A.MEMBER_ID AND F.FEED_STATUS = 'PUBLIC') AS feedCount,
+        (CASE WHEN F.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END) AS isFollowing
+
+        FROM TBL_ARTIST A
+        JOIN TBL_MEMBER M ON A.MEMBER_ID = M.ID
+        LEFT JOIN TBL_FOLLOW F ON A.MEMBER_ID = F.ARTIST_ID AND F.MEMBER_ID = #{memberId, jdbcType=NUMERIC}
+
+        WHERE M.MEMBER_STATUS = 'ACTIVE'
+        AND (SELECT COUNT(*) FROM TBL_FEED F WHERE F.ARTIST_ID = A.MEMBER_ID AND F.FEED_STATUS = 'PUBLIC') > 0
+
+        <choose>
+            <when test="sort == 'NEW'">
+                ORDER BY A.ARTIST_CREATE_TIME DESC
+            </when>
+            <when test="sort == 'POPULAR'">
+                ORDER BY A.ARTIST_FOLLOWER_COUNT DESC
+            </when>
+            <otherwise>
+                ORDER BY DBMS_RANDOM.VALUE
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="updateAccount">
+        UPDATE TBL_ARTIST
+        SET BANK_NAME      = #{dto.bankCode},
+            ACCOUNT_NUMBER = #{dto.accountNumber},
+            ACCOUNT_HOLDER = #{dto.accountHolder}
+        WHERE MEMBER_ID = #{artistId}
+    </update>
+
+    <select id="selectHomeFunding" resultType="com.app.onestepback.domain.dto.artist.ArtistHomeDTO$FundingHighlight">
+        SELECT * FROM (
+                          SELECT
+                              ID,
+                              TITLE,
+                              CASE
+                                  WHEN MAIN_IMG_ID IS NOT NULL THEN '/api/v1/files/' || MAIN_IMG_ID
+                                  ELSE NULL
+                                  END AS mainImgPath,
+                              TRUNC((CURRENT_AMOUNT / TARGET_AMOUNT) * 100) AS achieveRate,
+                              TRUNC(CAST(END_DATE AS DATE) - SYSDATE) AS daysLeft,
+                              STATUS
+                          FROM TBL_CROWDFUNDING
+                          WHERE ARTIST_ID = #{artistId}
+                            AND STATUS = 'PROCEEDING'
+                          ORDER BY END_DATE ASC
+                      )
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="selectHomeFeeds" resultType="com.app.onestepback.domain.dto.artist.ArtistHomeDTO$RecentFeed">
+        SELECT * FROM (
+                          SELECT
+                              ID,
+                              FEED_TITLE AS title,
+                              DBMS_LOB.SUBSTR(FEED_CONTENT, 100, 1) AS contentPreview, -- 본문 앞 100자 추출
+                              FEED_MEDIA_TYPE AS mediaType,
+                              FEED_MIN_TIER AS minTier,
+                              FEED_WRITE_TIME AS writeTime,
+                              FEED_LIKE_COUNT AS likeCount,
+                              FEED_REPLY_COUNT AS replyCount
+                          FROM TBL_FEED
+                          WHERE ARTIST_ID = #{artistId}
+                            AND FEED_STATUS = 'PUBLIC'
+                            AND FEED_IS_DELETED = 'N'
+                          ORDER BY FEED_WRITE_TIME DESC
+                      )
+        WHERE ROWNUM &lt;= 3
+    </select>
+
+    <select id="selectHomeMemberships" resultType="com.app.onestepback.domain.dto.artist.ArtistHomeDTO$MembershipInfo">
+        SELECT
+            ID,
+            NAME,
+            PRICE,
+            DESCRIPTION,
+            CASE
+                WHEN IMAGE_ID IS NOT NULL THEN '/api/v1/files/' || IMAGE_ID
+                ELSE NULL
+                END AS imagePath,
+            LEVEL_ORDER AS "level"
+        FROM TBL_MEMBERSHIP
+        WHERE ARTIST_ID = #{artistId}
+          AND IS_ACTIVE = 'Y'
+        ORDER BY LEVEL_ORDER ASC
     </select>
 </mapper>

@@ -1,0 +1,63 @@
+@startuml
+skinparam handwritten false
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam shadowing false
+
+entity "TBL_MEMBER" as member {
+  * ID (PK) : NUMBER -- 회원 고유 번호
+  --
+  NICKNAME : VARCHAR2 -- 회원 닉네임
+  EMAIL : VARCHAR2 -- 회원 이메일
+}
+
+entity "TBL_PAYMENT_METHOD" as pm {
+  * ID (PK) : NUMBER -- 결제 수단 고유 번호
+  --
+  MEMBER_ID (FK) : NUMBER -- 소유자 번호
+  BILLING_KEY : VARCHAR2 -- 포트원 customer_uid
+  CARD_NAME : VARCHAR2 -- 카드사 명칭
+  IS_DEFAULT : CHAR(1) -- 기본 카드 여부 (Y/N)
+  CREATED_TIME : TIMESTAMP -- 등록 일시
+}
+
+entity "TBL_SUBSCRIPTION" as sub {
+  * ID (PK) : NUMBER -- 구독 고유 번호
+  --
+  MEMBER_ID (FK) : NUMBER -- 구독자 번호
+  ARTIST_ID : NUMBER -- 구독 대상 아티스트 번호
+  MEMBERSHIP_ID (FK) : NUMBER -- 멤버십 등급 번호
+  PAYMENT_METHOD_ID (FK) : NUMBER -- 사용 중인 결제 수단 ID
+  LAST_MERCHANT_UID : VARCHAR2 -- 포트원 예약 주문 번호 (취소용)
+  STATUS : VARCHAR2 -- 상태 (ACTIVE, CANCELED, EXPIRED, PENDING)
+  START_DATE : TIMESTAMP -- 구독 시작 일시
+  END_DATE : TIMESTAMP -- 구독 만료 예정 일시 (Grace Period 기준점)
+  UPDATED_TIME : TIMESTAMP -- 최근 상태 변경 일시
+}
+
+entity "TBL_MEMBERSHIP" as ms {
+  * ID (PK) : NUMBER -- 멤버십 등급 고유 번호 [cite: 2]
+  --
+  NAME : VARCHAR2 -- 등급 명칭 [cite: 2]
+  PRICE : NUMBER -- 월 결제 금액 [cite: 2]
+}
+
+entity "TBL_PAYMENT_HISTORY" as hist {
+  * ID (PK) : NUMBER -- 결제 이력 고유 번호
+  --
+  MEMBER_ID (FK) : NUMBER -- 결제자 번호
+  SUBSCRIPTION_ID (FK) : NUMBER -- 관련 구독 번호
+  IMP_UID : VARCHAR2 -- 포트원 결제 고유 번호
+  MERCHANT_UID : VARCHAR2 -- 우리 서버 주문 번호
+  AMOUNT : NUMBER -- 실제 결제 금액
+  PAYMENT_TYPE : VARCHAR2 -- 구분 (INITIAL, RENEWAL, UPGRADE)
+  STATUS : VARCHAR2 -- 결과 (PAID, FAILED)
+  CREATED_TIME : TIMESTAMP -- 결제 일시
+}
+
+member ||--o{ pm : "1:N 결제 수단 보유"
+pm ||--o{ sub : "구독 결제에 사용"
+member ||--o{ sub : "구독 계약 주체"
+ms ||--o{ sub : "구독 등급 정의"
+sub ||--o{ hist : "결제 이력 발생"
+@enduml

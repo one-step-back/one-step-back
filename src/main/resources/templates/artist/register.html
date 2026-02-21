@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>아티스트 등록</title>
+    <link rel="stylesheet" href="/dist/css/artist/register.min.css">
+</head>
+<body>
+
+<div layout:fragment="content" class="register-wrapper">
+    <div class="register-container">
+
+        <div class="register-header">
+            <h1 class="register-title">아티스트 채널 만들기</h1>
+            <p class="register-desc">팬들을 맞이할 근사한 공간을 만들어보세요.</p>
+        </div>
+
+        <form class="register-form" id="artistForm" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label class="form-label">채널 배너 이미지</label>
+                <div class="banner-upload-area" id="banner-preview">
+                    <div class="upload-icon-wrapper">
+                        <i class="fas fa-image"></i>
+                        <span>클릭하여 배너 이미지 업로드</span>
+                    </div>
+                </div>
+                <input type="file" id="blogImage" name="blogImage" accept="image/*" style="display: none;">
+                <p class="validation-msg" id="blogImage-msg"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="blogName" class="form-label">채널 이름</label>
+                <input type="text" id="blogName" name="blogName" class="form-input"
+                       placeholder="채널 이름을 입력하세요 (2~20자)">
+                <p class="validation-msg" id="blogName-msg"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="form-label">소개글</label>
+                <textarea id="description" name="description" class="form-input form-textarea"
+                          placeholder="아티스트님을 소개하는 글을 적어주세요. (최대 1000자)"></textarea>
+                <p class="validation-msg" id="description-msg"></p>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-submit">채널 개설하기</button>
+        </form>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script type="module" src="/dist/js/artist/register.min.js"></script>
+</th:block>
+
+</body>
+</html>
