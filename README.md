@@ -1,6 +1,6 @@
 # ONE-STEP - 예술가들의 성장을 한걸음씩 도와주는 플랫폼<br>A Platform That Helps Artists Grow Step by Step
 
-<img src="https://github.com/DevNathan/one-step-back/assets/142222091/390822a5-6ad9-4342-af0f-8ad21c37ce92">
+<img width="2000" height="368" alt="header-logo" src="https://github.com/user-attachments/assets/f1bc5e28-d931-494b-9b01-ede0edbe333d" />
 
 
 ## 1. 기획 의도
@@ -46,4 +46,5 @@ For Communication,<br>
 
 ## 4. ERD
 <img src="https://github.com/DevNathan/one-step-back/assets/142222091/c58118ad-0059-44d7-996e-dbddad982cf8">
-ErdCloud : https://www.erdcloud.com/d/nW9kiBxhw3HMtfbgE
+
+[ErdCloud](https://www.erdcloud.com/d/nW9kiBxhw3HMtfbgE)
