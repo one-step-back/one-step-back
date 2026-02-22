@@ -29,11 +29,11 @@
 
 ## 4. 핵심 시스템 아키텍처 (Key Architecture)
 ### 빌드 파이프라인 통합 (Build Pipeline)
-[cite_start]Gradle과 Vite를 연동하여 단일 명령어로 백엔드와 프론트엔드를 동시 빌드합니다. [cite: 2] [cite_start]`processResources` 실행 전 `npm run build`가 선행되어 번들링된 자산이 정적 리소스 경로에 자동 주입됩니다. [cite: 2]
+Gradle과 Vite를 연동하여 단일 명령어로 백엔드와 프론트엔드를 동시 빌드합니다. `processResources` 실행 전 `npm run build`가 선행되어 번들링된 자산이 정적 리소스 경로에 자동 주입됩니다.
 
 ### 데이터 및 보안 (Data & Security)
-- [cite_start]**Flyway**: DB 마이그레이션 자동화로 스키마 동기화 문제를 해결합니다. [cite: 2]
-- [cite_start]**Environment Isolation**: application.yml 및 민감 자원을 Git 추적에서 제외합니다. [cite: 1]
+- **Flyway**: DB 마이그레이션 자동화로 스키마 동기화 문제를 해결합니다.
+- **Environment Isolation**: application.yml 및 민감 자원을 Git 추적에서 제외합니다.
 - **Type Safety**: 프론트엔드 전 영역에 TypeScript를 적용하여 런타임 에러를 방지합니다.
 
 ## 5. 데이터 모델 (ERD)
